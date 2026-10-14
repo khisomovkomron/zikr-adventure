@@ -1,0 +1,83 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7591361CCD31F83672CAB1DF = {isa = PBXBuildFile; fileRef = 8E443D933BA6A563CB366AF6; };
+		82258506C72589D9ACF07633 = {isa = PBXBuildFile; fileRef = 81CF14D27DA9185D1A6FD70B; };
+		8D0B7ABDABCA651ADAC44134 = {isa = PBXBuildFile; fileRef = 6EFAE742943342FEBB53E41F; };
+		A578408C8EC1DDD1DE4794E2 = {isa = PBXBuildFile; fileRef = E3E1704D3E148055C7D008FB; };
+		C72EA8629BAFC06C53AA9D63 = {isa = PBXBuildFile; fileRef = 55B25C2E5422C0A856CFB2B4; };
+		C7D6F445D86CC593AF835652 = {isa = PBXBuildFile; fileRef = C4E1DE8B9E236C0C55EF1F03; };
+		D104D11189389958E0E9F8CD = {isa = PBXBuildFile; fileRef = 9C60EC283D2697F9F2F1222A; };
+		F666E6AE30949EAA0DC2651A = {isa = PBXBuildFile; fileRef = D10C9910920876BF2A174846; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1BF0BCDB46F634F428F86E0A = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3C6ECC20C66D335DDDB92E64 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZikrAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		471B3A86BEB843DB22F0DB03 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ky; path = ky.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6CE4A497797333292F177F9E = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D5D46BA6A4807E98DDD54EB = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EFAE742943342FEBB53E41F = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7A33A50E9FBF13A9ED4C0B38 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		81CF14D27DA9185D1A6FD70B = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAppViewController.swift; sourceTree = "<group>"; };
+		8E443D933BA6A563CB366AF6 = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
+		9C60EC283D2697F9F2F1222A = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A05DE0A20E7484459E9FCCE8 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tg; path = tg.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B4E070783CAAADBF9B78233A = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C4E1DE8B9E236C0C55EF1F03 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressFileStore.swift; sourceTree = "<group>"; };
+		D10C9910920876BF2A174846 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZikrAdventureApp.swift; sourceTree = "<group>"; };
+		E3E1704D3E148055C7D008FB = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleSchemeHandler.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4FCBC29864E7C7752B7E193F = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		113236722DEE1DC96F378B9D = {isa = PBXGroup; children = (3C6ECC20C66D335DDDB92E64, ); name = Products; sourceTree = "<group>"; };
+		42006AB264CF2AB66A8087C0 = {isa = PBXGroup; children = (D10C9910920876BF2A174846, 81CF14D27DA9185D1A6FD70B, E3E1704D3E148055C7D008FB, C4E1DE8B9E236C0C55EF1F03, ); path = App; sourceTree = "<group>"; };
+		71DC27D9F8E3B109C877BFC4 = {isa = PBXGroup; children = (AF7FDBBE3D258A41820E0AC5, 113236722DEE1DC96F378B9D, ); sourceTree = "<group>"; };
+		AF7FDBBE3D258A41820E0AC5 = {isa = PBXGroup; children = (42006AB264CF2AB66A8087C0, CA2DA976D1169AE0BBF0B8BE, 8E443D933BA6A563CB366AF6, 6CE4A497797333292F177F9E, ); path = ZikrAdventure; sourceTree = "<group>"; };
+		CA2DA976D1169AE0BBF0B8BE = {isa = PBXGroup; children = (9C60EC283D2697F9F2F1222A, 6EFAE742943342FEBB53E41F, 55B25C2E5422C0A856CFB2B4, ); path = Resources; sourceTree = "<group>"; };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F01C2E624E08A72BC055B46F = {isa = PBXNativeTarget; buildConfigurationList = 2D40E9DB9B2131459B54147B; buildPhases = (C197A1D4E0DE673615AC32CB, 4FCBC29864E7C7752B7E193F, 8A6A452CEE30B0908A47D41D, ); buildRules = (); dependencies = (); name = ZikrAdventure; productName = ZikrAdventure; productReference = 3C6ECC20C66D335DDDB92E64; productType = "com.apple.product-type.application"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {F01C2E624E08A72BC055B46F = {CreatedOnToolsVersion = 16.0; }; }; }; buildConfigurationList = 554413E5B571899B8DE64F47; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, ru, uz, tg, kk, ky, Base, ); mainGroup = 71DC27D9F8E3B109C877BFC4; productRefGroup = 113236722DEE1DC96F378B9D; projectDirPath = ""; projectRoot = ""; targets = (F01C2E624E08A72BC055B46F, ); };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8A6A452CEE30B0908A47D41D = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (D104D11189389958E0E9F8CD, 8D0B7ABDABCA651ADAC44134, 7591361CCD31F83672CAB1DF, C72EA8629BAFC06C53AA9D63, ); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C197A1D4E0DE673615AC32CB = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (F666E6AE30949EAA0DC2651A, 82258506C72589D9ACF07633, A578408C8EC1DDD1DE4794E2, C7D6F445D86CC593AF835652, ); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		55B25C2E5422C0A856CFB2B4 = {isa = PBXVariantGroup; children = (1BF0BCDB46F634F428F86E0A, 7A33A50E9FBF13A9ED4C0B38, B4E070783CAAADBF9B78233A, A05DE0A20E7484459E9FCCE8, 6D5D46BA6A4807E98DDD54EB, 471B3A86BEB843DB22F0DB03, ); name = InfoPlist.strings; sourceTree = "<group>"; };
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4FF944F08AACB37CF71EA40B = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = "NO"; CLANG_ENABLE_MODULES = "YES"; CLANG_ENABLE_OBJC_ARC = "YES"; COPY_PHASE_STRIP = "NO"; ENABLE_STRICT_OBJC_MSGSEND = "YES"; GCC_NO_COMMON_BLOCKS = "YES"; IPHONEOS_DEPLOYMENT_TARGET = "16.0"; SDKROOT = "iphoneos"; SWIFT_VERSION = "5.0"; LOCALIZATION_PREFERS_STRING_CATALOGS = "NO"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = "NO"; SWIFT_COMPILATION_MODE = "wholemodule"; SWIFT_OPTIMIZATION_LEVEL = "-O"; VALIDATE_PRODUCT = "YES"; MTL_ENABLE_DEBUG_INFO = "NO";}; name = Release; };
+		5C82B8BAAB3F3D25C6A6E8D9 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon"; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor"; CODE_SIGN_STYLE = "Automatic"; CURRENT_PROJECT_VERSION = "1"; DEVELOPMENT_TEAM = "742Y7LBK4U"; GENERATE_INFOPLIST_FILE = "NO"; INFOPLIST_FILE = "ZikrAdventure/Info.plist"; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", ); MARKETING_VERSION = "1.0.0"; PRODUCT_BUNDLE_IDENTIFIER = "com.komronkhisomov.zikradventure"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = "NO"; SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = "NO"; SWIFT_EMIT_LOC_STRINGS = "YES"; TARGETED_DEVICE_FAMILY = "1";}; name = Release; };
+		E80CC40A93BCCAD3D67D7326 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon"; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor"; CODE_SIGN_STYLE = "Automatic"; CURRENT_PROJECT_VERSION = "1"; DEVELOPMENT_TEAM = "742Y7LBK4U"; GENERATE_INFOPLIST_FILE = "NO"; INFOPLIST_FILE = "ZikrAdventure/Info.plist"; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", ); MARKETING_VERSION = "1.0.0"; PRODUCT_BUNDLE_IDENTIFIER = "com.komronkhisomov.zikradventure"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = "NO"; SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = "NO"; SWIFT_EMIT_LOC_STRINGS = "YES"; TARGETED_DEVICE_FAMILY = "1";}; name = Debug; };
+		F3E469D9CF2672B87FCF79D5 = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = "NO"; CLANG_ENABLE_MODULES = "YES"; CLANG_ENABLE_OBJC_ARC = "YES"; COPY_PHASE_STRIP = "NO"; ENABLE_STRICT_OBJC_MSGSEND = "YES"; GCC_NO_COMMON_BLOCKS = "YES"; IPHONEOS_DEPLOYMENT_TARGET = "16.0"; SDKROOT = "iphoneos"; SWIFT_VERSION = "5.0"; LOCALIZATION_PREFERS_STRING_CATALOGS = "NO"; DEBUG_INFORMATION_FORMAT = "dwarf"; ENABLE_TESTABILITY = "YES"; GCC_OPTIMIZATION_LEVEL = "0"; ONLY_ACTIVE_ARCH = "YES"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; MTL_ENABLE_DEBUG_INFO = "INCLUDE_SOURCE";}; name = Debug; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D40E9DB9B2131459B54147B = {isa = XCConfigurationList; buildConfigurations = (E80CC40A93BCCAD3D67D7326, 5C82B8BAAB3F3D25C6A6E8D9, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		554413E5B571899B8DE64F47 = {isa = XCConfigurationList; buildConfigurations = (F3E469D9CF2672B87FCF79D5, 4FF944F08AACB37CF71EA40B, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595;
+}

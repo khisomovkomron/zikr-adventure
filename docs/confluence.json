@@ -1,0 +1,11 @@
+{
+  "cloudId": "79e6f412-852b-443d-b7cb-c5c50fae570e",
+  "spaceId": "196612",
+  "spaceKey": "SD",
+  "pages": {
+    "overview": "229378",
+    "workflow": "196809",
+    "release-1.0.1": "229413"
+  },
+  "private": true
+}

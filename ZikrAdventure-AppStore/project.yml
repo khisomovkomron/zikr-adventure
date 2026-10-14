@@ -1,0 +1,33 @@
+# Запасной вариант: описание проекта для XcodeGen (если понадобится пересоздать Xcode-проект).
+#   brew install xcodegen && xcodegen generate
+# Основной вариант — готовый ZikrAdventure.xcodeproj в этой же папке.
+name: ZikrAdventure
+options:
+  deploymentTarget:
+    iOS: "16.0"
+  developmentLanguage: en
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
+    DEVELOPMENT_TEAM: ""
+targets:
+  ZikrAdventure:
+    type: application
+    platform: iOS
+    sources:
+      - path: ZikrAdventure/App
+      - path: ZikrAdventure/Resources
+      - path: ZikrAdventure/Web
+        type: folder
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure
+        INFOPLIST_FILE: ZikrAdventure/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SUPPORTS_MACCATALYST: NO
