@@ -19,3 +19,15 @@
 - https://firebase.google.com/docs/auth/ios/apple
 
 Confluence: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/524289
+
+## Проверка готовности ZKR-15
+
+Подготовлен tools/check_firebase_config.py. Запуск:
+
+```bash
+python3 tools/check_firebase_config.py /private/tmp/zikr-firebase/GoogleService-Info.plist
+```
+
+Проверяются структура plist, обязательные поля, существующий bundle identifier и соответствие Google CLIENT_ID/REVERSED_CLIENT_ID. Ключи и значения credentials не печатаются. PASS означает только структурную согласованность; включение провайдеров, владение проектом, Apple capability, подпись и реальный вход проверяются отдельно. Флаг Analytics в plist сам по себе не доказывает сбор аналитики; Analytics SDK в релиз не включается.
+
+На текущей проверке файл не найден в рабочей папке, /private/tmp/zikr-firebase и Downloads. Требуется действие владельца: создать Firebase-проект по шагам выше и сообщить путь к файлу. Вход не реализован и не проверен. ZKR-15 не завершена.
