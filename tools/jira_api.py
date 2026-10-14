@@ -45,15 +45,15 @@ def main():
             sys.exit('Could not connect to Jira.')
 
     if args.action == 'versions':
-        print(json.dumps(request('project/KAN/versions'), indent=2))
+        print(json.dumps(request('project/ZKR/versions'), indent=2))
     elif args.action == 'version-create':
         if not args.body_file: parser.error('--body-file is required')
         with open(args.body_file) as source: body = json.load(source)
-        body['projectId'] = int(request('project/KAN')['id'])
+        body['projectId'] = int(request('project/ZKR')['id'])
         print(json.dumps(request('version', 'POST', body), indent=2))
     elif args.action in ['get', 'transitions', 'transition']:
-        if not args.issue or not args.issue.startswith('KAN-') or not args.issue[4:].isdigit():
-            parser.error('--issue must be a KAN issue key')
+        if not args.issue or not args.issue.startswith('ZKR-') or not args.issue[4:].isdigit():
+            parser.error('--issue must be a ZKR issue key')
         path = 'issue/' + args.issue + ('/transitions' if args.action != 'get' else '')
         if args.action == 'transition':
             if not args.body_file: parser.error('--body-file is required')
@@ -62,24 +62,24 @@ def main():
         else: result = request(path)
         print(json.dumps(result, indent=2))
     elif args.action == 'inspect':
-        project = request('project/KAN')
-        issues = request('search/jql?jql=project%3DKAN&maxResults=100&fields=summary,status,description,fixVersions')
-        statuses = request('project/KAN/statuses')
+        project = request('project/ZKR')
+        issues = request('search/jql?jql=project%3DZKR&maxResults=100&fields=summary,status,description,fixVersions')
+        statuses = request('project/ZKR/statuses')
         print(json.dumps({'issueTypes': project.get('issueTypes'), 'statuses': statuses, 'issues': issues}, indent=2))
     elif args.action == 'check':
         user = request('myself')
-        project = request('project/KAN')
+        project = request('project/ZKR')
         print(json.dumps({'authenticated': bool(user.get('accountId')),
                           'project': project.get('key'), 'name': project.get('name')}, indent=2))
     else:
         if not args.body_file:
             parser.error('--body-file is required')
-        if args.action == 'update' and (not args.issue or not args.issue.startswith('KAN-') or not args.issue[4:].isdigit()):
-            parser.error('--issue must be a KAN issue key')
+        if args.action == 'update' and (not args.issue or not args.issue.startswith('ZKR-') or not args.issue[4:].isdigit()):
+            parser.error('--issue must be a ZKR issue key')
         with open(args.body_file) as source:
             body = json.load(source)
         if args.action == 'create':
-            body.setdefault('fields', {})['project'] = {'key': 'KAN'}
+            body.setdefault('fields', {})['project'] = {'key': 'ZKR'}
         result = request('issue' if args.action == 'create' else 'issue/' + args.issue,
                          'POST' if args.action == 'create' else 'PUT', body)
         print(json.dumps(result, indent=2))
