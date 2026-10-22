@@ -28,7 +28,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
-}
 
 /// Обёртка UIKit-контроллера для SwiftUI.
 struct WebAppView: UIViewControllerRepresentable {

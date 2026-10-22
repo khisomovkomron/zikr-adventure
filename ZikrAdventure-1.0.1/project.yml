@@ -6,6 +6,7 @@ options:
     iOS: "16.0"
   developmentLanguage: en
   bundleIdPrefix: com.komronkhisomov
+  generateEmptyDirectories: true
 packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
@@ -20,6 +21,15 @@ settings:
     CURRENT_PROJECT_VERSION: "3"
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: ""
+schemes:
+  ZikrAdventure:
+    build:
+      targets:
+        ZikrAdventure: all
+    run:
+      config: Debug
+    archive:
+      config: Release
 targets:
   ZikrAdventure:
     type: application
@@ -35,6 +45,9 @@ targets:
         optional: true
     entitlements:
       path: ZikrAdventure/ZikrAdventure.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure
