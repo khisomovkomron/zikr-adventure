@@ -260,7 +260,11 @@ final class AuthCoordinator: NSObject {
             
             // Issue 3: Отзываем Apple токены если это Apple и у нас есть auth code
             if user.provider == "apple", let authCode = savedAppleAuthCode {
-                try? await Auth.auth().revokeToken(withAuthorizationCode: authCode)
+                do {
+                    try await Auth.auth().revokeToken(withAuthorizationCode: authCode)
+                } catch let revokeError as NSError {
+                    authLogger.error("Apple token revocation failed (domain: \(revokeError.domain, privacy: .public), code: \(revokeError.code, privacy: .public))")
+                }
             }
             
             // Удаляем аккаунт

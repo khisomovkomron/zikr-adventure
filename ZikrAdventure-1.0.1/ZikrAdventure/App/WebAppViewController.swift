@@ -10,6 +10,7 @@
 
 import UIKit
 import WebKit
+import SafariServices
 import os
 
 final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
@@ -105,6 +106,12 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             handleAuthMessage { try await self.authCoordinator.deleteAccount(presentingViewController: self) }
         case "auth.getState":
             sendAuthStateToWeb(authCoordinator.state)
+        case "openURL":
+            if let urlString = body["url"] as? String,
+               let url = URL(string: urlString) {
+                let safari = SFSafariViewController(url: url)
+                present(safari, animated: true)
+            }
         default:
             break
         }
