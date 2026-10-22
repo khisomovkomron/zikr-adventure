@@ -108,9 +108,13 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             sendAuthStateToWeb(authCoordinator.state)
         case "openURL":
             if let urlString = body["url"] as? String,
-               let url = URL(string: urlString) {
-                let safari = SFSafariViewController(url: url)
-                present(safari, animated: true)
+               let url = URL(string: urlString),
+               let scheme = url.scheme?.lowercased(),
+               scheme == "http" || scheme == "https" {
+                Task { @MainActor in
+                    let safari = SFSafariViewController(url: url)
+                    self.present(safari, animated: true)
+                }
             }
         default:
             break

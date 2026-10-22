@@ -249,21 +249,14 @@ final class AuthCoordinator: NSObject {
             throw NSError(domain: "AuthCoordinator", code: -1, userInfo: [NSLocalizedDescriptionKey: "No current user"])
         }
         
-        // Issue 5: Handle Firebase requiresRecentLogin error explicitly
-        // Проверяем, нужна ли повторная авторизация
         do {
-            // Issue 3: Запрашиваем повторную авторизацию для получения свежего auth code
-            // Issue 4: Show reauth state
-            updateState(.error(message: "reauth", retryable: false))
-            try await reauthenticate(user: user, presentingViewController: presentingViewController)
-            updateState(.deleting)
-            
             // Issue 3: Отзываем Apple токены если это Apple и у нас есть auth code
             if user.provider == "apple", let authCode = savedAppleAuthCode {
                 do {
                     try await Auth.auth().revokeToken(withAuthorizationCode: authCode)
                 } catch let revokeError as NSError {
                     authLogger.error("Apple token revocation failed (domain: \(revokeError.domain, privacy: .public), code: \(revokeError.code, privacy: .public))")
+                    // Continue with deletion even if revocation failed
                 }
             }
             
@@ -274,7 +267,25 @@ final class AuthCoordinator: NSObject {
         } catch let error as NSError {
             // Issue 5: Handle requiresRecentLogin explicitly
             if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                // Issue 3: Show reauth hint to web UI, then prompt for sign-in
+                // updateState sends auth state to web before the native sheet appears
                 updateState(.error(message: "reauth", retryable: false))
+                
+                // Запрашиваем повторную авторизацию для получения свежего auth code
+                try await reauthenticate(user: user, presentingViewController: presentingViewController)
+                updateState(.deleting)
+                
+                // Retry token revocation and deletion after reauth
+                if user.provider == "apple", let authCode = savedAppleAuthCode {
+                    do {
+                        try await Auth.auth().revokeToken(withAuthorizationCode: authCode)
+                    } catch let revokeError as NSError {
+                        authLogger.error("Apple token revocation failed on retry (domain: \(revokeError.domain, privacy: .public), code: \(revokeError.code, privacy: .public))")
+                    }
+                }
+                
+                try await currentUser.delete()
+                updateState(.guest)
             } else {
                 // Issue 6: Better network error detection
                 let isNetworkError = error.domain == NSURLErrorDomain || 
@@ -283,8 +294,8 @@ final class AuthCoordinator: NSObject {
                 if isNetworkError {
                     throw NSError(domain: "AuthCoordinator", code: error.code, userInfo: [NSLocalizedDescriptionKey: "offline"])
                 }
+                throw error
             }
-            throw error
         }
     }
     
