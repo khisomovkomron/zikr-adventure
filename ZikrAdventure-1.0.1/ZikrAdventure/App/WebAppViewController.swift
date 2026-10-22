@@ -10,6 +10,7 @@
 
 import UIKit
 import WebKit
+import os
 
 final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     private var webView: WKWebView?
@@ -116,6 +117,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             } catch {
                 // Issue 4: Surface errors - send error state to web
                 if let nsError = error as NSError? {
+                    // ZKR-23: логируем реальную ошибку
+                    authLogger.error("Auth action failed (domain: \(nsError.domain, privacy: .public), code: \(nsError.code, privacy: .public))")
                     let isOffline = nsError.domain == NSURLErrorDomain ||
                                     nsError.localizedDescription.contains("offline")
                     let message = isOffline ? "offline" : "error"

@@ -9,6 +9,10 @@ import FirebaseAuth
 import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
+import os
+
+/// Логгер авторизации: пишет только domain/code ошибок (без токенов и nonce). ZKR-23.
+let authLogger = Logger(subsystem: "com.komronkhisomov.zikradventure", category: "auth")
 
 /// Состояния авторизации
 enum AuthState: Equatable {
@@ -371,6 +375,9 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
               let nonce = currentNonce,
               let appleIDToken = appleIDCredential.identityToken,
               let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            // ZKR-23: логируем, какой именно элемент отсутствует
+            let appleCred = authorization.credential as? ASAuthorizationAppleIDCredential
+            authLogger.error("Apple sign-in: missing data (credential: \(appleCred != nil, privacy: .public), nonce: \(self.currentNonce != nil, privacy: .public), identityToken: \(appleCred?.identityToken != nil, privacy: .public))")
             
             if appleReauthContinuation != nil {
                 appleReauthContinuation?.resume(throwing: NSError(domain: "AuthCoordinator", code: -3, userInfo: [NSLocalizedDescriptionKey: "Apple authorization failed"]))
@@ -408,6 +415,9 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
                 // Состояние обновится через authStateListener
             }
         } catch {
+            // ZKR-23: логируем реальную ошибку Firebase
+            let loggedError = error as NSError
+            authLogger.error("Apple sign-in: Firebase signIn failed (domain: \(loggedError.domain, privacy: .public), code: \(loggedError.code, privacy: .public))")
             if appleReauthContinuation != nil {
                 appleReauthContinuation?.resume(throwing: error)
                 appleReauthContinuation = nil
@@ -435,6 +445,8 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
     
     private func handleAppleError(_ error: Error) {
         let nsError = error as NSError
+        // ZKR-23: логируем реальную ошибку ASAuthorization (например, 1000 при отсутствии entitlement)
+        authLogger.error("Apple sign-in: ASAuthorization failed (domain: \(nsError.domain, privacy: .public), code: \(nsError.code, privacy: .public))")
         
         if appleReauthContinuation != nil {
             appleReauthContinuation?.resume(throwing: error)
