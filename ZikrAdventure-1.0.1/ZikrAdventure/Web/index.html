@@ -196,6 +196,15 @@ details summary{cursor:pointer;font-family:var(--serif);font-weight:600;font-siz
 .lvl-head.done .lvl-badge{background:#C9A24D;color:#1B2A44;border-color:#C9A24D}
 .lvl-head .kicker{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--text)}
 .timeline{margin-top:6px}
+/* ---- auth ---- */
+.auth-provider{width:100%;min-height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:500;margin:8px 0}
+.auth-provider.apple{background:#000;color:#fff;border:none}
+.auth-provider.google{background:#fff;color:#202124;border:1px solid #dadce0;font-family:system-ui}
+.auth-provider:disabled{opacity:.5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .auth-provider.google{background:#2d2e30;color:#e8eaed;border-color:#5f6368}}
+:root[data-theme="dark"] .auth-provider.google{background:#2d2e30;color:#e8eaed;border-color:#5f6368}
+.auth-user{font-size:17px;margin:14px 0 10px}.auth-provider-badge{font-size:15px;color:var(--text2)}
+.auth-loading,.auth-error{padding:12px;border-radius:12px;margin:12px 0}.auth-loading{color:var(--text2)}.auth-error{border:1px solid var(--warning);color:var(--warning)}
 </style>
 </head>
 <body>
@@ -273,7 +282,8 @@ ru: {
   "a11y.button": "Кнопка зикра. Увеличить счётчик на один", "a11y.correct": "Исправить последнее нажатие", "a11y.counter": "Счётчик: %1", "a11y.unlock": "Открыта глава: %1",
   "level.of": "Уровень %1 из %2", "level.toNext": "До следующего уровня: %1", "level.done": "Все уровни пройдены", "level.head": "Уровень %1 · %2", "zikr.reset": "Обнулить", "reset.title": "Обнулить счётчик?", "reset.msg": "Общий счёт станет 0. История по дням сохранится.", "reset.counter": "Только счётчик — главы остаются", "reset.all": "Счётчик и главы — начать путь заново",
   "set.saveDevice": "Прогресс хранится только на этом устройстве", "info.aboutTextApp": "ZIKR ADVENTURE — счётчик зикра «Астагфируллах» и путешествие по Мекке и Медине эпохи Пророка ﷺ: 7 уровней и 19 глав Сиры.", "info.privacyTextApp": "Приложение не собирает данные. Счёт, история, открытые главы и настройки хранятся только на этом устройстве. Нет регистрации, рекламы, аналитики и интернета. Удалить данные: Настройки → «Сбросить весь прогресс» или удалить приложение.",
-  "preview.badge": "Предпросмотр"
+  "preview.badge": "Предпросмотр",
+  "auth.title": "Аккаунт", "auth.guest": "Вход необязателен", "auth.intro": "Войдите через Google или Apple. Счётчиком можно пользоваться без аккаунта.", "auth.local": "Счёт и история хранятся на этом устройстве. Вход пока не включает облачное сохранение.", "auth.apple": "Войти с Apple", "auth.google": "Войти с Google", "auth.loading": "Выполняется вход…", "auth.signed": "Вы вошли в аккаунт", "auth.out": "Выйти", "auth.delete": "Удалить аккаунт", "auth.error": "Не удалось войти. Попробуйте ещё раз.", "auth.offline": "Для входа нужен интернет. Счётчик доступен без сети.", "auth.retry": "Повторить", "auth.outTitle": "Выйти из аккаунта?", "auth.outBody": "Ваш счёт и история останутся на этом устройстве.", "auth.deleteTitle": "Удалить аккаунт?", "auth.deleteBody": "Учётная запись будет удалена. Счёт и история на устройстве сохранятся. Для их удаления используйте сброс прогресса в настройках.", "auth.deleting": "Удаляем аккаунт…", "auth.reauth": "Чтобы удалить аккаунт, подтвердите вход ещё раз.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple"
 },
 en: {
   "tab.zikr": "Zikr", "tab.map": "Map", "tab.path": "Sira path", "tab.info": "Info", "tab.settings": "Settings",
@@ -334,7 +344,8 @@ en: {
   "a11y.button": "Zikr button. Increase the counter by one", "a11y.correct": "Correct the last tap", "a11y.counter": "Counter: %1", "a11y.unlock": "Chapter open: %1",
   "level.of": "Level %1 of %2", "level.toNext": "To the next level: %1", "level.done": "All levels complete", "level.head": "Level %1 · %2", "zikr.reset": "Reset", "reset.title": "Reset the counter to zero?", "reset.msg": "The total will become 0. Daily history is kept.", "reset.counter": "Counter only — chapters stay open", "reset.all": "Counter and chapters — start the path again",
   "set.saveDevice": "Progress is stored only on this device", "info.aboutTextApp": "ZIKR ADVENTURE is a counter for the zikr “Astaghfirullah” and a journey through Mecca and Medina in the time of the Prophet ﷺ: 7 levels and 19 chapters of the Sira.", "info.privacyTextApp": "The app collects no data. Your count, history, open chapters and settings are stored only on this device. No sign-up, ads, analytics or internet. To delete: Settings → “Reset all progress”, or delete the app.",
-  "preview.badge": "Preview"
+  "preview.badge": "Preview",
+  "auth.title": "Account", "auth.guest": "Signing in is optional", "auth.intro": "Sign in with Google or Apple. You can use the counter without an account.", "auth.local": "Your count and history stay on this device. Signing in does not include cloud backup yet.", "auth.apple": "Sign in with Apple", "auth.google": "Sign in with Google", "auth.loading": "Signing in…", "auth.signed": "You are signed in", "auth.out": "Sign out", "auth.delete": "Delete account", "auth.error": "Could not sign in. Please try again.", "auth.offline": "An internet connection is needed to sign in. The counter works offline.", "auth.retry": "Try again", "auth.outTitle": "Sign out?", "auth.outBody": "Your count and history will stay on this device.", "auth.deleteTitle": "Delete account?", "auth.deleteBody": "Your account will be deleted. Your count and history will stay on this device. To remove them, reset your progress in Settings.", "auth.deleting": "Deleting account…", "auth.reauth": "Sign in again to confirm account deletion.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple"
 },
 uz: {
   "tab.zikr": "Zikr", "tab.map": "Xarita", "tab.path": "Siyrat yo‘li", "tab.info": "Ma’lumot", "tab.settings": "Sozlamalar",
@@ -456,7 +467,8 @@ tg: {
   "a11y.button": "Тугмаи зикр. Ҳисобро як адад зиёд кардан", "a11y.correct": "Ислоҳи пахши охирин", "a11y.counter": "Ҳисоб: %1", "a11y.unlock": "Боб кушода шуд: %1",
   "level.of": "Сатҳи %1 аз %2", "level.toNext": "То сатҳи навбатӣ: %1", "level.done": "Ҳамаи сатҳҳо анҷом ёфт", "level.head": "Сатҳи %1 · %2", "zikr.reset": "Сифр", "reset.title": "Ҳисоб ба сифр баргардонида шавад?", "reset.msg": "Ҳисоби умумӣ 0 мешавад. Таърихи рӯзона боқӣ мемонад.", "reset.counter": "Танҳо ҳисоб — бобҳо кушода мемонанд", "reset.all": "Ҳисоб ва бобҳо — роҳро аз нав оғоз кардан",
   "set.saveDevice": "Пешрафт танҳо дар ҳамин дастгоҳ нигоҳ дошта мешавад", "info.aboutTextApp": "ZIKR ADVENTURE — ҳисобкунаки зикри «Астағфируллоҳ» ва сафар бо Макка ва Мадинаи замони Паёмбар ﷺ: 7 сатҳ ва 19 боби Сийра.", "info.privacyTextApp": "Барнома маълумот ҷамъ намекунад. Ҳисоб, таърих, бобҳои кушода ва танзимот танҳо дар ҳамин дастгоҳ нигоҳ дошта мешаванд. Бе бақайдгирӣ, реклама, таҳлил ва интернет. Нест кардан: Танзимот → «Тоза кардани тамоми пешрафт» ё барномаро нест кунед.",
-  "preview.badge": "Пешнамоиш"
+  "preview.badge": "Пешнамоиш",
+  "auth.title": "Ҳисоб", "auth.guest": "Воридшавӣ ихтиёрӣ аст", "auth.intro": "Бо Google ё Apple ворид шавед. Ҳисобкунакро бе ҳисоб ҳам истифода бурдан мумкин аст.", "auth.local": "Ҳисоб ва таърих дар ҳамин дастгоҳ нигоҳ дошта мешаванд. Воридшавӣ ҳоло нигоҳдорӣ дар абрро дар бар намегирад.", "auth.apple": "Бо Apple ворид шудан", "auth.google": "Бо Google ворид шудан", "auth.loading": "Воридшавӣ…", "auth.signed": "Шумо ба ҳисоб ворид шудед", "auth.out": "Баромадан", "auth.delete": "Нест кардани ҳисоб", "auth.error": "Ворид шудан муяссар нашуд. Боз кӯшиш кунед.", "auth.offline": "Барои воридшавӣ интернет лозим аст. Ҳисобкунак бе интернет кор мекунад.", "auth.retry": "Боз кӯшиш кардан", "auth.outTitle": "Аз ҳисоб бароед?", "auth.outBody": "Ҳисоб ва таърих дар ҳамин дастгоҳ мемонанд.", "auth.deleteTitle": "Ҳисоб нест карда шавад?", "auth.deleteBody": "Ҳисоби корбар нест карда мешавад. Ҳисобкунак ва таърих дар дастгоҳ мемонанд. Барои нест кардани онҳо пешрафтро дар танзимот тоза кунед.", "auth.deleting": "Ҳисоб нест карда мешавад…", "auth.reauth": "Барои тасдиқи нест кардани ҳисоб дубора ворид шавед.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple"
 },
 kk: {
   "tab.zikr": "Зікір", "tab.map": "Карта", "tab.path": "Сира жолы", "tab.info": "Ақпарат", "tab.settings": "Баптаулар",
@@ -517,7 +529,8 @@ kk: {
   "a11y.button": "Зікір түймесі. Санауышты біреуге арттыру", "a11y.correct": "Соңғы басуды түзету", "a11y.counter": "Санауыш: %1", "a11y.unlock": "Тарау ашылды: %1",
   "level.of": "%1-деңгей / %2", "level.toNext": "Келесі деңгейге дейін: %1", "level.done": "Барлық деңгей аяқталды", "level.head": "%1-деңгей · %2", "zikr.reset": "Нөлдеу", "reset.title": "Санауыш нөлденсін бе?", "reset.msg": "Жалпы есеп 0 болады. Күндер тарихы сақталады.", "reset.counter": "Тек санауыш — тараулар ашық қалады", "reset.all": "Санауыш пен тараулар — жолды қайта бастау",
   "set.saveDevice": "Прогресс тек осы құрылғыда сақталады", "info.aboutTextApp": "ZIKR ADVENTURE — «Астағфируллаһ» зікірінің санауышы және Пайғамбар ﷺ заманындағы Мекке мен Медине бойынша саяхат: 7 деңгей және Сираның 19 тарауы.", "info.privacyTextApp": "Қосымша деректер жинамайды. Есеп, тарих, ашылған тараулар мен баптаулар тек осы құрылғыда сақталады. Тіркеусіз, жарнамасыз, аналитикасыз және интернетсіз. Жою: Баптаулар → «Барлық прогресті тазалау» немесе қосымшаны жойыңыз.",
-  "preview.badge": "Алдын ала қарау"
+  "preview.badge": "Алдын ала қарау",
+  "auth.title": "Аккаунт", "auth.guest": "Кіру міндетті емес", "auth.intro": "Google немесе Apple арқылы кіріңіз. Санауышты аккаунтсыз пайдалануға болады.", "auth.local": "Есеп пен тарих осы құрылғыда сақталады. Кіру әзірше бұлтта сақтауды қамтымайды.", "auth.apple": "Apple арқылы кіру", "auth.google": "Google арқылы кіру", "auth.loading": "Кіру орындалуда…", "auth.signed": "Аккаунтқа кірдіңіз", "auth.out": "Шығу", "auth.delete": "Аккаунтты жою", "auth.error": "Кіру мүмкін болмады. Қайта көріңіз.", "auth.offline": "Кіру үшін интернет қажет. Санауыш интернетсіз жұмыс істейді.", "auth.retry": "Қайталау", "auth.outTitle": "Аккаунттан шығасыз ба?", "auth.outBody": "Есеп пен тарих осы құрылғыда қалады.", "auth.deleteTitle": "Аккаунт жойылсын ба?", "auth.deleteBody": "Аккаунтыңыз жойылады. Есеп пен тарих құрылғыда қалады. Оларды жою үшін баптауларда прогресті тазалаңыз.", "auth.deleting": "Аккаунт жойылуда…", "auth.reauth": "Аккаунтты жоюды растау үшін қайта кіріңіз.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple"
 },
 ky: {
   "tab.zikr": "Зикир", "tab.map": "Карта", "tab.path": "Сира жолу", "tab.info": "Маалымат", "tab.settings": "Жөндөөлөр",
@@ -578,7 +591,8 @@ ky: {
   "a11y.button": "Зикир баскычы. Эсептегичти бирге көбөйтүү", "a11y.correct": "Акыркы басууну оңдоо", "a11y.counter": "Эсептегич: %1", "a11y.unlock": "Бөлүм ачылды: %1",
   "level.of": "%1-деңгээл / %2", "level.toNext": "Кийинки деңгээлге чейин: %1", "level.done": "Бардык деңгээлдер бүттү", "level.head": "%1-деңгээл · %2", "zikr.reset": "Нөлдөө", "reset.title": "Эсептегич нөлдөнсүнбү?", "reset.msg": "Жалпы эсеп 0 болот. Күндөр тарыхы сакталат.", "reset.counter": "Эсептегич гана — бөлүмдөр ачык калат", "reset.all": "Эсептегич жана бөлүмдөр — жолду кайра баштоо",
   "set.saveDevice": "Прогресс ушул түзмөктө гана сакталат", "info.aboutTextApp": "ZIKR ADVENTURE — «Астагфируллах» зикиринин эсептегичи жана Пайгамбар ﷺ доорундагы Мекке менен Медина боюнча саякат: 7 деңгээл жана Сиранын 19 бөлүмү.", "info.privacyTextApp": "Тиркеме маалымат чогултпайт. Эсеп, тарых, ачылган бөлүмдөр жана жөндөөлөр ушул түзмөктө гана сакталат. Каттоосуз, жарнамасыз, аналитикасыз жана интернетсиз. Өчүрүү: Жөндөөлөр → «Бардык прогрессти тазалоо» же тиркемени өчүрүңүз.",
-  "preview.badge": "Алдын ала көрүү"
+  "preview.badge": "Алдын ала көрүү",
+  "auth.title": "Аккаунт", "auth.guest": "Кирүү милдеттүү эмес", "auth.intro": "Google же Apple аркылуу кириңиз. Эсептегичти аккаунтсуз колдонсоңуз болот.", "auth.local": "Эсеп жана тарых ушул түзмөктө сакталат. Кирүү азырынча булутта сактоону камтыбайт.", "auth.apple": "Apple аркылуу кирүү", "auth.google": "Google аркылуу кирүү", "auth.loading": "Кирүүдө…", "auth.signed": "Аккаунтка кирдиңиз", "auth.out": "Чыгуу", "auth.delete": "Аккаунтту өчүрүү", "auth.error": "Кирүү мүмкүн болгон жок. Кайра аракет кылыңыз.", "auth.offline": "Кирүү үчүн интернет керек. Эсептегич интернетсиз иштейт.", "auth.retry": "Кайра аракет кылуу", "auth.outTitle": "Аккаунттан чыгасызбы?", "auth.outBody": "Эсеп жана тарых ушул түзмөктө калат.", "auth.deleteTitle": "Аккаунт өчүрүлсүнбү?", "auth.deleteBody": "Аккаунтуңуз өчүрүлөт. Эсеп жана тарых түзмөктө калат. Аларды өчүрүү үчүн жөндөөлөрдө прогрессти тазалаңыз.", "auth.deleting": "Аккаунт өчүрүлүүдө…", "auth.reauth": "Аккаунтту өчүрүүнү ырастоо үчүн кайра кириңиз.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple"
 }
 };
 // Содержание мест — по историко-архитектурной справке редакции проекта (PDF),
@@ -1768,10 +1782,63 @@ function renderInfo() {
 }
 function langPicker(id) { return `<div class="langs" id="${id}">${LANGS.map(([c, n]) => `<button class="lang ${c === L() ? "on" : ""}" data-lang="${c}" aria-pressed="${c === L()}">${n}</button>`).join("")}</div>`; }
 function bindLang(root, after) { root.querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => { state.settings.lang = b.dataset.lang; document.documentElement.lang = b.dataset.lang; persist(); Object.values(cities).forEach((c) => c && kick(c)); after(); })); }
+
+/* ---- auth state ---- */
+let authState = { state: "guest", user: null, message: null };
+function updateAuthUI() { if (currentTab === "settings") renderSettings(); }
+function handleAuthEvent(e) {
+  authState = e.detail;
+  updateAuthUI();
+}
+if (IS_APP && window.webkit?.messageHandlers?.zikr) {
+  window.addEventListener("zikr:auth", handleAuthEvent);
+  post({ type: "auth.getState" });
+}
+function authCommand(type) {
+  if (!IS_APP || !window.webkit?.messageHandlers?.zikr) return;
+  post({ type });
+}
+
 function renderSettings() {
   const s = state.settings;
   const tg = (k, label) => `<label class="switch"><span>${T(label)}</span><span class="toggle"><input type="checkbox" data-set="${k}" ${s[k] ? "checked" : ""}><span></span></span></label>`;
+  
+  let accountHTML = "";
+  if (IS_APP) {
+    const { state: authSt, user, message } = authState;
+    if (authSt === "guest") {
+      accountHTML = `<div class="group-h">${T("auth.title")}</div>
+        <div class="card"><p class="muted">${T("auth.intro")}</p>
+        <button class="auth-provider apple" id="auth-apple">${T("auth.apple")}</button>
+        <button class="auth-provider google" id="auth-google">${T("auth.google")}</button>
+        <p class="foot">${T("auth.local")}</p></div>`;
+    } else if (authSt === "signingIn") {
+      accountHTML = `<div class="group-h">${T("auth.title")}</div>
+        <div class="card"><p class="auth-loading" role="status">${T("auth.loading")}</p>
+        <button class="auth-provider apple" disabled>${T("auth.apple")}</button>
+        <button class="auth-provider google" disabled>${T("auth.google")}</button></div>`;
+    } else if (authSt === "signedIn" && user) {
+      const provName = user.provider === "google" ? T("auth.providerGoogle") : T("auth.providerApple");
+      accountHTML = `<div class="group-h">${T("auth.title")}</div>
+        <div class="card"><div class="auth-user">${user.displayName || T("auth.signed")}</div>
+        ${user.email ? `<p class="auth-provider-badge">${provName} · ${user.email}</p>` : `<p class="auth-provider-badge">${provName}</p>`}
+        <p class="foot">${T("auth.local")}</p>
+        <div class="list" style="margin-top:16px"><button class="li" id="auth-out">${T("auth.out")}</button>
+        <button class="li" id="auth-delete" style="color:#B3261E">${T("auth.delete")}</button></div></div>`;
+    } else if (authSt === "error") {
+      const errorMsg = message === "offline" ? T("auth.offline") : T("auth.error");
+      accountHTML = `<div class="group-h">${T("auth.title")}</div>
+        <div class="card"><p class="auth-error" role="alert">${errorMsg}</p>
+        <button class="auth-provider apple" id="auth-apple">${T("auth.apple")}</button>
+        <button class="auth-provider google" id="auth-google">${T("auth.google")}</button></div>`;
+    } else if (authSt === "deleting") {
+      accountHTML = `<div class="group-h">${T("auth.title")}</div>
+        <div class="card"><p class="auth-loading" role="status">${T("auth.deleting")}</p></div>`;
+    }
+  }
+  
   $("#s-settings").innerHTML = `<div class="topbar"><h1>${T("tab.settings")}</h1></div><div class="pad">
+    ${accountHTML}
     <div class="group-h">${T("set.language")}</div>${langPicker("set-langs")}<p class="foot">${T("set.langNote")}</p>
     ${IS_APP ? "" : `<div class="group-h">${T("set.preview")}</div><div class="list">${tg("preview", "set.previewToggle")}</div><p class="foot">${T("set.previewFoot")}</p>`}
     <div class="group-h">${T("set.feedback")}</div><div class="list">${tg("haptics", "set.haptics")}${tg("sound", "set.sound")}</div>
@@ -1793,6 +1860,11 @@ function renderSettings() {
     const keep = state.settings; state = freshState(); state.settings = keep; state.onboarded = true; session = 0;
     Object.keys(cities).forEach((k) => delete cities[k]); lastUnlockKey = {}; mapView.mode = "world"; mapView.selected = null; worldVB = WORLD_FULL.slice(); persist(); renderAll();
   });
+  const authApple = $("#auth-apple"), authGoogle = $("#auth-google"), authOut = $("#auth-out"), authDel = $("#auth-delete");
+  if (authApple) authApple.onclick = () => authCommand("auth.signInApple");
+  if (authGoogle) authGoogle.onclick = () => authCommand("auth.signInGoogle");
+  if (authOut) authOut.onclick = () => confirmDialog(T("auth.outTitle"), T("auth.outBody"), T("auth.out"), () => authCommand("auth.signOut"));
+  if (authDel) authDel.onclick = () => confirmDialog(T("auth.deleteTitle"), T("auth.deleteBody"), T("auth.delete"), () => authCommand("auth.deleteAccount"));
 }
 function applyMotionClass() { document.body.classList.toggle("reduced", motionReduced()); }
 let wakeLock = null;

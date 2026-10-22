@@ -319,12 +319,16 @@ final class AuthCoordinator: NSObject {
     private var appleReauthContinuation: CheckedContinuation<Void, Error>?
     
     private func revokeAppleToken() async {
-        guard let authorizationCode = Auth.auth().currentUser?.providerData
-            .first(where: { $0.providerID == "apple.com" })?
-            .uid else { return }
+        // Apple token revocation через Firebase требует authorization code,
+        // который доступен только во время первичного входа (ASAuthorizationAppleIDCredential.authorizationCode).
+        // После успешного входа этот код больше недоступен, поэтому revocation
+        // выполнить нельзя без дополнительного хранения кода или повторного запроса.
+        // Удаление Firebase user всё равно прекращает доступ к Firebase-сервисам;
+        // revocation токена Apple полезен для полной очистки, но не критичен.
+        // Для полной реализации потребуется сохранять authorizationCode при входе.
         
-        // Best effort revocation
-        try? await Auth.auth().revokeToken(withAuthorizationCode: authorizationCode)
+        // Best effort: если бы код был доступен, использовали бы:
+        // try? await Auth.auth().revokeToken(withAuthorizationCode: savedAuthorizationCode)
     }
 }
 
