@@ -3,8 +3,10 @@
 // с нативными возможностями iPhone:
 //  • "haptic"    — тактильный отклик (UIImpactFeedbackGenerator / UINotificationFeedbackGenerator);
 //  • "keepAwake" — не гасить экран во время зикра;
-//  • "save"      — копия прогресса в файле на устройстве (дополнительно к хранилищу страницы).
+//  • "save"      — копия прогресса в файле на устройстве (дополнительно к хранилищу страницы);
+//  • "auth.*"    — авторизация через Google и Apple (v1.1.0).
 // Переходы на внешние сайты запрещены: приложение работает только со своими файлами.
+// Команды auth принимаются только из основного доверенного документа zikr://localhost.
 
 import UIKit
 import WebKit
@@ -15,6 +17,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
+    private let authCoordinator = AuthCoordinator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,11 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
 
         let contentController = WKUserContentController()
         contentController.add(WeakScriptMessageHandler(target: self), name: "zikr")
+        
+        // Подписываемся на изменения состояния авторизации
+        authCoordinator.onStateChange = { [weak self] state in
+            self?.sendAuthStateToWeb(state)
+        }
 
         // Сохранённый прогресс передаётся странице ещё до запуска её скриптов.
         let restoreScript = WKUserScript(
@@ -81,9 +89,61 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             if let json = body["data"] as? String {
                 progressStore.save(json: json)
             }
+        case "auth.signInGoogle":
+            handleAuthMessage { await self.authCoordinator.signInWithGoogle(presentingViewController: self) }
+        case "auth.signInApple":
+            handleAuthMessage { await self.authCoordinator.signInWithApple() }
+        case "auth.signOut":
+            handleAuthMessage { try await self.authCoordinator.signOut() }
+        case "auth.deleteAccount":
+            handleAuthMessage { try await self.authCoordinator.deleteAccount(presentingViewController: self) }
+        case "auth.getState":
+            sendAuthStateToWeb(authCoordinator.state)
         default:
             break
         }
+    }
+    
+    private func handleAuthMessage(_ action: @escaping () async throws -> Void) {
+        Task {
+            do {
+                try await action()
+            } catch {
+                // Ошибки обрабатываются в authCoordinator и отправляются через onStateChange
+            }
+        }
+    }
+    
+    private func sendAuthStateToWeb(_ state: AuthState) {
+        let stateJSON: String
+        
+        switch state {
+        case .guest:
+            stateJSON = """
+            {"state":"guest"}
+            """
+        case .signingIn(let provider):
+            stateJSON = """
+            {"state":"signingIn","provider":"\(provider)"}
+            """
+        case .signedIn(let user):
+            let name = user.displayName?.replacingOccurrences(of: "\"", with: "\\\"") ?? ""
+            let email = user.email?.replacingOccurrences(of: "\"", with: "\\\"") ?? ""
+            stateJSON = """
+            {"state":"signedIn","user":{"uid":"\(user.uid)","displayName":\(name.isEmpty ? "null" : "\"\(name)\""),"email":\(email.isEmpty ? "null" : "\"\(email)\""),"provider":"\(user.provider)"}}
+            """
+        case .error(let message, let retryable):
+            stateJSON = """
+            {"state":"error","message":"\(message)","retryable":\(retryable)}
+            """
+        case .deleting:
+            stateJSON = """
+            {"state":"deleting"}
+            """
+        }
+        
+        let script = "window.dispatchEvent(new CustomEvent('zikr:auth', { detail: \(stateJSON) }));"
+        webView?.evaluateJavaScript(script, completionHandler: nil)
     }
 
     // MARK: - Навигация: разрешены только встроенные страницы
