@@ -67,6 +67,11 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
 
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
+        // Issue 12: Accept auth commands only from trusted main-frame document
+        guard message.frameInfo.isMainFrame else { return }
+        guard message.frameInfo.request.url?.scheme == BundleSchemeHandler.scheme,
+              message.frameInfo.request.url?.host == "localhost" else { return }
+        
         guard let body = message.body as? [String: Any],
               let type = body["type"] as? String else { return }
 
@@ -109,40 +114,60 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             do {
                 try await action()
             } catch {
-                // Ошибки обрабатываются в authCoordinator и отправляются через onStateChange
+                // Issue 4: Surface errors - send error state to web
+                if let nsError = error as NSError? {
+                    let isOffline = nsError.domain == NSURLErrorDomain ||
+                                    nsError.localizedDescription.contains("offline")
+                    let message = isOffline ? "offline" : "error"
+                    let errorState = AuthState.error(message: message, retryable: true)
+                    sendAuthStateToWeb(errorState)
+                }
             }
         }
     }
     
+    // Issue 11: Use JSONEncoder for proper JSON serialization (XSS protection)
+    private struct AuthStatePayload: Codable {
+        let state: String
+        let user: UserPayload?
+        let message: String?
+        let retryable: Bool?
+        let provider: String?
+        
+        struct UserPayload: Codable {
+            let uid: String
+            let displayName: String?
+            let email: String?
+            let provider: String
+        }
+    }
+    
     private func sendAuthStateToWeb(_ state: AuthState) {
-        let stateJSON: String
+        let payload: AuthStatePayload
         
         switch state {
         case .guest:
-            stateJSON = """
-            {"state":"guest"}
-            """
+            payload = AuthStatePayload(state: "guest", user: nil, message: nil, retryable: nil, provider: nil)
         case .signingIn(let provider):
-            stateJSON = """
-            {"state":"signingIn","provider":"\(provider)"}
-            """
+            payload = AuthStatePayload(state: "signingIn", user: nil, message: nil, retryable: nil, provider: provider)
         case .signedIn(let user):
-            let name = user.displayName?.replacingOccurrences(of: "\"", with: "\\\"") ?? ""
-            let email = user.email?.replacingOccurrences(of: "\"", with: "\\\"") ?? ""
-            stateJSON = """
-            {"state":"signedIn","user":{"uid":"\(user.uid)","displayName":\(name.isEmpty ? "null" : "\"\(name)\""),"email":\(email.isEmpty ? "null" : "\"\(email)\""),"provider":"\(user.provider)"}}
-            """
+            let userPayload = AuthStatePayload.UserPayload(
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                provider: user.provider
+            )
+            payload = AuthStatePayload(state: "signedIn", user: userPayload, message: nil, retryable: nil, provider: nil)
         case .error(let message, let retryable):
-            stateJSON = """
-            {"state":"error","message":"\(message)","retryable":\(retryable)}
-            """
+            payload = AuthStatePayload(state: "error", user: nil, message: message, retryable: retryable, provider: nil)
         case .deleting:
-            stateJSON = """
-            {"state":"deleting"}
-            """
+            payload = AuthStatePayload(state: "deleting", user: nil, message: nil, retryable: nil, provider: nil)
         }
         
-        let script = "window.dispatchEvent(new CustomEvent('zikr:auth', { detail: \(stateJSON) }));"
+        guard let jsonData = try? JSONEncoder().encode(payload),
+              let jsonString = String(data: jsonData, encoding: .utf8) else { return }
+        
+        let script = "window.dispatchEvent(new CustomEvent('zikr:auth', { detail: \(jsonString) }));"
         webView?.evaluateJavaScript(script, completionHandler: nil)
     }
 
