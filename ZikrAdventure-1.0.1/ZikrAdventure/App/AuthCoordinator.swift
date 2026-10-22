@@ -98,12 +98,9 @@ final class AuthCoordinator: NSObject {
     
     func signInWithGoogle(presentingViewController: UIViewController) {
         // Issue 1: Allow retry from error state
-        guard case .guest = state else {
-            if case .error = state {
-                // Retry is allowed
-            } else {
-                return
-            }
+        switch state {
+        case .guest, .error: break // retry allowed from error state
+        default: return
         }
         
         requestGeneration += 1 // Issue 13: New request generation
@@ -184,12 +181,9 @@ final class AuthCoordinator: NSObject {
     
     func signInWithApple() {
         // Issue 1: Allow retry from error state
-        guard case .guest = state else {
-            if case .error = state {
-                // Retry is allowed
-            } else {
-                return
-            }
+        switch state {
+        case .guest, .error: break // retry allowed from error state
+        default: return
         }
         
         requestGeneration += 1 // Issue 13: New request generation
