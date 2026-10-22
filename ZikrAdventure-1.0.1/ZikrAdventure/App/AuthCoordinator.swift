@@ -35,6 +35,8 @@ final class AuthCoordinator: NSObject {
     
     private var currentNonce: String?
     private var authStateListener: AuthStateDidChangeListenerHandle?
+    private var requestGeneration: UInt64 = 0 // Issue 13: Guard against stale callbacks
+    private var savedAppleAuthCode: String? // Issue 3: Store Apple auth code for token revocation
     
     override init() {
         super.init()
@@ -95,7 +97,17 @@ final class AuthCoordinator: NSObject {
     // MARK: - Sign In with Google
     
     func signInWithGoogle(presentingViewController: UIViewController) {
-        guard case .guest = state else { return }
+        // Issue 1: Allow retry from error state
+        guard case .guest = state else {
+            if case .error = state {
+                // Retry is allowed
+            } else {
+                return
+            }
+        }
+        
+        requestGeneration += 1 // Issue 13: New request generation
+        let generation = requestGeneration
         
         updateState(.signingIn(provider: "google"))
         
@@ -110,18 +122,23 @@ final class AuthCoordinator: NSObject {
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] result, error in
             guard let self = self else { return }
             Task { @MainActor in
-                await self.handleGoogleSignInResult(result: result, error: error)
+                await self.handleGoogleSignInResult(result: result, error: error, generation: generation)
             }
         }
     }
     
-    private func handleGoogleSignInResult(result: GIDSignInResult?, error: Error?) async {
+    private func handleGoogleSignInResult(result: GIDSignInResult?, error: Error?, generation: UInt64) async {
+        // Issue 13: Check if this callback is still relevant
+        guard generation == requestGeneration else { return }
+        
         if let error = error as NSError? {
             if error.code == -5 { // User cancelled
                 updateState(.guest)
                 return
             }
-            let isNetworkError = error.domain == NSURLErrorDomain
+            // Issue 6: Better network error detection for GoogleSignIn
+            let isNetworkError = error.domain == NSURLErrorDomain || 
+                                 (error.domain == "com.google.GIDSignIn" && error.code == -4) // GIDSignInErrorCodeNetworkError
             updateState(.error(
                 message: isNetworkError ? "offline" : "error",
                 retryable: true
@@ -144,8 +161,18 @@ final class AuthCoordinator: NSObject {
             _ = try await Auth.auth().signIn(with: credential)
             // Состояние обновится через authStateListener
         } catch {
+            // Issue 13: Check if still relevant
+            guard generation == requestGeneration else { return }
+            
             let nsError = error as NSError
-            let isNetworkError = nsError.domain == NSURLErrorDomain
+            // Issue 6: Better network error detection for Firebase Auth
+            let isNetworkError = nsError.domain == NSURLErrorDomain || 
+                                 nsError.code == AuthErrorCode.networkError.rawValue
+            // Issue 7: Handle account-exists-with-different-credential
+            if nsError.code == AuthErrorCode.accountExistsWithDifferentCredential.rawValue {
+                updateState(.error(message: "accountExists", retryable: false))
+                return
+            }
             updateState(.error(
                 message: isNetworkError ? "offline" : "error",
                 retryable: true
@@ -156,7 +183,16 @@ final class AuthCoordinator: NSObject {
     // MARK: - Sign In with Apple
     
     func signInWithApple() {
-        guard case .guest = state else { return }
+        // Issue 1: Allow retry from error state
+        guard case .guest = state else {
+            if case .error = state {
+                // Retry is allowed
+            } else {
+                return
+            }
+        }
+        
+        requestGeneration += 1 // Issue 13: New request generation
         
         updateState(.signingIn(provider: "apple"))
         
@@ -212,45 +248,45 @@ final class AuthCoordinator: NSObject {
         
         guard let currentUser = Auth.auth().currentUser else {
             updateState(.error(message: "error", retryable: true))
-            return
+            throw NSError(domain: "AuthCoordinator", code: -1, userInfo: [NSLocalizedDescriptionKey: "No current user"])
         }
         
+        // Issue 5: Handle Firebase requiresRecentLogin error explicitly
         // Проверяем, нужна ли повторная авторизация
-        let needsReauth = await checkIfReauthNeeded()
-        
-        if needsReauth {
-            // Запрашиваем повторную авторизацию
-            do {
-                try await reauthenticate(user: user, presentingViewController: presentingViewController)
-            } catch {
-                updateState(.signedIn(user: user))
-                throw error
-            }
-        }
-        
-        // Отзываем Apple токены если это Apple
-        if user.provider == "apple" {
-            await revokeAppleToken()
-        }
-        
-        // Удаляем аккаунт
         do {
+            // Issue 3: Запрашиваем повторную авторизацию для получения свежего auth code
+            // Issue 4: Show reauth state
+            updateState(.error(message: "reauth", retryable: false))
+            try await reauthenticate(user: user, presentingViewController: presentingViewController)
+            updateState(.deleting)
+            
+            // Issue 3: Отзываем Apple токены если это Apple и у нас есть auth code
+            if user.provider == "apple", let authCode = savedAppleAuthCode {
+                try? await Auth.auth().revokeToken(withAuthorizationCode: authCode)
+            }
+            
+            // Удаляем аккаунт
             try await currentUser.delete()
-            // Состояние обновится через authStateListener
-        } catch {
-            updateState(.signedIn(user: user))
+            // Issue 2: После успешного удаления состояние должно перейти в guest
+            updateState(.guest)
+        } catch let error as NSError {
+            // Issue 5: Handle requiresRecentLogin explicitly
+            if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                updateState(.error(message: "reauth", retryable: false))
+            } else {
+                // Issue 6: Better network error detection
+                let isNetworkError = error.domain == NSURLErrorDomain || 
+                                     error.code == AuthErrorCode.networkError.rawValue
+                updateState(.signedIn(user: user))
+                if isNetworkError {
+                    throw NSError(domain: "AuthCoordinator", code: error.code, userInfo: [NSLocalizedDescriptionKey: "offline"])
+                }
+            }
             throw error
         }
     }
     
-    private func checkIfReauthNeeded() async -> Bool {
-        guard let metadata = Auth.auth().currentUser?.metadata else { return true }
-        guard let lastSignIn = metadata.lastSignInDate else { return true }
-        
-        // Требуем повторную авторизацию если последний вход был более 5 минут назад
-        let fiveMinutesAgo = Date().addingTimeInterval(-5 * 60)
-        return lastSignIn < fiveMinutesAgo
-    }
+    // Issue 5: Removed heuristic check - Firebase will tell us if reauth is needed via requiresRecentLogin
     
     private func reauthenticate(user: AuthUser, presentingViewController: UIViewController) async throws {
         if user.provider == "google" {
@@ -317,19 +353,6 @@ final class AuthCoordinator: NSObject {
     }
     
     private var appleReauthContinuation: CheckedContinuation<Void, Error>?
-    
-    private func revokeAppleToken() async {
-        // Apple token revocation через Firebase требует authorization code,
-        // который доступен только во время первичного входа (ASAuthorizationAppleIDCredential.authorizationCode).
-        // После успешного входа этот код больше недоступен, поэтому revocation
-        // выполнить нельзя без дополнительного хранения кода или повторного запроса.
-        // Удаление Firebase user всё равно прекращает доступ к Firebase-сервисам;
-        // revocation токена Apple полезен для полной очистки, но не критичен.
-        // Для полной реализации потребуется сохранять authorizationCode при входе.
-        
-        // Best effort: если бы код был доступен, использовали бы:
-        // try? await Auth.auth().revokeToken(withAuthorizationCode: savedAuthorizationCode)
-    }
 }
 
 // MARK: - ASAuthorizationControllerDelegate
@@ -364,6 +387,12 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
             return
         }
         
+        // Issue 3: Save authorization code for token revocation during account deletion
+        if let authCode = appleIDCredential.authorizationCode,
+           let authCodeString = String(data: authCode, encoding: .utf8) {
+            savedAppleAuthCode = authCodeString
+        }
+        
         let credential = OAuthProvider.appleCredential(
             withIDToken: idTokenString,
             rawNonce: nonce,
@@ -378,7 +407,10 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
                 appleReauthContinuation = nil
             } else {
                 // Первичный вход
+                let generation = requestGeneration // Issue 13: Capture current generation
                 _ = try await Auth.auth().signIn(with: credential)
+                // Issue 13: Check if still relevant
+                guard generation == requestGeneration else { return }
                 // Состояние обновится через authStateListener
             }
         } catch {
@@ -386,8 +418,19 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
                 appleReauthContinuation?.resume(throwing: error)
                 appleReauthContinuation = nil
             } else {
+                // Issue 13: Check if still relevant
+                let generation = requestGeneration
+                guard generation == requestGeneration else { return }
+                
                 let nsError = error as NSError
-                let isNetworkError = nsError.domain == NSURLErrorDomain
+                // Issue 6: Better network error detection
+                let isNetworkError = nsError.domain == NSURLErrorDomain || 
+                                     nsError.code == AuthErrorCode.networkError.rawValue
+                // Issue 7: Handle account-exists-with-different-credential
+                if nsError.code == AuthErrorCode.accountExistsWithDifferentCredential.rawValue {
+                    updateState(.error(message: "accountExists", retryable: false))
+                    return
+                }
                 updateState(.error(
                     message: isNetworkError ? "offline" : "error",
                     retryable: true
@@ -410,6 +453,7 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
             return
         }
         
+        // Issue 6: Better network error detection
         let isNetworkError = nsError.domain == NSURLErrorDomain
         updateState(.error(
             message: isNetworkError ? "offline" : "error",

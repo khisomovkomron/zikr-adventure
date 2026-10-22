@@ -95,7 +95,11 @@ function testAccountScreenRendering() {
         'auth.google': 'Sign in with Google', 'auth.loading': 'Signing in…',
         'auth.signed': 'You are signed in', 'auth.out': 'Sign out', 'auth.delete': 'Delete account',
         'auth.error': 'Could not sign in.', 'auth.offline': 'Internet needed.',
-        'auth.deleting': 'Deleting account…', 'auth.providerGoogle': 'Google', 'auth.providerApple': 'Apple',
+        'auth.deleting': 'Deleting account…', 'auth.reauth': 'Sign in again to confirm.',
+        'auth.accountExists': 'Account exists with different method.',
+        'auth.providerGoogle': 'Google', 'auth.providerApple': 'Apple',
+        'auth.guest': 'Signing in is optional',
+        'info.privacy': 'Privacy',
         'auth.outTitle': 'Sign out?', 'auth.outBody': 'Your count stays.',
         'auth.deleteTitle': 'Delete account?', 'auth.deleteBody': 'Account deleted. Count stays.',
         'set.language': 'Language', 'set.langNote': 'Translations...',
@@ -131,7 +135,18 @@ function testAccountScreenRendering() {
     mapView: { mode: 'world', selected: null },
     worldVB: [],
     WORLD_FULL: [],
-    renderSettings: null
+    renderSettings: null,
+    icon: null, // No icon function in tests
+    // Issue 11: Add esc function for HTML escaping tests
+    esc: (text) => {
+      if (!text) return "";
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
   });
   
   // Extract auth logic and renderSettings
@@ -229,6 +244,7 @@ function testBridgeCommands() {
   
   // Test Google sign-in command
   messages.length = 0;
+  vm.runInContext('authState = { state: "guest", user: null, message: null }', context);
   vm.runInContext('authCommand("auth.signInGoogle")', context);
   assert.equal(messages.length, 1, 'Google sign-in should send one message');
   assert.equal(messages[0].type, 'auth.signInGoogle', 'Wrong command for Google sign-in');
@@ -236,13 +252,23 @@ function testBridgeCommands() {
   
   // Test Apple sign-in command
   messages.length = 0;
+  vm.runInContext('authState = { state: "guest", user: null, message: null }', context);
   vm.runInContext('authCommand("auth.signInApple")', context);
   assert.equal(messages.length, 1, 'Apple sign-in should send one message');
   assert.equal(messages[0].type, 'auth.signInApple', 'Wrong command for Apple sign-in');
   console.log('  ✓ Apple button sends auth.signInApple command');
   
+  // Issue 1: Test retry from error state
+  messages.length = 0;
+  vm.runInContext('authState = { state: "error", user: null, message: "offline" }', context);
+  vm.runInContext('authCommand("auth.signInGoogle")', context);
+  assert.equal(messages.length, 1, 'Retry from error should send message');
+  assert.equal(messages[0].type, 'auth.signInGoogle', 'Retry should send correct command');
+  console.log('  ✓ Retry from error state works (Issue 1 fix)');
+  
   // Test sign out command (with confirmation)
   messages.length = 0;
+  vm.runInContext('authState = { state: "signedIn", user: {uid: "test"}, message: null }', context);
   vm.runInContext('authCommand("auth.signOut")', context);
   assert.equal(messages.length, 1, 'Sign out should send one message');
   assert.equal(messages[0].type, 'auth.signOut', 'Wrong command for sign out');
@@ -250,6 +276,7 @@ function testBridgeCommands() {
   
   // Test delete account command (with confirmation)
   messages.length = 0;
+  vm.runInContext('authState = { state: "signedIn", user: {uid: "test"}, message: null }', context);
   vm.runInContext('authCommand("auth.deleteAccount")', context);
   assert.equal(messages.length, 1, 'Delete account should send one message');
   assert.equal(messages[0].type, 'auth.deleteAccount', 'Wrong command for delete account');
