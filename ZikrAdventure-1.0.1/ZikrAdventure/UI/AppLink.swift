@@ -17,6 +17,7 @@ struct AppLink: View {
         .buttonStyle(.plain)
         .accessibilityLabel(title)
         .accessibilityAddTraits(.isLink)
+        .accessibilityRemoveTraits(.isButton)
     }
 }
 

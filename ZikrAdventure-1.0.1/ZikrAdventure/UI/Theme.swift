@@ -104,7 +104,6 @@ enum Theme {
         static let touch: CGFloat = 44
         static let button: CGFloat = 48
         static let chip: CGFloat = 40
-        static let chipColumns: Int = 3
         static let row: CGFloat = 48
         static let toggleRow: CGFloat = 52
         static let toggleWidth: CGFloat = 51
@@ -121,6 +120,14 @@ enum Theme {
         static let grabHeight: CGFloat = 5
         static let focusRing: CGFloat = 3
         static let focusRingOffset: CGFloat = 2
+        /// `.counter .num` clamp(54px, 17vw, 72px)
+        static let counterMin: CGFloat = 54
+        static let counterMax: CGFloat = 72
+        static let counterViewport: CGFloat = 0.17
+
+        static func clampedCounter(width: CGFloat) -> CGFloat {
+            min(counterMax, max(counterMin, width * counterViewport))
+        }
     }
 
     // MARK: - Typography
@@ -136,6 +143,7 @@ enum Theme {
         case translit
         case body
         case bodyStrong
+        case chip
         case callout
         case calloutMedium
         case footnote
@@ -156,7 +164,7 @@ enum Theme {
             case .headingXS: return 15
             // .group-h / .ch-title in CSS are 19; Confluence heading.sm listed 18.
             case .translit: return 21
-            case .body, .bodyStrong: return 17
+            case .body, .bodyStrong, .chip: return 17
             case .callout, .calloutMedium: return 15
             case .footnote: return 14
             case .caption: return 13
@@ -174,7 +182,7 @@ enum Theme {
                 return .semibold
             case .bodyStrong, .tabSelected, .calloutMedium:
                 return .bold
-            case .callout, .kicker:
+            case .callout, .kicker, .chip:
                 return .medium
             case .translit, .body, .footnote, .caption, .arabic, .tab:
                 return .regular
@@ -200,7 +208,7 @@ enum Theme {
             case .headingSM: return .headline
             case .headingXS, .sectionTitle: return .subheadline
             case .translit: return .title3
-            case .body, .bodyStrong: return .body
+            case .body, .bodyStrong, .chip: return .body
             case .callout, .calloutMedium: return .callout
             case .footnote, .kicker: return .footnote
             case .caption: return .caption1
@@ -221,13 +229,24 @@ enum Theme {
         /// line-height: 1.45 у body в CSS
         static let bodyLineHeightMultiple: CGFloat = 1.45
 
-        static func ui(_ typo: Typo, sizeCategory: ContentSizeCategory) -> SwiftUI.Font {
-            _ = sizeCategory
-            return SwiftUI.Font(scaledUIFont(typo))
+        static func ui(
+            _ typo: Typo,
+            pointSize: CGFloat? = nil,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> SwiftUI.Font {
+            SwiftUI.Font(
+                scaledUIFont(typo, pointSize: pointSize, sizeCategory: sizeCategory, scales: scales)
+            )
         }
 
-        static func scaledUIFont(_ typo: Typo) -> UIFont {
-            let size = typo.pointSize
+        static func scaledUIFont(
+            _ typo: Typo,
+            pointSize: CGFloat? = nil,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> UIFont {
+            let size = pointSize ?? typo.pointSize
             let font: UIFont
             if typo.usesArabicFamily, let geeza = UIFont(name: "GeezaPro", size: size) {
                 font = geeza
@@ -243,7 +262,9 @@ enum Theme {
                 }
                 font = UIFont(descriptor: descriptor, size: size)
             }
-            return UIFontMetrics(forTextStyle: typo.textStyle).scaledFont(for: font)
+            guard scales else { return font }
+            let traits = UITraitCollection(preferredContentSizeCategory: sizeCategory.uiContentSizeCategory)
+            return UIFontMetrics(forTextStyle: typo.textStyle).scaledFont(for: font, compatibleWith: traits)
         }
     }
 
@@ -306,9 +327,13 @@ enum Theme {
 private struct ThemeFontModifier: ViewModifier {
     @Environment(\.sizeCategory) private var sizeCategory
     let typo: Theme.Typo
+    var pointSize: CGFloat? = nil
+    var scales: Bool = true
 
     func body(content: Content) -> some View {
-        content.font(Theme.Font.ui(typo, sizeCategory: sizeCategory))
+        content.font(
+            Theme.Font.ui(typo, pointSize: pointSize, sizeCategory: sizeCategory, scales: scales)
+        )
     }
 }
 
@@ -326,8 +351,8 @@ private struct ThemeShadowModifier: ViewModifier {
 }
 
 extension View {
-    func themeFont(_ typo: Theme.Typo) -> some View {
-        modifier(ThemeFontModifier(typo: typo))
+    func themeFont(_ typo: Theme.Typo, pointSize: CGFloat? = nil, scales: Bool = true) -> some View {
+        modifier(ThemeFontModifier(typo: typo, pointSize: pointSize, scales: scales))
     }
 
     func themeShadow(_ kind: Theme.Shadow.Kind) -> some View {
@@ -345,5 +370,25 @@ enum ThemePreview {
         content()
             .preferredColorScheme(.dark)
             .previewDisplayName("\(name) · Dark")
+    }
+}
+
+private extension ContentSizeCategory {
+    var uiContentSizeCategory: UIContentSizeCategory {
+        switch self {
+        case .extraSmall: return .extraSmall
+        case .small: return .small
+        case .medium: return .medium
+        case .large: return .large
+        case .extraLarge: return .extraLarge
+        case .extraExtraLarge: return .extraExtraLarge
+        case .extraExtraExtraLarge: return .extraExtraExtraLarge
+        case .accessibilityMedium: return .accessibilityMedium
+        case .accessibilityLarge: return .accessibilityLarge
+        case .accessibilityExtraLarge: return .accessibilityExtraLarge
+        case .accessibilityExtraExtraLarge: return .accessibilityExtraExtraLarge
+        case .accessibilityExtraExtraExtraLarge: return .accessibilityExtraExtraExtraLarge
+        @unknown default: return .large
+        }
     }
 }

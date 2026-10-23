@@ -35,7 +35,7 @@
 
 | Источник | Light | Dark | Asset | SwiftUI |
 | --- | --- | --- | --- | --- |
-| `.btn.danger` / color.danger | #B3261E | #F2B8B5 | `Danger` | `Theme.Color.danger` |
+| `.btn.danger` / color.danger | #B3261E | #B3261E | `Danger` | `Theme.Color.danger` |
 | `.btn.primary` / color.gold | #C2A05A | #C2A05A | `Gold` | `Theme.Color.gold` |
 | `.zikr-btn` / color.gold.light | #E3C274 | #E3C274 | `GoldLight` | `Theme.Color.goldLight` |
 | текст на primary | #FFFFFF | #FFFFFF | `TextOnPrimary` | `Theme.Color.textOnPrimary` |
@@ -58,9 +58,10 @@
 | `.topbar h1` 20 serif 600 | | `.headingMD` |
 | `.group-h` / `.ch-title` 19 serif 600 | | `.headingSM` |
 | `.section-title` 15 serif 600 `--text2` | | `.sectionTitle` |
-| `.counter .num` clamp 54–72 serif 600 | | `.displayCounter` |
+| `.counter .num` clamp(54px, 17vw, 72px) serif 600 | | `.displayCounter` + `Theme.Size.clampedCounter(width:)` |
 | `.counter .cap` / `.foot` 14 `--text2` | | `.footnote` |
-| `.small` / `.lang` 15 | | `.callout` / `.calloutMedium` |
+| `.small` 15 | | `.callout` / `.calloutMedium` |
+| `.lang` 17 medium (наследует body) | | `.chip` |
 | `.xs` / `.kicker` ~13.5 | | `.kicker` / `.caption` |
 | `.tab` 12 | regular / bold selected | `.tab` / `.tabSelected` |
 | `.translit` 21 italic serif | | `.translit` |
@@ -93,16 +94,16 @@
 | `.btn.danger` | `AppButton(kind: .destructive)` | `--danger`, surface |
 | `.card` | `AppCard` | radius 18, shadow.card |
 | `.list` | `AppList` | radius 16 |
-| `.li` | `AppListRow` | icon / link / destructive / value / plain |
-| `.switch` + `.toggle` | `AppToggleRow` / `AppToggle` | on = `--positive` |
-| `.lang` / `.lang.on` | `AppChip` / `AppChipGroup` | сегментированного контроля в вебе нет |
+| `.li` | `AppListRow` | icon / link / destructive / value (17 pt, как body) / plain |
+| `.switch` + `.toggle` | `AppToggleRow` / `AppToggle` | native `Toggle` + ToggleStyle; вся строка — switch |
+| `.lang` / `.lang.on` | `AppChip` / `AppChipGroup` | 17 pt medium, `Layout` flex-wrap |
 | `.section-title` / `.group-h` | `AppSectionHeader` | `.sectionTitle` / `.group` |
 | `.foot` | `AppFootnote` | |
 | `a` / `.link` | `AppLink` | `--accent`, без подчёркивания |
 | `.icon-btn` | `AppIconButton` | 44×44, иконка 20 |
 | `.bar` | `AppProgressBar` | |
-| `.counter` | `AppCounterDisplay` | |
-| `.tabbar` / `.tab` | `NativeTabBar` | токены surface / divider / accent / textSecondary |
+| `.counter` | `AppCounterDisplay` | font-size = clamp(54, 17% ширины, 72) |
+| `.tabbar` / `.tab` | `NativeTabBar` | токены; Dynamic Type ограничен `.large` (~12 pt) |
 
 Не вынесены в общий кит (экранно-специфичны, появятся с миграцией экранов): `.zikr-btn`, `.banner`, `.dialog`, `.sheet`, `.timeline`, `.lvl-badge`, `.auth-provider`.
 
@@ -110,7 +111,7 @@
 
 У каждого компонента есть `PreviewProvider` в светлой и тёмной теме (без макроса `#Preview`, iOS 16).
 
-`UIKitGallery` — каталог всех компонентов. Файл обёрнут в `#if DEBUG`. В Debug открывается долгим нажатием (~1.2 с) на нативный tab bar. В Release жест и экран отсутствуют, UI релиза не меняется.
+`UIKitGallery` — каталог всех компонентов. Файл обёрнут в `#if DEBUG`. В Debug открывается долгим нажатием (~1.2 с) на вкладку; выбор вкладки при этом не меняется. В Release жест и экран отсутствуют, UI релиза не меняется.
 
 ## Ограничения
 

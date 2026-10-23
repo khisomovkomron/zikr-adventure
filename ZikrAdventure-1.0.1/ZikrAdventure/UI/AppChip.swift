@@ -1,5 +1,6 @@
 // AppChip.swift
 // Чипы языка .lang / .lang.on. Сегментированного контроля в вебе нет — это его аналог.
+// Шрифт как у body: 17 pt medium. Перенос — Layout (iOS 16), как flex-wrap.
 
 import SwiftUI
 
@@ -11,7 +12,7 @@ struct AppChip: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .themeFont(.callout)
+                .themeFont(.chip)
                 .foregroundColor(isSelected ? Theme.Color.textOnPrimary : Theme.Color.text)
                 .padding(.horizontal, Theme.Space.controlX)
                 .padding(.vertical, Theme.Space.s2)
@@ -39,43 +40,65 @@ struct AppChipGroup: View {
     @Binding var selected: String
 
     var body: some View {
-        FlexibleChipWrap(items: items, selected: $selected)
-            .accessibilityElement(children: .contain)
-            .accessibilityLabel("Язык")
-    }
-}
-
-/// Простая переносимая сетка чипов без iOS 17 Layout API.
-private struct FlexibleChipWrap: View {
-    let items: [String]
-    @Binding var selected: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Theme.Space.s2) {
-            ForEach(rows, id: \.self) { row in
-                HStack(spacing: Theme.Space.s2) {
-                    ForEach(row, id: \.self) { item in
-                        AppChip(title: item, isSelected: item == selected) {
-                            selected = item
-                        }
-                    }
+        AppChipFlowLayout(spacing: Theme.Space.s2) {
+            ForEach(items, id: \.self) { item in
+                AppChip(title: item, isSelected: item == selected) {
+                    selected = item
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .contain)
+    }
+}
+
+/// flex-wrap для чипов. `Layout` доступен с iOS 16, без ViewThatFits и без сетки из N колонок.
+private struct AppChipFlowLayout: Layout {
+    var spacing: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        arrange(in: proposal.width, subviews: subviews).size
     }
 
-    private var rows: [[String]] {
-        var result: [[String]] = []
-        var current: [String] = []
-        for item in items {
-            current.append(item)
-            if current.count == Theme.Size.chipColumns {
-                result.append(current)
-                current = []
-            }
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let result = arrange(in: bounds.width, subviews: subviews)
+        for index in subviews.indices {
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + result.origins[index].x, y: bounds.minY + result.origins[index].y),
+                proposal: ProposedViewSize(result.sizes[index])
+            )
         }
-        if !current.isEmpty { result.append(current) }
-        return result
+    }
+
+    private func arrange(
+        in maxWidth: CGFloat?,
+        subviews: Subviews
+    ) -> (size: CGSize, origins: [CGPoint], sizes: [CGSize]) {
+        let limit = maxWidth ?? CGFloat.greatestFiniteMagnitude
+        var origins: [CGPoint] = []
+        var sizes: [CGSize] = []
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var maxX: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if x > 0, x + size.width > limit {
+                x = 0
+                y += rowHeight + spacing
+                rowHeight = 0
+            }
+            origins.append(CGPoint(x: x, y: y))
+            sizes.append(size)
+            rowHeight = max(rowHeight, size.height)
+            x += size.width + spacing
+            maxX = max(maxX, x - spacing)
+        }
+
+        let height = subviews.isEmpty ? 0 : y + rowHeight
+        let width = maxWidth ?? maxX
+        return (CGSize(width: width, height: height), origins, sizes)
     }
 }
 

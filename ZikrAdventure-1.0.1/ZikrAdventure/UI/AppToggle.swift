@@ -1,5 +1,6 @@
 // AppToggle.swift
 // Переключатель .toggle (51×31, --positive / --divider) и строка .switch.
+// Native Toggle + custom ToggleStyle: вся строка — контроль, VoiceOver читает switch.
 
 import SwiftUI
 
@@ -10,32 +11,11 @@ struct AppToggle: View {
     var offValue: String = "Выкл."
 
     var body: some View {
-        Button(action: { isOn.toggle() }) {
-            ZStack(alignment: isOn ? .trailing : .leading) {
-                Capsule()
-                    .fill(trackColor)
-                    .frame(width: Theme.Size.toggleWidth, height: Theme.Size.toggleHeight)
-
-                Circle()
-                    .fill(Theme.Color.textOnPrimary)
-                    .frame(width: Theme.Size.toggleKnob, height: Theme.Size.toggleKnob)
-                    .themeShadow(.knob)
-                    .padding(Theme.Size.toggleKnobInset)
-            }
-            .animation(.easeInOut(duration: Theme.Motion.toggle), value: isOn)
-        }
-        .buttonStyle(.plain)
-        .frame(width: Theme.Size.toggleWidth, height: Theme.Size.toggleHeight)
-        .accessibilityLabel(label)
-        .accessibilityValue(isOn ? onValue : offValue)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityAddTraits(isOn ? .isSelected : [])
-        .accessibilityRemoveTraits(isOn ? [] : .isSelected)
-        .accessibilityHint(isOn ? offValue : onValue)
-    }
-
-    private var trackColor: Color {
-        isOn ? Theme.Color.success : Theme.Color.divider
+        Toggle(label, isOn: $isOn)
+            .labelsHidden()
+            .toggleStyle(AppSwitchToggleStyle())
+            .accessibilityLabel(label)
+            .accessibilityValue(isOn ? onValue : offValue)
     }
 }
 
@@ -47,25 +27,71 @@ struct AppToggleRow: View {
     var offValue: String = "Выкл."
 
     var body: some View {
-        HStack(alignment: .center, spacing: Theme.Space.s3) {
+        Toggle(isOn: $isOn) {
             Text(title)
                 .themeFont(.body)
                 .foregroundColor(Theme.Color.text)
                 .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            AppToggle(isOn: $isOn, label: title, onValue: onValue, offValue: offValue)
+                .accessibilityHidden(true)
         }
-        .padding(.horizontal, Theme.Space.controlX)
-        .padding(.vertical, Theme.Space.s3)
-        .frame(minHeight: Theme.Size.toggleRow)
+        .toggleStyle(AppToggleRowStyle())
         .background(Theme.Color.surface)
         .overlay(alignment: .top) {
             if showsTopDivider {
                 Theme.Color.divider.frame(height: Theme.Size.hairline)
             }
         }
-        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityValue(isOn ? onValue : offValue)
+    }
+}
+
+/// Только дорожка тумблера. Скрыта от VoiceOver — роль switch у Toggle.
+private struct AppToggleTrack: View {
+    var isOn: Bool
+
+    var body: some View {
+        ZStack(alignment: isOn ? .trailing : .leading) {
+            Capsule()
+                .fill(isOn ? Theme.Color.success : Theme.Color.divider)
+                .frame(width: Theme.Size.toggleWidth, height: Theme.Size.toggleHeight)
+
+            Circle()
+                .fill(Theme.Color.textOnPrimary)
+                .frame(width: Theme.Size.toggleKnob, height: Theme.Size.toggleKnob)
+                .themeShadow(.knob)
+                .padding(Theme.Size.toggleKnobInset)
+        }
+        .animation(.easeInOut(duration: Theme.Motion.toggle), value: isOn)
+        .frame(width: Theme.Size.toggleWidth, height: Theme.Size.toggleHeight)
+        .accessibilityHidden(true)
+    }
+}
+
+private struct AppSwitchToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        AppToggleTrack(isOn: configuration.isOn)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                configuration.isOn.toggle()
+            }
+    }
+}
+
+private struct AppToggleRowStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(alignment: .center, spacing: Theme.Space.s3) {
+            configuration.label
+                .frame(maxWidth: .infinity, alignment: .leading)
+            AppToggleTrack(isOn: configuration.isOn)
+        }
+        .padding(.horizontal, Theme.Space.controlX)
+        .padding(.vertical, Theme.Space.s3)
+        .frame(minHeight: Theme.Size.toggleRow)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            configuration.isOn.toggle()
+        }
     }
 }
 

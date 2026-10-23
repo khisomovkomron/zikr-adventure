@@ -17,13 +17,14 @@ struct TabsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(edges: .top)
 
-            NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
 #if DEBUG
-                .simultaneousGesture(
-                    LongPressGesture(minimumDuration: 1.2).onEnded { _ in
-                        showsUIKitGallery = true
-                    }
-                )
+            NativeTabBar(
+                selectedTab: $selectedTab,
+                appLanguage: appLanguage,
+                onDebugLongPress: { showsUIKitGallery = true }
+            )
+#else
+            NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
 #endif
         }
         .onChange(of: selectedTab) { newTab in
@@ -85,6 +86,7 @@ struct WebHostView: UIViewControllerRepresentable {
 struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
     @ObservedObject var appLanguage: AppLanguage
+    var onDebugLongPress: (() -> Void)? = nil
 
     var body: some View {
         HStack(spacing: 0) {
@@ -92,7 +94,8 @@ struct NativeTabBar: View {
                 TabBarButton(
                     tab: tab,
                     title: appLanguage.title(for: tab),
-                    isSelected: selectedTab == tab
+                    isSelected: selectedTab == tab,
+                    onDebugLongPress: onDebugLongPress
                 ) {
                     selectedTab = tab
                 }
@@ -107,6 +110,7 @@ struct NativeTabBar: View {
         .overlay(alignment: .top) {
             Theme.Color.divider.frame(height: Theme.Size.hairline)
         }
+        .dynamicTypeSize(...DynamicTypeSize.large)
         .accessibilityElement(children: .contain)
     }
 }
@@ -115,10 +119,14 @@ private struct TabBarButton: View {
     let tab: TabItem
     let title: String
     let isSelected: Bool
+    var onDebugLongPress: (() -> Void)? = nil
     let action: () -> Void
+#if DEBUG
+    @State private var ignoreNextSelect = false
+#endif
 
     var body: some View {
-        Button(action: action) {
+        Button(action: selectIfTap) {
             VStack(spacing: Theme.Size.tabGap) {
                 Image(tab.iconName)
                     .renderingMode(.template)
@@ -139,6 +147,24 @@ private struct TabBarButton: View {
         .accessibilityLabel(title)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
+#if DEBUG
+        .onLongPressGesture(minimumDuration: 1.2) {
+            guard let onDebugLongPress else { return }
+            ignoreNextSelect = true
+            onDebugLongPress()
+        }
+#endif
+    }
+
+    private func selectIfTap() {
+        _ = onDebugLongPress
+#if DEBUG
+        if ignoreNextSelect {
+            ignoreNextSelect = false
+            return
+        }
+#endif
+        action()
     }
 }
 

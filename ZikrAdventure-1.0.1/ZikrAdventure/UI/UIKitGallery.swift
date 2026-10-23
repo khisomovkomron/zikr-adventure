@@ -52,7 +52,7 @@ struct UIKitGallery: View {
     private var chipsSection: some View {
         gallerySection("Чипы языка · .lang (сегмента в вебе нет)") {
             AppChipGroup(
-                items: ["Русский", "English", "O‘zbekcha", "Тоҷикӣ"],
+                items: ["Русский", "English", "O‘zbekcha", "Тоҷикӣ", "Қазақша", "Кыргызча"],
                 selected: $language
             )
         }

@@ -87,7 +87,7 @@ struct AppListRow: View {
 
             if let value {
                 Text(value)
-                    .themeFont(.callout)
+                    .themeFont(.body)
                     .foregroundColor(Theme.Color.textSecondary)
                     .accessibilityHidden(true)
             }
@@ -138,10 +138,10 @@ struct AppListRow: View {
     private var traits: AccessibilityTraits {
         var result: AccessibilityTraits = []
         if action != nil {
-            result.insert(.isButton)
+            result.formUnion(.isButton)
         }
         if kind == .link {
-            result.insert(.isLink)
+            result.formUnion(.isLink)
         }
         return result
     }
