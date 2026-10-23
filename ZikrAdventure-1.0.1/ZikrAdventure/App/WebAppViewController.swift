@@ -12,6 +12,7 @@ import UIKit
 import WebKit
 import SafariServices
 import os
+import ZikrPersistence
 
 final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     private var webView: WKWebView?
@@ -23,6 +24,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     var isWebViewLoaded = false
     var appLanguage: AppLanguage?
     weak var webViewManager: WebViewManager?
+    var stateMirror: WebStateMirror?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +114,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         case "save":
             if let json = body["data"] as? String {
                 progressStore.save(json: json)
+                stateMirror?.enqueue(json)
             }
         case "auth.signInGoogle":
             handleAuthMessage { await self.authCoordinator.signInWithGoogle(presentingViewController: self) }
@@ -246,6 +249,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         isWebViewLoaded = true
         webViewManager?.webViewDidLoad()
+        LegacyWebStateImporter.capture(from: webView, into: stateMirror)
     }
     
     // MARK: - Переключение вкладок

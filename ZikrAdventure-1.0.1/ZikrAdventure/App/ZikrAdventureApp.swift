@@ -11,11 +11,18 @@ import FirebaseCore
 @main
 struct ZikrAdventureApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var container = AppContainer.live()
     
     var body: some Scene {
         WindowGroup {
             TabsView()
                 .background(Theme.Color.bg.ignoresSafeArea())
+                .task {
+                    // ZKR-49: нативный слой данных в режиме «тени» (только зеркало веб-состояния).
+                    guard AppContainer.isWebMirrorEnabled else { return }
+                    WebViewManager.shared.attachStateMirror(container.webStateMirror)
+                    await container.bootstrap()
+                }
         }
     }
 }
