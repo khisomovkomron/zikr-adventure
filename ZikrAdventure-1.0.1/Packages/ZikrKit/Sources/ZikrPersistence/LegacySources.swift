@@ -45,5 +45,8 @@ public enum BootstrapResult: Equatable, Sendable {
     case empty
     /// Файл из будущей версии схемы; запись отключена на эту сессию.
     case readOnly(reason: String)
+    /// ZKR-61: файл есть, но сейчас не читается (ошибка ввода-вывода). Файл не изменялся;
+    /// чтение повторится при следующем обращении к хранилищу.
+    case unavailable(reason: String)
 }
 

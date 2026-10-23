@@ -38,7 +38,11 @@ public enum LegacyMigrator {
         case let (.some(l), .none):
             return (l.state, l.source)
         case let (.none, .some(n)):
-            return (n, Source.progressFile)
+            // JS: loadLocal() при пустом localStorage возвращает freshState(), поэтому ветка та же,
+            // что и для пары (local, native): при falsy updatedAt — mergeStates(fresh, backup).
+            if isTruthy(n.updatedAt) { return (n, Source.progressFile) }
+            let fresh = ProgressState.fresh(preferredLanguages: preferredLanguages)
+            return (StateMerger.merge(fresh, n, preferredLanguages: preferredLanguages), Source.progressFile)
         case (.none, .none):
             return nil
         }

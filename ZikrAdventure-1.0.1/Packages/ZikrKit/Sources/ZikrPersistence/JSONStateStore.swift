@@ -14,11 +14,15 @@ public actor JSONStateStore: StateStore {
     private let clock: any AppClock
     private let appVersion: String
     private let preferredLanguages: [String]
+    private let readData: @Sendable (URL) throws -> Data
 
     private var loaded = false
     private var cached: StateDocument?
     /// Файл из будущей схемы: запись отключена до конца сессии.
     private var readOnlySchema: Int?
+    /// ZKR-61: файл есть, но не читается (например, защита данных до первой разблокировки).
+    /// Файл не трогается и не перезаписывается; чтение повторяется при следующем обращении.
+    private var unreadable = false
     private var lastWrittenProgress: Data?
     private var observers: [UUID: AsyncStream<ProgressState>.Continuation] = [:]
 
@@ -26,12 +30,14 @@ public actor JSONStateStore: StateStore {
         fileURL: URL,
         clock: any AppClock = SystemClock(),
         appVersion: String,
-        preferredLanguages: [String] = Locale.preferredLanguages
+        preferredLanguages: [String] = Locale.preferredLanguages,
+        readData: @escaping @Sendable (URL) throws -> Data = { try Data(contentsOf: $0) }
     ) {
         self.fileURL = fileURL
         self.clock = clock
         self.appVersion = appVersion
         self.preferredLanguages = preferredLanguages
+        self.readData = readData
     }
 
     /// Application Support/zikr-state.json.
@@ -52,6 +58,7 @@ public actor JSONStateStore: StateStore {
     @discardableResult
     public func bootstrap(_ sources: LegacySources) -> BootstrapResult {
         loadIfNeeded()
+        if unreadable { return .unavailable(reason: Self.unreadableReason) }
         if let schema = readOnlySchema {
             return .readOnly(reason: "schemaVersion \(schema) > \(StateDocument.currentSchemaVersion)")
         }
@@ -80,7 +87,7 @@ public actor JSONStateStore: StateStore {
     @discardableResult
     public func replaceFromWeb(json: String, source: String = "webSave") -> Bool {
         loadIfNeeded()
-        guard readOnlySchema == nil else { return false }
+        guard !unreadable, readOnlySchema == nil else { return false }
         guard let value = JSONValue.parse(json), value.objectValue != nil else {
             Log.persistence.error("replaceFromWeb: invalid JSON snapshot ignored")
             return false
@@ -105,6 +112,7 @@ public actor JSONStateStore: StateStore {
     @discardableResult
     public func update(_ mutate: @Sendable (inout ProgressState) -> Void) throws -> ProgressState {
         loadIfNeeded()
+        if unreadable { throw AppError.storageRead(Self.unreadableReason) }
         if let schema = readOnlySchema { throw AppError.unsupportedSchema(schema) }
         var document = cached ?? StateDocument(
             progress: .fresh(preferredLanguages: preferredLanguages),
@@ -132,18 +140,24 @@ public actor JSONStateStore: StateStore {
 
     // MARK: - Файл
 
+    static let unreadableReason = "zikr-state.json unreadable"
+
     private func loadIfNeeded() {
         guard !loaded else { return }
         loaded = true
+        unreadable = false
         let fm = FileManager.default
         guard fm.fileExists(atPath: fileURL.path) else { return }
 
         let data: Data
         do {
-            data = try Data(contentsOf: fileURL)
+            data = try readData(fileURL)
         } catch {
-            Log.persistence.error("zikr-state.json unreadable")
-            quarantine()
+            // ZKR-61: ошибка ввода-вывода — не повреждение. Файл остаётся на месте,
+            // запись блокируется, при следующем обращении чтение повторяется.
+            Log.persistence.error("zikr-state.json unreadable; will retry")
+            loaded = false
+            unreadable = true
             return
         }
 
@@ -181,7 +195,7 @@ public actor JSONStateStore: StateStore {
     }
 
     private func write(_ document: StateDocument) -> Bool {
-        guard readOnlySchema == nil else { return false }
+        guard !unreadable, readOnlySchema == nil else { return false }
         do {
             let data = try Self.makeEncoder().encode(document)
             let dir = fileURL.deletingLastPathComponent()

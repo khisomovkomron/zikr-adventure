@@ -10,16 +10,22 @@ import ZikrDomain
 public final class WebStateMirror: @unchecked Sendable {
     // @unchecked: изменяемое состояние только в `mailbox` под NSLock; остальное — неизменяемые Sendable.
     private let store: JSONStateStore
+    /// Читает progress.json; вызывается только из фонового обработчика (ZKR-61).
+    private let progressFileReader: @Sendable (URL) -> String?
     private let lock = NSLock()
     private var pendingSnapshot: String?
-    private var pendingFallback: LegacySources?
+    private var pendingFallback: Fallback?
     private var enqueued: UInt64 = 0
     private var processed: UInt64 = 0
     private let wake: AsyncStream<Void>.Continuation
     private let worker: Task<Void, Never>
 
-    public init(store: JSONStateStore) {
+    public init(
+        store: JSONStateStore,
+        progressFileReader: @escaping @Sendable (URL) -> String? = { LegacySources.progressFile(at: $0).progressFileJSON }
+    ) {
         self.store = store
+        self.progressFileReader = progressFileReader
         let (stream, continuation) = AsyncStream<Void>.makeStream(bufferingPolicy: .bufferingNewest(1))
         self.wake = continuation
         let box = WeakBox()
@@ -27,7 +33,11 @@ public final class WebStateMirror: @unchecked Sendable {
             for await _ in stream {
                 while let mirror = box.value, let job = mirror.take() {
                     if let fallback = job.fallback {
-                        await mirror.store.bootstrap(fallback)
+                        var sources = fallback.sources
+                        if let url = fallback.progressFileURL {
+                            sources.progressFileJSON = mirror.progressFileReader(url)
+                        }
+                        await mirror.store.bootstrap(sources)
                     }
                     if let snapshot = job.snapshot {
                         await mirror.store.replaceFromWeb(json: snapshot)
@@ -55,8 +65,19 @@ public final class WebStateMirror: @unchecked Sendable {
 
     /// Нет живого состояния страницы: первичная миграция из localStorage / progress.json.
     public func enqueueFallback(_ sources: LegacySources) {
+        enqueue(fallback: Fallback(sources: sources, progressFileURL: nil))
+    }
+
+    /// То же, но progress.json читается в фоновом обработчике, а не на вызывающем (главном) потоке.
+    /// nil URL — файла нет.
+    public func enqueueFallback(progressFileURL: URL?, localStorageV2: String?, localStorageV1: String?) {
+        let sources = LegacySources(localStorageV2: localStorageV2, localStorageV1: localStorageV1)
+        enqueue(fallback: Fallback(sources: sources, progressFileURL: progressFileURL))
+    }
+
+    private func enqueue(fallback: Fallback) {
         lock.lock()
-        pendingFallback = sources
+        pendingFallback = fallback
         enqueued &+= 1
         lock.unlock()
         wake.yield(())
@@ -77,9 +98,14 @@ public final class WebStateMirror: @unchecked Sendable {
         return (enqueued, processed)
     }
 
+    private struct Fallback {
+        let sources: LegacySources
+        let progressFileURL: URL?
+    }
+
     private struct Job {
         let snapshot: String?
-        let fallback: LegacySources?
+        let fallback: Fallback?
         let sequence: UInt64
     }
 
