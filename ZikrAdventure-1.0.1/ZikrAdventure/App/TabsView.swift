@@ -7,6 +7,9 @@ import SwiftUI
 struct TabsView: View {
     @State private var selectedTab: TabItem = .zikr
     @StateObject private var appLanguage = AppLanguage()
+#if DEBUG
+    @State private var showsUIKitGallery = false
+#endif
 
     var body: some View {
         VStack(spacing: 0) {
@@ -15,10 +18,22 @@ struct TabsView: View {
                 .ignoresSafeArea(edges: .top)
 
             NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
+#if DEBUG
+                .simultaneousGesture(
+                    LongPressGesture(minimumDuration: 1.2).onEnded { _ in
+                        showsUIKitGallery = true
+                    }
+                )
+#endif
         }
         .onChange(of: selectedTab) { newTab in
             WebViewManager.shared.selectTab(newTab.webID)
         }
+#if DEBUG
+        .sheet(isPresented: $showsUIKitGallery) {
+            UIKitGallery()
+        }
+#endif
     }
 }
 
@@ -83,15 +98,16 @@ struct NativeTabBar: View {
                 }
             }
         }
-        .frame(height: 49)
-        .padding(.top, 4)
+        .frame(height: Theme.Size.tabBar)
+        .padding(.top, Theme.Size.tabBarTopPadding)
         .background(
-            Color("TabBarSurface")
+            Theme.Color.surface
                 .ignoresSafeArea(edges: .bottom)
         )
         .overlay(alignment: .top) {
-            Color("TabBarDivider").frame(height: 1)
+            Theme.Color.divider.frame(height: Theme.Size.hairline)
         }
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -103,25 +119,46 @@ private struct TabBarButton: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 2) {
+            VStack(spacing: Theme.Size.tabGap) {
                 Image(tab.iconName)
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 23, height: 23)
+                    .frame(width: Theme.Size.iconTab, height: Theme.Size.iconTab)
+                    .accessibilityHidden(true)
                 Text(title)
-                    .font(.system(size: 12))
-                    .fontWeight(isSelected ? .bold : .regular)
+                    .themeFont(isSelected ? .tabSelected : .tab)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(Theme.Scale.tabTitle)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())
-            .foregroundColor(isSelected ? Color.accentColor : Color("TabBarUnselected"))
+            .foregroundColor(isSelected ? Theme.Color.accent : Theme.Color.textSecondary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
+    }
+}
+
+struct NativeTabBar_Previews: PreviewProvider {
+    static var previews: some View {
+        ThemePreview.pair(name: "NativeTabBar") {
+            NativeTabBarPreviewHost()
+        }
+    }
+
+    private struct NativeTabBarPreviewHost: View {
+        @State private var selected: TabItem = .zikr
+        @StateObject private var language = AppLanguage()
+
+        var body: some View {
+            VStack {
+                Spacer()
+                NativeTabBar(selectedTab: $selected, appLanguage: language)
+            }
+            .background(Theme.Color.bg)
+        }
     }
 }
