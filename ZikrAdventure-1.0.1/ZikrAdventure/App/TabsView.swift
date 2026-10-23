@@ -1,21 +1,65 @@
 // TabsView.swift
 // Корневой экран: один shared WKWebView сверху и нативный tab bar снизу.
 // TabView не используется — его непрозрачный фон перекрывал web view и перехватывал нажатия.
+// ZKR-48: вкладка «Инфо» — нативный экран поверх web view (веб под ним остаётся на вкладке info).
+// Пока показан веб-онбординг или его состояние неизвестно, видна веб-версия, как в 1.1.1.
 
 import SwiftUI
+import ZikrContent
 
 struct TabsView: View {
     @State private var selectedTab: TabItem = .zikr
-    @StateObject private var appLanguage = AppLanguage()
+    @StateObject private var appLanguage: AppLanguage
+    @StateObject private var infoViewModel: InfoViewModel
+    @State private var webOnboarding = WebOnboardingTracker()
 #if DEBUG
     @State private var showsUIKitGallery = false
 #endif
 
+    /// Интервал опроса веб-онбординга, пока его состояние не «завершён».
+    private static let onboardingPollInterval: UInt64 = 500_000_000
+
+    init(container: AppContainer) {
+        _appLanguage = StateObject(wrappedValue: AppLanguage())
+        // Стартовый язык уточняется в onAppear из AppLanguage.currentLang.
+        _infoViewModel = StateObject(wrappedValue: InfoViewModel(
+            provider: container.infoContent,
+            settings: container.settings,
+            language: AppLanguage.storedLanguage
+        ))
+    }
+
+    private var isNativeInfoAvailable: Bool {
+        AppContainer.isNativeInfoEnabled && infoViewModel.isAvailable
+    }
+
+    private var showsNativeInfo: Bool {
+        NativeScreenGate.shouldShowNativeInfo(
+            isEnabled: isNativeInfoAvailable,
+            isInfoSelected: selectedTab == .info,
+            isWebOnboardingVisible: webOnboarding.isVisible
+        )
+    }
+
+    /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
+    /// и пока выбрана «Инфо» с открытым онбордингом.
+    private var needsOnboardingPoll: Bool {
+        guard isNativeInfoAvailable, webOnboarding.isVisible != false else { return false }
+        return webOnboarding.isVisible == nil || selectedTab == .info
+    }
+
     var body: some View {
         VStack(spacing: 0) {
-            WebHostView(selectedTab: $selectedTab, appLanguage: appLanguage)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea(edges: .top)
+            ZStack {
+                WebHostView(selectedTab: $selectedTab, appLanguage: appLanguage)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea(edges: .top)
+                    .accessibilityHidden(showsNativeInfo)
+
+                if showsNativeInfo {
+                    InfoView(viewModel: infoViewModel)
+                }
+            }
 
 #if DEBUG
             NativeTabBar(
@@ -30,6 +74,25 @@ struct TabsView: View {
         }
         .onChange(of: selectedTab) { newTab in
             WebViewManager.shared.selectTab(newTab.webID)
+            if newTab == .info {
+                Task { await infoViewModel.refreshSettings() }
+            } else {
+                infoViewModel.closeSheet()
+            }
+        }
+        .onAppear {
+            infoViewModel.setLanguage(appLanguage.currentLang)
+        }
+        .onChange(of: appLanguage.currentLang) { lang in
+            infoViewModel.setLanguage(lang)
+        }
+        .task(id: needsOnboardingPoll) {
+            guard needsOnboardingPoll else { return }
+            while !Task.isCancelled {
+                webOnboarding.record(await WebViewManager.shared.isOnboardingVisible())
+                if webOnboarding.isVisible == false { break }
+                try? await Task.sleep(nanoseconds: Self.onboardingPollInterval)
+            }
         }
 #if DEBUG
         .sheet(isPresented: $showsUIKitGallery) {
@@ -149,6 +212,7 @@ private struct TabBarButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
+        .accessibilityIdentifier("tab.\(tab.rawValue)")
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
 #if DEBUG

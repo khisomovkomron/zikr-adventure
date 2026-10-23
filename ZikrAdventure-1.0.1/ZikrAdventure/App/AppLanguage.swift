@@ -6,9 +6,14 @@ import SwiftUI
 
 @MainActor
 class AppLanguage: ObservableObject {
-    @Published var currentLang: String = UserDefaults.standard.string(forKey: "app.language") ?? "ru"
+    @Published var currentLang: String = AppLanguage.storedLanguage
     @Published var tabTitles: [String: String] = [:]
     
+    /// Последний язык, полученный от веб-приложения (lang.change).
+    nonisolated static var storedLanguage: String {
+        UserDefaults.standard.string(forKey: "app.language") ?? "ru"
+    }
+
     init() {
         loadTabTitles()
     }
