@@ -24,6 +24,19 @@
 		B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */; };
 		D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */; };
 		DB34C77F08A11DB0D86FDC9F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */; };
+		C51A0001A1B2C3D4E5F61001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60001 /* Theme.swift */; };
+		C51A0001A1B2C3D4E5F61002 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60002 /* AppButton.swift */; };
+		C51A0001A1B2C3D4E5F61003 /* AppCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60003 /* AppCard.swift */; };
+		C51A0001A1B2C3D4E5F61004 /* AppListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */; };
+		C51A0001A1B2C3D4E5F61005 /* AppToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */; };
+		C51A0001A1B2C3D4E5F61006 /* AppChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60006 /* AppChip.swift */; };
+		C51A0001A1B2C3D4E5F61007 /* AppSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */; };
+		C51A0001A1B2C3D4E5F61008 /* AppProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */; };
+		C51A0001A1B2C3D4E5F61009 /* AppCounterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */; };
+		C51A0001A1B2C3D4E5F6100A /* AppIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */; };
+		C51A0001A1B2C3D4E5F6100B /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000B /* AppLink.swift */; };
+		C51A0001A1B2C3D4E5F6100C /* AppFootnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */; };
+		C51A0001A1B2C3D4E5F6100D /* UIKitGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +60,19 @@
 	D9FD01AFF4AC4B609154AE6E = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 	865DF81F8E524334B0DBFB71 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
 	F035331B20334C88A813103F = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60002 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60003 /* AppCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCard.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListRow.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggle.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60006 /* AppChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChip.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressBar.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCounterDisplay.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButton.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F6000B /* AppLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLink.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFootnote.swift; sourceTree = "<group>"; };
+		C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitGallery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,10 +110,32 @@
 			children = (
 				AD80DF339D16E73922F8BADB /* Web */,
 				F468345588BF3C269D80B49A /* App */,
+				C51A0001A1B2C3D4E5F62000 /* UI */,
 				EC382378519250209060C781 /* Resources */,
 				6435DE611D15E1A04EDECDA8 /* ZikrAdventure */,
 				00A49228715CE847FEA5AAF5 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		C51A0001A1B2C3D4E5F62000 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C51A0001A1B2C3D4E5F60001 /* Theme.swift */,
+				C51A0001A1B2C3D4E5F60002 /* AppButton.swift */,
+				C51A0001A1B2C3D4E5F60003 /* AppCard.swift */,
+				C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */,
+				C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */,
+				C51A0001A1B2C3D4E5F60006 /* AppChip.swift */,
+				C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */,
+				C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */,
+				C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */,
+				C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */,
+				C51A0001A1B2C3D4E5F6000B /* AppLink.swift */,
+				C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */,
+				C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */,
+			);
+			name = UI;
+			path = ZikrAdventure/UI;
 			sourceTree = "<group>";
 		};
 		EC382378519250209060C781 /* Resources */ = {
@@ -214,6 +262,19 @@
 			C906368CC0434683A2EC8C88 /* TabItem.swift in Sources */,
 			62AAE1BEA6C04EBEAEC9EE8C /* TabsView.swift in Sources */,
 			ADCE50D72FB1438FB7558B97 /* WebViewManager.swift in Sources */,
+			C51A0001A1B2C3D4E5F61001 /* Theme.swift in Sources */,
+			C51A0001A1B2C3D4E5F61002 /* AppButton.swift in Sources */,
+			C51A0001A1B2C3D4E5F61003 /* AppCard.swift in Sources */,
+			C51A0001A1B2C3D4E5F61004 /* AppListRow.swift in Sources */,
+			C51A0001A1B2C3D4E5F61005 /* AppToggle.swift in Sources */,
+			C51A0001A1B2C3D4E5F61006 /* AppChip.swift in Sources */,
+			C51A0001A1B2C3D4E5F61007 /* AppSectionHeader.swift in Sources */,
+			C51A0001A1B2C3D4E5F61008 /* AppProgressBar.swift in Sources */,
+			C51A0001A1B2C3D4E5F61009 /* AppCounterDisplay.swift in Sources */,
+			C51A0001A1B2C3D4E5F6100A /* AppIconButton.swift in Sources */,
+			C51A0001A1B2C3D4E5F6100B /* AppLink.swift in Sources */,
+			C51A0001A1B2C3D4E5F6100C /* AppFootnote.swift in Sources */,
+			C51A0001A1B2C3D4E5F6100D /* UIKitGallery.swift in Sources */,
 		);
 		runOnlyForDeploymentPostprocessing = 0;
 	};

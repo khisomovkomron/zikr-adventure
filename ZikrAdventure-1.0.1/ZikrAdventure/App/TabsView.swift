@@ -7,6 +7,9 @@ import SwiftUI
 struct TabsView: View {
     @State private var selectedTab: TabItem = .zikr
     @StateObject private var appLanguage = AppLanguage()
+#if DEBUG
+    @State private var showsUIKitGallery = false
+#endif
 
     var body: some View {
         VStack(spacing: 0) {
@@ -14,11 +17,25 @@ struct TabsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(edges: .top)
 
+#if DEBUG
+            NativeTabBar(
+                selectedTab: $selectedTab,
+                appLanguage: appLanguage,
+                onDebugLongPress: { showsUIKitGallery = true },
+                debugGalleryPresented: showsUIKitGallery
+            )
+#else
             NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
+#endif
         }
         .onChange(of: selectedTab) { newTab in
             WebViewManager.shared.selectTab(newTab.webID)
         }
+#if DEBUG
+        .sheet(isPresented: $showsUIKitGallery) {
+            UIKitGallery()
+        }
+#endif
     }
 }
 
@@ -70,6 +87,8 @@ struct WebHostView: UIViewControllerRepresentable {
 struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
     @ObservedObject var appLanguage: AppLanguage
+    var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -77,21 +96,25 @@ struct NativeTabBar: View {
                 TabBarButton(
                     tab: tab,
                     title: appLanguage.title(for: tab),
-                    isSelected: selectedTab == tab
+                    isSelected: selectedTab == tab,
+                    onDebugLongPress: onDebugLongPress,
+                    debugGalleryPresented: debugGalleryPresented
                 ) {
                     selectedTab = tab
                 }
             }
         }
-        .frame(height: 49)
-        .padding(.top, 4)
+        .frame(height: Theme.Size.tabBar)
+        .padding(.top, Theme.Size.tabBarTopPadding)
         .background(
-            Color("TabBarSurface")
+            Theme.Color.surface
                 .ignoresSafeArea(edges: .bottom)
         )
         .overlay(alignment: .top) {
-            Color("TabBarDivider").frame(height: 1)
+            Theme.Color.divider.frame(height: Theme.Size.hairline)
         }
+        .dynamicTypeSize(...DynamicTypeSize.large)
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -99,29 +122,79 @@ private struct TabBarButton: View {
     let tab: TabItem
     let title: String
     let isSelected: Bool
+    var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
     let action: () -> Void
+#if DEBUG
+    @State private var ignoreNextSelect = false
+#endif
 
     var body: some View {
-        Button(action: action) {
-            VStack(spacing: 2) {
+        Button(action: selectIfTap) {
+            VStack(spacing: Theme.Size.tabGap) {
                 Image(tab.iconName)
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 23, height: 23)
+                    .frame(width: Theme.Size.iconTab, height: Theme.Size.iconTab)
+                    .accessibilityHidden(true)
                 Text(title)
-                    .font(.system(size: 12))
-                    .fontWeight(isSelected ? .bold : .regular)
+                    .themeFont(isSelected ? .tabSelected : .tab)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(Theme.Scale.tabTitle)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())
-            .foregroundColor(isSelected ? Color.accentColor : Color("TabBarUnselected"))
+            .foregroundColor(isSelected ? Theme.Color.accent : Theme.Color.textSecondary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
+#if DEBUG
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 1.2).onEnded { _ in
+                guard let onDebugLongPress else { return }
+                ignoreNextSelect = true
+                onDebugLongPress()
+            }
+        )
+        .onChange(of: debugGalleryPresented) { presented in
+            if !presented {
+                ignoreNextSelect = false
+            }
+        }
+#endif
+    }
+
+    private func selectIfTap() {
+#if DEBUG
+        if ignoreNextSelect {
+            ignoreNextSelect = false
+            return
+        }
+#endif
+        action()
+    }
+}
+
+struct NativeTabBar_Previews: PreviewProvider {
+    static var previews: some View {
+        ThemePreview.pair(name: "NativeTabBar") {
+            NativeTabBarPreviewHost()
+        }
+    }
+
+    private struct NativeTabBarPreviewHost: View {
+        @State private var selected: TabItem = .zikr
+        @StateObject private var language = AppLanguage()
+
+        var body: some View {
+            VStack {
+                Spacer()
+                NativeTabBar(selectedTab: $selected, appLanguage: language)
+            }
+            .background(Theme.Color.bg)
+        }
     }
 }

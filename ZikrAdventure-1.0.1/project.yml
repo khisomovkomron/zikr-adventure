@@ -36,6 +36,7 @@ targets:
     platform: iOS
     sources:
       - ZikrAdventure/App
+      - ZikrAdventure/UI
       - ZikrAdventure/Resources
       - path: ZikrAdventure/Web
         type: folder

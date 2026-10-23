@@ -15,7 +15,7 @@ struct ZikrAdventureApp: App {
     var body: some Scene {
         WindowGroup {
             TabsView()
-                .background(Color("LaunchBackground").ignoresSafeArea())
+                .background(Theme.Color.bg.ignoresSafeArea())
         }
     }
 }
