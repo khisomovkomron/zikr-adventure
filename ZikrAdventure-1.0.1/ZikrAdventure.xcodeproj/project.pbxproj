@@ -7,72 +7,80 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-	C906368CC0434683A2EC8C88 = {isa = PBXBuildFile; fileRef = 00768630632F412EA667BE6C; };
-	62AAE1BEA6C04EBEAEC9EE8C = {isa = PBXBuildFile; fileRef = D9FD01AFF4AC4B609154AE6E; };
-	ADCE50D72FB1438FB7558B97 = {isa = PBXBuildFile; fileRef = 865DF81F8E524334B0DBFB71; };
-	4FC170122BF34EF582B92F27 = {isa = PBXBuildFile; fileRef = F035331B20334C88A813103F; };
-	004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
+		004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
 		0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */; };
+		125A22A0A7FDD35FCD4A63DE /* WebViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C25C219713C97C1B967920 /* WebViewManager.swift */; };
+		12F1B831691488D0C8B764FB /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32D1F12308A986F829EDDD /* AppLanguage.swift */; };
 		1453116C29CF667B2D86180F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED1F2DFE8F16699E39A9CC42 /* GoogleService-Info.plist */; };
+		15F1945F273876A7E74CE01B /* AppIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C02DE6C5EC408557F96D8 /* AppIconButton.swift */; };
 		176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89307DA988A5692A81F80F39 /* ProgressFileStore.swift */; };
 		1D164955C41BA3308257059E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C718E273E7088BC540322CC2 /* FirebaseCore */; };
+		22DA1809BF6D02C808CCFB15 /* ZikrDomain in Frameworks */ = {isa = PBXBuildFile; productRef = A820704A7ACEC290B08C2FB2 /* ZikrDomain */; };
+		2355D6A629C5D4EF9A4E642E /* AppFootnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D84C20890E364F3E090D337 /* AppFootnote.swift */; };
+		254A31FFC0427B2020B80CA4 /* AppListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B125EF2086EA70E861F0FAA /* AppListRow.swift */; };
+		258DF7D4F87F2EA37840E2FB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07546BD01D4CD5C26E82C9D /* Theme.swift */; };
 		25DA678AB87C3DD39D6569DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB9274BE411AC7CC9B6C3C73 /* InfoPlist.strings */; };
+		261129B65CBFDEED83AE5737 /* AppCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957A74699864AD1E0C380D0D /* AppCard.swift */; };
+		276584ECB29CD410DCF451E1 /* AppProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815B9398F62ABFE0C968C185 /* AppProgressBar.swift */; };
 		28AB5322E4DBE38B44DC5457 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5B414999B3821AF1D543EC2 /* Assets.xcassets */; };
+		3DBB6F0C34505FDC7FB6B2DF /* AppSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B112FFC2905A9B8702674C4 /* AppSectionHeader.swift */; };
+		4A326BF1457F11747312D0F7 /* AppToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7314FC9A470A029B50A37DD6 /* AppToggle.swift */; };
+		4BCABB675C39202AE8AA2895 /* LegacyWebStateImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCFBA24101A344784BD2E8B /* LegacyWebStateImporter.swift */; };
+		755266ACADF78FD39CF5D343 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5199F2D81C17D26698A0F729 /* TabItem.swift */; };
+		75B516E2FE6486A9D4E8C5DF /* ZikrPersistence in Frameworks */ = {isa = PBXBuildFile; productRef = 31218AB9557EBA23DFF5CBD6 /* ZikrPersistence */; };
+		7DF363691609EAAD64DB5550 /* AppChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917547D8598714CBEEEB68B /* AppChip.swift */; };
+		8249D5D2CAB6FBB9E8CC2CF5 /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3895782D77C280142D04CE71 /* AppLink.swift */; };
 		8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */; };
 		9026D8E2F259EF9DFD782E15 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0D1A424F741A0D58065BC2BB /* GoogleSignIn */; };
+		9D6CB256A03596358026F0A1 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F18D57949578A36E7E5E519 /* AppContainer.swift */; };
 		9DE6162EE4244967F48D1244 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = AD80DF339D16E73922F8BADB /* Web */; };
+		A3E374E80FE29141FE5A77B2 /* ZikrCore in Frameworks */ = {isa = PBXBuildFile; productRef = BEBD42E04E6F931280505317 /* ZikrCore */; };
+		B0157C0481AA6A76AEAA56C7 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604538E420B1572162E1CA0 /* TabsView.swift */; };
 		B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */; };
+		C9AF6DF286B837B5FA7D93BD /* UIKitGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */; };
 		D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */; };
+		D83D7B4E35BA5B4E43570CAE /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C084CBF48953863BC43768 /* AppButton.swift */; };
 		DB34C77F08A11DB0D86FDC9F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */; };
-		C51A0001A1B2C3D4E5F61001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60001 /* Theme.swift */; };
-		C51A0001A1B2C3D4E5F61002 /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60002 /* AppButton.swift */; };
-		C51A0001A1B2C3D4E5F61003 /* AppCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60003 /* AppCard.swift */; };
-		C51A0001A1B2C3D4E5F61004 /* AppListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */; };
-		C51A0001A1B2C3D4E5F61005 /* AppToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */; };
-		C51A0001A1B2C3D4E5F61006 /* AppChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60006 /* AppChip.swift */; };
-		C51A0001A1B2C3D4E5F61007 /* AppSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */; };
-		C51A0001A1B2C3D4E5F61008 /* AppProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */; };
-		C51A0001A1B2C3D4E5F61009 /* AppCounterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */; };
-		C51A0001A1B2C3D4E5F6100A /* AppIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */; };
-		C51A0001A1B2C3D4E5F6100B /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000B /* AppLink.swift */; };
-		C51A0001A1B2C3D4E5F6100C /* AppFootnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */; };
-		C51A0001A1B2C3D4E5F6100D /* UIKitGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */; };
+		F13AB6B9F111A1D91B865B4B /* AppCounterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		0917547D8598714CBEEEB68B /* AppChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChip.swift; sourceTree = "<group>"; };
 		3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAppViewController.swift; sourceTree = "<group>"; };
+		3895782D77C280142D04CE71 /* AppLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLink.swift; sourceTree = "<group>"; };
+		3A2C02DE6C5EC408557F96D8 /* AppIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButton.swift; sourceTree = "<group>"; };
 		3B2007D82585A4864A1A1CFB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3F18D57949578A36E7E5E519 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		42C25C219713C97C1B967920 /* WebViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
+		4D84C20890E364F3E090D337 /* AppFootnote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFootnote.swift; sourceTree = "<group>"; };
 		4EB236E0535A4DD64DC48169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5199F2D81C17D26698A0F729 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		5B112FFC2905A9B8702674C4 /* AppSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
+		64C084CBF48953863BC43768 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
+		7314FC9A470A029B50A37DD6 /* AppToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggle.swift; sourceTree = "<group>"; };
 		73CF170D46E89FC10C8303E7 /* ky */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ky; path = ky.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleSchemeHandler.swift; sourceTree = "<group>"; };
+		7B32D1F12308A986F829EDDD /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		815B9398F62ABFE0C968C185 /* AppProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressBar.swift; sourceTree = "<group>"; };
+		8604538E420B1572162E1CA0 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		89307DA988A5692A81F80F39 /* ProgressFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressFileStore.swift; sourceTree = "<group>"; };
+		8B125EF2086EA70E861F0FAA /* AppListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListRow.swift; sourceTree = "<group>"; };
+		8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCounterDisplay.swift; sourceTree = "<group>"; };
 		9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZikrAdventureApp.swift; sourceTree = "<group>"; };
+		957A74699864AD1E0C380D0D /* AppCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCard.swift; sourceTree = "<group>"; };
+		A07546BD01D4CD5C26E82C9D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		AA7A6F2050B36440B20DBF99 /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		ABCFBA24101A344784BD2E8B /* LegacyWebStateImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyWebStateImporter.swift; sourceTree = "<group>"; };
 		AD80DF339D16E73922F8BADB /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Web; path = ZikrAdventure/Web; sourceTree = SOURCE_ROOT; };
 		B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C5B414999B3821AF1D543EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ZikrAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E772EC8A4A2166115EC24D70 /* tg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tg; path = tg.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED1F2DFE8F16699E39A9CC42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-	FFC8F43AC563EDFCAFC9AC0F /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-	00768630632F412EA667BE6C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
-	D9FD01AFF4AC4B609154AE6E = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
-	865DF81F8E524334B0DBFB71 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
-	F035331B20334C88A813103F = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60002 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60003 /* AppCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCard.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListRow.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggle.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60006 /* AppChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChip.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressBar.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCounterDisplay.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconButton.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F6000B /* AppLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLink.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFootnote.swift; sourceTree = "<group>"; };
-		C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitGallery.swift; sourceTree = "<group>"; };
+		F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitGallery.swift; sourceTree = "<group>"; };
+		FA443C68D28933BE355E5C51 /* ZikrKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ZikrKit; path = Packages/ZikrKit; sourceTree = SOURCE_ROOT; };
+		FFC8F43AC563EDFCAFC9AC0F /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +91,9 @@
 				004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */,
 				1D164955C41BA3308257059E /* FirebaseCore in Frameworks */,
 				9026D8E2F259EF9DFD782E15 /* GoogleSignIn in Frameworks */,
+				A3E374E80FE29141FE5A77B2 /* ZikrCore in Frameworks */,
+				22DA1809BF6D02C808CCFB15 /* ZikrDomain in Frameworks */,
+				75B516E2FE6486A9D4E8C5DF /* ZikrPersistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +106,43 @@
 				D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		02FE24FA8401F648438D82AD /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				FA443C68D28933BE355E5C51 /* ZikrKit */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		1076903B04BCF9AB283DD207 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				ABCFBA24101A344784BD2E8B /* LegacyWebStateImporter.swift */,
+			);
+			path = Legacy;
+			sourceTree = "<group>";
+		};
+		30B66CF35152129F588CBE71 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				64C084CBF48953863BC43768 /* AppButton.swift */,
+				957A74699864AD1E0C380D0D /* AppCard.swift */,
+				0917547D8598714CBEEEB68B /* AppChip.swift */,
+				8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */,
+				4D84C20890E364F3E090D337 /* AppFootnote.swift */,
+				3A2C02DE6C5EC408557F96D8 /* AppIconButton.swift */,
+				3895782D77C280142D04CE71 /* AppLink.swift */,
+				8B125EF2086EA70E861F0FAA /* AppListRow.swift */,
+				815B9398F62ABFE0C968C185 /* AppProgressBar.swift */,
+				5B112FFC2905A9B8702674C4 /* AppSectionHeader.swift */,
+				7314FC9A470A029B50A37DD6 /* AppToggle.swift */,
+				A07546BD01D4CD5C26E82C9D /* Theme.swift */,
+				F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */,
+			);
+			name = UI;
+			path = ZikrAdventure/UI;
 			sourceTree = "<group>";
 		};
 		6435DE611D15E1A04EDECDA8 /* ZikrAdventure */ = {
@@ -110,32 +158,12 @@
 			children = (
 				AD80DF339D16E73922F8BADB /* Web */,
 				F468345588BF3C269D80B49A /* App */,
-				C51A0001A1B2C3D4E5F62000 /* UI */,
+				02FE24FA8401F648438D82AD /* Packages */,
 				EC382378519250209060C781 /* Resources */,
+				30B66CF35152129F588CBE71 /* UI */,
 				6435DE611D15E1A04EDECDA8 /* ZikrAdventure */,
 				00A49228715CE847FEA5AAF5 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		C51A0001A1B2C3D4E5F62000 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				C51A0001A1B2C3D4E5F60001 /* Theme.swift */,
-				C51A0001A1B2C3D4E5F60002 /* AppButton.swift */,
-				C51A0001A1B2C3D4E5F60003 /* AppCard.swift */,
-				C51A0001A1B2C3D4E5F60004 /* AppListRow.swift */,
-				C51A0001A1B2C3D4E5F60005 /* AppToggle.swift */,
-				C51A0001A1B2C3D4E5F60006 /* AppChip.swift */,
-				C51A0001A1B2C3D4E5F60007 /* AppSectionHeader.swift */,
-				C51A0001A1B2C3D4E5F60008 /* AppProgressBar.swift */,
-				C51A0001A1B2C3D4E5F60009 /* AppCounterDisplay.swift */,
-				C51A0001A1B2C3D4E5F6000A /* AppIconButton.swift */,
-				C51A0001A1B2C3D4E5F6000B /* AppLink.swift */,
-				C51A0001A1B2C3D4E5F6000C /* AppFootnote.swift */,
-				C51A0001A1B2C3D4E5F6000D /* UIKitGallery.swift */,
-			);
-			name = UI;
-			path = ZikrAdventure/UI;
 			sourceTree = "<group>";
 		};
 		EC382378519250209060C781 /* Resources */ = {
@@ -149,23 +177,25 @@
 			path = ZikrAdventure/Resources;
 			sourceTree = "<group>";
 		};
-	F468345588BF3C269D80B49A /* App */ = {
-		isa = PBXGroup;
-		children = (
-			075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */,
-			7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */,
-			89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
-			3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */,
-			9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */,
-			F035331B20334C88A813103F /* AppLanguage.swift */,
-			00768630632F412EA667BE6C /* TabItem.swift */,
-			D9FD01AFF4AC4B609154AE6E /* TabsView.swift */,
-			865DF81F8E524334B0DBFB71 /* WebViewManager.swift */,
-		);
-		name = App;
-		path = ZikrAdventure/App;
-		sourceTree = "<group>";
-	};
+		F468345588BF3C269D80B49A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3F18D57949578A36E7E5E519 /* AppContainer.swift */,
+				7B32D1F12308A986F829EDDD /* AppLanguage.swift */,
+				075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */,
+				7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */,
+				89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
+				5199F2D81C17D26698A0F729 /* TabItem.swift */,
+				8604538E420B1572162E1CA0 /* TabsView.swift */,
+				3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */,
+				42C25C219713C97C1B967920 /* WebViewManager.swift */,
+				9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */,
+				1076903B04BCF9AB283DD207 /* Legacy */,
+			);
+			name = App;
+			path = ZikrAdventure/App;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -186,6 +216,9 @@
 				C7C2F873F029703FBD920283 /* FirebaseAuth */,
 				C718E273E7088BC540322CC2 /* FirebaseCore */,
 				0D1A424F741A0D58065BC2BB /* GoogleSignIn */,
+				BEBD42E04E6F931280505317 /* ZikrCore */,
+				A820704A7ACEC290B08C2FB2 /* ZikrDomain */,
+				31218AB9557EBA23DFF5CBD6 /* ZikrPersistence */,
 			);
 			productName = ZikrAdventure;
 			productReference = D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */;
@@ -222,6 +255,7 @@
 			packageReferences = (
 				F66E99DB8F29C4684F12862E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E27CF7DD4A7A062E199A5F89 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				F9957A72A75B21BB35ECD366 /* XCLocalSwiftPackageReference "Packages/ZikrKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 00A49228715CE847FEA5AAF5 /* Products */;
@@ -249,35 +283,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-	5B7378657C9BD1AAB2E2EA00 /* Sources */ = {
-		isa = PBXSourcesBuildPhase;
-		buildActionMask = 2147483647;
-		files = (
-			B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
-			D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,
-			176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
-			8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */,
-			0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */,
-			4FC170122BF34EF582B92F27 /* AppLanguage.swift in Sources */,
-			C906368CC0434683A2EC8C88 /* TabItem.swift in Sources */,
-			62AAE1BEA6C04EBEAEC9EE8C /* TabsView.swift in Sources */,
-			ADCE50D72FB1438FB7558B97 /* WebViewManager.swift in Sources */,
-			C51A0001A1B2C3D4E5F61001 /* Theme.swift in Sources */,
-			C51A0001A1B2C3D4E5F61002 /* AppButton.swift in Sources */,
-			C51A0001A1B2C3D4E5F61003 /* AppCard.swift in Sources */,
-			C51A0001A1B2C3D4E5F61004 /* AppListRow.swift in Sources */,
-			C51A0001A1B2C3D4E5F61005 /* AppToggle.swift in Sources */,
-			C51A0001A1B2C3D4E5F61006 /* AppChip.swift in Sources */,
-			C51A0001A1B2C3D4E5F61007 /* AppSectionHeader.swift in Sources */,
-			C51A0001A1B2C3D4E5F61008 /* AppProgressBar.swift in Sources */,
-			C51A0001A1B2C3D4E5F61009 /* AppCounterDisplay.swift in Sources */,
-			C51A0001A1B2C3D4E5F6100A /* AppIconButton.swift in Sources */,
-			C51A0001A1B2C3D4E5F6100B /* AppLink.swift in Sources */,
-			C51A0001A1B2C3D4E5F6100C /* AppFootnote.swift in Sources */,
-			C51A0001A1B2C3D4E5F6100D /* UIKitGallery.swift in Sources */,
-		);
-		runOnlyForDeploymentPostprocessing = 0;
-	};
+		5B7378657C9BD1AAB2E2EA00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D83D7B4E35BA5B4E43570CAE /* AppButton.swift in Sources */,
+				261129B65CBFDEED83AE5737 /* AppCard.swift in Sources */,
+				7DF363691609EAAD64DB5550 /* AppChip.swift in Sources */,
+				9D6CB256A03596358026F0A1 /* AppContainer.swift in Sources */,
+				F13AB6B9F111A1D91B865B4B /* AppCounterDisplay.swift in Sources */,
+				2355D6A629C5D4EF9A4E642E /* AppFootnote.swift in Sources */,
+				15F1945F273876A7E74CE01B /* AppIconButton.swift in Sources */,
+				12F1B831691488D0C8B764FB /* AppLanguage.swift in Sources */,
+				8249D5D2CAB6FBB9E8CC2CF5 /* AppLink.swift in Sources */,
+				254A31FFC0427B2020B80CA4 /* AppListRow.swift in Sources */,
+				276584ECB29CD410DCF451E1 /* AppProgressBar.swift in Sources */,
+				3DBB6F0C34505FDC7FB6B2DF /* AppSectionHeader.swift in Sources */,
+				4A326BF1457F11747312D0F7 /* AppToggle.swift in Sources */,
+				B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
+				D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,
+				4BCABB675C39202AE8AA2895 /* LegacyWebStateImporter.swift in Sources */,
+				176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
+				755266ACADF78FD39CF5D343 /* TabItem.swift in Sources */,
+				B0157C0481AA6A76AEAA56C7 /* TabsView.swift in Sources */,
+				258DF7D4F87F2EA37840E2FB /* Theme.swift in Sources */,
+				C9AF6DF286B837B5FA7D93BD /* UIKitGallery.swift in Sources */,
+				8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */,
+				125A22A0A7FDD35FCD4A63DE /* WebViewManager.swift in Sources */,
+				0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -489,6 +525,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		F9957A72A75B21BB35ECD366 /* XCLocalSwiftPackageReference "Packages/ZikrKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/ZikrKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		E27CF7DD4A7A062E199A5F89 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -513,6 +556,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E27CF7DD4A7A062E199A5F89 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		31218AB9557EBA23DFF5CBD6 /* ZikrPersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZikrPersistence;
+		};
+		A820704A7ACEC290B08C2FB2 /* ZikrDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZikrDomain;
+		};
+		BEBD42E04E6F931280505317 /* ZikrCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZikrCore;
 		};
 		C718E273E7088BC540322CC2 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

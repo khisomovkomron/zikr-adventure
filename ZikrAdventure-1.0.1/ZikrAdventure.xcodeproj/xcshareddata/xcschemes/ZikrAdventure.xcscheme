@@ -39,7 +39,42 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ZikrCoreTests"
+               BuildableName = "ZikrCoreTests"
+               BlueprintName = "ZikrCoreTests"
+               ReferencedContainer = "container:Packages/ZikrKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ZikrDomainTests"
+               BuildableName = "ZikrDomainTests"
+               BlueprintName = "ZikrDomainTests"
+               ReferencedContainer = "container:Packages/ZikrKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ZikrPersistenceTests"
+               BuildableName = "ZikrPersistenceTests"
+               BlueprintName = "ZikrPersistenceTests"
+               ReferencedContainer = "container:Packages/ZikrKit">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
