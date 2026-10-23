@@ -75,6 +75,9 @@ private struct AppSwitchToggleStyle: ToggleStyle {
             .onTapGesture {
                 configuration.isOn.toggle()
             }
+            .accessibilityAction {
+                configuration.isOn.toggle()
+            }
     }
 }
 
@@ -90,6 +93,9 @@ private struct AppToggleRowStyle: ToggleStyle {
         .frame(minHeight: Theme.Size.toggleRow)
         .contentShape(Rectangle())
         .onTapGesture {
+            configuration.isOn.toggle()
+        }
+        .accessibilityAction {
             configuration.isOn.toggle()
         }
     }

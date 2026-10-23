@@ -102,7 +102,7 @@
 | `a` / `.link` | `AppLink` | `--accent`, без подчёркивания |
 | `.icon-btn` | `AppIconButton` | 44×44, иконка 20 |
 | `.bar` | `AppProgressBar` | |
-| `.counter` | `AppCounterDisplay` | font-size = clamp(54, 17% ширины, 72) |
+| `.counter` | `AppCounterDisplay` | font-size = clamp(54, 17vw экрана, 72) |
 | `.tabbar` / `.tab` | `NativeTabBar` | токены; Dynamic Type ограничен `.large` (~12 pt) |
 
 Не вынесены в общий кит (экранно-специфичны, появятся с миграцией экранов): `.zikr-btn`, `.banner`, `.dialog`, `.sheet`, `.timeline`, `.lvl-badge`, `.auth-provider`.

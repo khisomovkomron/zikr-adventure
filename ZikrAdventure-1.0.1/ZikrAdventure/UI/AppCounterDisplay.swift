@@ -1,19 +1,18 @@
 // AppCounterDisplay.swift
-// Блок .counter: крупная цифра .num (clamp 54px / 17vw / 72px) и подпись .cap.
+// Блок .counter: крупная цифра .num (clamp 54px / 17vw экрана / 72px) и подпись .cap.
 
 import SwiftUI
 
 struct AppCounterDisplay: View {
     let value: Int
     var caption: String
-    @State private var availableWidth: CGFloat = 0
 
     var body: some View {
         VStack(spacing: Theme.Space.s1) {
             Text(formatted)
                 .themeFont(
                     .displayCounter,
-                    pointSize: Theme.Size.clampedCounter(width: availableWidth),
+                    pointSize: Theme.Size.clampedCounter(width: Theme.Size.viewportWidth),
                     scales: false
                 )
                 .foregroundColor(Theme.Color.text)
@@ -26,12 +25,6 @@ struct AppCounterDisplay: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .background(
-            GeometryReader { geo in
-                Color.clear.preference(key: CounterWidthKey.self, value: geo.size.width)
-            }
-        )
-        .onPreferenceChange(CounterWidthKey.self) { availableWidth = $0 }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(caption)
         .accessibilityValue(formatted)
@@ -40,13 +33,6 @@ struct AppCounterDisplay: View {
 
     private var formatted: String {
         NumberFormatter.localizedString(from: NSNumber(value: value), number: .decimal)
-    }
-}
-
-private struct CounterWidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
     }
 }
 

@@ -21,7 +21,8 @@ struct TabsView: View {
             NativeTabBar(
                 selectedTab: $selectedTab,
                 appLanguage: appLanguage,
-                onDebugLongPress: { showsUIKitGallery = true }
+                onDebugLongPress: { showsUIKitGallery = true },
+                debugGalleryPresented: showsUIKitGallery
             )
 #else
             NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
@@ -87,6 +88,7 @@ struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
     @ObservedObject var appLanguage: AppLanguage
     var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -95,7 +97,8 @@ struct NativeTabBar: View {
                     tab: tab,
                     title: appLanguage.title(for: tab),
                     isSelected: selectedTab == tab,
-                    onDebugLongPress: onDebugLongPress
+                    onDebugLongPress: onDebugLongPress,
+                    debugGalleryPresented: debugGalleryPresented
                 ) {
                     selectedTab = tab
                 }
@@ -120,6 +123,7 @@ private struct TabBarButton: View {
     let title: String
     let isSelected: Bool
     var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
     let action: () -> Void
 #if DEBUG
     @State private var ignoreNextSelect = false
@@ -148,16 +152,22 @@ private struct TabBarButton: View {
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
 #if DEBUG
-        .onLongPressGesture(minimumDuration: 1.2) {
-            guard let onDebugLongPress else { return }
-            ignoreNextSelect = true
-            onDebugLongPress()
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 1.2).onEnded { _ in
+                guard let onDebugLongPress else { return }
+                ignoreNextSelect = true
+                onDebugLongPress()
+            }
+        )
+        .onChange(of: debugGalleryPresented) { presented in
+            if !presented {
+                ignoreNextSelect = false
+            }
         }
 #endif
     }
 
     private func selectIfTap() {
-        _ = onDebugLongPress
 #if DEBUG
         if ignoreNextSelect {
             ignoreNextSelect = false

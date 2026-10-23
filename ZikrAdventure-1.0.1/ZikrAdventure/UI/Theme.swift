@@ -128,6 +128,16 @@ enum Theme {
         static func clampedCounter(width: CGFloat) -> CGFloat {
             min(counterMax, max(counterMin, width * counterViewport))
         }
+
+        /// CSS `17vw` — ширина экрана/окна, не контейнера.
+        static var viewportWidth: CGFloat {
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+            if let width = scene?.screen.bounds.width, width > 0 {
+                return width
+            }
+            return UIScreen.main.bounds.width
+        }
     }
 
     // MARK: - Typography
