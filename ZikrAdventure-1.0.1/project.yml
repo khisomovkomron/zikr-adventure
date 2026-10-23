@@ -1,28 +1,53 @@
-# Запасной вариант: описание проекта для XcodeGen (если понадобится пересоздать Xcode-проект).
-#   brew install xcodegen && xcodegen generate
-# Основной вариант — готовый ZikrAdventure.xcodeproj в этой же папке.
+# Описание проекта для XcodeGen: `xcodegen generate` создаёт готовый Xcode-проект.
+# Альтернатива: готовый ZikrAdventure.xcodeproj в этой же папке можно использовать напрямую.
 name: ZikrAdventure
 options:
   deploymentTarget:
     iOS: "16.0"
   developmentLanguage: en
+  bundleIdPrefix: com.komronkhisomov
+  generateEmptyDirectories: true
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 11.0.0
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: 8.0.0
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "1.0.1"
-    CURRENT_PROJECT_VERSION: "2"
+    MARKETING_VERSION: "1.1.1"
+    CURRENT_PROJECT_VERSION: "3"
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: ""
+schemes:
+  ZikrAdventure:
+    build:
+      targets:
+        ZikrAdventure: all
+    run:
+      config: Debug
+    archive:
+      config: Release
 targets:
   ZikrAdventure:
     type: application
     platform: iOS
     sources:
-      - path: ZikrAdventure/App
-      - path: ZikrAdventure/Resources
+      - ZikrAdventure/App
+      - ZikrAdventure/Resources
       - path: ZikrAdventure/Web
         type: folder
         buildPhase: resources
+      - path: ZikrAdventure/GoogleService-Info.plist
+        buildPhase: resources
+        optional: true
+    entitlements:
+      path: ZikrAdventure/ZikrAdventure.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure
@@ -31,3 +56,11 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SUPPORTS_MACCATALYST: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseCore
+      - package: GoogleSignIn
+        product: GoogleSignIn

@@ -13,3 +13,6 @@ __pycache__/
 *.mobileprovision
 *.ipa
 *.dSYM/
+
+# Local Firebase configuration is provided outside source control.
+GoogleService-Info*.plist

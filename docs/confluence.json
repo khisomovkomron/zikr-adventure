@@ -5,7 +5,11 @@
   "pages": {
     "overview": "229378",
     "workflow": "196809",
-    "release-1.0.1": "229413"
+    "release-1.0.1": "229413",
+    "auth-1.1.0-spec": "458754",
+    "auth-1.1.0-setup": "524289",
+    "auth-1.1.0-ux": "491522",
+    "release-1.1.0": "589825"
   },
   "private": true
 }
