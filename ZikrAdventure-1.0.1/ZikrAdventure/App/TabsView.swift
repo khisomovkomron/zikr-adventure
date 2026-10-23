@@ -66,6 +66,7 @@ struct WebHostView: UIViewControllerRepresentable {
 }
 
 /// Нижняя панель вкладок. Сестра web view в VStack, не overlay.
+/// Цвета — CSS-переменные веб-таббара: --surface, --divider, --accent, --text2.
 struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
     @ObservedObject var appLanguage: AppLanguage
@@ -73,30 +74,53 @@ struct NativeTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(TabItem.allCases) { tab in
-                Button {
+                TabBarButton(
+                    tab: tab,
+                    title: appLanguage.title(for: tab),
+                    isSelected: selectedTab == tab
+                ) {
                     selectedTab = tab
-                } label: {
-                    VStack(spacing: 2) {
-                        Image(systemName: tab.systemImage)
-                            .font(.system(size: 21))
-                        Text(appLanguage.title(for: tab))
-                            .font(.system(size: 10))
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(selectedTab == tab ? Color.accentColor : Color.secondary)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel(appLanguage.title(for: tab))
             }
         }
         .frame(height: 49)
         .padding(.top, 4)
         .background(
-            Color(uiColor: .systemBackground)
-                .shadow(color: Color.black.opacity(0.12), radius: 0, x: 0, y: -0.5)
+            Color("TabBarSurface")
                 .ignoresSafeArea(edges: .bottom)
         )
+        .overlay(alignment: .top) {
+            Color("TabBarDivider").frame(height: 1)
+        }
+    }
+}
+
+private struct TabBarButton: View {
+    let tab: TabItem
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 2) {
+                Image(tab.iconName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 23, height: 23)
+                Text(title)
+                    .font(.system(size: 10))
+                    .fontWeight(isSelected ? .bold : .regular)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            .frame(maxWidth: .infinity)
+            .foregroundColor(isSelected ? Color.accentColor : Color("TabBarUnselected"))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
     }
 }
