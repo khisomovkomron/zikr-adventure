@@ -20,8 +20,9 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
     private let authCoordinator = AuthCoordinator()
-    private var isWebViewLoaded = false
+    var isWebViewLoaded = false
     var appLanguage: AppLanguage?
+    weak var webViewManager: WebViewManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,6 +138,10 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
                let titles = body["tabs"] as? [String: String] {
                 appLanguage?.update(lang: lang, titles: titles)
             }
+        case "tab.change":
+            if let tabID = body["tab"] as? String {
+                webViewManager?.notifyTabChange(tabID)
+            }
         default:
             break
         }
@@ -240,6 +245,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         isWebViewLoaded = true
+        webViewManager?.webViewDidLoad()
     }
     
     // MARK: - Переключение вкладок

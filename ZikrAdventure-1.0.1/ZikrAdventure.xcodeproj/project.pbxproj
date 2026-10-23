@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C906368CC0434683A2EC8C88 = {isa = PBXBuildFile; fileRef = 00768630632F412EA667BE6C; };
-		62AAE1BEA6C04EBEAEC9EE8C = {isa = PBXBuildFile; fileRef = D9FD01AFF4AC4B609154AE6E; };
-		85C0511F15F64CB29CCCE147 = {isa = PBXBuildFile; fileRef = C999E567CFA24DB3B04B7F9C; };
-		ADCE50D72FB1438FB7558B97 = {isa = PBXBuildFile; fileRef = 865DF81F8E524334B0DBFB71; };
-		4FC170122BF34EF582B92F27 = {isa = PBXBuildFile; fileRef = F035331B20334C88A813103F; };
-		004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
+	C906368CC0434683A2EC8C88 = {isa = PBXBuildFile; fileRef = 00768630632F412EA667BE6C; };
+	62AAE1BEA6C04EBEAEC9EE8C = {isa = PBXBuildFile; fileRef = D9FD01AFF4AC4B609154AE6E; };
+	ADCE50D72FB1438FB7558B97 = {isa = PBXBuildFile; fileRef = 865DF81F8E524334B0DBFB71; };
+	4FC170122BF34EF582B92F27 = {isa = PBXBuildFile; fileRef = F035331B20334C88A813103F; };
+	004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
 		0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */; };
 		1453116C29CF667B2D86180F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED1F2DFE8F16699E39A9CC42 /* GoogleService-Info.plist */; };
 		176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89307DA988A5692A81F80F39 /* ProgressFileStore.swift */; };
@@ -43,12 +42,11 @@
 		D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ZikrAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E772EC8A4A2166115EC24D70 /* tg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tg; path = tg.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED1F2DFE8F16699E39A9CC42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FFC8F43AC563EDFCAFC9AC0F /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		00768630632F412EA667BE6C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
-		D9FD01AFF4AC4B609154AE6E = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
-		C999E567CFA24DB3B04B7F9C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContentView.swift; sourceTree = "<group>"; };
-		865DF81F8E524334B0DBFB71 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
-		F035331B20334C88A813103F = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+	FFC8F43AC563EDFCAFC9AC0F /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+	00768630632F412EA667BE6C = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+	D9FD01AFF4AC4B609154AE6E = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+	865DF81F8E524334B0DBFB71 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
+	F035331B20334C88A813103F = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,19 +101,23 @@
 			path = ZikrAdventure/Resources;
 			sourceTree = "<group>";
 		};
-		F468345588BF3C269D80B49A /* App */ = {
-			isa = PBXGroup;
-			children = (
-				075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */,
-				7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */,
-				89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
-				3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */,
-				9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */,
-			);
-			name = App;
-			path = ZikrAdventure/App;
-			sourceTree = "<group>";
-		};
+	F468345588BF3C269D80B49A /* App */ = {
+		isa = PBXGroup;
+		children = (
+			075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */,
+			7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */,
+			89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
+			3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */,
+			9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */,
+			F035331B20334C88A813103F /* AppLanguage.swift */,
+			00768630632F412EA667BE6C /* TabItem.swift */,
+			D9FD01AFF4AC4B609154AE6E /* TabsView.swift */,
+			865DF81F8E524334B0DBFB71 /* WebViewManager.swift */,
+		);
+		name = App;
+		path = ZikrAdventure/App;
+		sourceTree = "<group>";
+	};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -199,18 +201,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5B7378657C9BD1AAB2E2EA00 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
-				D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,
-				176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
-				8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */,
-				0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+	5B7378657C9BD1AAB2E2EA00 /* Sources */ = {
+		isa = PBXSourcesBuildPhase;
+		buildActionMask = 2147483647;
+		files = (
+			B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
+			D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,
+			176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
+			8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */,
+			0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */,
+			4FC170122BF34EF582B92F27 /* AppLanguage.swift in Sources */,
+			C906368CC0434683A2EC8C88 /* TabItem.swift in Sources */,
+			62AAE1BEA6C04EBEAEC9EE8C /* TabsView.swift in Sources */,
+			ADCE50D72FB1438FB7558B97 /* WebViewManager.swift in Sources */,
+		);
+		runOnlyForDeploymentPostprocessing = 0;
+	};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
