@@ -54,7 +54,11 @@ final class AppContainer: ObservableObject {
     /// Существующий zikr-state.json не переписывается.
     func bootstrap() async {
         guard Self.isWebMirrorEnabled else { return }
-        let sources = legacyProgressFileURL.map { LegacySources.progressFile(at: $0) } ?? LegacySources()
+        // ZKR-61: чтение progress.json — вне главного потока.
+        let url = legacyProgressFileURL
+        let sources = await Task.detached(priority: .utility) {
+            url.map { LegacySources.progressFile(at: $0) } ?? LegacySources()
+        }.value
         await stateStore.bootstrap(sources)
     }
 

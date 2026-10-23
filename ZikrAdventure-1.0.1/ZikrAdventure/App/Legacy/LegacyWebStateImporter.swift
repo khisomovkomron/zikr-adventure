@@ -24,7 +24,7 @@ enum LegacyWebStateImporter {
         let v1: String?
     }
 
-    /// live != nil → mirror.enqueue(live); иначе → mirror.enqueueFallback(v2, v1, progress.json),
+    /// live != nil → mirror.enqueue(live); иначе → mirror.enqueueFallback(progress.json URL, v2, v1),
     /// что приводит к store.bootstrap (существующий файл не перезаписывается).
     static func capture(from webView: WKWebView, into mirror: WebStateMirror?) {
         guard AppContainer.isWebMirrorEnabled, let mirror else { return }
@@ -35,11 +35,12 @@ enum LegacyWebStateImporter {
             if let live = payload.live {
                 mirror.enqueue(live)
             } else {
-                var sources = AppContainer.legacyProgressFileURL()
-                    .map { LegacySources.progressFile(at: $0) } ?? LegacySources()
-                sources.localStorageV2 = payload.v2
-                sources.localStorageV1 = payload.v1
-                mirror.enqueueFallback(sources)
+                // ZKR-61: progress.json читается в фоновом обработчике зеркала, не на главном потоке.
+                mirror.enqueueFallback(
+                    progressFileURL: AppContainer.legacyProgressFileURL(),
+                    localStorageV2: payload.v2,
+                    localStorageV1: payload.v1
+                )
             }
         }
     }

@@ -24,7 +24,14 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     var isWebViewLoaded = false
     var appLanguage: AppLanguage?
     weak var webViewManager: WebViewManager?
-    var stateMirror: WebStateMirror?
+    /// ZKR-61: если зеркало подключено уже после загрузки страницы, текущий снимок
+    /// снимается сразу (replay), а не ждёт следующего "save".
+    var stateMirror: WebStateMirror? {
+        didSet {
+            guard stateMirror !== oldValue, isWebViewLoaded, let webView else { return }
+            LegacyWebStateImporter.capture(from: webView, into: stateMirror)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
