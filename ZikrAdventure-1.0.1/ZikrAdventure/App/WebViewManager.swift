@@ -1,7 +1,6 @@
 // WebViewManager.swift
 // Менеджер единственного экземпляра WKWebView, который живёт на протяжении всей сессии приложения.
-// Решает проблему множественных экземпляров (множественные AuthCoordinator, divergence состояния).
-// WebView создаётся один раз и переиспользуется между вкладками.
+// WebView создаётся один раз при инициализации менеджера.
 
 import UIKit
 import WebKit
@@ -10,25 +9,23 @@ import WebKit
 class WebViewManager: ObservableObject {
     static let shared = WebViewManager()
     
-    private(set) var viewController: WebAppViewController?
-    private var isInitialized = false
-    private var pendingSelectTab: String?
+    let viewController: WebAppViewController
     private var tabSelectionHandler: ((String) -> Void)?
+    private var pendingSelectTab: String?
     
-    private init() {}
+    private init() {
+        self.viewController = WebAppViewController()
+    }
     
-    /// Инициализирует WebAppViewController один раз
-    func initialize(appLanguage: AppLanguage) {
-        guard !isInitialized else { return }
-        viewController = WebAppViewController()
-        viewController?.appLanguage = appLanguage
-        viewController?.webViewManager = self
-        isInitialized = true
+    /// Устанавливает AppLanguage после инициализации
+    func setAppLanguage(_ appLanguage: AppLanguage) {
+        viewController.appLanguage = appLanguage
     }
     
     /// Устанавливает обработчик для изменений вкладки из веба
     func setTabSelectionHandler(_ handler: @escaping (String) -> Void) {
         tabSelectionHandler = handler
+        viewController.webViewManager = self
     }
     
     /// Вызывается вебом когда он переключает вкладку
@@ -38,9 +35,8 @@ class WebViewManager: ObservableObject {
     
     /// Переключает веб-приложение на указанную вкладку
     func selectTab(_ tabID: String) {
-        guard let controller = viewController else { return }
-        if controller.isWebViewLoaded {
-            controller.selectTab(tabID)
+        if viewController.isWebViewLoaded {
+            viewController.selectTab(tabID)
         } else {
             pendingSelectTab = tabID
         }
@@ -49,7 +45,7 @@ class WebViewManager: ObservableObject {
     /// Вызывается когда веб-страница загружена
     func webViewDidLoad() {
         if let pending = pendingSelectTab {
-            viewController?.selectTab(pending)
+            viewController.selectTab(pending)
             pendingSelectTab = nil
         }
     }

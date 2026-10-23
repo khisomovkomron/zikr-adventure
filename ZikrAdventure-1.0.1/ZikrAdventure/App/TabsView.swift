@@ -1,6 +1,6 @@
 // TabsView.swift
 // Главная структура приложения с нативной навигацией по вкладкам.
-// WebView живёт вне TabView и управляется напрямую через onChange selection.
+// WebView занимает весь экран, custom tab bar внизу.
 
 import SwiftUI
 
@@ -10,49 +10,72 @@ struct TabsView: View {
     @StateObject private var webViewManager = WebViewManager.shared
     
     var body: some View {
-        ZStack {
-            // WebView всегда присутствует, под TabView
+        ZStack(alignment: .bottom) {
+            // WebView занимает весь экран
             WebHostView()
+                .environmentObject(appLanguage)
                 .ignoresSafeArea()
             
-            // Прозрачный TabView для навигации
-            TabView(selection: $selectedTab) {
-                ForEach(TabItem.allCases) { tab in
-                    Color.clear
-                        .tabItem {
-                            Label(appLanguage.title(for: tab), systemImage: tab.systemImage)
-                        }
-                        .tag(tab)
-                }
-            }
-            .tint(Color("AccentColor"))
+            // Custom tab bar внизу
+            CustomTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
         }
-        .environmentObject(appLanguage)
-        .onChange(of: selectedTab) { _, newTab in
+        .onChange(of: selectedTab) { newTab in
             webViewManager.selectTab(newTab.webID)
         }
         .onAppear {
-            webViewManager.initialize(appLanguage: appLanguage)
+            webViewManager.setAppLanguage(appLanguage)
             webViewManager.setTabSelectionHandler { tabID in
                 if let tab = TabItem.allCases.first(where: { $0.webID == tabID }) {
                     selectedTab = tab
                 }
             }
-            // Выбираем начальную вкладку
             webViewManager.selectTab(selectedTab.webID)
         }
     }
 }
 
-/// Хост для WebView, живёт постоянно
+/// Хост для WebView, всегда показывает один shared controller
 struct WebHostView: UIViewControllerRepresentable {
-    @StateObject private var webViewManager = WebViewManager.shared
+    @EnvironmentObject var appLanguage: AppLanguage
     
     func makeUIViewController(context: Context) -> WebAppViewController {
-        return webViewManager.viewController ?? WebAppViewController()
+        return WebViewManager.shared.viewController
     }
     
     func updateUIViewController(_ controller: WebAppViewController, context: Context) {
-        // Ничего не делаем - управление через WebViewManager
+        // WebViewManager управляет всем, ничего здесь не делаем
+    }
+}
+
+/// Custom tab bar, выглядит как native
+struct CustomTabBar: View {
+    @Binding var selectedTab: TabItem
+    let appLanguage: AppLanguage
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(TabItem.allCases) { tab in
+                Button {
+                    selectedTab = tab
+                } label: {
+                    VStack(spacing: 2) {
+                        Image(systemName: tab.systemImage)
+                            .font(.system(size: 23))
+                        Text(appLanguage.title(for: tab))
+                            .font(.system(size: 10))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(selectedTab == tab ? Color("AccentColor") : .secondary)
+                    .fontWeight(selectedTab == tab ? .semibold : .regular)
+                }
+            }
+        }
+        .frame(height: 49)
+        .padding(.bottom, 0)
+        .background(
+            Color(uiColor: .systemBackground)
+                .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: -0.5)
+                .ignoresSafeArea(edges: .bottom)
+        )
     }
 }
