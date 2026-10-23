@@ -414,7 +414,8 @@ uz: {
   "a11y.button": "Zikr tugmasi. Hisobni bittaga oshirish", "a11y.correct": "Oxirgi bosishni tuzatish", "a11y.counter": "Hisob: %1", "a11y.unlock": "Bob ochildi: %1",
   "level.of": "%1-daraja / %2", "level.toNext": "Keyingi darajagacha: %1", "level.done": "Barcha darajalar yakunlandi", "level.head": "%1-daraja · %2", "zikr.reset": "Nolga", "reset.title": "Hisob nolga tushirilsinmi?", "reset.msg": "Umumiy hisob 0 bo‘ladi. Kunlik tarix saqlanadi.", "reset.counter": "Faqat hisob — boblar ochiq qoladi", "reset.all": "Hisob va boblar — yo‘lni qaytadan boshlash",
   "set.saveDevice": "Natija faqat shu qurilmada saqlanadi", "info.aboutTextApp": "ZIKR ADVENTURE — «Astag‘firulloh» zikri hisoblagichi va Payg‘ambar ﷺ davridagi Makka va Madina bo‘ylab sayohat: 7 daraja va Siyratning 19 bobi.", "info.privacyTextApp": "Hisob, tarix, ochilgan boblar va sozlamalar faqat shu qurilmada saqlanadi. Google yoki Apple orqali kirganda ism, email va foydalanuvchi IDsi Firebase Auth-ga yuboriladi — faqat hisob uchun ishlatiladi. Hisobni Sozlamalar → Hisob bo\u2018limida o\u2018chirishingiz mumkin. Reklama va analitika yo\u2018q. O\u2018chirish: Sozlamalar → «Barcha natijani o\u2018chirish» yoki ilovani o\u2018chiring.",
-  "preview.badge": "Oldindan ko‘rish"
+  "preview.badge": "Oldindan ko\u2018rish",
+  "auth.title": "Hisob", "auth.guest": "Kirish majburiy emas", "auth.intro": "Google yoki Apple orqali kiring. Hisoblagichni hisob ochmasdan ham ishlatish mumkin.", "auth.local": "Hisob va tarix shu qurilmada saqlanadi. Kirish hozircha bulutda saqlashni o\u2018z ichiga olmaydi.", "auth.apple": "Apple orqali kirish", "auth.google": "Google orqali kirish", "auth.loading": "Kirish bajarilmoqda…", "auth.signed": "Siz hisobga kirdingiz", "auth.out": "Chiqish", "auth.delete": "Hisobni o\u2018chirish", "auth.error": "Kirish amalga oshmadi. Yana urinib ko\u2018ring.", "auth.offline": "Kirish uchun internet kerak. Hisoblagich internetsiz ishlaydi.", "auth.retry": "Qaytadan urinish", "auth.outTitle": "Hisobdan chiqasizmi?", "auth.outBody": "Hisobingiz va tarix shu qurilmada qoladi.", "auth.deleteTitle": "Hisob o\u2018chirilsinmi?", "auth.deleteBody": "Foydalanuvchi hisobi o\u2018chiriladi. Hisoblagich va tarix qurilmada qoladi. Ularni o\u2018chirish uchun sozlamalarda natijani tozalang.", "auth.deleting": "Hisob o\u2018chirilmoqda…", "auth.reauth": "Hisobni o\u2018chirishni tasdiqlash uchun yana kirish talab qilinadi.", "auth.providerGoogle": "Google", "auth.providerApple": "Apple", "auth.accountExists": "Bu manzil bilan hisob allaqachon mavjud. Birinchi marta ishlatgan yo\u2018lingiz bilan kiring."
 },
 tg: {
   "tab.zikr": "Зикр", "tab.map": "Харита", "tab.path": "Роҳи Сийра", "tab.info": "Маълумот", "tab.settings": "Танзимот",
@@ -827,7 +828,7 @@ const L = () => state.settings.lang;
 const locale = () => (LANGS.find((l) => l[0] === L()) || LANGS[0])[2];
 const fmt = (n) => { try { return n.toLocaleString(locale()); } catch (e) { return String(n); } };
 function T(key, ...args) {
-  const s = (UI[L()] && UI[L()][key]) ?? UI.ru[key] ?? key;
+  const s = (UI[L()] && UI[L()][key]) ?? UI.en[key] ?? key;
   return s.replace(/%(\d)/g, (_, i) => { const v = args[+i - 1]; return typeof v === "number" ? fmt(v) : String(v ?? ""); });
 }
 const tr = (obj) => (obj ? obj[L()] || obj.ru || "" : "");
