@@ -19,6 +19,8 @@ targets:
     platform: iOS
     sources:
       - path: ZikrAdventure/App
+      - path: ZikrAdventure/Localizable.xcstrings
+        type: file
       - path: ZikrAdventure/Resources
       - path: ZikrAdventure/Web
         type: folder

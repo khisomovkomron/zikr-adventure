@@ -15,6 +15,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
+    private var pendingSectionID: String?
+    private var isWebViewLoaded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +101,46 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     /// Прогресс не теряется: он хранится в хранилище страницы и в файле на устройстве.
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         webView.reload()
+    }
+    
+    /// Вызывается после завершения загрузки страницы.
+    /// Если есть отложенное переключение раздела, выполняем его.
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        isWebViewLoaded = true
+        if let sectionID = pendingSectionID {
+            executeSectionSwitch(sectionID)
+            pendingSectionID = nil
+        }
+    }
+    
+    // MARK: - Переключение разделов
+    
+    /// Переключает веб-приложение на указанный раздел (вкладку).
+    /// Если страница ещё не загружена, команда будет выполнена после загрузки.
+    func showSection(_ sectionID: String) {
+        if isWebViewLoaded {
+            executeSectionSwitch(sectionID)
+        } else {
+            pendingSectionID = sectionID
+        }
+    }
+    
+    private func executeSectionSwitch(_ sectionID: String) {
+        let script = """
+        (function() {
+            const sections = document.querySelectorAll('.screen');
+            sections.forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('\(sectionID)');
+            if (target) target.classList.add('active');
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, idx) => {
+                const isActive = ['s-zikr','s-map','s-path','s-info','s-settings'][idx] === '\(sectionID)';
+                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        })();
+        """
+        webView?.evaluateJavaScript(script)
     }
 }
 
