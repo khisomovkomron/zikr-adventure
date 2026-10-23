@@ -60,6 +60,11 @@ final class WebViewManager {
         }
     }
 
+    /// ZKR-48: показан ли веб-онбординг (#onb). nil — страница не загружена или ответ не получен.
+    func isOnboardingVisible() async -> Bool? {
+        await viewController.isOnboardingVisible()
+    }
+
     func webViewDidLoad() {
         if let pending = pendingSelectTab {
             viewController.selectTab(pending)

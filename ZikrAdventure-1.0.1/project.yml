@@ -35,6 +35,8 @@ schemes:
         - package: ZikrKit/ZikrCoreTests
         - package: ZikrKit/ZikrDomainTests
         - package: ZikrKit/ZikrPersistenceTests
+        - package: ZikrKit/ZikrContentTests
+        - ZikrAdventureUITests
     archive:
       config: Release
 targets:
@@ -43,6 +45,7 @@ targets:
     platform: iOS
     sources:
       - ZikrAdventure/App
+      - ZikrAdventure/Features
       - ZikrAdventure/UI
       - ZikrAdventure/Resources
       - path: ZikrAdventure/Web
@@ -79,3 +82,19 @@ targets:
         product: ZikrDomain
       - package: ZikrKit
         product: ZikrPersistence
+      - package: ZikrKit
+        product: ZikrContent
+  ZikrAdventureUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    # XCTest/XCUIAutomation в текущем Xcode собраны под iOS 17; приложение остаётся iOS 16.
+    deploymentTarget: "17.0"
+    sources:
+      - ZikrAdventureUITests
+    dependencies:
+      - target: ZikrAdventure
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"

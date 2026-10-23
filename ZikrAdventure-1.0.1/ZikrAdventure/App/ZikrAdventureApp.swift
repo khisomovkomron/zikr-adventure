@@ -25,7 +25,7 @@ struct ZikrAdventureApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabsView()
+            TabsView(container: container)
                 .background(Theme.Color.bg.ignoresSafeArea())
                 .task {
                     // ZKR-49: нативный слой данных в режиме «тени» (только зеркало веб-состояния).

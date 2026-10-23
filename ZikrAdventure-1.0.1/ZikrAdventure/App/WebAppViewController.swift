@@ -261,6 +261,17 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     
     // MARK: - Переключение вкладок
     
+    /// ZKR-48: показан ли онбординг (#onb перекрывает все вкладки, включая «Инфо»).
+    /// nil — страница ещё не загружена или скрипт не выполнился.
+    func isOnboardingVisible() async -> Bool? {
+        guard isWebViewLoaded, let webView else { return nil }
+        do {
+            return try await webView.evaluateJavaScript("document.getElementById('onb') !== null") as? Bool
+        } catch {
+            return nil
+        }
+    }
+
     /// Переключает веб-приложение на указанную вкладку через selectTab()
     func selectTab(_ tabID: String) {
         guard isWebViewLoaded else { return }

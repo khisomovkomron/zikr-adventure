@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
+		06B526B22192EEB958CD7838 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4D77D12429DE1E637F6DB /* InfoView.swift */; };
+		0DDD3071B337FB93E87E02CD /* InfoIcon+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0253D58DBC2E14A7D8FABA11 /* InfoIcon+Image.swift */; };
 		0FFF7234F347A47CA1C90DBD /* ZikrAdventureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */; };
 		125A22A0A7FDD35FCD4A63DE /* WebViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C25C219713C97C1B967920 /* WebViewManager.swift */; };
 		12F1B831691488D0C8B764FB /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32D1F12308A986F829EDDD /* AppLanguage.swift */; };
@@ -31,6 +33,7 @@
 		7DF363691609EAAD64DB5550 /* AppChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917547D8598714CBEEEB68B /* AppChip.swift */; };
 		8249D5D2CAB6FBB9E8CC2CF5 /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3895782D77C280142D04CE71 /* AppLink.swift */; };
 		8B60DF43E076F794B352988A /* WebAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */; };
+		900C83DD9FEA967923B0E77E /* ZikrContent in Frameworks */ = {isa = PBXBuildFile; productRef = F1FD6298312B5B816B1B5CA6 /* ZikrContent */; };
 		9026D8E2F259EF9DFD782E15 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0D1A424F741A0D58065BC2BB /* GoogleSignIn */; };
 		9D6CB256A03596358026F0A1 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F18D57949578A36E7E5E519 /* AppContainer.swift */; };
 		9DE6162EE4244967F48D1244 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = AD80DF339D16E73922F8BADB /* Web */; };
@@ -38,13 +41,27 @@
 		B0157C0481AA6A76AEAA56C7 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8604538E420B1572162E1CA0 /* TabsView.swift */; };
 		B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */; };
 		C9AF6DF286B837B5FA7D93BD /* UIKitGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */; };
+		D21DD1012E160712823F1143 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD7D020083A131AD76C5A63 /* InfoViewModel.swift */; };
 		D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */; };
+		D7E22212CCA24496490F13D5 /* InfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C8ED4C167CECDD3307059 /* InfoSheetView.swift */; };
 		D83D7B4E35BA5B4E43570CAE /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C084CBF48953863BC43768 /* AppButton.swift */; };
 		DB34C77F08A11DB0D86FDC9F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */; };
+		E177559B5732E645C51294A2 /* InfoScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EEE3390942D00397A9DA4 /* InfoScreenUITests.swift */; };
 		F13AB6B9F111A1D91B865B4B /* AppCounterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3D40A4B31CF9E10ED2871B02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F1E3BF6747B248C1D81F55A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA9B5BFCF4161C935EFDD515;
+			remoteInfo = ZikrAdventure;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		0253D58DBC2E14A7D8FABA11 /* InfoIcon+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoIcon+Image.swift"; sourceTree = "<group>"; };
 		075F7D1DE13F7FDC857EF5E0 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		0917547D8598714CBEEEB68B /* AppChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChip.swift; sourceTree = "<group>"; };
 		3367E55A54EDE56D3E57E0E1 /* WebAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAppViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +70,7 @@
 		3B2007D82585A4864A1A1CFB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3F18D57949578A36E7E5E519 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
 		42C25C219713C97C1B967920 /* WebViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewManager.swift; sourceTree = "<group>"; };
+		4CD7D020083A131AD76C5A63 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		4D84C20890E364F3E090D337 /* AppFootnote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFootnote.swift; sourceTree = "<group>"; };
 		4EB236E0535A4DD64DC48169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5199F2D81C17D26698A0F729 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
@@ -64,18 +82,22 @@
 		7B32D1F12308A986F829EDDD /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		815B9398F62ABFE0C968C185 /* AppProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressBar.swift; sourceTree = "<group>"; };
 		8604538E420B1572162E1CA0 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+		86A4D77D12429DE1E637F6DB /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		89307DA988A5692A81F80F39 /* ProgressFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressFileStore.swift; sourceTree = "<group>"; };
 		8B125EF2086EA70E861F0FAA /* AppListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListRow.swift; sourceTree = "<group>"; };
 		8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCounterDisplay.swift; sourceTree = "<group>"; };
 		9460A43DF58A59EEE7B2EE4E /* ZikrAdventureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZikrAdventureApp.swift; sourceTree = "<group>"; };
 		957A74699864AD1E0C380D0D /* AppCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCard.swift; sourceTree = "<group>"; };
 		A07546BD01D4CD5C26E82C9D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A7B22741E0B3FFC715FAC804 /* ZikrAdventureUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ZikrAdventureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA7A6F2050B36440B20DBF99 /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ABCFBA24101A344784BD2E8B /* LegacyWebStateImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyWebStateImporter.swift; sourceTree = "<group>"; };
 		AD80DF339D16E73922F8BADB /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Web; path = ZikrAdventure/Web; sourceTree = SOURCE_ROOT; };
+		AE6EEE3390942D00397A9DA4 /* InfoScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoScreenUITests.swift; sourceTree = "<group>"; };
 		B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C5B414999B3821AF1D543EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ZikrAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D88C8ED4C167CECDD3307059 /* InfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheetView.swift; sourceTree = "<group>"; };
 		E772EC8A4A2166115EC24D70 /* tg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tg; path = tg.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED1F2DFE8F16699E39A9CC42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitGallery.swift; sourceTree = "<group>"; };
@@ -94,6 +116,7 @@
 				A3E374E80FE29141FE5A77B2 /* ZikrCore in Frameworks */,
 				22DA1809BF6D02C808CCFB15 /* ZikrDomain in Frameworks */,
 				75B516E2FE6486A9D4E8C5DF /* ZikrPersistence in Frameworks */,
+				900C83DD9FEA967923B0E77E /* ZikrContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */,
+				A7B22741E0B3FFC715FAC804 /* ZikrAdventureUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,12 +182,42 @@
 			children = (
 				AD80DF339D16E73922F8BADB /* Web */,
 				F468345588BF3C269D80B49A /* App */,
+				A21D9836F74CDC7EC2750F68 /* Features */,
 				02FE24FA8401F648438D82AD /* Packages */,
 				EC382378519250209060C781 /* Resources */,
 				30B66CF35152129F588CBE71 /* UI */,
 				6435DE611D15E1A04EDECDA8 /* ZikrAdventure */,
+				E1D77B13D7D8C42D6857FD11 /* ZikrAdventureUITests */,
 				00A49228715CE847FEA5AAF5 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		8C77CC72ACC2A916D837C5CF /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				0253D58DBC2E14A7D8FABA11 /* InfoIcon+Image.swift */,
+				D88C8ED4C167CECDD3307059 /* InfoSheetView.swift */,
+				86A4D77D12429DE1E637F6DB /* InfoView.swift */,
+				4CD7D020083A131AD76C5A63 /* InfoViewModel.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		A21D9836F74CDC7EC2750F68 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				8C77CC72ACC2A916D837C5CF /* Info */,
+			);
+			name = Features;
+			path = ZikrAdventure/Features;
+			sourceTree = "<group>";
+		};
+		E1D77B13D7D8C42D6857FD11 /* ZikrAdventureUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AE6EEE3390942D00397A9DA4 /* InfoScreenUITests.swift */,
+			);
+			path = ZikrAdventureUITests;
 			sourceTree = "<group>";
 		};
 		EC382378519250209060C781 /* Resources */ = {
@@ -199,6 +253,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		644992A2305B847B580DAE33 /* ZikrAdventureUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1EFA1A44849EC5D4DB63120E /* Build configuration list for PBXNativeTarget "ZikrAdventureUITests" */;
+			buildPhases = (
+				267BB3A094E26C2C05357C37 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C792FDF6D85A01965213A136 /* PBXTargetDependency */,
+			);
+			name = ZikrAdventureUITests;
+			packageProductDependencies = (
+			);
+			productName = ZikrAdventureUITests;
+			productReference = A7B22741E0B3FFC715FAC804 /* ZikrAdventureUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		EA9B5BFCF4161C935EFDD515 /* ZikrAdventure */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E0BC6B935A59495F6A1EAEC0 /* Build configuration list for PBXNativeTarget "ZikrAdventure" */;
@@ -219,6 +291,7 @@
 				BEBD42E04E6F931280505317 /* ZikrCore */,
 				A820704A7ACEC290B08C2FB2 /* ZikrDomain */,
 				31218AB9557EBA23DFF5CBD6 /* ZikrPersistence */,
+				F1FD6298312B5B816B1B5CA6 /* ZikrContent */,
 			);
 			productName = ZikrAdventure;
 			productReference = D179A1C0BA03E418B1B1896D /* ZikrAdventure.app */;
@@ -233,6 +306,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					644992A2305B847B580DAE33 = {
+						DevelopmentTeam = "";
+						TestTargetID = EA9B5BFCF4161C935EFDD515;
+					};
 					EA9B5BFCF4161C935EFDD515 = {
 						DevelopmentTeam = "";
 					};
@@ -263,6 +340,7 @@
 			projectRoot = "";
 			targets = (
 				EA9B5BFCF4161C935EFDD515 /* ZikrAdventure */,
+				644992A2305B847B580DAE33 /* ZikrAdventureUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -283,6 +361,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		267BB3A094E26C2C05357C37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E177559B5732E645C51294A2 /* InfoScreenUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5B7378657C9BD1AAB2E2EA00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,6 +388,10 @@
 				4A326BF1457F11747312D0F7 /* AppToggle.swift in Sources */,
 				B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
 				D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,
+				0DDD3071B337FB93E87E02CD /* InfoIcon+Image.swift in Sources */,
+				D7E22212CCA24496490F13D5 /* InfoSheetView.swift in Sources */,
+				06B526B22192EEB958CD7838 /* InfoView.swift in Sources */,
+				D21DD1012E160712823F1143 /* InfoViewModel.swift in Sources */,
 				4BCABB675C39202AE8AA2895 /* LegacyWebStateImporter.swift in Sources */,
 				176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
 				755266ACADF78FD39CF5D343 /* TabItem.swift in Sources */,
@@ -315,6 +405,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C792FDF6D85A01965213A136 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA9B5BFCF4161C935EFDD515 /* ZikrAdventure */;
+			targetProxy = 3D40A4B31CF9E10ED2871B02 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DB9274BE411AC7CC9B6C3C73 /* InfoPlist.strings */ = {
@@ -351,6 +449,24 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		29FF65D7AB5AE5796B468B8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.komronkhisomov.zikradventure.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = ZikrAdventure;
 			};
 			name = Release;
 		};
@@ -435,6 +551,24 @@
 			};
 			name = Release;
 		};
+		799F6AA053FD50C25D5753AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.komronkhisomov.zikradventure.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = ZikrAdventure;
+			};
+			name = Debug;
+		};
 		B35F7219ED5DE0FF08525C92 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -505,6 +639,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1EFA1A44849EC5D4DB63120E /* Build configuration list for PBXNativeTarget "ZikrAdventureUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				799F6AA053FD50C25D5753AE /* Debug */,
+				29FF65D7AB5AE5796B468B8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		21A3C8B0EDAD5C2E323A6058 /* Build configuration list for PBXProject "ZikrAdventure" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -578,6 +721,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F66E99DB8F29C4684F12862E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		F1FD6298312B5B816B1B5CA6 /* ZikrContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZikrContent;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

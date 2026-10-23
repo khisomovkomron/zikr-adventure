@@ -32,6 +32,8 @@ enum Theme {
         static let warning = SwiftUI.Color("Warning")
         static let locked = SwiftUI.Color("Locked")
         static let scrim = SwiftUI.Color("Scrim")
+        /// `.scrim` листов index.html: rgba(10,14,22,.45) в светлой и тёмной теме
+        static let sheetScrim = SwiftUI.Color("SheetScrim")
         static let mapSea = SwiftUI.Color("Sea")
         static let mapLand = SwiftUI.Color("Land")
         static let mapCountry = SwiftUI.Color("Country")
@@ -74,6 +76,20 @@ enum Theme {
         static let controlX: CGFloat = 14
         static let groupHeaderTop: CGFloat = 22
         static let sectionTitleBottom: CGFloat = 6
+        /// `.topbar` padding 10 16 6, min-height 52
+        static let topbarTop: CGFloat = 10
+        static let topbarBottom: CGFloat = 6
+        static let topbarMinHeight: CGFloat = 52
+        /// `.pad` padding 4 18 28
+        static let screenX: CGFloat = 18
+        static let screenBottom: CGFloat = 28
+        /// `.sheet` padding 10 20 24
+        static let sheetTop: CGFloat = 10
+        static let sheetX: CGFloat = 20
+        /// `.demo` padding 10 12
+        static let noteY: CGFloat = 10
+        /// `.btn.full` margin-top 14 в листах
+        static let sheetButtonTop: CGFloat = 14
     }
 
     // MARK: - Radius
@@ -87,6 +103,8 @@ enum Theme {
         static let sheet: CGFloat = 22
         static let chipButton: CGFloat = 10
         static let toggle: CGFloat = 31
+        /// `.grab` border-radius 3px
+        static let grab: CGFloat = 3
         static let pill: CGFloat = 999
     }
 
@@ -101,6 +119,9 @@ enum Theme {
         static let iconLg: CGFloat = 24
         static let iconXl: CGFloat = 28
         static let iconColumn: CGFloat = 26
+        /// Высота строки `.li .ic` в вебе: inline-SVG 22pt на базовой линии + `padding-top: 1px`
+        /// (замер по рендеру 1.1.1: строка 54.3pt = 1 + 12 + 29.3 + 12).
+        static let iconListLineBox: CGFloat = 29.33
         static let touch: CGFloat = 44
         static let button: CGFloat = 48
         static let chip: CGFloat = 40
@@ -146,6 +167,8 @@ enum Theme {
     enum Typo {
         case displayCounter
         case headingXL
+        /// `.hp-title` — заголовок листа: serif 25/600, line-height 1.2
+        case headingSheet
         case headingLG
         case headingMD
         case headingSM
@@ -168,6 +191,7 @@ enum Theme {
             switch self {
             case .displayCounter: return 72
             case .headingXL: return 26
+            case .headingSheet: return 25
             case .headingLG: return 22
             case .headingMD: return 20
             case .headingSM: return 19
@@ -187,7 +211,7 @@ enum Theme {
 
         var weight: UIFont.Weight {
             switch self {
-            case .displayCounter, .headingXL, .headingLG, .headingMD,
+            case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
                  .headingSM, .headingXS, .sectionTitle:
                 return .semibold
             case .bodyStrong, .tabSelected, .calloutMedium:
@@ -201,7 +225,7 @@ enum Theme {
 
         var design: UIFontDescriptor.SystemDesign {
             switch self {
-            case .displayCounter, .headingXL, .headingLG, .headingMD,
+            case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
                  .headingSM, .headingXS, .translit, .sectionTitle, .arabic:
                 return .serif
             default:
@@ -212,7 +236,7 @@ enum Theme {
         var textStyle: UIFont.TextStyle {
             switch self {
             case .displayCounter, .arabic: return .largeTitle
-            case .headingXL: return .title1
+            case .headingXL, .headingSheet: return .title1
             case .headingLG: return .title2
             case .headingMD: return .title3
             case .headingSM: return .headline
@@ -238,6 +262,19 @@ enum Theme {
     enum Font {
         /// line-height: 1.45 у body в CSS
         static let bodyLineHeightMultiple: CGFloat = 1.45
+        /// line-height: 1.2 у `.hp-title`
+        static let sheetTitleLineHeightMultiple: CGFloat = 1.2
+
+        /// Межстрочный интервал SwiftUI для CSS line-height (multiple × size − естественная высота строки).
+        static func lineSpacing(
+            _ typo: Typo,
+            multiple: CGFloat,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> CGFloat {
+            let font = scaledUIFont(typo, sizeCategory: sizeCategory, scales: scales)
+            return max(0, font.pointSize * multiple - font.lineHeight)
+        }
 
         static func ui(
             _ typo: Typo,
@@ -323,10 +360,17 @@ enum Theme {
     enum Motion {
         /// `.toggle span` transition .2s
         static let toggle: Double = 0.2
+        /// `.scrim` animation: fade .2s
+        static let scrimFade: Double = 0.2
+        /// `.sheet` animation: up .26s (translateY 40px)
+        static let sheetUp: Double = 0.26
+        static let sheetUpOffset: CGFloat = 40
     }
 
     enum Scale {
         static let tabTitle: CGFloat = 0.7
+        /// `.sheet` max-height: 86%
+        static let sheetMaxHeight: CGFloat = 0.86
         static let buttonTitle: CGFloat = 0.8
         static let counter: CGFloat = 0.5
     }
@@ -347,6 +391,20 @@ private struct ThemeFontModifier: ViewModifier {
     }
 }
 
+private struct ThemeLineHeightModifier: ViewModifier {
+    @Environment(\.sizeCategory) private var sizeCategory
+    let typo: Theme.Typo
+    let multiple: CGFloat
+
+    func body(content: Content) -> some View {
+        let spacing = Theme.Font.lineSpacing(typo, multiple: multiple, sizeCategory: sizeCategory)
+        // CSS делит лишний интервал поровну сверху и снизу строки (half-leading).
+        content
+            .lineSpacing(spacing)
+            .padding(.vertical, spacing / 2)
+    }
+}
+
 private struct ThemeShadowModifier: ViewModifier {
     let kind: Theme.Shadow.Kind
 
@@ -363,6 +421,11 @@ private struct ThemeShadowModifier: ViewModifier {
 extension View {
     func themeFont(_ typo: Theme.Typo, pointSize: CGFloat? = nil, scales: Bool = true) -> some View {
         modifier(ThemeFontModifier(typo: typo, pointSize: pointSize, scales: scales))
+    }
+
+    /// CSS line-height как множитель размера шрифта (body 1.45, `.hp-title` 1.2).
+    func themeLineHeight(_ typo: Theme.Typo, multiple: CGFloat) -> some View {
+        modifier(ThemeLineHeightModifier(typo: typo, multiple: multiple))
     }
 
     func themeShadow(_ kind: Theme.Shadow.Kind) -> some View {

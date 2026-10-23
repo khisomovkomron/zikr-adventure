@@ -4,6 +4,7 @@
 // и ничего не пишет обратно в веб (progress.json и localStorage не трогаются).
 
 import Foundation
+import ZikrContent
 import ZikrDomain
 import ZikrPersistence
 
@@ -12,21 +13,31 @@ final class AppContainer: ObservableObject {
     /// Аварийный выключатель: false → зеркало не подключается, bootstrap не выполняется,
     /// приложение работает ровно как 1.1.1.
     static let isWebMirrorEnabled = true
+    /// ZKR-48: false → вкладка «Инфо» снова целиком веб-экран (как 1.1.1).
+    static let isNativeInfoEnabled = true
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
     let settings: any SettingsRepository
     let webStateMirror: WebStateMirror
+    /// ZKR-48: тексты экрана «Инфо» (ZikrContent/info-content.json).
+    let infoContent: any InfoContentProviding
 
     private let legacyProgressFileURL: URL?
 
-    init(stateFileURL: URL, legacyProgressFileURL: URL?, appVersion: String) {
+    init(
+        stateFileURL: URL,
+        legacyProgressFileURL: URL?,
+        appVersion: String,
+        infoContent: any InfoContentProviding = BundledInfoContentProvider()
+    ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
         self.stateStore = store
         self.progress = JSONProgressRepository(store: store)
         self.settings = JSONSettingsRepository(store: store)
         self.webStateMirror = WebStateMirror(store: store)
         self.legacyProgressFileURL = legacyProgressFileURL
+        self.infoContent = infoContent
     }
 
     /// Application Support/zikr-state.json; версия из CFBundleShortVersionString.

@@ -72,6 +72,28 @@
                ReferencedContainer = "container:Packages/ZikrKit">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ZikrContentTests"
+               BuildableName = "ZikrContentTests"
+               BlueprintName = "ZikrContentTests"
+               ReferencedContainer = "container:Packages/ZikrKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "644992A2305B847B580DAE33"
+               BuildableName = "ZikrAdventureUITests.xctest"
+               BlueprintName = "ZikrAdventureUITests"
+               ReferencedContainer = "container:ZikrAdventure.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

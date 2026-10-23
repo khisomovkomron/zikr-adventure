@@ -10,6 +10,8 @@ struct AppList<Content: View>: View {
         VStack(spacing: 0) {
             content
         }
+        // `border: 1px` у `.list` занимает место в раскладке CSS.
+        .padding(Theme.Size.hairline)
         .background(Theme.Color.surface)
         .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.list, style: .continuous))
         .overlay(
@@ -67,12 +69,14 @@ struct AppListRow: View {
                     .frame(width: Theme.Size.iconColumn, alignment: .top)
                     .foregroundColor(iconColor)
                     .padding(.top, Theme.Size.hairline)
+                    .frame(minHeight: Theme.Size.iconListLineBox, alignment: .top)
                     .accessibilityHidden(true)
             }
 
             VStack(alignment: .leading, spacing: Theme.Space.s1) {
                 Text(title)
                     .themeFont(.body)
+                    .themeLineHeight(.body, multiple: Theme.Font.bodyLineHeightMultiple)
                     .foregroundColor(titleColor)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -105,6 +109,8 @@ struct AppListRow: View {
         }
         .padding(.horizontal, Theme.Space.controlX)
         .padding(.vertical, Theme.Space.s3)
+        // `border-top: 1px` у `.li` занимает место в раскладке (у первой строки его нет).
+        .padding(.top, showsTopDivider ? Theme.Size.hairline : 0)
         .frame(minHeight: Theme.Size.row, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.Color.surface)
