@@ -110,12 +110,13 @@ private struct TabBarButton: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 23, height: 23)
                 Text(title)
-                    .font(.system(size: 10))
+                    .font(.system(size: 12))
                     .fontWeight(isSelected ? .bold : .regular)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
             .foregroundColor(isSelected ? Color.accentColor : Color("TabBarUnselected"))
         }
         .buttonStyle(.plain)
