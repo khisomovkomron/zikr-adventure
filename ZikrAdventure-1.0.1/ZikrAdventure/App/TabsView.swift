@@ -1,57 +1,75 @@
 // TabsView.swift
-// Главная структура приложения с нативной навигацией по вкладкам.
-// WebView занимает весь экран, custom tab bar внизу.
+// Корневой экран: один shared WKWebView сверху и нативный tab bar снизу.
+// TabView не используется — его непрозрачный фон перекрывал web view и перехватывал нажатия.
 
 import SwiftUI
 
 struct TabsView: View {
     @State private var selectedTab: TabItem = .zikr
     @StateObject private var appLanguage = AppLanguage()
-    @StateObject private var webViewManager = WebViewManager.shared
-    
+
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // WebView занимает весь экран
-            WebHostView()
-                .environmentObject(appLanguage)
-                .ignoresSafeArea()
-            
-            // Custom tab bar внизу
-            CustomTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
+        VStack(spacing: 0) {
+            WebHostView(selectedTab: $selectedTab, appLanguage: appLanguage)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: .top)
+
+            NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
         }
         .onChange(of: selectedTab) { newTab in
-            webViewManager.selectTab(newTab.webID)
-        }
-        .onAppear {
-            webViewManager.setAppLanguage(appLanguage)
-            webViewManager.setTabSelectionHandler { tabID in
-                if let tab = TabItem.allCases.first(where: { $0.webID == tabID }) {
-                    selectedTab = tab
-                }
-            }
-            webViewManager.selectTab(selectedTab.webID)
+            WebViewManager.shared.selectTab(newTab.webID)
         }
     }
 }
 
-/// Хост для WebView, всегда показывает один shared controller
+/// Хост единственного WebAppViewController. Контроллер уже создан в WebViewManager.init.
 struct WebHostView: UIViewControllerRepresentable {
-    @EnvironmentObject var appLanguage: AppLanguage
-    
-    func makeUIViewController(context: Context) -> WebAppViewController {
-        return WebViewManager.shared.viewController
+    @Binding var selectedTab: TabItem
+    var appLanguage: AppLanguage
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(selectedTab: $selectedTab)
     }
-    
+
+    func makeUIViewController(context: Context) -> WebAppViewController {
+        let manager = WebViewManager.shared
+        let controller = manager.viewController
+        controller.appLanguage = appLanguage
+        controller.webViewManager = manager
+        let coordinator = context.coordinator
+        manager.setTabSelectionHandler { tabID in
+            coordinator.handleTabChange(tabID)
+        }
+        manager.selectTab(selectedTab.webID)
+        return controller
+    }
+
     func updateUIViewController(_ controller: WebAppViewController, context: Context) {
-        // WebViewManager управляет всем, ничего здесь не делаем
+        context.coordinator.selectedTab = $selectedTab
+        controller.appLanguage = appLanguage
+    }
+
+    final class Coordinator {
+        var selectedTab: Binding<TabItem>
+
+        init(selectedTab: Binding<TabItem>) {
+            self.selectedTab = selectedTab
+        }
+
+        func handleTabChange(_ tabID: String) {
+            guard let tab = TabItem.allCases.first(where: { $0.webID == tabID }) else { return }
+            if selectedTab.wrappedValue != tab {
+                selectedTab.wrappedValue = tab
+            }
+        }
     }
 }
 
-/// Custom tab bar, выглядит как native
-struct CustomTabBar: View {
+/// Нижняя панель вкладок. Сестра web view в VStack, не overlay.
+struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
-    let appLanguage: AppLanguage
-    
+    @ObservedObject var appLanguage: AppLanguage
+
     var body: some View {
         HStack(spacing: 0) {
             ForEach(TabItem.allCases) { tab in
@@ -60,21 +78,24 @@ struct CustomTabBar: View {
                 } label: {
                     VStack(spacing: 2) {
                         Image(systemName: tab.systemImage)
-                            .font(.system(size: 23))
+                            .font(.system(size: 21))
                         Text(appLanguage.title(for: tab))
                             .font(.system(size: 10))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                     }
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(selectedTab == tab ? Color("AccentColor") : .secondary)
-                    .fontWeight(selectedTab == tab ? .semibold : .regular)
+                    .foregroundColor(selectedTab == tab ? Color.accentColor : Color.secondary)
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel(appLanguage.title(for: tab))
             }
         }
         .frame(height: 49)
-        .padding(.bottom, 0)
+        .padding(.top, 4)
         .background(
             Color(uiColor: .systemBackground)
-                .shadow(color: .black.opacity(0.1), radius: 0, x: 0, y: -0.5)
+                .shadow(color: Color.black.opacity(0.12), radius: 0, x: 0, y: -0.5)
                 .ignoresSafeArea(edges: .bottom)
         )
     }
