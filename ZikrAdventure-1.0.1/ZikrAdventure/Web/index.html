@@ -1790,7 +1790,16 @@ function renderInfo() {
   $("#i-legend").onclick = openLegend;
 }
 function langPicker(id) { return `<div class="langs" id="${id}">${LANGS.map(([c, n]) => `<button class="lang ${c === L() ? "on" : ""}" data-lang="${c}" aria-pressed="${c === L()}">${n}</button>`).join("")}</div>`; }
-function bindLang(root, after) { root.querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => { state.settings.lang = b.dataset.lang; document.documentElement.lang = b.dataset.lang; persist(); Object.values(cities).forEach((c) => c && kick(c)); after(); })); }
+function bindLang(root, after) { root.querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => { state.settings.lang = b.dataset.lang; document.documentElement.lang = b.dataset.lang; persist(); Object.values(cities).forEach((c) => c && kick(c)); notifyLangChange(); after(); })); }
+function notifyLangChange() {
+  if (IS_APP && window.__ZIKR_NATIVE_TABS) {
+    const tabs = { zikr: T("tab.zikr"), map: T("tab.map"), path: T("tab.path"), info: T("tab.info"), settings: T("tab.settings") };
+    post({ type: "lang.change", lang: L(), tabs });
+  }
+}
+if (IS_APP && window.__ZIKR_NATIVE_TABS) {
+  window.addEventListener("DOMContentLoaded", notifyLangChange);
+}
 
 /* ---- auth state ---- */
 let authState = { state: "guest", user: null, message: null };

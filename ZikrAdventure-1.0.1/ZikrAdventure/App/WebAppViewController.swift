@@ -20,6 +20,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
     private let authCoordinator = AuthCoordinator()
+    private var isWebViewLoaded = false
+    var appLanguage: AppLanguage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +43,20 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             forMainFrameOnly: true
         )
         contentController.addUserScript(restoreScript)
+        
+        // Скрываем веб-табbar, так как используем нативный
+        let hideTabbarScript = WKUserScript(
+            source: """
+            window.__ZIKR_NATIVE_TABS = true;
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabbar = document.getElementById('tabbar');
+                if (tabbar) tabbar.style.display = 'none';
+            });
+            """,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        contentController.addUserScript(hideTabbarScript)
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = contentController
@@ -115,6 +131,11 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
                     let safari = SFSafariViewController(url: url)
                     self.present(safari, animated: true)
                 }
+            }
+        case "lang.change":
+            if let lang = body["lang"] as? String,
+               let titles = body["tabs"] as? [String: String] {
+                appLanguage?.update(lang: lang, titles: titles)
             }
         default:
             break
@@ -203,7 +224,31 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         ))
+        webView.configuration.userContentController.addUserScript(WKUserScript(
+            source: """
+            window.__ZIKR_NATIVE_TABS = true;
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabbar = document.getElementById('tabbar');
+                if (tabbar) tabbar.style.display = 'none';
+            });
+            """,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        ))
         webView.reload()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        isWebViewLoaded = true
+    }
+    
+    // MARK: - Переключение вкладок
+    
+    /// Переключает веб-приложение на указанную вкладку через selectTab()
+    func selectTab(_ tabID: String) {
+        guard isWebViewLoaded else { return }
+        let script = "if (typeof selectTab === 'function') selectTab('\(tabID)');"
+        webView?.evaluateJavaScript(script)
     }
 }
 
