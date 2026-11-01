@@ -73,6 +73,13 @@ final class AppContainer: ObservableObject {
         await stateStore.bootstrap(sources)
     }
 
+    // MARK: - Фабрики view model (ZKR-64: DI в одном месте)
+
+    /// ZKR-48/ZKR-64: модель экрана «Инфо» на стартовом языке.
+    func makeInfoViewModel(language: String) -> InfoViewModel {
+        InfoViewModel(provider: infoContent, settings: settings, language: language)
+    }
+
     /// Application Support/progress.json — файл, который ведёт ProgressFileStore.
     nonisolated static func legacyProgressFileURL() -> URL? {
         FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?

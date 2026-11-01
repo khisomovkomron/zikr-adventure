@@ -30,6 +30,8 @@ struct InfoSheetHost: View {
                     .animation(reducesMotion ? nil : Self.ease(Theme.Motion.scrimFade), value: isShown)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: close)
+                    // ZKR-64: затемнение скрыто от VoiceOver намеренно — для VoiceOver закрытие доступно
+                    // кнопкой «Закрыть» и жестом escape (см. ниже), лишний безымянный элемент не нужен.
                     .accessibilityHidden(true)
                     .accessibilityIdentifier("info.scrim")
 
@@ -163,29 +165,6 @@ struct InfoSheetHost: View {
     /// CSS `ease` = cubic-bezier(.25, .1, .25, 1).
     private static func ease(_ duration: Double) -> Animation {
         .timingCurve(0.25, 0.1, 0.25, 1, duration: duration)
-    }
-}
-
-private struct SheetContentHeightKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
-/// Скругление только сверху: border-radius 22px 22px 0 0 (iOS 16 — без UnevenRoundedRectangle).
-private struct TopRoundedRectangle: Shape {
-    let radius: CGFloat
-
-    func path(in rect: CGRect) -> Path {
-        Path(
-            UIBezierPath(
-                roundedRect: rect,
-                byRoundingCorners: [.topLeft, .topRight],
-                cornerRadii: CGSize(width: radius, height: radius)
-            ).cgPath
-        )
     }
 }
 
