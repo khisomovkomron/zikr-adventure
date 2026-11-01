@@ -179,6 +179,8 @@ enum Theme {
         case chip
         case callout
         case calloutMedium
+        /// ZKR-50: `.auth-provider-badge` — 15 pt regular.
+        case calloutRegular
         case footnote
         case caption
         case tab
@@ -199,7 +201,7 @@ enum Theme {
             // .group-h / .ch-title in CSS are 19; Confluence heading.sm listed 18.
             case .translit: return 21
             case .body, .bodyStrong, .chip: return 17
-            case .callout, .calloutMedium: return 15
+            case .callout, .calloutMedium, .calloutRegular: return 15
             case .footnote: return 14
             case .caption: return 13
             case .tab, .tabSelected: return 12
@@ -218,7 +220,7 @@ enum Theme {
                 return .bold
             case .callout, .kicker, .chip:
                 return .medium
-            case .translit, .body, .footnote, .caption, .arabic, .tab:
+            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular:
                 return .regular
             }
         }
@@ -243,7 +245,7 @@ enum Theme {
             case .headingXS, .sectionTitle: return .subheadline
             case .translit: return .title3
             case .body, .bodyStrong, .chip: return .body
-            case .callout, .calloutMedium: return .callout
+            case .callout, .calloutMedium, .calloutRegular: return .callout
             case .footnote, .kicker: return .footnote
             case .caption: return .caption1
             case .tab, .tabSelected: return .caption2

@@ -5,13 +5,17 @@
 //  • "keepAwake" — не гасить экран во время зикра;
 //  • "save"      — копия прогресса в файле на устройстве (дополнительно к хранилищу страницы);
 //  • "auth.*"    — авторизация через Google и Apple (v1.1.0).
+// ZKR-50: AuthCoordinator и LocalizationService приходят из AppContainer (через WebHostView)
+// до загрузки view; нативные экраны вызывают window.zikrNative.* через evaluateCommand.
 // Переходы на внешние сайты запрещены: приложение работает только со своими файлами.
 // Команды auth принимаются только из основного доверенного документа zikr://localhost.
 
 import UIKit
 import WebKit
 import SafariServices
+import Combine
 import os
+import ZikrCore
 import ZikrPersistence
 
 final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
@@ -20,9 +24,17 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
-    private let authCoordinator = AuthCoordinator()
+    private var authStateSubscription: AnyCancellable?
+    /// ZKR-50: один экземпляр на приложение (AppContainer). Задаётся до viewDidLoad.
+    var authService: (any AuthService)? {
+        didSet {
+            guard authService !== oldValue else { return }
+            subscribeToAuthState()
+        }
+    }
     var isWebViewLoaded = false
-    var appLanguage: AppLanguage?
+    /// ZKR-50: язык нативных экранов; обновляется из моста lang.change.
+    weak var localization: LocalizationService?
     weak var webViewManager: WebViewManager?
     /// ZKR-61: если зеркало подключено уже после загрузки страницы, текущий снимок
     /// снимается сразу (replay), а не ждёт следующего "save".
@@ -41,11 +53,6 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         let contentController = WKUserContentController()
         contentController.add(WeakScriptMessageHandler(target: self), name: "zikr")
         
-        // Подписываемся на изменения состояния авторизации
-        authCoordinator.onStateChange = { [weak self] state in
-            self?.sendAuthStateToWeb(state)
-        }
-
         // Сохранённый прогресс передаётся странице ещё до запуска её скриптов.
         let restoreScript = WKUserScript(
             source: "window.__ZIKR_NATIVE_STATE = \(progressStore.loadJSONLiteral());",
@@ -124,15 +131,24 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
                 stateMirror?.enqueue(json)
             }
         case "auth.signInGoogle":
-            handleAuthMessage { await self.authCoordinator.signInWithGoogle(presentingViewController: self) }
+            handleAuthMessage { self.authService?.signInWithGoogle(presenter: self) }
         case "auth.signInApple":
-            handleAuthMessage { await self.authCoordinator.signInWithApple() }
+            handleAuthMessage { self.authService?.signInWithApple() }
         case "auth.signOut":
-            handleAuthMessage { try await self.authCoordinator.signOut() }
+            handleAuthMessage { try await self.authService?.signOut() }
         case "auth.deleteAccount":
-            handleAuthMessage { try await self.authCoordinator.deleteAccount(presentingViewController: self) }
+            handleAuthMessage {
+                guard let service = self.authService else { return }
+                // ZKR-56: AccountDeletionFlow; ошибка → веб показывает offline/error, как в 1.1.1.
+                let outcome = await service.deleteAccount(presenter: self)
+                if let message = outcome.webMessage {
+                    self.sendAuthStateToWeb(.error(message: message, retryable: true))
+                }
+            }
         case "auth.getState":
-            sendAuthStateToWeb(authCoordinator.state)
+            if let state = authService?.state {
+                sendAuthStateToWeb(state)
+            }
         case "openURL":
             if let urlString = body["url"] as? String,
                let url = URL(string: urlString),
@@ -144,9 +160,9 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
                 }
             }
         case "lang.change":
-            if let lang = body["lang"] as? String,
-               let titles = body["tabs"] as? [String: String] {
-                appLanguage?.update(lang: lang, titles: titles)
+            // Названия вкладок (body["tabs"]) теперь из Localizable.xcstrings.
+            if let lang = body["lang"] as? String {
+                localization?.setLanguage(code: lang)
             }
         case "tab.change":
             if let tabID = body["tab"] as? String {
@@ -157,6 +173,15 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         }
     }
     
+    private func subscribeToAuthState() {
+        // @Published отдаёт текущее значение сразу — веб получает актуальное состояние.
+        authStateSubscription = authService?.statePublisher
+            .dropFirst()
+            .sink { [weak self] state in
+                self?.sendAuthStateToWeb(state)
+            }
+    }
+
     private func handleAuthMessage(_ action: @escaping () async throws -> Void) {
         Task {
             do {
@@ -250,6 +275,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         ))
+        // ZKR-50: команды zikrNative ждут didFinish перезагруженной страницы.
+        isWebViewLoaded = false
         webView.reload()
     }
     
@@ -269,6 +296,18 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             return try await webView.evaluateJavaScript("document.getElementById('onb') !== null") as? Bool
         } catch {
             return nil
+        }
+    }
+
+    /// ZKR-50: выполняет команду window.zikrNative.* (скрипт всегда возвращает Bool).
+    func evaluateCommand(_ script: String) async -> Bool {
+        guard isWebViewLoaded, let webView else { return false }
+        do {
+            return (try await webView.evaluateJavaScript(script) as? Bool) ?? false
+        } catch {
+            let nsError = error as NSError
+            Log.settings.error("zikrNative command failed (domain: \(nsError.domain, privacy: .public), code: \(nsError.code, privacy: .public))")
+            return false
         }
     }
 

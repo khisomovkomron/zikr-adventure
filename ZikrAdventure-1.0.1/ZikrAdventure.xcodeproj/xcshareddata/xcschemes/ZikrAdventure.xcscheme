@@ -88,6 +88,17 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DD94FB5B4E23B26C8CDD921"
+               BuildableName = "ZikrAdventureTests.xctest"
+               BlueprintName = "ZikrAdventureTests"
+               ReferencedContainer = "container:ZikrAdventure.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "644992A2305B847B580DAE33"
                BuildableName = "ZikrAdventureUITests.xctest"
                BlueprintName = "ZikrAdventureUITests"

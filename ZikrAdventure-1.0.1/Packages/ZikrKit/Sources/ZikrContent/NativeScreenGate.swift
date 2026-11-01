@@ -1,15 +1,24 @@
 // NativeScreenGate.swift
-// ZKR-48: когда показывать нативный экран «Инфо» поверх веб-вкладки.
+// ZKR-48: когда показывать нативный экран («Инфо», с ZKR-50 и «Настройки») поверх веб-вкладки.
 // Веб-онбординг (#onb) — полноэкранный слой внутри web view, в 1.1.1 он закрывает и «Инфо»;
 // пока он показан или его состояние неизвестно, остаётся веб-экран (поведение 1.1.1).
 
 public enum NativeScreenGate {
+    /// Общее правило для любой нативной вкладки (ZKR-50).
+    public static func shouldShowNativeScreen(
+        isEnabled: Bool,
+        isTabSelected: Bool,
+        isWebOnboardingVisible: Bool?
+    ) -> Bool {
+        isEnabled && isTabSelected && isWebOnboardingVisible == false
+    }
+
     public static func shouldShowNativeInfo(
         isEnabled: Bool,
         isInfoSelected: Bool,
         isWebOnboardingVisible: Bool?
     ) -> Bool {
-        isEnabled && isInfoSelected && isWebOnboardingVisible == false
+        shouldShowNativeScreen(isEnabled: isEnabled, isTabSelected: isInfoSelected, isWebOnboardingVisible: isWebOnboardingVisible)
     }
 }
 

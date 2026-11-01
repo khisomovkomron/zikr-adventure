@@ -52,8 +52,8 @@ struct AppChipGroup: View {
     }
 }
 
-/// flex-wrap для чипов. `Layout` доступен с iOS 16, без ViewThatFits и без сетки из N колонок.
-private struct AppChipFlowLayout: Layout {
+/// flex-wrap для чипов (ZKR-50: и для чипов языка в «Настройках»). `Layout` доступен с iOS 16, без ViewThatFits и без сетки из N колонок.
+struct AppChipFlowLayout: Layout {
     var spacing: CGFloat
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {

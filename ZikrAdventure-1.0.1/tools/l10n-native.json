@@ -1,0 +1,30 @@
+{
+  "_comment": "ZKR-50: строки только нативного экрана (их нет в index.html). review: true — черновой перевод, нужна вычитка носителем языка.",
+  "auth.revokeFailed": {
+    "comment": "Удаление аккаунта Apple остановлено: не удалось отозвать доступ (revokeToken). Аккаунт не удалён. ru — текст-проект из плана ZKR-50 (раздел 7), ждёт утверждения Комрона.",
+    "values": {
+      "ru": {
+        "value": "Не удалось отозвать доступ Apple. Аккаунт не удалён."
+      },
+      "en": {
+        "value": "Couldn’t revoke Apple access. Your account was not deleted."
+      },
+      "uz": {
+        "value": "Apple ruxsatini bekor qilib bo‘lmadi. Hisob o‘chirilmadi.",
+        "review": true
+      },
+      "tg": {
+        "value": "Дастрасии Apple бекор карда нашуд. Ҳисоб нест карда нашуд.",
+        "review": true
+      },
+      "kk": {
+        "value": "Apple рұқсатын қайтарып алу мүмкін болмады. Аккаунт жойылмады.",
+        "review": true
+      },
+      "ky": {
+        "value": "Apple уруксатын жокко чыгаруу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок.",
+        "review": true
+      }
+    }
+  }
+}

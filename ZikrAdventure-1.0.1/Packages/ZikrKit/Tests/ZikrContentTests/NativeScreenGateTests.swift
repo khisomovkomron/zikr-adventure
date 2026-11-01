@@ -23,6 +23,20 @@ final class NativeScreenGateTests: XCTestCase {
         XCTAssertFalse(NativeScreenGate.shouldShowNativeInfo(isEnabled: true, isInfoSelected: true, isWebOnboardingVisible: nil))
     }
 
+    // ZKR-50: то же правило для «Настроек».
+    func testGenericGateMatchesInfoRule() {
+        for enabled in [true, false] {
+            for selected in [true, false] {
+                for onboarding in [true, false, nil] as [Bool?] {
+                    XCTAssertEqual(
+                        NativeScreenGate.shouldShowNativeScreen(isEnabled: enabled, isTabSelected: selected, isWebOnboardingVisible: onboarding),
+                        enabled && selected && onboarding == false
+                    )
+                }
+            }
+        }
+    }
+
     func testOnboardingTrackerLatchesFinished() {
         var tracker = WebOnboardingTracker()
         XCTAssertNil(tracker.isVisible)
