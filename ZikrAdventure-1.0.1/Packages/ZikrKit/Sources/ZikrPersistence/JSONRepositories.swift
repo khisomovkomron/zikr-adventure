@@ -40,4 +40,21 @@ public struct JSONSettingsRepository: SettingsRepository {
     public func update(_ mutate: @Sendable (inout AppSettings) -> Void) async throws -> AppSettings {
         try await store.update { progress in mutate(&progress.settings) }.settings
     }
+
+    /// Только изменения настроек: записи прогресса (счёт, история) с теми же настройками пропускаются.
+    public func changes() async -> AsyncStream<AppSettings> {
+        let upstream = await store.changes()
+        return AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
+            let task = Task {
+                var last: AppSettings?
+                for await progress in upstream {
+                    guard progress.settings != last else { continue }
+                    last = progress.settings
+                    continuation.yield(progress.settings)
+                }
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
+    }
 }

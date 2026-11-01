@@ -1,5 +1,6 @@
 // TabItem.swift
-// Определение вкладок приложения и их атрибутов (название, иконка, веб-секция).
+// Определение вкладок приложения и их атрибутов (иконка, веб-секция).
+// ZKR-50: названия — Localizable.xcstrings (LocalizationService, TabItem.titleKey).
 // Иконки — те же SVG, что в index.html (P.beads / map / path / info / gear).
 
 import SwiftUI
@@ -12,17 +13,6 @@ enum TabItem: String, CaseIterable, Identifiable {
     case settings
 
     var id: String { rawValue }
-
-    /// Локализованное название вкладки (по умолчанию, если веб не передал язык)
-    var fallbackTitle: String {
-        switch self {
-        case .zikr: return "Zikr"
-        case .map: return "Map"
-        case .path: return "Path"
-        case .info: return "Info"
-        case .settings: return "Settings"
-        }
-    }
 
     /// Имя vector-ассета (24×24 stroke SVG из веб-набора P)
     var iconName: String {

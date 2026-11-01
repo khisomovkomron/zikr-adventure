@@ -1,7 +1,9 @@
 // AppContainer.swift
 // Контейнер зависимостей нативного слоя данных (ZKR-49).
 // Режим «тени»: native только зеркалирует состояние веб-страницы в zikr-state.json
-// и ничего не пишет обратно в веб (progress.json и localStorage не трогаются).
+// и сам не пишет ни в progress.json, ни в localStorage.
+// ZKR-50: настройки меняются только командами в веб (window.zikrNative.*) — веб остаётся
+// единственным писателем; здесь же живут общие AuthService и LocalizationService.
 
 import Foundation
 import ZikrContent
@@ -15,6 +17,9 @@ final class AppContainer: ObservableObject {
     static let isWebMirrorEnabled = true
     /// ZKR-48: false → вкладка «Инфо» снова целиком веб-экран (как 1.1.1).
     static let isNativeInfoEnabled = true
+    /// ZKR-50: false → вкладка «Настройки» снова целиком веб-экран (как 1.1.1).
+    /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
+    static let isNativeSettingsEnabled = true
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
@@ -22,6 +27,13 @@ final class AppContainer: ObservableObject {
     let webStateMirror: WebStateMirror
     /// ZKR-48: тексты экрана «Инфо» (ZikrContent/info-content.json).
     let infoContent: any InfoContentProviding
+    /// ZKR-50: единственный владелец авторизации (нативный экран и мост в веб).
+    let auth: any AuthService
+    /// ZKR-50: язык интерфейса и нативные строки (Localizable.xcstrings).
+    let localization: LocalizationService
+    /// ZKR-50: команды настроек в веб.
+    let settingsSink: any SettingsCommandSink
+    let presenter: any PresenterProviding
 
     private let legacyProgressFileURL: URL?
 
@@ -29,7 +41,11 @@ final class AppContainer: ObservableObject {
         stateFileURL: URL,
         legacyProgressFileURL: URL?,
         appVersion: String,
-        infoContent: any InfoContentProviding = BundledInfoContentProvider()
+        infoContent: any InfoContentProviding = BundledInfoContentProvider(),
+        auth: (any AuthService)? = nil,
+        localization: LocalizationService? = nil,
+        settingsSink: (any SettingsCommandSink)? = nil,
+        presenter: (any PresenterProviding)? = nil
     ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
         self.stateStore = store
@@ -38,6 +54,20 @@ final class AppContainer: ObservableObject {
         self.webStateMirror = WebStateMirror(store: store)
         self.legacyProgressFileURL = legacyProgressFileURL
         self.infoContent = infoContent
+        self.auth = auth ?? Self.makeAuthService()
+        self.localization = localization ?? LocalizationService()
+        self.settingsSink = settingsSink ?? WebSettingsCommandSink { WebViewManager.shared }
+        self.presenter = presenter ?? KeyWindowPresenterProvider()
+    }
+
+    /// AuthCoordinator; в DEBUG-сборке UI-тесты подменяют его через ZIKR_UITEST_AUTH.
+    private static func makeAuthService() -> any AuthService {
+#if DEBUG
+        if let stub = UITestAuthService.fromEnvironment(ProcessInfo.processInfo.environment) {
+            return stub
+        }
+#endif
+        return AuthCoordinator()
     }
 
     /// Application Support/zikr-state.json; версия из CFBundleShortVersionString.
@@ -57,7 +87,8 @@ final class AppContainer: ObservableObject {
         return AppContainer(
             stateFileURL: dir.appendingPathComponent("zikr-state.json"),
             legacyProgressFileURL: nil,
-            appVersion: appVersion()
+            appVersion: appVersion(),
+            localization: LocalizationService(defaults: nil)
         )
     }
 
@@ -78,6 +109,19 @@ final class AppContainer: ObservableObject {
     /// ZKR-48/ZKR-64: модель экрана «Инфо» на стартовом языке.
     func makeInfoViewModel(language: String) -> InfoViewModel {
         InfoViewModel(provider: infoContent, settings: settings, language: language)
+    }
+
+    /// ZKR-50: модель экрана «Настройки».
+    func makeSettingsViewModel() -> SettingsViewModel {
+        SettingsViewModel(
+            repository: settings,
+            sink: settingsSink,
+            authService: auth,
+            localization: localization,
+            reduceMotion: SystemReduceMotionProvider(),
+            urlOpener: SafariURLOpener(presenter: presenter),
+            presenter: presenter
+        )
     }
 
     /// Application Support/progress.json — файл, который ведёт ProgressFileStore.

@@ -36,6 +36,7 @@ schemes:
         - package: ZikrKit/ZikrDomainTests
         - package: ZikrKit/ZikrPersistenceTests
         - package: ZikrKit/ZikrContentTests
+        - ZikrAdventureTests
         - ZikrAdventureUITests
     archive:
       config: Release
@@ -84,6 +85,23 @@ targets:
         product: ZikrPersistence
       - package: ZikrKit
         product: ZikrContent
+  # ZKR-50: unit-тесты слоя приложения (SettingsViewModel, удаление аккаунта, локализация).
+  ZikrAdventureTests:
+    type: bundle.unit-test
+    platform: iOS
+    # XCTest в текущем Xcode собран под iOS 17; приложение остаётся iOS 16.
+    deploymentTarget: "17.0"
+    sources:
+      - ZikrAdventureTests
+    dependencies:
+      - target: ZikrAdventure
+      - package: ZikrKit
+        product: ZikrDomain
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"
   ZikrAdventureUITests:
     type: bundle.ui-testing
     platform: iOS

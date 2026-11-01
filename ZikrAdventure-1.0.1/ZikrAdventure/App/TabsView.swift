@@ -2,16 +2,20 @@
 // Корневой экран: один shared WKWebView сверху и нативный tab bar снизу.
 // TabView не используется — его непрозрачный фон перекрывал web view и перехватывал нажатия.
 // ZKR-48: вкладка «Инфо» — нативный экран поверх web view (веб под ним остаётся на вкладке info).
+// ZKR-50: так же устроена вкладка «Настройки»; язык интерфейса — LocalizationService из AppContainer.
 // Пока показан веб-онбординг или его состояние неизвестно, видна веб-версия, как в 1.1.1.
 
 import SwiftUI
 import ZikrContent
+import ZikrDomain
 
 struct TabsView: View {
     @State private var selectedTab: TabItem = .zikr
-    @StateObject private var appLanguage: AppLanguage
+    @ObservedObject private var localization: LocalizationService
     @StateObject private var infoViewModel: InfoViewModel
+    @StateObject private var settingsViewModel: SettingsViewModel
     @State private var webOnboarding = WebOnboardingTracker()
+    private let auth: any AuthService
 #if DEBUG
     @State private var showsUIKitGallery = false
 #endif
@@ -20,52 +24,73 @@ struct TabsView: View {
     private static let onboardingPollInterval: UInt64 = 500_000_000
 
     init(container: AppContainer) {
-        _appLanguage = StateObject(wrappedValue: AppLanguage())
-        // Стартовый язык уточняется в onAppear из AppLanguage.currentLang.
-        _infoViewModel = StateObject(wrappedValue: container.makeInfoViewModel(language: AppLanguage.storedLanguage))
+        localization = container.localization
+        auth = container.auth
+        _infoViewModel = StateObject(wrappedValue: container.makeInfoViewModel(
+            language: container.localization.language.rawValue
+        ))
+        _settingsViewModel = StateObject(wrappedValue: container.makeSettingsViewModel())
     }
 
     private var isNativeInfoAvailable: Bool {
         AppContainer.isNativeInfoEnabled && infoViewModel.isAvailable
     }
 
+    /// ZKR-50: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeSettingsAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeSettingsEnabled && settingsViewModel.isAvailable
+    }
+
     private var showsNativeInfo: Bool {
-        NativeScreenGate.shouldShowNativeInfo(
+        NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeInfoAvailable,
-            isInfoSelected: selectedTab == .info,
+            isTabSelected: selectedTab == .info,
+            isWebOnboardingVisible: webOnboarding.isVisible
+        )
+    }
+
+    private var showsNativeSettings: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeSettingsAvailable,
+            isTabSelected: selectedTab == .settings,
             isWebOnboardingVisible: webOnboarding.isVisible
         )
     }
 
     /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
-    /// и пока выбрана «Инфо» с открытым онбордингом.
+    /// и пока выбрана нативная вкладка с открытым онбордингом.
     private var needsOnboardingPoll: Bool {
-        guard isNativeInfoAvailable, webOnboarding.isVisible != false else { return false }
-        return webOnboarding.isVisible == nil || selectedTab == .info
+        guard isNativeInfoAvailable || isNativeSettingsAvailable, webOnboarding.isVisible != false else { return false }
+        return webOnboarding.isVisible == nil
+            || (selectedTab == .info && isNativeInfoAvailable)
+            || (selectedTab == .settings && isNativeSettingsAvailable)
     }
 
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                WebHostView(selectedTab: $selectedTab, appLanguage: appLanguage)
+                WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea(edges: .top)
-                    .accessibilityHidden(showsNativeInfo)
+                    .accessibilityHidden(showsNativeInfo || showsNativeSettings)
 
                 if showsNativeInfo {
                     InfoView(viewModel: infoViewModel)
+                }
+                if showsNativeSettings {
+                    SettingsView(viewModel: settingsViewModel)
                 }
             }
 
 #if DEBUG
             NativeTabBar(
                 selectedTab: $selectedTab,
-                appLanguage: appLanguage,
+                localization: localization,
                 onDebugLongPress: { showsUIKitGallery = true },
                 debugGalleryPresented: showsUIKitGallery
             )
 #else
-            NativeTabBar(selectedTab: $selectedTab, appLanguage: appLanguage)
+            NativeTabBar(selectedTab: $selectedTab, localization: localization)
 #endif
         }
         .onChange(of: selectedTab) { newTab in
@@ -76,11 +101,12 @@ struct TabsView: View {
                 infoViewModel.closeSheet()
             }
         }
-        .onAppear {
-            infoViewModel.setLanguage(appLanguage.currentLang)
+        .onChange(of: localization.language) { language in
+            infoViewModel.setLanguage(language.rawValue)
         }
-        .onChange(of: appLanguage.currentLang) { lang in
-            infoViewModel.setLanguage(lang)
+        .task {
+            // ZKR-50: настройки и аккаунт читаются всё время жизни экрана (не только на вкладке).
+            await settingsViewModel.start()
         }
         .task(id: needsOnboardingPoll) {
             guard needsOnboardingPoll else { return }
@@ -101,7 +127,8 @@ struct TabsView: View {
 /// Хост единственного WebAppViewController. Контроллер уже создан в WebViewManager.init.
 struct WebHostView: UIViewControllerRepresentable {
     @Binding var selectedTab: TabItem
-    var appLanguage: AppLanguage
+    let auth: any AuthService
+    let localization: LocalizationService
 
     func makeCoordinator() -> Coordinator {
         Coordinator(selectedTab: $selectedTab)
@@ -110,7 +137,12 @@ struct WebHostView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> WebAppViewController {
         let manager = WebViewManager.shared
         let controller = manager.viewController
-        controller.appLanguage = appLanguage
+        controller.localization = localization
+        if controller.authService == nil {
+            controller.authService = auth
+        }
+        // FirebaseApp.configure() уже выполнен в AppDelegate.
+        auth.activate()
         controller.webViewManager = manager
         let coordinator = context.coordinator
         manager.setTabSelectionHandler { tabID in
@@ -122,7 +154,7 @@ struct WebHostView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: WebAppViewController, context: Context) {
         context.coordinator.selectedTab = $selectedTab
-        controller.appLanguage = appLanguage
+        controller.localization = localization
     }
 
     final class Coordinator {
@@ -145,7 +177,7 @@ struct WebHostView: UIViewControllerRepresentable {
 /// Цвета — CSS-переменные веб-таббара: --surface, --divider, --accent, --text2.
 struct NativeTabBar: View {
     @Binding var selectedTab: TabItem
-    @ObservedObject var appLanguage: AppLanguage
+    @ObservedObject var localization: LocalizationService
     var onDebugLongPress: (() -> Void)? = nil
     var debugGalleryPresented: Bool = false
 
@@ -154,7 +186,7 @@ struct NativeTabBar: View {
             ForEach(TabItem.allCases) { tab in
                 TabBarButton(
                     tab: tab,
-                    title: appLanguage.title(for: tab),
+                    title: localization.tr(tab.titleKey),
                     isSelected: selectedTab == tab,
                     onDebugLongPress: onDebugLongPress,
                     debugGalleryPresented: debugGalleryPresented
@@ -247,12 +279,12 @@ struct NativeTabBar_Previews: PreviewProvider {
 
     private struct NativeTabBarPreviewHost: View {
         @State private var selected: TabItem = .zikr
-        @StateObject private var language = AppLanguage()
+        @StateObject private var localization = LocalizationService(defaults: nil)
 
         var body: some View {
             VStack {
                 Spacer()
-                NativeTabBar(selectedTab: $selected, appLanguage: language)
+                NativeTabBar(selectedTab: $selected, localization: localization)
             }
             .background(Theme.Color.bg)
         }

@@ -1,0 +1,32 @@
+{
+  "_comment": "ZKR-50: строки только нативного экрана (их нет в index.html). review: true — машинный перевод, нужна вычитка носителем языка.",
+  "auth.revokeFailed": {
+    "comment": "Удаление аккаунта Apple остановлено: не удалось отозвать «Вход с Apple» (revokeToken). Аккаунт не удалён, рядом кнопка «Повторить». Тексты на всех языках — машинный перевод, нужна вычитка носителями.",
+    "values": {
+      "ru": {
+        "value": "Не удалось отключить вход через Apple. Аккаунт не удалён — попробуйте ещё раз.",
+        "review": true
+      },
+      "en": {
+        "value": "Couldn’t disconnect Sign in with Apple. Your account wasn’t deleted — please try again.",
+        "review": true
+      },
+      "uz": {
+        "value": "Apple orqali kirishni uzib bo‘lmadi. Hisob o‘chirilmadi — yana urinib ko‘ring.",
+        "review": true
+      },
+      "tg": {
+        "value": "Қатъ кардани воридшавӣ бо Apple муяссар нашуд. Ҳисоб нест карда нашуд — боз кӯшиш кунед.",
+        "review": true
+      },
+      "kk": {
+        "value": "Apple арқылы кіруді ажырату мүмкін болмады. Аккаунт жойылмады — қайта көріңіз.",
+        "review": true
+      },
+      "ky": {
+        "value": "Apple аркылуу кирүүнү ажыратуу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок — кайра аракет кылыңыз.",
+        "review": true
+      }
+    }
+  }
+}

@@ -101,6 +101,29 @@ This approach:
 - ✅ Works in any Node.js environment (local, CI/CD)
 - ✅ Catches syntax errors, missing translations, state machine bugs, and regressions
 
+### `settings-native.cjs` (ZKR-50)
+Tests `window.zikrNative` — the only way the native Settings screen changes settings:
+- only whitelisted keys are accepted; goal must be an integer and is only clamped to 10…10000 (no rounding to a step of 10, same as before)
+- `setLang`, `resetDefaults` (keeps language), `clearHistory`, `resetProgress` (keeps settings and onboarding)
+- every command persists and sends `save` (the native mirror reads `zikr-state.json`)
+
+**Run:** `node tests/settings-native.cjs`
+
+### `l10n-native.cjs` (ZKR-50)
+Checks that `ZikrAdventure/Resources/Localizable.xcstrings` is up to date with the `UI` dictionary in
+`index.html` + `tools/l10n-native.json` (runs `tools/l10n-from-web.mjs --check`), that every key has
+text in all 6 languages, and that `L10nKey.swift` lists exactly the catalog keys.
+
+**Run:** `node tests/l10n-native.cjs`
+If it fails after a text change: `node tools/l10n-from-web.mjs`, then update `L10nKey.swift`.
+
+### `bidi-salawat.cjs` (ZKR-63 / ZKR-50)
+After ﷺ (U+FDFA, bidi class AL) spaces/punctuation followed by a digit get reordered in LTR text
+(«Payg‘ambar ﷺ 622-yilda» is shown as «622 ﷺ…»). Checks that every such place in `index.html` and
+`info-content.json` has U+200E (LRM) right after ﷺ, including the 622 Hijra phrase (Prophet’s Mosque) in uz/kk/ky.
+
+**Run:** `node tests/bidi-salawat.cjs`
+
 ## Coverage Summary
 
 | Feature | Counter Tests | Auth Tests |
@@ -121,7 +144,6 @@ This approach:
 Consider adding:
 - Map rendering and city interactions
 - Chapter unlocking logic
-- Settings persistence
 - Onboarding flow
 - History clearing and statistics
 - Additional language validation

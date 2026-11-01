@@ -13,9 +13,15 @@ public enum Log {
     #if canImport(os)
     public static let persistence = Logger(subsystem: subsystem, category: "persistence")
     public static let app = Logger(subsystem: subsystem, category: "app")
+    /// ZKR-50: экран «Настройки» (команды в веб, синхронизация).
+    public static let settings = Logger(subsystem: subsystem, category: "settings")
+    /// ZKR-50: вход и удаление аккаунта — только domain/code ошибок, без токенов, email и uid.
+    public static let auth = Logger(subsystem: subsystem, category: "auth")
     #else
     public static let persistence = PrintLogger(category: "persistence")
     public static let app = PrintLogger(category: "app")
+    public static let settings = PrintLogger(category: "settings")
+    public static let auth = PrintLogger(category: "auth")
     #endif
 }
 
