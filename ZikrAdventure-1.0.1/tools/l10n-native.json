@@ -1,28 +1,30 @@
 {
-  "_comment": "ZKR-50: строки только нативного экрана (их нет в index.html). review: true — черновой перевод, нужна вычитка носителем языка.",
+  "_comment": "ZKR-50: строки только нативного экрана (их нет в index.html). review: true — машинный перевод, нужна вычитка носителем языка.",
   "auth.revokeFailed": {
-    "comment": "Удаление аккаунта Apple остановлено: не удалось отозвать доступ (revokeToken). Аккаунт не удалён. ru — текст-проект из плана ZKR-50 (раздел 7), ждёт утверждения Комрона.",
+    "comment": "Удаление аккаунта Apple остановлено: не удалось отозвать «Вход с Apple» (revokeToken). Аккаунт не удалён, рядом кнопка «Повторить». Тексты на всех языках — машинный перевод, нужна вычитка носителями.",
     "values": {
       "ru": {
-        "value": "Не удалось отозвать доступ Apple. Аккаунт не удалён."
+        "value": "Не удалось отключить вход через Apple. Аккаунт не удалён — попробуйте ещё раз.",
+        "review": true
       },
       "en": {
-        "value": "Couldn’t revoke Apple access. Your account was not deleted."
+        "value": "Couldn’t disconnect Sign in with Apple. Your account wasn’t deleted — please try again.",
+        "review": true
       },
       "uz": {
-        "value": "Apple ruxsatini bekor qilib bo‘lmadi. Hisob o‘chirilmadi.",
+        "value": "Apple orqali kirishni uzib bo‘lmadi. Hisob o‘chirilmadi — yana urinib ko‘ring.",
         "review": true
       },
       "tg": {
-        "value": "Дастрасии Apple бекор карда нашуд. Ҳисоб нест карда нашуд.",
+        "value": "Қатъ кардани воридшавӣ бо Apple муяссар нашуд. Ҳисоб нест карда нашуд — боз кӯшиш кунед.",
         "review": true
       },
       "kk": {
-        "value": "Apple рұқсатын қайтарып алу мүмкін болмады. Аккаунт жойылмады.",
+        "value": "Apple арқылы кіруді ажырату мүмкін болмады. Аккаунт жойылмады — қайта көріңіз.",
         "review": true
       },
       "ky": {
-        "value": "Apple уруксатын жокко чыгаруу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок.",
+        "value": "Apple аркылуу кирүүнү ажыратуу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок — кайра аракет кылыңыз.",
         "review": true
       }
     }

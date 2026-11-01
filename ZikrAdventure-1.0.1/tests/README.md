@@ -103,7 +103,7 @@ This approach:
 
 ### `settings-native.cjs` (ZKR-50)
 Tests `window.zikrNative` — the only way the native Settings screen changes settings:
-- only whitelisted keys are accepted; goal is clamped/stepped to 10…10000
+- only whitelisted keys are accepted; goal must be an integer and is only clamped to 10…10000 (no rounding to a step of 10, same as before)
 - `setLang`, `resetDefaults` (keeps language), `clearHistory`, `resetProgress` (keeps settings and onboarding)
 - every command persists and sends `save` (the native mirror reads `zikr-state.json`)
 
@@ -116,6 +116,13 @@ text in all 6 languages, and that `L10nKey.swift` lists exactly the catalog keys
 
 **Run:** `node tests/l10n-native.cjs`
 If it fails after a text change: `node tools/l10n-from-web.mjs`, then update `L10nKey.swift`.
+
+### `bidi-salawat.cjs` (ZKR-63 / ZKR-50)
+After ﷺ (U+FDFA, bidi class AL) spaces/punctuation followed by a digit get reordered in LTR text
+(«Payg‘ambar ﷺ 622-yilda» is shown as «622 ﷺ…»). Checks that every such place in `index.html` and
+`info-content.json` has U+200E (LRM) right after ﷺ, including the 622 Hijra phrase (Prophet’s Mosque) in uz/kk/ky.
+
+**Run:** `node tests/bidi-salawat.cjs`
 
 ## Coverage Summary
 

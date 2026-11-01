@@ -822,43 +822,43 @@
       }
     },
     "auth.revokeFailed" : {
-      "comment" : "Удаление аккаунта Apple остановлено: не удалось отозвать доступ (revokeToken). Аккаунт не удалён. ru — текст-проект из плана ZKR-50 (раздел 7), ждёт утверждения Комрона.",
+      "comment" : "Удаление аккаунта Apple остановлено: не удалось отозвать «Вход с Apple» (revokeToken). Аккаунт не удалён, рядом кнопка «Повторить». Тексты на всех языках — машинный перевод, нужна вычитка носителями.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn’t revoke Apple access. Your account was not deleted."
+            "state" : "needs_review",
+            "value" : "Couldn’t disconnect Sign in with Apple. Your account wasn’t deleted — please try again."
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Apple рұқсатын қайтарып алу мүмкін болмады. Аккаунт жойылмады."
+            "value" : "Apple арқылы кіруді ажырату мүмкін болмады. Аккаунт жойылмады — қайта көріңіз."
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Apple уруксатын жокко чыгаруу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок."
+            "value" : "Apple аркылуу кирүүнү ажыратуу мүмкүн болгон жок. Аккаунт өчүрүлгөн жок — кайра аракет кылыңыз."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось отозвать доступ Apple. Аккаунт не удалён."
+            "state" : "needs_review",
+            "value" : "Не удалось отключить вход через Apple. Аккаунт не удалён — попробуйте ещё раз."
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Дастрасии Apple бекор карда нашуд. Ҳисоб нест карда нашуд."
+            "value" : "Қатъ кардани воридшавӣ бо Apple муяссар нашуд. Ҳисоб нест карда нашуд — боз кӯшиш кунед."
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Apple ruxsatini bekor qilib bo‘lmadi. Hisob o‘chirilmadi."
+            "value" : "Apple orqali kirishni uzib bo‘lmadi. Hisob o‘chirilmadi — yana urinib ko‘ring."
           }
         }
       }

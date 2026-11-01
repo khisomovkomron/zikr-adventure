@@ -11,18 +11,16 @@ public enum SettingsToggle: String, CaseIterable, Sendable {
     case haptics, sound, animations, banners, translit, translation, keepAwake, goalOn
 }
 
-/// Личная цель на день: те же границы и шаг, что в index.html (sanitize, кнопки −/+).
+/// Личная цель на день: те же границы и шаг, что в index.html (кнопки −/+).
 public enum GoalRules {
     public static let minimum = 10
     public static let maximum = 10_000
     public static let step = 10
-    public static let fallback = 100
 
-    /// Как sanitize(): `Math.min(10000, Math.max(10, Math.round(goal / 10) * 10 || 100))`.
+    /// Только границы 10…10000, без округления до шага 10 — как раньше в index.html
+    /// (`applySetting("goal", …)`, кнопки −/+). Сохранённое значение не меняется.
     public static func clamp(_ value: Int) -> Int {
-        // Math.round в JS округляет половину вверх (к +∞): floor(x + 0.5).
-        let rounded = Int((Double(value) / Double(step) + 0.5).rounded(.down)) * step
-        return min(maximum, max(minimum, rounded == 0 ? fallback : rounded))
+        min(maximum, max(minimum, value))
     }
 
     /// Кнопки −/+: `Math.max(10, goal - 10)` / `Math.min(10000, goal + 10)`.

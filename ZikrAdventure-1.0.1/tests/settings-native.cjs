@@ -48,13 +48,13 @@ assert.equal(makeContext(false).api, undefined, 'zikrNative must exist only in t
   assert.deepEqual(calls.splice(0), ['persist', 'motion', 'wake', 'renderSettings']);
 
   // Белый список и типы.
-  for (const [k, v] of [['preview', true], ['lang', 'en'], ['__proto__', true], ['sound', 'yes'], ['goal', '50'], ['goal', NaN], ['goal', Infinity]]) {
+  for (const [k, v] of [['preview', true], ['lang', 'en'], ['__proto__', true], ['sound', 'yes'], ['goal', '50'], ['goal', NaN], ['goal', Infinity], ['goal', 12.5]]) {
     assert.equal(api.setSetting(k, v), false, `rejected ${k}=${String(v)}`);
   }
   assert.equal(calls.length, 0, 'rejected commands do not persist');
 
-  // Цель: как sanitize().
-  for (const [input, expected] of [[120, 120], [124, 120], [125, 130], [4, 100], [-5, 100], [-50, 10], [99999, 10000]]) {
+  // Цель: только границы 10…10000, без округления до шага 10 (как раньше).
+  for (const [input, expected] of [[120, 120], [124, 124], [125, 125], [4, 10], [-5, 10], [-50, 10], [99999, 10000]]) {
     assert.equal(api.setSetting('goal', input), true);
     assert.equal(ctx.state.settings.goal, expected, `goal ${input}`);
   }

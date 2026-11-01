@@ -5,16 +5,19 @@ import XCTest
 @testable import ZikrDomain
 
 final class SettingsCommandsTests: XCTestCase {
-    func testGoalClampMatchesWebSanitize() {
-        // Math.min(10000, Math.max(10, Math.round(goal / 10) * 10 || 100))
+    func testGoalClampKeepsValueWithinBoundsWithoutRounding() {
+        // index.html: Math.min(10000, Math.max(10, goal)) — без округления до шага 10.
         XCTAssertEqual(GoalRules.clamp(100), 100)
-        XCTAssertEqual(GoalRules.clamp(104), 100)
-        XCTAssertEqual(GoalRules.clamp(105), 110)
-        XCTAssertEqual(GoalRules.clamp(4), 100) // round → 0 → || 100
-        XCTAssertEqual(GoalRules.clamp(6), 10)
+        XCTAssertEqual(GoalRules.clamp(104), 104)
+        XCTAssertEqual(GoalRules.clamp(125), 125)
+        XCTAssertEqual(GoalRules.clamp(4), 10)
         XCTAssertEqual(GoalRules.clamp(-50), 10)
-        XCTAssertEqual(GoalRules.clamp(-5), 100) // Math.round(-0.5) = -0 → || 100
         XCTAssertEqual(GoalRules.clamp(20_000), 10_000)
+    }
+
+    func testGoalStepperKeepsNonRoundValues() {
+        XCTAssertEqual(GoalRules.stepped(125, by: 10), 135)
+        XCTAssertEqual(GoalRules.stepped(15, by: -10), 10)
     }
 
     func testGoalStepperBounds() {
@@ -30,7 +33,7 @@ final class SettingsCommandsTests: XCTestCase {
         SettingsField.goal(123).apply(to: &settings)
         XCTAssertTrue(settings.sound)
         XCTAssertFalse(settings.animations)
-        XCTAssertEqual(settings.goal, 120)
+        XCTAssertEqual(settings.goal, 123) // без округления до шага 10
         XCTAssertEqual(SettingsField.goal(1).key, "goal")
         XCTAssertEqual(SettingsField.toggle(.keepAwake, true).key, "keepAwake")
     }
