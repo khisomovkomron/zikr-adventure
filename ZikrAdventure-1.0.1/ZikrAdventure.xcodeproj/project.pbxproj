@@ -47,6 +47,7 @@
 		D83D7B4E35BA5B4E43570CAE /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C084CBF48953863BC43768 /* AppButton.swift */; };
 		DB34C77F08A11DB0D86FDC9F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B8C8343D1793290E5711D289 /* PrivacyInfo.xcprivacy */; };
 		E177559B5732E645C51294A2 /* InfoScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6EEE3390942D00397A9DA4 /* InfoScreenUITests.swift */; };
+		EF7E5E31BF92498B25026EA8 /* AppSheetSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA8F8BAA7497136BFED30EC /* AppSheetSupport.swift */; };
 		F13AB6B9F111A1D91B865B4B /* AppCounterDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB9DE98A889E3170B87C14B /* AppCounterDisplay.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		4EB236E0535A4DD64DC48169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5199F2D81C17D26698A0F729 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		5B112FFC2905A9B8702674C4 /* AppSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
+		5DA8F8BAA7497136BFED30EC /* AppSheetSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSheetSupport.swift; sourceTree = "<group>"; };
 		64C084CBF48953863BC43768 /* AppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		7314FC9A470A029B50A37DD6 /* AppToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggle.swift; sourceTree = "<group>"; };
 		73CF170D46E89FC10C8303E7 /* ky */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ky; path = ky.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				8B125EF2086EA70E861F0FAA /* AppListRow.swift */,
 				815B9398F62ABFE0C968C185 /* AppProgressBar.swift */,
 				5B112FFC2905A9B8702674C4 /* AppSectionHeader.swift */,
+				5DA8F8BAA7497136BFED30EC /* AppSheetSupport.swift */,
 				7314FC9A470A029B50A37DD6 /* AppToggle.swift */,
 				A07546BD01D4CD5C26E82C9D /* Theme.swift */,
 				F05C01DDBCFE9BF35ABABFFC /* UIKitGallery.swift */,
@@ -385,6 +388,7 @@
 				254A31FFC0427B2020B80CA4 /* AppListRow.swift in Sources */,
 				276584ECB29CD410DCF451E1 /* AppProgressBar.swift in Sources */,
 				3DBB6F0C34505FDC7FB6B2DF /* AppSectionHeader.swift in Sources */,
+				EF7E5E31BF92498B25026EA8 /* AppSheetSupport.swift in Sources */,
 				4A326BF1457F11747312D0F7 /* AppToggle.swift in Sources */,
 				B79BE7BE29FCE96AB6986550 /* AuthCoordinator.swift in Sources */,
 				D632A63483DE69098533D8D2 /* BundleSchemeHandler.swift in Sources */,

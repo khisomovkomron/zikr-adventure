@@ -5,7 +5,7 @@
     "ru": {
       "tab.info": "Инфо",
       "info.about": "О приложении",
-      "info.aboutTextApp": "ZIKR ADVENTURE — счётчик зикра «Астагфируллах» и путешествие по Мекке и Медине эпохи Пророка ﷺ: 7 уровней и 19 глав Сиры.",
+      "info.aboutTextApp": "ZIKR ADVENTURE — счётчик зикра «Астагфируллах» и путешествие по Мекке и Медине эпохи Пророка ﷺ\u200E: 7 уровней и 19 глав Сиры.",
       "info.how": "Как устроен путь",
       "info.howText": "19 глав идут в порядке событий Сиры: от долины Мекки и первого откровения до хиджры, мединского периода и Прощального хаджа. Главы открываются на отметках от 10 до 100 000 000 повторений. Исправление счёта не закрывает открытое.",
       "info.sources": "Источники",
@@ -25,7 +25,7 @@
     "en": {
       "tab.info": "Info",
       "info.about": "About",
-      "info.aboutTextApp": "ZIKR ADVENTURE is a counter for the zikr “Astaghfirullah” and a journey through Mecca and Medina in the time of the Prophet ﷺ: 7 levels and 19 chapters of the Sira.",
+      "info.aboutTextApp": "ZIKR ADVENTURE is a counter for the zikr “Astaghfirullah” and a journey through Mecca and Medina in the time of the Prophet ﷺ\u200E: 7 levels and 19 chapters of the Sira.",
       "info.how": "How the path works",
       "info.howText": "19 chapters follow the events of the Sira: from the valley of Mecca and the first revelation to the Hijra, the Medinan period and the Farewell Pilgrimage. Chapters open at milestones from 10 to 100,000,000 repetitions. Correcting the count never closes anything.",
       "info.sources": "Sources",
@@ -65,7 +65,7 @@
     "tg": {
       "tab.info": "Маълумот",
       "info.about": "Дар бораи барнома",
-      "info.aboutTextApp": "ZIKR ADVENTURE — ҳисобкунаки зикри «Астағфируллоҳ» ва сафар бо Макка ва Мадинаи замони Паёмбар ﷺ: 7 сатҳ ва 19 боби Сийра.",
+      "info.aboutTextApp": "ZIKR ADVENTURE — ҳисобкунаки зикри «Астағфируллоҳ» ва сафар бо Макка ва Мадинаи замони Паёмбар ﷺ\u200E: 7 сатҳ ва 19 боби Сийра.",
       "info.how": "Роҳ чӣ гуна сохта шудааст",
       "info.howText": "19 боб бо тартиби рӯйдодҳои Сийра: аз водии Макка ва ваҳйи аввал то ҳиҷрат, давраи Мадина ва Ҳаҷҷи видоъ. Бобҳо дар нишонаҳои аз 10 то 100 000 000 такрор кушода мешаванд. Ислоҳи ҳисоб кушодаро намепӯшад.",
       "info.sources": "Манбаъҳо",

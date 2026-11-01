@@ -22,11 +22,7 @@ struct TabsView: View {
     init(container: AppContainer) {
         _appLanguage = StateObject(wrappedValue: AppLanguage())
         // Стартовый язык уточняется в onAppear из AppLanguage.currentLang.
-        _infoViewModel = StateObject(wrappedValue: InfoViewModel(
-            provider: container.infoContent,
-            settings: container.settings,
-            language: AppLanguage.storedLanguage
-        ))
+        _infoViewModel = StateObject(wrappedValue: container.makeInfoViewModel(language: AppLanguage.storedLanguage))
     }
 
     private var isNativeInfoAvailable: Bool {
