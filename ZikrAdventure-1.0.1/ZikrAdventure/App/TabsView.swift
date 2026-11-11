@@ -5,6 +5,7 @@
 // ZKR-50: так же устроена вкладка «Настройки»; язык интерфейса — LocalizationService из AppContainer.
 // ZKR-52: и главная вкладка «Зикр» (счётчик); шестерёнка и «Карта» выбирают нативную вкладку.
 // ZKR-53: и вкладка «Путь Сиры»; «Изучить» в баннере для главы без города открывает её нативный лист.
+// ZKR-57: и вкладка «Карта»; «На карте» в «Пути Сиры» и «Изучить» для главы с городом открывают нативную карту.
 // Пока показан веб-онбординг или его состояние неизвестно, видна веб-версия, как в 1.1.1.
 
 import SwiftUI
@@ -18,6 +19,7 @@ struct TabsView: View {
     @StateObject private var settingsViewModel: SettingsViewModel
     @StateObject private var zikrViewModel: ZikrViewModel
     @StateObject private var siraViewModel: SiraViewModel
+    @StateObject private var mapViewModel: MapViewModel
     @State private var webOnboarding = WebOnboardingTracker()
     private let auth: any AuthService
 #if DEBUG
@@ -36,6 +38,7 @@ struct TabsView: View {
         _settingsViewModel = StateObject(wrappedValue: container.makeSettingsViewModel())
         _zikrViewModel = StateObject(wrappedValue: container.makeZikrViewModel())
         _siraViewModel = StateObject(wrappedValue: container.makeSiraViewModel())
+        _mapViewModel = StateObject(wrappedValue: container.makeMapViewModel())
     }
 
     private var isNativeInfoAvailable: Bool {
@@ -57,6 +60,19 @@ struct TabsView: View {
     private var isNativeSiraAvailable: Bool {
         AppContainer.isWebMirrorEnabled && AppContainer.isNativeSiraEnabled
             && siraViewModel.isAvailable && zikrViewModel.content != nil
+    }
+
+    /// ZKR-57: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeMapAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeMapEnabled && mapViewModel.isAvailable
+    }
+
+    private var showsNativeMap: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeMapAvailable,
+            isTabSelected: selectedTab == .map,
+            isWebOnboardingVisible: webOnboarding.isVisible
+        )
     }
 
     private var showsNativeSira: Bool {
@@ -94,13 +110,15 @@ struct TabsView: View {
     /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
     /// и пока выбрана нативная вкладка с открытым онбордингом.
     private var needsOnboardingPoll: Bool {
-        guard isNativeInfoAvailable || isNativeSettingsAvailable || isNativeZikrAvailable || isNativeSiraAvailable,
+        guard isNativeInfoAvailable || isNativeSettingsAvailable || isNativeZikrAvailable || isNativeSiraAvailable
+                || isNativeMapAvailable,
               webOnboarding.isVisible != false else { return false }
         return webOnboarding.isVisible == nil
             || (selectedTab == .info && isNativeInfoAvailable)
             || (selectedTab == .settings && isNativeSettingsAvailable)
             || (selectedTab == .zikr && isNativeZikrAvailable)
             || (selectedTab == .path && isNativeSiraAvailable)
+            || (selectedTab == .map && isNativeMapAvailable)
     }
 
     var body: some View {
@@ -109,7 +127,7 @@ struct TabsView: View {
                 WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea(edges: .top)
-                    .accessibilityHidden(showsNativeInfo || showsNativeSettings || showsNativeZikr || showsNativeSira)
+                    .accessibilityHidden(showsNativeInfo || showsNativeSettings || showsNativeZikr || showsNativeSira || showsNativeMap)
 
                 if showsNativeZikr {
                     ZikrView(viewModel: zikrViewModel) { tab in
@@ -118,6 +136,9 @@ struct TabsView: View {
                 }
                 if showsNativeSira {
                     SiraView(viewModel: siraViewModel, progress: zikrViewModel)
+                }
+                if showsNativeMap {
+                    MapView(viewModel: mapViewModel)
                 }
                 if showsNativeInfo {
                     InfoView(viewModel: infoViewModel)
@@ -163,13 +184,33 @@ struct TabsView: View {
         }
         .task {
             // ZKR-53: главы и просмотры экрана «Путь Сиры» — тоже всё время жизни экрана.
+            // ZKR-57: глава с городом — explore() на нативной карте.
             zikrViewModel.openChapterNatively = { id in
-                guard isNativeSiraAvailable, webOnboarding.isVisible == false,
-                      siraViewModel.openFromBanner(id) else { return false }
-                selectedTab = .path
-                return true
+                guard webOnboarding.isVisible == false else { return false }
+                if isNativeSiraAvailable, siraViewModel.openFromBanner(id) {
+                    selectedTab = .path
+                    return true
+                }
+                if isNativeMapAvailable, mapViewModel.explore(id) {
+                    selectedTab = .map
+                    return true
+                }
+                return false
             }
             await siraViewModel.start()
+        }
+        .task {
+            // ZKR-57: карта (выбранный город, камеры, главы) — тоже всё время жизни экрана.
+            mapViewModel.onSelectTab = { tab in
+                selectedTab = tab
+            }
+            siraViewModel.openOnMapNatively = { id, withSheet in
+                guard isNativeMapAvailable, webOnboarding.isVisible == false else { return false }
+                let opened = withSheet ? mapViewModel.explore(id) : mapViewModel.showChapter(id)
+                if opened { selectedTab = .map }
+                return opened
+            }
+            await mapViewModel.start()
         }
         .task(id: needsOnboardingPoll) {
             guard needsOnboardingPoll else { return }

@@ -170,6 +170,28 @@ final class SiraViewModelTests: XCTestCase {
         XCTAssertEqual(sink.calls, [.showChapter("ch05"), .markViewed("ch09"), .explore("ch09")], "ch19 без города — без карты")
     }
 
+    /// ZKR-57: нативная «Карта» принимает «На карте» — команды showChapter / explore в веб не идут.
+    func testNativeMapHandlesShowOnMapAndSheetMapButton() async {
+        await setUp(makeState(total: 100_000_000, unlocked: ChapterCatalog.thresholds.map(\.id)))
+        var routed: [String] = []
+        viewModel.openOnMapNatively = { id, withSheet in
+            routed.append("\(id):\(withSheet)")
+            return true
+        }
+        viewModel.showOnMap("ch05")
+        viewModel.read("ch09")
+        viewModel.exploreFromSheet()
+        XCTAssertNil(viewModel.sheet)
+        await viewModel.drainCommands()
+        XCTAssertEqual(routed, ["ch05:false", "ch09:true"])
+        XCTAssertEqual(sink.calls, [.markViewed("ch09")], "только markViewed листа «Читать»")
+        // Карта недоступна (hook → false): как раньше, через веб.
+        viewModel.openOnMapNatively = { _, _ in false }
+        viewModel.showOnMap("ch05")
+        await viewModel.drainCommands()
+        XCTAssertEqual(sink.calls.last, .showChapter("ch05"))
+    }
+
     func testLeavingTabClosesSheet() async {
         await setUp(makeState(total: 10, unlocked: ["ch01"]))
         viewModel.read("ch01")
@@ -230,10 +252,10 @@ final class SiraViewModelTests: XCTestCase {
     }
 
     func testCategoryIconsMatchCatIcon() {
-        XCTAssertEqual(SiraChapterSheet.categoryIcon("sacred"), "SiraSacred")
-        XCTAssertEqual(SiraChapterSheet.categoryIcon("sira"), "SiraScroll")
-        XCTAssertEqual(SiraChapterSheet.categoryIcon("nature"), "SiraMountain")
-        XCTAssertEqual(SiraChapterSheet.categoryIcon("city"), "InfoUrban")
+        XCTAssertEqual(SiraCategoryIcon.name("sacred"), "SiraSacred")
+        XCTAssertEqual(SiraCategoryIcon.name("sira"), "SiraScroll")
+        XCTAssertEqual(SiraCategoryIcon.name("nature"), "SiraMountain")
+        XCTAssertEqual(SiraCategoryIcon.name("city"), "InfoUrban")
         for name in ["SiraSacred", "SiraMosque", "SiraScroll", "SiraMountain", "SiraMemorial", "InfoUrban", "InfoStar", "InfoLock", "InfoBook"] {
             XCTAssertNotNil(UIImage(named: name), name)
         }

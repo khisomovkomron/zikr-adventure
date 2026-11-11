@@ -39,6 +39,10 @@ enum Theme {
         static let mapCountry = SwiftUI.Color("Country")
         static let mapBorder = SwiftUI.Color("Border")
         static let mapMount = SwiftUI.Color("Mount")
+        /// ZKR-57: маркеры и хиджра обзорной карты (цвета SVG в index.html, одинаковые в обеих темах).
+        static let mapMarker = SwiftUI.Color(red: 0x1B / 255, green: 0x2A / 255, blue: 0x44 / 255)
+        static let mapMarkerStroke = SwiftUI.Color(red: 0xC2 / 255, green: 0xA0 / 255, blue: 0x5A / 255)
+        static let mapHijra = SwiftUI.Color(red: 0xD9 / 255, green: 0xB4 / 255, blue: 0x5A / 255)
         static let shadow = SwiftUI.Color("Shadow")
         static let overlayShadow = SwiftUI.Color("OverlayShadow")
         static let floatingShadow = SwiftUI.Color("FloatingShadow")
@@ -596,6 +600,76 @@ enum Theme {
         /// `.xs` / `.kicker` 13.5px WebKit рисует уже, чем UIFont 13.5 (замер по скриншотам: −3 %,
         /// «Реконструкция…» в вебе помещается в строку) — на «Пути Сиры» мелкий текст 13.1 pt.
         static let smallTextWeb: CGFloat = 13.1
+    }
+
+    /// ZKR-57: экран «Карта» (`.map-wrap`, `.overlay`, `.mchip`, `.disclaimer`, `.ctrls`, `.panel`, `.citybtns`,
+    /// `.preview-badge`, маркеры обзорной карты в единицах SVG).
+    enum Map {
+        /// `.overlay` padding 10
+        static let overlayPadding: CGFloat = 10
+        /// `.mchip`: gap 6, padding 7 12, 14 / 500, иконка 16, surface 88 % + blur 8
+        static let chipGap: CGFloat = 6
+        static let chipPaddingY: CGFloat = 7
+        static let chipPaddingX: CGFloat = 12
+        static let chipIcon: CGFloat = 16
+        static let glassOpacity: CGFloat = 0.88
+        /// `.disclaimer`: 12.5 / 1.3, padding 6 10, radius 10, max-width 62 %
+        static let disclaimerSize: CGFloat = 12.5
+        static let disclaimerLineHeight: CGFloat = 1.3
+        static let disclaimerPaddingY: CGFloat = 6
+        static let disclaimerPaddingX: CGFloat = 10
+        static let disclaimerRadius: CGFloat = 10
+        static let disclaimerMaxWidth: CGFloat = 0.62
+        /// `.ctrls`: gap 10; кнопки 46, surface 90 % + blur 8, тень 0 3 10 rgba(0,0,0,.15)
+        static let controlGap: CGFloat = 10
+        static let control: CGFloat = 46
+        static let controlOpacity: CGFloat = 0.9
+        static let controlShadowRadius: CGFloat = 5
+        static let controlShadowY: CGFloat = 3
+        static let controlShadowOpacity: CGFloat = 0.15
+        /// `.bottomrow` gap 10; колонка чипов gap 6
+        static let rowGap: CGFloat = 10
+        static let stackGap: CGFloat = 6
+        /// `.citybtns` gap 10, margin-bottom 8
+        static let cityButtonsGap: CGFloat = 10
+        static let cityButtonsBottom: CGFloat = 8
+        /// `.panel` padding 14 16 16, radius 18, h2 serif 24, `.ar` 22, появление rise .28 s (16 pt)
+        static let panelTop: CGFloat = 14
+        static let panelX: CGFloat = 16
+        static let panelBottom: CGFloat = 16
+        static let panelTitle: CGFloat = 24
+        static let panelSummaryY: CGFloat = 6
+        static let panelCountBottom: CGFloat = 12
+        static let panelRise: CGFloat = 16
+        static let panelRiseDuration: Double = 0.28
+        /// `.preview-badge`: 13 / 700, padding 4 10
+        static let badgeSize: CGFloat = 13
+        static let badgePaddingY: CGFloat = 4
+        static let badgePaddingX: CGFloat = 10
+        /// Обзорная карта (SVG): маркер r 9 / 11, кольцо r 17, обводка 2.5, подпись 15 / 17 на (x + 17, y + 5), зона нажатия r 30
+        static let worldDot: CGFloat = 9
+        static let worldDotSelected: CGFloat = 11
+        static let worldRing: CGFloat = 17
+        static let worldStroke: CGFloat = 2.5
+        static let worldLabel: CGFloat = 15
+        static let worldLabelSelected: CGFloat = 17
+        static let worldHit: CGFloat = 30
+        static let worldViewBoxDuration: Double = 0.45
+        /// Хиджра: #D9B45A, 3.5, штрих 9 7
+        static let hijraWidth: CGFloat = 3.5
+        /// Листы: `.group-h` margin-top 6 у первой группы, `.btn` margin-top 14, `.demo` margin 10 0 4 / padding 10 12
+        static let firstGroupTop: CGFloat = 6
+        static let groupTitle: CGFloat = 19
+        static let groupTop: CGFloat = 22
+        static let groupBottom: CGFloat = 8
+        static let groupX: CGFloat = 4
+        static let closeTop: CGFloat = 14
+        static let demoTop: CGFloat = 10
+        static let demoBottom: CGFloat = 4
+        static let demoPaddingY: CGFloat = 10
+        static let demoPaddingX: CGFloat = 12
+        static let legendListTop: CGFloat = 12
+        static let objectStackTop: CGFloat = 12
     }
 
     enum Motion {
