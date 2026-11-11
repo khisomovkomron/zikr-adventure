@@ -1,6 +1,6 @@
 // swift-tools-version:5.9
 // ZikrKit — нативный слой данных Zikr Adventure (ZKR-49) и контент нативных экранов (ZKR-48).
-// Только Foundation (+ os под #if canImport(os)); без сторонних зависимостей.
+// Только системные фреймворки (Foundation, os; ZKR-57: JavaScriptCore и CoreGraphics в ZikrContent); без сторонних зависимостей.
 import PackageDescription
 
 let strict: [SwiftSetting] = [.enableExperimentalFeature("StrictConcurrency")]
@@ -20,10 +20,18 @@ let package = Package(
         .target(name: "ZikrPersistence", dependencies: ["ZikrCore", "ZikrDomain"], swiftSettings: strict),
         // ZKR-48: контент нативных экранов (тексты «Инфо» из index.html), без UI-зависимостей.
         // ZKR-52: zikr-content.json — уровни и главы Сиры для экрана «Зикр».
+        // ZKR-57: map-content.json — сцены карт городов и обзорной карты; map-draw.js — их программная
+        // графика из index.html, map-canvas-shim.js — записывающий Canvas 2D для JavaScriptCore.
         .target(
             name: "ZikrContent",
             dependencies: ["ZikrCore"],
-            resources: [.copy("Resources/info-content.json"), .copy("Resources/zikr-content.json")],
+            resources: [
+                .copy("Resources/info-content.json"),
+                .copy("Resources/zikr-content.json"),
+                .copy("Resources/map-content.json"),
+                .copy("Resources/map-draw.js"),
+                .copy("Resources/map-canvas-shim.js"),
+            ],
             swiftSettings: strict
         ),
         .testTarget(name: "ZikrCoreTests", dependencies: ["ZikrCore"]),

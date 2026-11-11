@@ -15,12 +15,14 @@ struct SiraChapterSheetState: Equatable, Identifiable {
     let chapterID: String
     /// «На карте» в листе: из строки «Читать» — да, из баннера «Изучить» (explore) — нет.
     let showsMapButton: Bool
+    /// ZKR-57: placeCard(place, { siraFirst }) — блок Сиры первым (лист главы) или после «Облика» (место на карте).
+    var siraFirst = true
 
     var id: String { chapterID }
 }
 
 @MainActor
-final class SiraViewModel: ObservableObject {
+final class SiraViewModel: ObservableObject, ChapterSheetModel {
     /// nil — zikr-state.json ещё нет (зеркало не получило снимок): показывается веб-экран.
     @Published private(set) var settings: AppSettings?
     @Published private(set) var total: Int64 = 0
@@ -32,6 +34,10 @@ final class SiraViewModel: ObservableObject {
 
     let localization: LocalizationService
     let content: ZikrScreenContent?
+
+    /// ZKR-57: «На карте» открывает нативную «Карту» (chapterID, с листом главы) → true; иначе — веб (showChapter / explore).
+    /// Нативная карта сама отмечает просмотр (markViewed).
+    var openOnMapNatively: ((String, Bool) -> Bool)?
 
     private let repository: any ProgressRepository
     private let sink: any SiraCommandSink
@@ -126,6 +132,7 @@ final class SiraViewModel: ObservableObject {
     func showOnMap(_ id: String) {
         guard chapter(id)?.city != nil, isOpen(id) else { return }
         noteViewed(id)
+        if openOnMapNatively?(id, false) == true { return }
         queue.enqueue { [weak self] in
             guard let self else { return }
             await self.sink.showChapter(chapterID: id)
@@ -136,6 +143,7 @@ final class SiraViewModel: ObservableObject {
     func exploreFromSheet() {
         guard let id = sheet?.chapterID else { return }
         sheet = nil
+        if chapter(id)?.city != nil, openOnMapNatively?(id, true) == true { return }
         queue.enqueue { [weak self] in
             guard let self else { return }
             await self.sink.explore(chapterID: id)
@@ -167,6 +175,12 @@ final class SiraViewModel: ObservableObject {
 
     /// `distText(placeId)`: «От Каабы: ~4,8 км, северо-восток» / «центр карты» / «Сафа: ~130 м, юго-восток · Марва: …».
     func distanceText(_ place: ZikrScreenContent.Place) -> String {
+        Self.distanceText(place, content: content, localization: localization)
+    }
+
+    /// ZKR-57: общий для листов «Пути Сиры» и «Карты».
+    static func distanceText(_ place: ZikrScreenContent.Place, content: ZikrScreenContent?, localization: LocalizationService) -> String {
+        let language = localization.language.rawValue
         let base = localization.tr(place.city == "mecca" ? .distKaaba : .distNabawi)
         let parts = place.dist.map { leg -> String in
             guard leg.m != 0 else { return localization.tr(.cardCenter) }

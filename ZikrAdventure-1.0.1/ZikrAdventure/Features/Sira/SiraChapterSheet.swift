@@ -4,12 +4,31 @@
 // «Значение», расстояние (distText), «Облик в VII веке», «На карте», «Закрыть». Без места — «Глава N · год»,
 // заголовок, текст, «На карте» (если есть город), «Закрыть».
 // Оформление листа — как InfoSheetHost (ZKR-48): затемнение .2 с, лист .26 с, 86 % высоты.
+// ZKR-57: тот же лист на «Карте» — placeCard(place) по нажатию на место (блок Сиры после «Облика», без «На карте»)
+// и chapterCard(ch, false) после explore; модель — любой ChapterSheetModel (SiraViewModel, MapViewModel).
 
 import SwiftUI
 import ZikrContent
 
-struct SiraChapterSheet: View {
-    @ObservedObject var viewModel: SiraViewModel
+/// Данные и действия листа главы / места.
+@MainActor
+protocol ChapterSheetModel: ObservableObject {
+    var localization: LocalizationService { get }
+    var animationsEnabled: Bool { get }
+    func chapter(_ id: String) -> ZikrScreenContent.Chapter?
+    func place(_ id: String?) -> ZikrScreenContent.Place?
+    func isOpen(_ id: String) -> Bool
+    func index(of id: String) -> Int
+    func year(_ id: String) -> String
+    func title(_ id: String) -> String
+    func text(_ values: [String: String]?) -> String
+    func distanceText(_ place: ZikrScreenContent.Place) -> String
+    func closeSheet()
+    func exploreFromSheet()
+}
+
+struct SiraChapterSheet<Model: ChapterSheetModel>: View {
+    @ObservedObject var viewModel: Model
     @ObservedObject var localization: LocalizationService
     let state: SiraChapterSheetState
 
@@ -18,7 +37,7 @@ struct SiraChapterSheet: View {
     @State private var contentHeight: CGFloat = 0
     @AccessibilityFocusState private var isTitleFocused: Bool
 
-    init(viewModel: SiraViewModel, state: SiraChapterSheetState) {
+    init(viewModel: Model, state: SiraChapterSheetState) {
         self.viewModel = viewModel
         self.localization = viewModel.localization
         self.state = state
@@ -125,7 +144,7 @@ struct SiraChapterSheet: View {
         }
     }
 
-    // MARK: - placeCard (глава с местом, siraFirst)
+    // MARK: - placeCard (глава с местом; siraFirst — из «Пути Сиры», иначе блок Сиры после «Облика»)
 
     private func placeContent(_ chapter: ZikrScreenContent.Chapter, _ place: ZikrScreenContent.Place) -> some View {
         let open = viewModel.isOpen(chapter.id)
@@ -149,7 +168,9 @@ struct SiraChapterSheet: View {
             }
 
             VStack(alignment: .leading, spacing: Theme.Sira.stackGap) {
-                siraBlock(chapter, place, open: open)
+                if state.siraFirst {
+                    siraBlock(chapter, place, open: open)
+                }
                 VStack(alignment: .leading, spacing: 0) {
                     kicker(tr(.cardSig))
                     paragraph(viewModel.text(place.sig))
@@ -163,6 +184,9 @@ struct SiraChapterSheet: View {
                         .padding(.top, Theme.Sira.paragraphTop)
                     xs(tr(.cardLookNote))
                         .padding(.top, Theme.Sira.noteTop)
+                }
+                if !state.siraFirst {
+                    siraBlock(chapter, place, open: open)
                 }
                 if state.showsMapButton {
                     mapButton
@@ -255,14 +279,7 @@ struct SiraChapterSheet: View {
 
     /// CAT_ICON в index.html.
     static func categoryIcon(_ category: String) -> String {
-        switch category {
-        case "sacred": return "SiraSacred"
-        case "mosque": return "SiraMosque"
-        case "sira": return "SiraScroll"
-        case "nature": return "SiraMountain"
-        case "memorial": return "SiraMemorial"
-        default: return "InfoUrban"
-        }
+        SiraCategoryIcon.name(category)
     }
 
     // MARK: - Общие элементы
@@ -332,5 +349,19 @@ struct SiraChapterSheet: View {
     /// CSS `ease` = cubic-bezier(.25, .1, .25, 1).
     private static func ease(_ duration: Double) -> Animation {
         .timingCurve(0.25, 0.1, 0.25, 1, duration: duration)
+    }
+}
+
+/// CAT_ICON в index.html (ZKR-57: общий для листов «Пути Сиры» и «Карты»).
+enum SiraCategoryIcon {
+    static func name(_ category: String) -> String {
+        switch category {
+        case "sacred": return "SiraSacred"
+        case "mosque": return "SiraMosque"
+        case "sira": return "SiraScroll"
+        case "nature": return "SiraMountain"
+        case "memorial": return "SiraMemorial"
+        default: return "InfoUrban"
+        }
     }
 }
