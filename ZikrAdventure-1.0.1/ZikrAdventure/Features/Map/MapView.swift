@@ -67,6 +67,8 @@ struct MapView: View {
             }
         }
         .onDisappear { viewModel.didDisappear() }
+        // .contain: иначе идентификатор экрана перекрывает идентификаторы шапки и кнопок.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("map.screen")
     }
 
