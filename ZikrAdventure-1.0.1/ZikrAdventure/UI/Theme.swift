@@ -47,6 +47,9 @@ enum Theme {
         static let zikrButtonTop = SwiftUI.Color("ZikrButtonTop")
         static let zikrButtonBottom = SwiftUI.Color("ZikrButtonBottom")
         static let knobShadow = SwiftUI.Color("KnobShadow")
+        /// ZKR-53: `.tl.on .dot` / `.lvl-head.done .lvl-badge` — #C9A24D и #1B2A44 в обеих темах.
+        static let siraGold = SwiftUI.Color("SiraGold")
+        static let siraInk = SwiftUI.Color("SiraInk")
     }
 
     // MARK: - Opacity (CSS hex alpha, не «на глаз»)
@@ -209,6 +212,18 @@ enum Theme {
         case bannerTitle
         /// ZKR-52: `.chip-btn` — 15 / 700.
         case chipButton
+        /// ZKR-53: `.lvl-head .kicker` — serif 16 / 600.
+        case levelHead
+        /// ZKR-53: `.lvl-head .lvl-badge` — serif 16 / 700.
+        case levelHeadBadge
+        /// ZKR-53: `.tl-title` — serif 18 / 600, line-height 1.25.
+        case timelineTitle
+        /// ZKR-53: `.tl .dot` — 13 / 700.
+        case timelineDot
+        /// ZKR-53: `.newb` — 12.5 / 700.
+        case newBadge
+        /// ZKR-53: `.ar-name` — Geeza Pro 22.
+        case arabicName
 
         var pointSize: CGFloat {
             switch self {
@@ -238,19 +253,26 @@ enum Theme {
             case .headingBody: return 17
             case .bannerTitle: return 18
             case .chipButton: return 15
+            case .levelHead, .levelHeadBadge: return 16
+            case .timelineTitle: return 18
+            case .timelineDot: return 13
+            case .newBadge: return 12.5
+            case .arabicName: return 22
             }
         }
 
         var weight: UIFont.Weight {
             switch self {
             case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
-                 .headingSM, .headingXS, .sectionTitle, .statLarge, .statMedium, .headingBody, .bannerTitle:
+                 .headingSM, .headingXS, .sectionTitle, .statLarge, .statMedium, .headingBody, .bannerTitle,
+                 .levelHead, .timelineTitle:
                 return .semibold
-            case .bodyStrong, .tabSelected, .calloutMedium, .levelBadge, .actionLabel, .chipButton:
+            case .bodyStrong, .tabSelected, .calloutMedium, .levelBadge, .actionLabel, .chipButton,
+                 .levelHeadBadge, .timelineDot, .newBadge:
                 return .bold
             case .callout, .kicker, .kickerMedium, .chip:
                 return .medium
-            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular, .xs:
+            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular, .xs, .arabicName:
                 return .regular
             }
         }
@@ -259,7 +281,8 @@ enum Theme {
             switch self {
             case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
                  .headingSM, .headingXS, .translit, .sectionTitle, .arabic,
-                 .statLarge, .statMedium, .levelBadge, .headingBody, .bannerTitle:
+                 .statLarge, .statMedium, .levelBadge, .headingBody, .bannerTitle,
+                 .levelHead, .levelHeadBadge, .timelineTitle, .arabicName:
                 return .serif
             default:
                 return .default
@@ -281,7 +304,9 @@ enum Theme {
             case .xs: return .footnote
             case .statLarge: return .title1
             case .statMedium: return .title2
-            case .levelBadge, .bannerTitle: return .headline
+            case .levelBadge, .bannerTitle, .levelHead, .levelHeadBadge, .timelineTitle: return .headline
+            case .timelineDot, .newBadge: return .caption1
+            case .arabicName: return .title2
             case .actionLabel, .chipButton: return .subheadline
             case .headingBody: return .body
             case .caption: return .caption1
@@ -294,7 +319,7 @@ enum Theme {
         }
 
         var usesArabicFamily: Bool {
-            self == .arabic
+            self == .arabic || self == .arabicName
         }
     }
 
@@ -492,6 +517,82 @@ enum Theme {
         static func buttonSize(width: CGFloat) -> CGFloat {
             min(buttonMax, width * buttonViewport)
         }
+    }
+
+    // MARK: - Экран «Путь Сиры» (ZKR-53): значения из CSS renderPath() / chapterCard() / placeCard()
+
+    enum Sira {
+        /// `.foot` margin 8 4 0
+        static let footTop: CGFloat = 8
+        static let footX: CGFloat = 4
+        /// `.lvl-head` margin-top 24, padding 10 12, gap 12, radius 14; бейдж 34, обводка 2
+        static let levelTop: CGFloat = 24
+        static let levelPaddingY: CGFloat = 10
+        static let levelPaddingX: CGFloat = 12
+        static let levelGap: CGFloat = 12
+        static let levelRadius: CGFloat = 14
+        static let levelBadge: CGFloat = 34
+        static let levelBadgeBorder: CGFloat = 2
+        /// `.timeline` margin 6 0 10 (6 — схлопывается с margin-bottom 2 заголовка), padding-left 4;
+        /// линия `::before` left 19, ширина 2, top/bottom 8
+        static let timelineTop: CGFloat = 6
+        static let timelineBottom: CGFloat = 10
+        static let timelineLeading: CGFloat = 4
+        static let lineX: CGFloat = 19
+        static let lineWidth: CGFloat = 2
+        static let lineInset: CGFloat = 8
+        /// `.tl` padding 8 0, gap 14; `.dot` 32, обводка 2, звезда 14
+        static let rowPaddingY: CGFloat = 8
+        static let rowGap: CGFloat = 14
+        static let dot: CGFloat = 32
+        static let dotBorder: CGFloat = 2
+        static let dotStar: CGFloat = 14
+        /// `.tl-body` padding 10 12, radius 14, обводка 1 (у открытой — accent 50 %)
+        static let bodyPaddingY: CGFloat = 10
+        static let bodyPaddingX: CGFloat = 12
+        static let bodyRadius: CGFloat = 14
+        static let bodyBorderOpen: CGFloat = 0.5
+        /// `.tl-title` line-height 1.25
+        static let titleLineHeight: CGFloat = 1.25
+        /// Кнопки строки: margin-top 8, gap 8
+        static let chipsTop: CGFloat = 8
+        static let chipsGap: CGFloat = 8
+        /// `.newb` padding 1 8, margin-left 6, vertical-align 2px
+        static let newPaddingY: CGFloat = 1
+        static let newPaddingX: CGFloat = 8
+        static let newLeading: CGFloat = 6
+        static let newRaise: CGFloat = 2
+        /// `.hp-head` gap 14; `.glyph` 56, radius 14, иконка 28
+        static let headGap: CGFloat = 14
+        static let glyph: CGFloat = 56
+        static let glyphRadius: CGFloat = 14
+        static let glyphIcon: CGFloat = 28
+        /// `.hp-title` margin 2 0 4; `.ar-name` margin-bottom 6
+        static let titleTop: CGFloat = 2
+        static let titleBottom: CGFloat = 4
+        static let arabicBottom: CGFloat = 6
+        /// `.badge` padding 4 10, gap 6, иконка 15
+        static let badgePaddingY: CGFloat = 4
+        static let badgePaddingX: CGFloat = 10
+        static let badgeGap: CGFloat = 6
+        static let badgeIcon: CGFloat = 15
+        /// `.stack` margin-top 14, между блоками 16; `<p style="margin:2px 0 0">`; `.card.lookNote` margin-top 4
+        static let stackTop: CGFloat = 14
+        static let stackGap: CGFloat = 16
+        static let paragraphTop: CGFloat = 2
+        static let noteTop: CGFloat = 4
+        /// `.sira` padding 12 14, radius 14; p margin-top 4; звезда 15; замок 18, gap 10
+        static let siraPaddingY: CGFloat = 12
+        static let siraPaddingX: CGFloat = 14
+        static let siraRadius: CGFloat = 14
+        static let siraTextTop: CGFloat = 4
+        static let siraStar: CGFloat = 15
+        static let siraLock: CGFloat = 18
+        static let siraLockGap: CGFloat = 10
+        /// `.sira` accent 12 % поверх surface, обводка accent 45 %
+        static let siraFill: CGFloat = 0.12
+        /// Кнопка карты в chapterCard: margin-bottom 10
+        static let mapButtonBottom: CGFloat = 10
     }
 
     enum Motion {

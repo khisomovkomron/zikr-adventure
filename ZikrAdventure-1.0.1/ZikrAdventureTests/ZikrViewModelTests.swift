@@ -275,6 +275,25 @@ final class ZikrViewModelTests: XCTestCase {
         XCTAssertEqual(sink.calls.last, .explore("ch01"))
     }
 
+    /// ZKR-53: «Изучить» для главы без города — нативный лист «Пути Сиры» вместо команды в веб.
+    func testExploreRoutesCitylessChapterToNativeSira() async {
+        await setUp(makeState(total: 99_999_999, unlocked: Array(ChapterCatalog.ids)
+            .filter { $0 != "ch19" }.sorted()))
+        var opened: [String] = []
+        viewModel.openChapterNatively = { id in
+            opened.append(id)
+            return id == "ch19"
+        }
+        viewModel.tap()
+        await viewModel.drainCommands()
+        XCTAssertEqual(viewModel.banner?.focusChapterID, "ch19")
+        viewModel.exploreBanner()
+        await viewModel.drainCommands()
+        XCTAssertNil(viewModel.banner)
+        XCTAssertEqual(opened, ["ch19"])
+        XCTAssertFalse(sink.calls.contains(.explore("ch19")), "веб-лист не открывается под нативным экраном")
+    }
+
     func testMultipleChaptersFocusLast() async {
         // total 0, а глав ещё нет: следующее нажатие откроет сразу несколько (как evaluate()).
         var state = makeState(total: 59)

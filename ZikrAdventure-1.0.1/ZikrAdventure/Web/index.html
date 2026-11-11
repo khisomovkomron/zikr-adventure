@@ -1884,6 +1884,17 @@ if (IS_APP) {
       const ch = CH.find((c) => c.id === id); if (!ch) return false;
       if (!ch.city) selectTab("path");
       explore(ch); return true;
+    },
+    // ZKR-53: нативный экран «Путь Сиры». Лист главы рисует native; веб только записывает:
+    // «Читать» → markViewed (как chapterCard / placeCard), «На карте» в строке → как data-go,
+    // «На карте» в листе → explore(id) выше. Только для открытых глав (isOpen, с предпросмотром).
+    markViewed(id) {
+      const ch = CH.find((c) => c.id === id); if (!ch || !isOpen(ch.id)) return false;
+      markViewed(ch.id); return true;
+    },
+    showChapter(id) {
+      const ch = CH.find((c) => c.id === id); if (!ch || !ch.city || !isOpen(ch.id)) return false;
+      markViewed(ch.id); openCity(ch.city, chapterFocus(ch)); return true;
     }
   });
 }
