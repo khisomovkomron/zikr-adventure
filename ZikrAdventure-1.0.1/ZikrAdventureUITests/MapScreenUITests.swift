@@ -171,15 +171,19 @@ final class MapScreenUITests: XCTestCase {
             tap(app, native: "map.city.list", web: "Список мест", isWeb: isWeb)
             Thread.sleep(forTimeInterval: 1)
             attach(app, name: "map-\(city)-list")
+            // Мечеть Куба (ch09) открыта только с 5000 — при меньшем счёте лист места Медины пропускается.
             let place = city == "mecca" ? "Колодец Замзам" : "Мечеть Куба"
-            if isWeb {
-                app.webViews.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", place)).firstMatch.tap()
+            let row = isWeb
+                ? app.webViews.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", place)).firstMatch
+                : app.buttons["map.list.row.\(city == "mecca" ? "zamzam" : "quba")"]
+            if row.waitForExistence(timeout: 2) {
+                row.tap()
+                Thread.sleep(forTimeInterval: 1.8)
+                attach(app, name: "map-\(city)-place")
+                tap(app, native: "sira.sheet.close", web: "Закрыть", isWeb: isWeb)
             } else {
-                app.buttons["map.list.row.\(city == "mecca" ? "zamzam" : "quba")"].tap()
+                tap(app, native: "map.sheet.close", web: "Закрыть", isWeb: isWeb)
             }
-            Thread.sleep(forTimeInterval: 1.8)
-            attach(app, name: "map-\(city)-place")
-            tap(app, native: "sira.sheet.close", web: "Закрыть", isWeb: isWeb)
             Thread.sleep(forTimeInterval: 0.6)
             tap(app, native: "map.city.back", web: "Назад", isWeb: isWeb)
             Thread.sleep(forTimeInterval: 1)
