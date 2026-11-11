@@ -15,7 +15,9 @@ const nativePath = path.join(root, 'tools/l10n-native.json');
 const outPath = path.join(root, 'ZikrAdventure/Resources/Localizable.xcstrings');
 
 export const LANGS = ['ru', 'en', 'uz', 'tg', 'kk', 'ky'];
-export const isNativeKey = (key) => /^(tab|common|set|auth|history)\./.test(key) || key === 'info.privacy';
+// ZKR-52: + экран «Зикр» (zikr, level, reset, banner, a11y и четыре строки path.* из progressCard()).
+const NATIVE_EXTRA_KEYS = new Set(['info.privacy', 'path.title', 'path.next', 'path.remaining', 'path.opened']);
+export const isNativeKey = (key) => /^(tab|common|set|auth|history|zikr|level|reset|banner|a11y)\./.test(key) || NATIVE_EXTRA_KEYS.has(key);
 
 export function readWebUI(html) {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];

@@ -7,14 +7,20 @@ import UIKit
 import ZikrPersistence
 
 @MainActor
-final class WebViewManager: WebCommandEvaluating {
+final class WebViewManager: WebCommandEvaluating, WebQueryEvaluating {
     static let shared = WebViewManager()
 
     let viewController: WebAppViewController
     private var tabSelectionHandler: ((String) -> Void)?
     private var pendingSelectTab: String?
     /// ZKR-50: команды, пришедшие до загрузки страницы (или во время перезагрузки WebContent).
-    private var pendingCommands: [(script: String, continuation: CheckedContinuation<Bool, Never>)] = []
+    /// ZKR-52: и запросы со строковым ответом (снимок счётчика) — в той же очереди, порядок общий.
+    private var pendingCommands: [PendingCommand] = []
+
+    private enum PendingCommand {
+        case command(String, CheckedContinuation<Bool, Never>)
+        case query(String, CheckedContinuation<String?, Never>)
+    }
 
     /// ZKR-61: зеркало, переданное до создания shared. shared создаётся при первом показе
     /// WebHostView (после FirebaseApp.configure() в AppDelegate); зеркало нужно раньше.
@@ -69,11 +75,21 @@ final class WebViewManager: WebCommandEvaluating {
 
     /// ZKR-50: выполняет команду сразу или после загрузки страницы (порядок сохраняется).
     func evaluateCommand(_ script: String) async -> Bool {
-        if viewController.isWebViewLoaded, pendingCommands.isEmpty {
+        if viewController.isWebViewLoaded, pendingCommands.isEmpty, !isFlushing {
             return await viewController.evaluateCommand(script)
         }
         return await withCheckedContinuation { continuation in
-            pendingCommands.append((script, continuation))
+            pendingCommands.append(.command(script, continuation))
+        }
+    }
+
+    /// ZKR-52: то же для команды со строковым (JSON) ответом.
+    func evaluateQuery(_ script: String) async -> String? {
+        if viewController.isWebViewLoaded, pendingCommands.isEmpty, !isFlushing {
+            return await viewController.evaluateQuery(script)
+        }
+        return await withCheckedContinuation { continuation in
+            pendingCommands.append(.query(script, continuation))
         }
     }
 
@@ -85,13 +101,23 @@ final class WebViewManager: WebCommandEvaluating {
         flushPendingCommands()
     }
 
+    /// ZKR-52: пока очередь сбрасывается, новые команды тоже встают в неё (иначе быстрые нажатия
+    /// могли бы обогнать ожидающие команды).
+    private var isFlushing = false
+
     private func flushPendingCommands() {
-        guard !pendingCommands.isEmpty else { return }
-        let commands = pendingCommands
-        pendingCommands = []
+        guard !pendingCommands.isEmpty, !isFlushing else { return }
+        isFlushing = true
         Task { @MainActor in
-            for command in commands {
-                command.continuation.resume(returning: await viewController.evaluateCommand(command.script))
+            defer { isFlushing = false }
+            while !pendingCommands.isEmpty, viewController.isWebViewLoaded {
+                let command = pendingCommands.removeFirst()
+                switch command {
+                case .command(let script, let continuation):
+                    continuation.resume(returning: await viewController.evaluateCommand(script))
+                case .query(let script, let continuation):
+                    continuation.resume(returning: await viewController.evaluateQuery(script))
+                }
             }
         }
     }

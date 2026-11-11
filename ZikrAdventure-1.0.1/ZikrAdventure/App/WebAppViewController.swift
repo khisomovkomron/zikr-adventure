@@ -301,13 +301,22 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
 
     /// ZKR-50: выполняет команду window.zikrNative.* (скрипт всегда возвращает Bool).
     func evaluateCommand(_ script: String) async -> Bool {
-        guard isWebViewLoaded, let webView else { return false }
+        (await evaluateScript(script) as? Bool) ?? false
+    }
+
+    /// ZKR-52: команда, которая возвращает JSON-строку (снимок счётчика); nil — ошибка или null.
+    func evaluateQuery(_ script: String) async -> String? {
+        await evaluateScript(script) as? String
+    }
+
+    private func evaluateScript(_ script: String) async -> Any? {
+        guard isWebViewLoaded, let webView else { return nil }
         do {
-            return (try await webView.evaluateJavaScript(script) as? Bool) ?? false
+            return try await webView.evaluateJavaScript(script)
         } catch {
             let nsError = error as NSError
             Log.settings.error("zikrNative command failed (domain: \(nsError.domain, privacy: .public), code: \(nsError.code, privacy: .public))")
-            return false
+            return nil
         }
     }
 

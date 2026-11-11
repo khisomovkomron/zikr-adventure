@@ -43,6 +43,9 @@ enum Theme {
         static let overlayShadow = SwiftUI.Color("OverlayShadow")
         static let floatingShadow = SwiftUI.Color("FloatingShadow")
         static let zikrButtonShadow = SwiftUI.Color("ZikrButtonShadow")
+        /// ZKR-52: `.zikr-btn` radial-gradient(circle at 35% 30%, #2E4470, #18263F 70%) — одинаково в обеих темах.
+        static let zikrButtonTop = SwiftUI.Color("ZikrButtonTop")
+        static let zikrButtonBottom = SwiftUI.Color("ZikrButtonBottom")
         static let knobShadow = SwiftUI.Color("KnobShadow")
     }
 
@@ -188,6 +191,24 @@ enum Theme {
         case arabic
         case sectionTitle
         case kicker
+        /// ZKR-52: `.kicker` в progressCard / `.banner .ttl` — 14 pt medium.
+        case kickerMedium
+        /// ZKR-52: `.xs` — 13.5 pt regular (подписи и шкалы карточек «Зикр»).
+        case xs
+        /// ZKR-52: `.big` — serif 30 / 600, цифры «Сегодня».
+        case statLarge
+        /// ZKR-52: `.big` с font-size 22 — «за сеанс».
+        case statMedium
+        /// ZKR-52: `.lvl-badge` — serif 18 / 700.
+        case levelBadge
+        /// ZKR-52: `.row3 .btn` — 14.5 / 700.
+        case actionLabel
+        /// ZKR-52: `.next-ch span:nth-child(2)` — serif 17 / 600.
+        case headingBody
+        /// ZKR-52: `.banner .hd` — serif 18 / 600.
+        case bannerTitle
+        /// ZKR-52: `.chip-btn` — 15 / 700.
+        case chipButton
 
         var pointSize: CGFloat {
             switch self {
@@ -208,19 +229,28 @@ enum Theme {
             case .arabic: return 44
             case .sectionTitle: return 15
             case .kicker: return 13.5
+            case .kickerMedium: return 14
+            case .xs: return 13.5
+            case .statLarge: return 30
+            case .statMedium: return 22
+            case .levelBadge: return 18
+            case .actionLabel: return 14.5
+            case .headingBody: return 17
+            case .bannerTitle: return 18
+            case .chipButton: return 15
             }
         }
 
         var weight: UIFont.Weight {
             switch self {
             case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
-                 .headingSM, .headingXS, .sectionTitle:
+                 .headingSM, .headingXS, .sectionTitle, .statLarge, .statMedium, .headingBody, .bannerTitle:
                 return .semibold
-            case .bodyStrong, .tabSelected, .calloutMedium:
+            case .bodyStrong, .tabSelected, .calloutMedium, .levelBadge, .actionLabel, .chipButton:
                 return .bold
-            case .callout, .kicker, .chip:
+            case .callout, .kicker, .kickerMedium, .chip:
                 return .medium
-            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular:
+            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular, .xs:
                 return .regular
             }
         }
@@ -228,7 +258,8 @@ enum Theme {
         var design: UIFontDescriptor.SystemDesign {
             switch self {
             case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
-                 .headingSM, .headingXS, .translit, .sectionTitle, .arabic:
+                 .headingSM, .headingXS, .translit, .sectionTitle, .arabic,
+                 .statLarge, .statMedium, .levelBadge, .headingBody, .bannerTitle:
                 return .serif
             default:
                 return .default
@@ -246,7 +277,13 @@ enum Theme {
             case .translit: return .title3
             case .body, .bodyStrong, .chip: return .body
             case .callout, .calloutMedium, .calloutRegular: return .callout
-            case .footnote, .kicker: return .footnote
+            case .footnote, .kicker, .kickerMedium: return .footnote
+            case .xs: return .footnote
+            case .statLarge: return .title1
+            case .statMedium: return .title2
+            case .levelBadge, .bannerTitle: return .headline
+            case .actionLabel, .chipButton: return .subheadline
+            case .headingBody: return .body
             case .caption: return .caption1
             case .tab, .tabSelected: return .caption2
             }
@@ -356,6 +393,104 @@ enum Theme {
             case .zikrButton: return 14
             case .knob: return 1
             }
+        }
+    }
+
+    // MARK: - Экран «Зикр» (ZKR-52): значения из CSS renderZikr() / .zikr-btn / .banner
+
+    enum Zikr {
+        /// `.topbar h1` letter-spacing .01em × 20 pt
+        static let titleTracking: CGFloat = 0.2
+        /// `.zikr-text` padding 22 16 18
+        static let textCardTop: CGFloat = 22
+        static let textCardBottom: CGFloat = 18
+        /// `.translit` margin-top 2, `.translation` margin-top 6
+        static let translitTop: CGFloat = 2
+        static let translationTop: CGFloat = 6
+        /// `.arabic` font-size clamp(38px, 11vw, 50px), line-height 1.5
+        static let arabicMin: CGFloat = 38
+        static let arabicMax: CGFloat = 50
+        static let arabicViewport: CGFloat = 0.11
+        static let arabicLineHeight: CGFloat = 1.5
+        /// `.counter` margin-top 18; `.zikr-btn-wrap` margin 22 0 18; `.note` margin-top 18
+        static let counterTop: CGFloat = 18
+        static let buttonTop: CGFloat = 22
+        static let buttonBottom: CGFloat = 18
+        static let noteTop: CGFloat = 18
+        /// `.zikr-btn` width min(58vw, 210px)
+        static let buttonViewport: CGFloat = 0.58
+        static let buttonMax: CGFloat = 210
+        /// `.zikr-btn::before` inset 7, border 2
+        static let ringInset: CGFloat = 7
+        static let ringWidth: CGFloat = 2
+        /// radial-gradient(circle at 35% 30%, …, 70%)
+        static let gradientCenterX: CGFloat = 0.35
+        static let gradientCenterY: CGFloat = 0.30
+        static let gradientStop: CGFloat = 0.70
+        /// `.zikr-btn .inner` gap 6, padding 20; иконка 30
+        static let innerGap: CGFloat = 6
+        static let innerPadding: CGFloat = 20
+        static let handIcon: CGFloat = 30
+        /// Горизонтальный padding `<button>` в WebKit по умолчанию (подпись «Нажмите для зикра» переносится так же).
+        static let buttonUAPadding: CGFloat = 6
+        /// `.zikr-btn:active` scale(.965) brightness(1.08), transition .12s
+        static let pressScale: CGFloat = 0.965
+        static let pressBrightness: Double = 0.08
+        static let pressDuration: Double = 0.12
+        /// `.ripple` border 2, opacity .6 → scale(1.18) opacity 0 за .55s ease-out
+        static let rippleOpacity: Double = 0.6
+        static let rippleScale: CGFloat = 1.18
+        static let rippleDuration: Double = 0.55
+        /// `.row3` gap 10; `.row3 .btn` padding 8 6, gap 3, min-height 60
+        static let actionGap: CGFloat = 10
+        static let actionPaddingY: CGFloat = 8
+        static let actionPaddingX: CGFloat = 6
+        static let actionIconGap: CGFloat = 3
+        static let actionMinHeight: CGFloat = 60
+        /// `.bar` margin 10 0 6
+        static let barTop: CGFloat = 10
+        static let barBottom: CGFloat = 6
+        /// `.lvl-row` gap 12; `.lvl-badge` 38 × 38, border 2
+        static let levelRowGap: CGFloat = 12
+        static let levelBadge: CGFloat = 38
+        static let levelBadgeBorder: CGFloat = 2
+        /// `.ch-title` margin-top 2
+        static let chapterTitleTop: CGFloat = 2
+        /// `.lvl-scale` margin -2 0 4
+        static let scaleTop: CGFloat = -2
+        static let scaleBottom: CGFloat = 4
+        /// `.next-ch` margin-top 10, padding-top 10, gap 1
+        static let nextChapterTop: CGFloat = 10
+        static let nextChapterGap: CGFloat = 1
+        /// «Открыто глав» style="margin-top:6px"
+        static let openedTop: CGFloat = 6
+        /// `.banner` left/right 12, top safe-area + 8, padding 12 8 12 14, gap 12
+        static let bannerInset: CGFloat = 12
+        static let bannerTop: CGFloat = 8
+        static let bannerPaddingTop: CGFloat = 12
+        static let bannerPaddingTrailing: CGFloat = 8
+        static let bannerPaddingBottom: CGFloat = 12
+        static let bannerPaddingLeading: CGFloat = 14
+        static let bannerGap: CGFloat = 12
+        /// `.banner .ico` 34 × 34
+        static let bannerIcon: CGFloat = 34
+        /// `.chip-btn` margin-top 8, padding 8 14
+        static let chipTop: CGFloat = 8
+        static let chipPaddingY: CGFloat = 8
+        static let chipPaddingX: CGFloat = 14
+        /// `@keyframes drop` translateY(-14px) за .3s; авто-скрытие через 7 с
+        static let bannerDropOffset: CGFloat = 14
+        static let bannerDrop: Double = 0.3
+        static let bannerAutoHide: Double = 7
+        /// `.bar > i` transition width .3s
+        static let barDuration: Double = 0.3
+
+        static func arabicSize(width: CGFloat) -> CGFloat {
+            min(arabicMax, max(arabicMin, width * arabicViewport))
+        }
+
+        static func buttonSize(width: CGFloat) -> CGFloat {
+            min(buttonMax, width * buttonViewport)
         }
     }
 

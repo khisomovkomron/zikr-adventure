@@ -86,6 +86,7 @@ targets:
       - package: ZikrKit
         product: ZikrContent
   # ZKR-50: unit-тесты слоя приложения (SettingsViewModel, удаление аккаунта, локализация).
+  # ZKR-52: + ZikrViewModel, очередь команд, WebZikrCommandSink, правила вибрации/звука.
   ZikrAdventureTests:
     type: bundle.unit-test
     platform: iOS
@@ -97,6 +98,11 @@ targets:
       - target: ZikrAdventure
       - package: ZikrKit
         product: ZikrDomain
+      # ZKR-52: ZikrViewModel — контент уровней/глав и AppClock.
+      - package: ZikrKit
+        product: ZikrContent
+      - package: ZikrKit
+        product: ZikrCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure.tests

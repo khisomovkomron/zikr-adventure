@@ -3,6 +3,7 @@
 // TabView не используется — его непрозрачный фон перекрывал web view и перехватывал нажатия.
 // ZKR-48: вкладка «Инфо» — нативный экран поверх web view (веб под ним остаётся на вкладке info).
 // ZKR-50: так же устроена вкладка «Настройки»; язык интерфейса — LocalizationService из AppContainer.
+// ZKR-52: и главная вкладка «Зикр» (счётчик); шестерёнка и «Карта» выбирают нативную вкладку.
 // Пока показан веб-онбординг или его состояние неизвестно, видна веб-версия, как в 1.1.1.
 
 import SwiftUI
@@ -14,6 +15,7 @@ struct TabsView: View {
     @ObservedObject private var localization: LocalizationService
     @StateObject private var infoViewModel: InfoViewModel
     @StateObject private var settingsViewModel: SettingsViewModel
+    @StateObject private var zikrViewModel: ZikrViewModel
     @State private var webOnboarding = WebOnboardingTracker()
     private let auth: any AuthService
 #if DEBUG
@@ -30,6 +32,7 @@ struct TabsView: View {
             language: container.localization.language.rawValue
         ))
         _settingsViewModel = StateObject(wrappedValue: container.makeSettingsViewModel())
+        _zikrViewModel = StateObject(wrappedValue: container.makeZikrViewModel())
     }
 
     private var isNativeInfoAvailable: Bool {
@@ -39,6 +42,19 @@ struct TabsView: View {
     /// ZKR-50: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
     private var isNativeSettingsAvailable: Bool {
         AppContainer.isWebMirrorEnabled && AppContainer.isNativeSettingsEnabled && settingsViewModel.isAvailable
+    }
+
+    /// ZKR-52: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeZikrAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeZikrEnabled && zikrViewModel.isAvailable
+    }
+
+    private var showsNativeZikr: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeZikrAvailable,
+            isTabSelected: selectedTab == .zikr,
+            isWebOnboardingVisible: webOnboarding.isVisible
+        )
     }
 
     private var showsNativeInfo: Bool {
@@ -60,10 +76,12 @@ struct TabsView: View {
     /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
     /// и пока выбрана нативная вкладка с открытым онбордингом.
     private var needsOnboardingPoll: Bool {
-        guard isNativeInfoAvailable || isNativeSettingsAvailable, webOnboarding.isVisible != false else { return false }
+        guard isNativeInfoAvailable || isNativeSettingsAvailable || isNativeZikrAvailable,
+              webOnboarding.isVisible != false else { return false }
         return webOnboarding.isVisible == nil
             || (selectedTab == .info && isNativeInfoAvailable)
             || (selectedTab == .settings && isNativeSettingsAvailable)
+            || (selectedTab == .zikr && isNativeZikrAvailable)
     }
 
     var body: some View {
@@ -72,8 +90,13 @@ struct TabsView: View {
                 WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea(edges: .top)
-                    .accessibilityHidden(showsNativeInfo || showsNativeSettings)
+                    .accessibilityHidden(showsNativeInfo || showsNativeSettings || showsNativeZikr)
 
+                if showsNativeZikr {
+                    ZikrView(viewModel: zikrViewModel) { tab in
+                        selectedTab = tab
+                    }
+                }
                 if showsNativeInfo {
                     InfoView(viewModel: infoViewModel)
                 }
@@ -100,6 +123,10 @@ struct TabsView: View {
             } else {
                 infoViewModel.closeSheet()
             }
+            if newTab != .zikr {
+                // Лист «История» закрывается при уходе с вкладки (как лист «Инфо»).
+                zikrViewModel.closeHistory()
+            }
         }
         .onChange(of: localization.language) { language in
             infoViewModel.setLanguage(language.rawValue)
@@ -107,6 +134,10 @@ struct TabsView: View {
         .task {
             // ZKR-50: настройки и аккаунт читаются всё время жизни экрана (не только на вкладке).
             await settingsViewModel.start()
+        }
+        .task {
+            // ZKR-52: счётчик и настройки экрана «Зикр» читаются всё время жизни экрана.
+            await zikrViewModel.start()
         }
         .task(id: needsOnboardingPoll) {
             guard needsOnboardingPoll else { return }
