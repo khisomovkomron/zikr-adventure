@@ -52,7 +52,7 @@ struct SiraView: View {
             topBar
 
             VStack(alignment: .leading, spacing: 0) {
-                ZikrProgressCard(viewModel: progress, localization: localization)
+                ZikrProgressCard(viewModel: progress, localization: localization, usesWebLineHeights: true)
 
                 Text(tr(.pathFooter))
                     .themeFont(.footnote)
@@ -108,7 +108,7 @@ struct SiraView: View {
                     .foregroundColor(Theme.Color.text)
                     .fixedSize(horizontal: false, vertical: true)
                 Text("\(number(group.bounds.from)) – \(number(group.bounds.to))")
-                    .themeFont(.xs)
+                    .themeFont(.xs, pointSize: Theme.Sira.smallTextWeb)
                     .themeLineHeight(.xs, multiple: Theme.Font.bodyLineHeightMultiple)
                     .foregroundColor(Theme.Color.textSecondary)
             }
@@ -202,7 +202,7 @@ struct SiraView: View {
         return VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 Text(kicker)
-                    .themeFont(.kicker)
+                    .themeFont(.kicker, pointSize: Theme.Sira.smallTextWeb)
                     .themeLineHeight(.kicker, multiple: Theme.Font.bodyLineHeightMultiple)
                     .foregroundColor(Theme.Color.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -212,7 +212,7 @@ struct SiraView: View {
                     color: on ? Theme.Color.text : Theme.Color.textSecondary
                 )
                 Text(status)
-                    .themeFont(.xs)
+                    .themeFont(.xs, pointSize: Theme.Sira.smallTextWeb)
                     .themeLineHeight(.xs, multiple: Theme.Font.bodyLineHeightMultiple)
                     .foregroundColor(Theme.Color.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)

@@ -593,6 +593,9 @@ enum Theme {
         static let siraFill: CGFloat = 0.12
         /// Кнопка карты в chapterCard: margin-bottom 10
         static let mapButtonBottom: CGFloat = 10
+        /// `.xs` / `.kicker` 13.5px WebKit рисует уже, чем UIFont 13.5 (замер по скриншотам: −3 %,
+        /// «Реконструкция…» в вебе помещается в строку) — на «Пути Сиры» мелкий текст 13.1 pt.
+        static let smallTextWeb: CGFloat = 13.1
     }
 
     enum Motion {

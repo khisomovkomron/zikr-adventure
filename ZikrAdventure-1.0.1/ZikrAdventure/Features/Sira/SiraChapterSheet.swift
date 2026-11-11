@@ -282,7 +282,7 @@ struct SiraChapterSheet: View {
 
     private func kicker(_ text: String) -> some View {
         Text(text)
-            .themeFont(.kicker)
+            .themeFont(.kicker, pointSize: Theme.Sira.smallTextWeb)
             .themeLineHeight(.kicker, multiple: Theme.Font.bodyLineHeightMultiple)
             .foregroundColor(Theme.Color.textSecondary)
             .fixedSize(horizontal: false, vertical: true)
@@ -298,7 +298,7 @@ struct SiraChapterSheet: View {
 
     private func xs(_ text: String) -> some View {
         Text(text)
-            .themeFont(.xs)
+            .themeFont(.xs, pointSize: Theme.Sira.smallTextWeb)
             .themeLineHeight(.xs, multiple: Theme.Font.bodyLineHeightMultiple)
             .foregroundColor(Theme.Color.textSecondary)
             .fixedSize(horizontal: false, vertical: true)
