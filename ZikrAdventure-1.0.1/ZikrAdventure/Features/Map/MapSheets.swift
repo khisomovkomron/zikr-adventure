@@ -256,8 +256,8 @@ struct MapLegendSheet: View {
         MapSheetContainer(viewModel: viewModel, identifier: "map.sheet.legend") {
             MapSheetParts.title(localization.tr(.mapLegend))
             Text(localization.tr(.mapDisclaimer))
-                .themeFont(.calloutMedium)
-                .themeLineHeight(.calloutMedium, multiple: Theme.Font.bodyLineHeightMultiple)
+                .themeFont(.callout) // .demo в легенде: 15 / 500 (переопределение .demo{font-weight:500})
+                .themeLineHeight(.callout, multiple: Theme.Font.bodyLineHeightMultiple)
                 .foregroundColor(Theme.Color.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical, Theme.Map.demoPaddingY)

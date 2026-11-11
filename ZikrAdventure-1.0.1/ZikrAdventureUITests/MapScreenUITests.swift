@@ -160,7 +160,10 @@ final class MapScreenUITests: XCTestCase {
         attach(app, name: "map-panel")
         for city in ["mecca", "medina"] {
             if city == "medina" {
-                tap(app, native: "map.world.pick.medina", web: "Медина", isWeb: isWeb, optional: true)
+                // После «Назад» открыта панель Мекки — закрыть, затем выбрать Медину.
+                tap(app, native: "map.panel.close", web: "Закрыть", isWeb: isWeb, optional: true)
+                Thread.sleep(forTimeInterval: 0.8)
+                tap(app, native: "map.world.pick.medina", web: "Медина", isWeb: isWeb)
                 Thread.sleep(forTimeInterval: 1)
             }
             tap(app, native: "map.panel.open", web: "Открыть карту города", isWeb: isWeb)
