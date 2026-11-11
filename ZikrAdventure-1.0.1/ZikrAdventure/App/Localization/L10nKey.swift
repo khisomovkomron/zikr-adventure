@@ -1,9 +1,14 @@
 // L10nKey.swift
 // ZKR-50: ключи Localizable.xcstrings. Совпадают с ключами объекта UI в index.html
 // (генератор tools/l10n-from-web.mjs); auth.revokeFailed — нативная строка (tools/l10n-native.json).
+// ZKR-52: + строки экрана «Зикр» (zikr.*, level.*, reset.*, banner.*, a11y.*, path.title/next/remaining/opened).
 // Логика никогда не ветвится по локализованной строке — только по ключу.
 
 enum L10nKey: String, CaseIterable {
+    case a11yButton = "a11y.button"
+    case a11yCorrect = "a11y.correct"
+    case a11yCounter = "a11y.counter"
+    case a11yUnlock = "a11y.unlock"
     case authAccountExists = "auth.accountExists"
     case authApple = "auth.apple"
     case authDelete = "auth.delete"
@@ -27,6 +32,9 @@ enum L10nKey: String, CaseIterable {
     case authRevokeFailed = "auth.revokeFailed"
     case authSigned = "auth.signed"
     case authTitle = "auth.title"
+    case bannerExplore = "banner.explore"
+    case bannerMulti = "banner.multi"
+    case bannerTitle = "banner.title"
     case commonCancel = "common.cancel"
     case commonClose = "common.close"
     case commonOff = "common.off"
@@ -38,6 +46,18 @@ enum L10nKey: String, CaseIterable {
     case historyFoot = "history.foot"
     case historyTitle = "history.title"
     case infoPrivacy = "info.privacy"
+    case levelDone = "level.done"
+    case levelHead = "level.head"
+    case levelOf = "level.of"
+    case levelToNext = "level.toNext"
+    case pathNext = "path.next"
+    case pathOpened = "path.opened"
+    case pathRemaining = "path.remaining"
+    case pathTitle = "path.title"
+    case resetAll = "reset.all"
+    case resetCounter = "reset.counter"
+    case resetMsg = "reset.msg"
+    case resetTitle = "reset.title"
     case setAnimations = "set.animations"
     case setBanners = "set.banners"
     case setDefaults = "set.defaults"
@@ -72,4 +92,16 @@ enum L10nKey: String, CaseIterable {
     case tabPath = "tab.path"
     case tabSettings = "tab.settings"
     case tabZikr = "tab.zikr"
+    case zikrButton = "zikr.button"
+    case zikrCorrect = "zikr.correct"
+    case zikrGoal = "zikr.goal"
+    case zikrHistory = "zikr.history"
+    case zikrMap = "zikr.map"
+    case zikrNote = "zikr.note"
+    case zikrReset = "zikr.reset"
+    case zikrSession = "zikr.session"
+    case zikrToday = "zikr.today"
+    case zikrTodayCap = "zikr.todayCap"
+    case zikrTotal = "zikr.total"
+    case zikrTranslation = "zikr.translation"
 }

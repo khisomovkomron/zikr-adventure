@@ -11,6 +11,7 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
   └─ TabsView
        ├─ ZStack
        │    ├─ WebHostView  →  WebViewManager.shared.viewController  (один WKWebView)
+       │    ├─ ZikrView      (ZKR-52, поверх веба на вкладке «Зикр»)
        │    ├─ InfoView      (ZKR-48, поверх веба на вкладке «Инфо»)
        │    └─ SettingsView  (ZKR-50, поверх веба на вкладке «Настройки»)
        └─ NativeTabBar (кастомная нижняя панель, не SwiftUI TabView)
@@ -40,6 +41,7 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 - Web → native вкладка: `postMessage({ type: "tab.change", tab: id })`.
 - Web → native язык: `postMessage({ type: "lang.change", lang, tabs })` → `LocalizationService.setLanguage(code:)` (код в `UserDefaults` "app.language"). Названия вкладок и тексты нативных экранов — из `Localizable.xcstrings`, а не из `tabs`.
 - Native → web настройки (ZKR-50): `window.zikrNative.setSetting / setLang / resetDefaults / clearHistory / resetProgress` через `WebSettingsCommandSink` → `WebViewManager.evaluateCommand` (до загрузки страницы команды ждут в очереди). Веб — единственный писатель настроек: применяет команду, сохраняет, шлёт `save`; зеркало пишет `zikr-state.json`, экран получает значение из `SettingsRepository.changes()`.
+- Native → web счётчик (ZKR-52): `window.zikrNative.tap / undo / reset("counter"|"all") / clearHistory / explore(id) / snapshot()` через `WebZikrCommandSink`. `tap / undo / reset` выполняют тот же код, что веб-экран (`zikrTap / zikrUndo / zikrReset` в `index.html`: `persist()`, `evaluate()` открывает главы), и возвращают снимок `{ total, today, day, unlocked, fresh, updatedAt }` через `WebViewManager.evaluateQuery`. `ZikrViewModel` показывает нажатие сразу (оптимистично, вибрация и звук 660 Гц — тоже сразу), команды идут по одной (`SerialCommandQueue`: без потерь и перестановок при быстрых нажатиях), ответ веба и `ProgressRepository.changes()` сверяют экран; снимок файла старше подтверждённого `updatedAt` не откатывает счёт. Веб остаётся единственным писателем `total / daily / unlocked`. «Изучить» в баннере вызывает `explore(id)`: веб открывает главу на карте (глава без города — лист на «Пути Сиры»), `tab.change` переключает нативную вкладку. «Сеанс» живёт только в памяти, как `let session` в вебе.
 - Смена языка в вебе ставит `suppressTabChange`, чтобы `selectTab` при перерисовке не дёргал native-вкладку.
 - Веб-`#tabbar` скрывается флагом `window.__ZIKR_NATIVE_TABS` (элемент в `index.html` остаётся).
 
@@ -51,14 +53,17 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 | `App/TabsView.swift` | VStack: web view + NativeTabBar, iOS 16 `onChange(of:)` |
 | `App/TabItem.swift` | zikr, map, path, info, settings + SF Symbols |
 | `App/WebViewManager.swift` | singleton, eager controller |
-| `App/AppContainer.swift` | DI: репозитории, зеркало, `auth`, `localization`, `settingsSink`, фабрики view model, флаги `isNativeInfoEnabled` / `isNativeSettingsEnabled` |
+| `App/AppContainer.swift` | DI: репозитории, зеркало, `auth`, `localization`, `settingsSink`, фабрики view model, флаги `isNativeInfoEnabled` / `isNativeSettingsEnabled` / `isNativeZikrEnabled` |
 | `App/Localization/` | `LocalizationService` (язык, `tr`, числа в локали языка), `L10nKey` |
 | `App/Auth/` | `AuthService`, `AuthCoordinator`, `AccountDeletionFlow` (ZKR-56) |
 | `App/Settings/` | `WebSettingsCommandSink`, системные сервисы (Reduce Motion, Safari) |
+| `App/Zikr/` | `WebZikrCommandSink`, `SerialCommandQueue`, `ZikrFeedbackService` (вибрация как `vibrate()`, звук `tapSound()` на AVAudioEngine), `VoiceOverAnnouncer` |
+| `Features/Zikr/` | `ZikrView`, `ZikrTapButton`, `ZikrProgressCard`, `ZikrUnlockBannerView`, `ZikrHistorySheet`, `ZikrViewModel` |
+| `ZikrKit/ZikrContent` | `zikr-content.json` (названия уровней, заголовки и годы глав на 6 языках) — генерируется `node tools/zikr-content-from-web.mjs` из `index.html` |
 | `Features/Settings/` | `SettingsView`, `SettingsAccountSection`, `SettingsViewModel`, `SettingsConfirmation` |
 | `Resources/Localizable.xcstrings` | генерируется `node tools/l10n-from-web.mjs` из UI в `index.html` + `tools/l10n-native.json`; руками не править |
 | `App/WebAppViewController.swift` | WKWebView, мосты, `selectTab` |
-| `Web/index.html` | `__ZIKR_NATIVE_TABS`, `tab.change`, `lang.change`, `suppressTabChange`, `window.zikrNative` (ZKR-50) |
+| `Web/index.html` | `__ZIKR_NATIVE_TABS`, `tab.change`, `lang.change`, `suppressTabChange`, `window.zikrNative` (ZKR-50, ZKR-52: `tap / undo / reset / snapshot / explore`) |
 
 Данные уровней в `index.html` не менялись.
 
@@ -71,10 +76,12 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 ## Тесты
 
 - `ZikrKit` — пакетные тесты (домен, хранилище, гейт).
-- `ZikrAdventureTests` — unit-тесты приложения: `SettingsViewModel`, `AccountDeletionFlow`, `LocalizationService`.
-- `ZikrAdventureUITests` — «Инфо» и «Настройки». `ZIKR_UITEST_AUTH=signedIn|guest` (только DEBUG) подменяет Firebase.
+- `ZikrAdventureTests` — unit-тесты приложения: `SettingsViewModel`, `AccountDeletionFlow`, `LocalizationService`, `ZikrViewModel` (ZKR-52: оптимизм, 200 быстрых нажатий, сверка, сброс, баннер, цель, вибрация/звук), `SerialCommandQueue`, `WebZikrCommandSink`.
+- `ZikrAdventureUITests` — «Инфо», «Настройки» и «Зикр». `ZIKR_UITEST_AUTH=signedIn|guest` (только DEBUG) подменяет Firebase.
 - `tests/*.cjs` — веб (`node tests/<file>.cjs`).
 
 ## Ограничения среды, в которой писался код
+
+ZKR-52 собран и проверен на Mac (Xcode 27.2, симулятор iPhone 17, iOS 27.0): `xcodebuild test`, UI-тесты и скриншоты light/dark сравнены с веб-экраном (`AppContainer.isNativeZikrEnabled = false`). Ниже — заметка из ZKR-47.
 
 Xcode в этой среде нет. Сборка, симулятор и жесты на устройстве не запускались. Проверены исходники, pbxproj, `project.yml` и `git diff` против `ba79a3f` для `ZikrAdventure-AppStore/`.

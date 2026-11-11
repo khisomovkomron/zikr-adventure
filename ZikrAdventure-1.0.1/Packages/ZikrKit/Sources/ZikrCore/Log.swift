@@ -17,11 +17,14 @@ public enum Log {
     public static let settings = Logger(subsystem: subsystem, category: "settings")
     /// ZKR-50: вход и удаление аккаунта — только domain/code ошибок, без токенов, email и uid.
     public static let auth = Logger(subsystem: subsystem, category: "auth")
+    /// ZKR-52: экран «Зикр» (команды счётчика в веб, звук) — без значений счёта.
+    public static let zikr = Logger(subsystem: subsystem, category: "zikr")
     #else
     public static let persistence = PrintLogger(category: "persistence")
     public static let app = PrintLogger(category: "app")
     public static let settings = PrintLogger(category: "settings")
     public static let auth = PrintLogger(category: "auth")
+    public static let zikr = PrintLogger(category: "zikr")
     #endif
 }
 

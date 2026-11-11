@@ -6,21 +6,27 @@ import SwiftUI
 struct AppCounterDisplay: View {
     let value: Int
     var caption: String
+    /// ZKR-52: число, уже отформатированное в локали языка приложения (fmt() в вебе);
+    /// nil — системная локаль, как раньше.
+    var formattedValue: String? = nil
+
+    @Environment(\.sizeCategory) private var sizeCategory
 
     var body: some View {
+        let pointSize = Theme.Size.clampedCounter(width: Theme.Size.viewportWidth)
+        let font = Theme.Font.scaledUIFont(.displayCounter, pointSize: pointSize, sizeCategory: sizeCategory, scales: false)
         VStack(spacing: Theme.Space.s1) {
             Text(formatted)
-                .themeFont(
-                    .displayCounter,
-                    pointSize: Theme.Size.clampedCounter(width: Theme.Size.viewportWidth),
-                    scales: false
-                )
+                .themeFont(.displayCounter, pointSize: pointSize, scales: false)
                 .foregroundColor(Theme.Color.text)
                 .monospacedDigit()
                 .lineLimit(1)
+                // ZKR-52: `.counter .num` line-height: 1 — строка высотой в размер шрифта, как в вебе.
+                .padding(.vertical, -max(0, font.lineHeight - pointSize) / 2)
 
             Text(caption)
                 .themeFont(.footnote)
+                .themeLineHeight(.footnote, multiple: Theme.Font.bodyLineHeightMultiple)
                 .foregroundColor(Theme.Color.textSecondary)
                 .multilineTextAlignment(.center)
         }
@@ -32,7 +38,7 @@ struct AppCounterDisplay: View {
     }
 
     private var formatted: String {
-        NumberFormatter.localizedString(from: NSNumber(value: value), number: .decimal)
+        formattedValue ?? NumberFormatter.localizedString(from: NSNumber(value: value), number: .decimal)
     }
 }
 

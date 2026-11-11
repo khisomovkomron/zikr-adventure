@@ -109,6 +109,14 @@ Tests `window.zikrNative` — the only way the native Settings screen changes se
 
 **Run:** `node tests/settings-native.cjs`
 
+### `zikr-native.cjs` (ZKR-52)
+Tests the counter commands of `window.zikrNative` used by the native Zikr screen:
+- `tap()` = web `onZikr()` (total, today, `evaluate()` unlocks chapters, `fresh` list in the snapshot)
+- `undo()` never goes below 0 and returns `null` at 0; `reset("counter")` keeps chapters, `reset("all")` closes them, other modes are rejected
+- `snapshot()`, `explore(id)`, and that every command persists and sends `save`
+
+**Run:** `node tests/zikr-native.cjs`
+
 ### `l10n-native.cjs` (ZKR-50)
 Checks that `ZikrAdventure/Resources/Localizable.xcstrings` is up to date with the `UI` dictionary in
 `index.html` + `tools/l10n-native.json` (runs `tools/l10n-from-web.mjs --check`), that every key has

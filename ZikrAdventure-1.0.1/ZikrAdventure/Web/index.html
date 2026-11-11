@@ -1474,10 +1474,24 @@ function refreshZikr() {
   const g = $("#z-goal"); if (g) g.innerHTML = goalCard();
   const p = $("#z-progress"); if (p) p.innerHTML = progressCard();
 }
-function onZikr() {
+/* ---- ZKR-52: изменения счётчика — общие для веб-экрана и нативного (window.zikrNative) ---- */
+function zikrTap() {
   state.total = Math.min(state.total + 1, Number.MAX_SAFE_INTEGER);
   const k = dayKey(); state.daily[k] = (state.daily[k] || 0) + 1; session++;
-  const fresh = evaluate(true); persist(); refreshZikr();
+  const fresh = evaluate(true); persist(); return fresh;
+}
+function zikrUndo() {
+  if (state.total <= 0) return false;
+  state.total--; const k = dayKey(); if (state.daily[k]) state.daily[k]--; session = Math.max(0, session - 1);
+  persist(); return true;
+}
+function zikrReset(m) {
+  state.total = 0; session = 0;
+  if (m === "all") { state.unlocked = []; state.viewed = []; Object.keys(cities).forEach((x) => delete cities[x]); lastUnlockKey = {}; }
+  persist();
+}
+function onZikr() {
+  const fresh = zikrTap(); refreshZikr();
   vibrate(state.total % 33 === 0 ? 25 : 10); tapSound();
   if (!motionReduced()) { const b = $("#z-btn"), r = document.createElement("span"); r.className = "ripple"; b.appendChild(r); setTimeout(() => r.remove(), 600); }
   if (fresh.length) {
@@ -1487,9 +1501,8 @@ function onZikr() {
   }
 }
 function onUndo() {
-  if (state.total <= 0) return;
-  state.total--; const k = dayKey(); if (state.daily[k]) state.daily[k]--; session = Math.max(0, session - 1);
-  persist(); refreshZikr(); vibrate(20); announce(T("a11y.counter", state.total));
+  if (!zikrUndo()) return;
+  refreshZikr(); vibrate(20); announce(T("a11y.counter", state.total));
 }
 function openResetDialog() {
   const d = document.createElement("div"); d.className = "dialog";
@@ -1499,9 +1512,7 @@ function openResetDialog() {
   document.body.appendChild(d);
   d.querySelectorAll("[data-r]").forEach((b) => (b.onclick = () => {
     const m = b.dataset.r; d.remove(); if (m === "cancel") return;
-    state.total = 0; session = 0;
-    if (m === "all") { state.unlocked = []; state.viewed = []; Object.keys(cities).forEach((x) => delete cities[x]); lastUnlockKey = {}; }
-    persist(); renderZikr(); announce(T("a11y.counter", 0));
+    zikrReset(m); renderZikr(); announce(T("a11y.counter", 0));
   }));
   d.querySelector('[data-r="cancel"]').focus();
 }
@@ -1525,7 +1536,7 @@ function openHistory() {
     ${days.length ? `<div class="list">${days.map(([k, n]) => `<div class="li" style="justify-content:space-between"><span>${d(k)}</span><span class="muted">${fmt(n)}</span></div>`).join("")}</div>
       <p class="foot">${T("history.foot")}</p><button class="btn full danger" style="margin-top:14px" id="h-clear">${T("history.clear")}</button>` : `<p class="muted">${T("history.empty")}</p>`}
     <button class="btn full" style="margin-top:12px" data-close>${T("common.close")}</button>`);
-  const c = $("#h-clear"); if (c) c.onclick = () => confirmDialog(T("history.confirmT"), T("history.confirmM"), T("history.clear"), () => { const k = dayKey(); state.daily = state.daily[k] ? { [k]: state.daily[k] } : {}; persist(); closeSheet(); });
+  const c = $("#h-clear"); if (c) c.onclick = () => confirmDialog(T("history.confirmT"), T("history.confirmM"), T("history.clear"), () => { clearDailyHistory(); closeSheet(); });
 }
 
 /* ============================================================
@@ -1838,6 +1849,8 @@ function resetAllProgress() {
 }
 // Нативный экран не пишет настройки сам: он вызывает эти команды, страница сохраняет состояние как обычно
 // ("save" → progress.json + zikr-state.json). Только внутри приложения; ключи — белый список.
+// ZKR-52: что нужно нативному экрану «Зикр» после команды (веб — единственный писатель счёта).
+const zikrSnapshot = (fresh) => ({ total: state.total, today: today(), day: dayKey(), unlocked: state.unlocked.slice(), fresh, updatedAt: state.updatedAt || 0 });
 const NATIVE_SETTING_TOGGLES = ["haptics", "sound", "animations", "banners", "translit", "translation", "keepAwake", "goalOn"];
 if (IS_APP) {
   window.zikrNative = Object.freeze({
@@ -1855,7 +1868,23 @@ if (IS_APP) {
     },
     resetDefaults() { restoreDefaultSettings(); return true; },
     clearHistory() { clearDailyHistory(); return true; },
-    resetProgress() { resetAllProgress(); return true; }
+    resetProgress() { resetAllProgress(); return true; },
+    // ZKR-52: нативный экран «Зикр». Тот же код, что onZikr / onUndo / openResetDialog, но без DOM,
+    // вибрации и звука (их делает native). Ответ — снимок счётчика для сверки оптимистичного UI.
+    tap() { const fresh = zikrTap(); if (currentTab === "zikr") refreshZikr(); return zikrSnapshot(fresh.map((c) => c.id)); },
+    undo() { const ok = zikrUndo(); if (ok && currentTab === "zikr") refreshZikr(); return ok ? zikrSnapshot([]) : null; },
+    reset(mode) {
+      if (mode !== "counter" && mode !== "all") return null;
+      zikrReset(mode); if (currentTab === "zikr") renderZikr(); return zikrSnapshot([]);
+    },
+    snapshot() { return zikrSnapshot([]); },
+    // «Изучить» в баннере: как bn-explore → explore(ch). Глава без города открывается листом на «Пути Сиры»,
+    // потому что вкладка «Зикр» закрыта нативным экраном.
+    explore(id) {
+      const ch = CH.find((c) => c.id === id); if (!ch) return false;
+      if (!ch.city) selectTab("path");
+      explore(ch); return true;
+    }
   });
 }
 

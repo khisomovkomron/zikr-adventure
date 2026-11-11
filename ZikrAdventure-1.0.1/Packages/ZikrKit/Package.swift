@@ -19,10 +19,11 @@ let package = Package(
         .target(name: "ZikrDomain", dependencies: ["ZikrCore"], swiftSettings: strict),
         .target(name: "ZikrPersistence", dependencies: ["ZikrCore", "ZikrDomain"], swiftSettings: strict),
         // ZKR-48: контент нативных экранов (тексты «Инфо» из index.html), без UI-зависимостей.
+        // ZKR-52: zikr-content.json — уровни и главы Сиры для экрана «Зикр».
         .target(
             name: "ZikrContent",
             dependencies: ["ZikrCore"],
-            resources: [.copy("Resources/info-content.json")],
+            resources: [.copy("Resources/info-content.json"), .copy("Resources/zikr-content.json")],
             swiftSettings: strict
         ),
         .testTarget(name: "ZikrCoreTests", dependencies: ["ZikrCore"]),

@@ -6,11 +6,26 @@ import SwiftUI
 struct AppIconButton: View {
     let systemName: String
     let label: String
+    /// ZKR-52: иконка из веб-набора P (ассет), а не SF Symbol.
+    var image: Image? = nil
     var action: () -> Void
+
+    init(systemName: String, label: String, action: @escaping () -> Void) {
+        self.systemName = systemName
+        self.label = label
+        self.action = action
+    }
+
+    init(image: Image, label: String, action: @escaping () -> Void) {
+        self.systemName = ""
+        self.label = label
+        self.image = image
+        self.action = action
+    }
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName)
+            (image ?? Image(systemName: systemName))
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

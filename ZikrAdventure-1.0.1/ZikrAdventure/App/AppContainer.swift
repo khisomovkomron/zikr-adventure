@@ -20,6 +20,9 @@ final class AppContainer: ObservableObject {
     /// ZKR-50: false → вкладка «Настройки» снова целиком веб-экран (как 1.1.1).
     /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
     static let isNativeSettingsEnabled = true
+    /// ZKR-52: false → вкладка «Зикр» снова целиком веб-экран (как 1.1.1).
+    /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
+    static let isNativeZikrEnabled = true
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
@@ -33,6 +36,9 @@ final class AppContainer: ObservableObject {
     let localization: LocalizationService
     /// ZKR-50: команды настроек в веб.
     let settingsSink: any SettingsCommandSink
+    /// ZKR-52: команды счётчика в веб и тексты уровней/глав экрана «Зикр».
+    let zikrSink: any ZikrCommandSink
+    let zikrContent: any ZikrContentProviding
     let presenter: any PresenterProviding
 
     private let legacyProgressFileURL: URL?
@@ -45,6 +51,8 @@ final class AppContainer: ObservableObject {
         auth: (any AuthService)? = nil,
         localization: LocalizationService? = nil,
         settingsSink: (any SettingsCommandSink)? = nil,
+        zikrSink: (any ZikrCommandSink)? = nil,
+        zikrContent: any ZikrContentProviding = BundledZikrContentProvider(),
         presenter: (any PresenterProviding)? = nil
     ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
@@ -57,6 +65,11 @@ final class AppContainer: ObservableObject {
         self.auth = auth ?? Self.makeAuthService()
         self.localization = localization ?? LocalizationService()
         self.settingsSink = settingsSink ?? WebSettingsCommandSink { WebViewManager.shared }
+        self.zikrSink = zikrSink ?? WebZikrCommandSink(
+            queries: { WebViewManager.shared },
+            commands: { WebViewManager.shared }
+        )
+        self.zikrContent = zikrContent
         self.presenter = presenter ?? KeyWindowPresenterProvider()
     }
 
@@ -121,6 +134,18 @@ final class AppContainer: ObservableObject {
             reduceMotion: SystemReduceMotionProvider(),
             urlOpener: SafariURLOpener(presenter: presenter),
             presenter: presenter
+        )
+    }
+
+    /// ZKR-52: модель экрана «Зикр».
+    func makeZikrViewModel() -> ZikrViewModel {
+        ZikrViewModel(
+            repository: progress,
+            sink: zikrSink,
+            contentProvider: zikrContent,
+            localization: localization,
+            feedback: ZikrFeedbackService(),
+            announcer: VoiceOverAnnouncer()
         )
     }
 
