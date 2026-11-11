@@ -215,8 +215,8 @@ struct MapView: View {
                 .accessibilityIdentifier("map.panel.close")
             }
             Text(L10nKey(rawValue: "city.\(id).sum").map { tr($0) } ?? "")
-                .themeFont(.callout)
-                .themeLineHeight(.callout, multiple: Theme.Font.bodyLineHeightMultiple)
+                .themeFont(.calloutRegular)
+                .themeLineHeight(.calloutRegular, multiple: Theme.Font.bodyLineHeightMultiple)
                 .foregroundColor(Theme.Color.text)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical, Theme.Map.panelSummaryY)
@@ -375,6 +375,8 @@ struct MapView: View {
             .lineSpacing(Theme.Map.disclaimerSize * (Theme.Map.disclaimerLineHeight - 1.2))
             .foregroundColor(Theme.Color.textSecondary)
             .fixedSize(horizontal: false, vertical: true)
+            // Обзор: блок `.disclaimer` с max-width 100 % — фон во всю ширину; в городе — по тексту (до 62 %).
+            .frame(maxWidth: maxWidthFraction == nil ? .infinity : nil, alignment: .leading)
             .padding(.vertical, Theme.Map.disclaimerPaddingY)
             .padding(.horizontal, Theme.Map.disclaimerPaddingX)
             .background(

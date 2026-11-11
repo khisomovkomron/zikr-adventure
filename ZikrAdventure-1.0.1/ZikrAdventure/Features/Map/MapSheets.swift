@@ -223,7 +223,7 @@ struct MapPlaceListSheet: View {
                     if let status {
                         Text(status)
                             .themeFont(.xs)
-                            .themeLineHeight(.xs, multiple: Theme.Font.bodyLineHeightMultiple)
+                            .themeLineHeight(.xs, multiple: Theme.Map.listSubLineMultiple)
                             .foregroundColor(Theme.Color.textSecondary)
                     }
                 }

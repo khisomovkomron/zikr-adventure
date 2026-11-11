@@ -620,6 +620,8 @@ enum Theme {
         static let disclaimerPaddingX: CGFloat = 10
         static let disclaimerRadius: CGFloat = 10
         static let disclaimerMaxWidth: CGFloat = 0.62
+        /// Строка списка мест: подпись `.xs` (13.5) — inline-span в строке 17 / 1.45, высота строки 24.65.
+        static let listSubLineMultiple: CGFloat = 17 * 1.45 / 13.5
         /// `.ctrls`: gap 10; кнопки 46, surface 90 % + blur 8, тень 0 3 10 rgba(0,0,0,.15)
         static let controlGap: CGFloat = 10
         static let control: CGFloat = 46
