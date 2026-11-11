@@ -105,6 +105,17 @@
         "tg": "асри VI",
         "kk": "VI ғасыр",
         "ky": "VI кылым"
+      },
+      "city": "mecca",
+      "place": null,
+      "focus": "kaaba",
+      "text": {
+        "ru": "Мекка лежала в узкой каменистой долине среди гор Хиджаза. Через неё шли торговые караваны, а в центре стояла Кааба. С этого начинается путь.",
+        "en": "Mecca lay in a narrow rocky valley among the Hejaz mountains. Trade caravans passed through it, and the Kaaba stood at its centre. The path begins here.",
+        "uz": "Makka Hijoz tog‘lari orasidagi tor toshloq vodiyda joylashgan edi. Undan savdo karvonlari o‘tar, markazida Ka’ba turardi. Yo‘l shu yerdan boshlanadi.",
+        "tg": "Макка дар водии танги санглох миёни кӯҳҳои Ҳиҷоз ҷой дошт. Аз он корвонҳои тиҷоратӣ мегузаштанд ва дар марказаш Каъба қарор дошт. Роҳ аз ин ҷо оғоз мешавад.",
+        "kk": "Мекке Хиджаз таулары арасындағы тар тасты аңғарда жатты. Ол арқылы сауда керуендері өтіп, ортасында Қағба тұрды. Жол осыдан басталады.",
+        "ky": "Мекке Хиджаз тоолорунун арасындагы тар таштуу өрөөндө жайгашкан. Андан соода кербендери өтүп, борборунда Кааба турган. Жол ушул жерден башталат."
       }
     },
     {
@@ -125,7 +136,11 @@
         "tg": "аз қадим",
         "kk": "ежелден",
         "ky": "илгертеден"
-      }
+      },
+      "city": "mecca",
+      "place": "zamzam",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch03",
@@ -145,7 +160,11 @@
         "tg": "соли 595",
         "kk": "595 ж.",
         "ky": "595-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "khadija",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch04",
@@ -165,7 +184,11 @@
         "tg": "соли 605",
         "kk": "605 ж.",
         "ky": "605-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "blackstone",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch05",
@@ -185,7 +208,11 @@
         "tg": "тақр. соли 610",
         "kk": "шамамен 610 ж.",
         "ky": "болж. 610-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "hira",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch06",
@@ -205,7 +232,11 @@
         "tg": "тақр. соли 613",
         "kk": "шамамен 613 ж.",
         "ky": "болж. 613-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "safamarwa",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch07",
@@ -225,7 +256,11 @@
         "tg": "давраи Макка",
         "kk": "Мекке кезеңі",
         "ky": "Мекке мезгили"
-      }
+      },
+      "city": "mecca",
+      "place": "arqam",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch08",
@@ -245,7 +280,11 @@
         "tg": "соли 622",
         "kk": "622 ж.",
         "ky": "622-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "thawr",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch09",
@@ -265,7 +304,11 @@
         "tg": "соли 622",
         "kk": "622 ж.",
         "ky": "622-ж."
-      }
+      },
+      "city": "medina",
+      "place": "quba",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch10",
@@ -285,7 +328,11 @@
         "tg": "соли 622",
         "kk": "622 ж.",
         "ky": "622-ж."
-      }
+      },
+      "city": "medina",
+      "place": "jumua",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch11",
@@ -305,7 +352,11 @@
         "tg": "соли 622",
         "kk": "622 ж.",
         "ky": "622-ж."
-      }
+      },
+      "city": "medina",
+      "place": "nabawi",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch12",
@@ -325,7 +376,11 @@
         "tg": "соли 624",
         "kk": "624 ж.",
         "ky": "624-ж."
-      }
+      },
+      "city": "medina",
+      "place": "qiblatayn",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch13",
@@ -345,7 +400,11 @@
         "tg": "давраи Мадина",
         "kk": "Медине кезеңі",
         "ky": "Медина мезгили"
-      }
+      },
+      "city": "medina",
+      "place": "baqi",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch14",
@@ -365,7 +424,11 @@
         "tg": "соли 625",
         "kk": "625 ж.",
         "ky": "625-ж."
-      }
+      },
+      "city": "medina",
+      "place": "uhud",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch15",
@@ -385,7 +448,11 @@
         "tg": "соли 627",
         "kk": "627 ж.",
         "ky": "627-ж."
-      }
+      },
+      "city": "medina",
+      "place": "fath",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch16",
@@ -405,7 +472,11 @@
         "tg": "соли 630",
         "kk": "630 ж.",
         "ky": "630-ж."
-      }
+      },
+      "city": "mecca",
+      "place": "kaaba",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch17",
@@ -425,7 +496,11 @@
         "tg": "солҳои 630–632",
         "kk": "630–632 жж.",
         "ky": "630–632-жж."
-      }
+      },
+      "city": "mecca",
+      "place": "maqam",
+      "focus": null,
+      "text": null
     },
     {
       "id": "ch18",
@@ -445,6 +520,17 @@
         "tg": "соли 632",
         "kk": "632 ж.",
         "ky": "632-ж."
+      },
+      "city": "mecca",
+      "place": null,
+      "focus": "marwa",
+      "text": {
+        "ru": "В 632 году Пророк ﷺ совершил Прощальный хадж. Проход между Сафой и Марвой был частью обрядов, которые он показал людям.",
+        "en": "In 632 the Prophet ﷺ performed the Farewell Pilgrimage. The walk between Safa and Marwa was among the rites he showed the people.",
+        "uz": "632-yilda Payg‘ambar ﷺ Vido hajini ado etdi. Safo va Marva orasidagi sa’y u odamlarga ko‘rsatgan marosimlardan biri edi.",
+        "tg": "Соли 632 Паёмбар ﷺ Ҳаҷҷи видоъро адо кард. Саъй миёни Сафо ва Марва аз ҷумлаи маросимҳое буд, ки ӯ ба мардум нишон дод.",
+        "kk": "632 жылы Пайғамбар ﷺ Қоштасу қажылығын өтеді. Сафа мен Мәруа арасындағы сағи ол адамдарға көрсеткен рәсімдердің бірі болды.",
+        "ky": "632-жылы Пайгамбар ﷺ Коштошуу ажылыгын аткарган. Сафа менен Марванын ортосундагы саъй ал адамдарга көрсөткөн ырым-жырымдардын бири болгон."
       }
     },
     {
@@ -465,7 +551,755 @@
         "tg": "хулоса",
         "kk": "қорытынды",
         "ky": "жыйынтык"
+      },
+      "city": null,
+      "place": null,
+      "focus": null,
+      "text": {
+        "ru": "Вы прошли путь Сиры по картам Мекки и Медины. Главы можно перечитывать в любое время. Количество повторений — лишь способ идти по этому пути, а не мера духовной ценности.",
+        "en": "You have walked the Sira path across the maps of Mecca and Medina. The chapters can be reread at any time. The count is only a way to walk this path, not a measure of spiritual worth.",
+        "uz": "Siz Makka va Madina xaritalari bo‘ylab Siyrat yo‘lini bosib o‘tdingiz. Boblarni istalgan vaqtda qayta o‘qish mumkin. Takrorlar soni — bu yo‘ldan yurish vositasi, ma’naviy qadr o‘lchovi emas.",
+        "tg": "Шумо роҳи Сийраро дар харитаҳои Макка ва Мадина тай кардед. Бобҳоро ҳар вақт дубора хондан мумкин аст. Шумораи такрорҳо танҳо василаи рафтан дар ин роҳ аст, на меъёри арзиши маънавӣ.",
+        "kk": "Сіз Мекке мен Медине карталары бойынша Сира жолын жүріп өттіңіз. Тарауларды кез келген уақытта қайта оқуға болады. Қайталау саны — осы жолмен жүрудің тәсілі ғана, рухани құндылықтың өлшемі емес.",
+        "ky": "Сиз Мекке жана Медина карталары боюнча Сира жолун басып өттүңүз. Бөлүмдөрдү каалаган убакта кайра окууга болот. Кайталоолордун саны — бул жол менен жүрүүнүн ыкмасы гана, рухий баалуулуктун ченеми эмес."
       }
     }
-  ]
+  ],
+  "places": {
+    "zamzam": {
+      "ar": "بئر زمزم",
+      "city": "mecca",
+      "cat": "sacred",
+      "name": {
+        "ru": "Колодец Замзам",
+        "en": "The Zamzam well",
+        "uz": "Zamzam qudug‘i",
+        "tg": "Чоҳи Замзам",
+        "kk": "Зәмзәм құдығы",
+        "ky": "Замзам кудугу"
+      },
+      "sig": {
+        "ru": "Источник воды, благодаря которому в долине возникла и жила Мекка.",
+        "en": "The water source that allowed Mecca to arise and live in the valley.",
+        "uz": "Vodiyda Makkaning paydo bo‘lishi va yashashiga sabab bo‘lgan suv manbai.",
+        "tg": "Сарчашмае, ки ба шарофати он Макка дар водӣ пайдо шуд ва зист.",
+        "kk": "Аңғарда Меккенің пайда болып, өмір сүруіне себеп болған су көзі.",
+        "ky": "Өрөөндө Меккенин пайда болушуна жана жашашына себеп болгон суу булагы."
+      },
+      "look": {
+        "ru": "Простая шахта, обложенная по краю необработанным камнем, с низким каменным ограждением — без куполов и построек.",
+        "en": "A simple shaft lined at the rim with rough stone, with a low stone parapet — no domes or buildings.",
+        "uz": "Cheti ishlov berilmagan tosh bilan o‘ralgan oddiy quduq, past tosh to‘siq bilan — gumbaz va binolarsiz.",
+        "tg": "Чоҳи оддӣ, ки канорааш бо санги коркарднашуда фаро гирифта шуда, бо девораи пасти сангин — бе гунбаз ва бино.",
+        "kk": "Шеті өңделмеген таспен қапталған қарапайым шахта, аласа тас қоршауы бар — күмбезсіз, құрылыссыз.",
+        "ky": "Чети иштелбеген таш менен капталган жөнөкөй шахта, жапыз таш тосмосу бар — күмбөзсүз, курулушсуз."
+      },
+      "sira": {
+        "ru": "Пророк ﷺ и его сподвижники пили эту воду и совершали ею омовение на протяжении всей жизни.",
+        "en": "The Prophet ﷺ and his companions drank this water and used it for ablution throughout their lives.",
+        "uz": "Payg‘ambar ﷺ va sahobalar butun umr bu suvdan ichgan va tahorat olgan.",
+        "tg": "Паёмбар ﷺ ва саҳобагон дар тӯли умр аз ин об менӯшиданд ва таҳорат мегирифтанд.",
+        "kk": "Пайғамбар ﷺ мен сахабалар өмір бойы осы судан ішіп, дәрет алған.",
+        "ky": "Пайгамбар ﷺ жана сахабалар өмүр бою ушул суудан ичип, даарат алышкан."
+      },
+      "dist": [
+        {
+          "m": 20,
+          "dir": "se",
+          "sub": null
+        }
+      ]
+    },
+    "khadija": {
+      "ar": "دار خديجة",
+      "city": "mecca",
+      "cat": "sira",
+      "name": {
+        "ru": "Дом Хадиджи",
+        "en": "House of Khadija",
+        "uz": "Xadicha uyi",
+        "tg": "Хонаи Хадиҷа",
+        "kk": "Хадишаның үйі",
+        "ky": "Хадыйчанын үйү"
+      },
+      "sig": {
+        "ru": "Дом Пророка ﷺ и Хадиджи. Сегодня не сохранился, место застроено.",
+        "en": "The home of the Prophet ﷺ and Khadija. It no longer survives; the site is built over.",
+        "uz": "Payg‘ambar ﷺ va Xadichaning uyi. Bugun saqlanmagan, joyi qurib yuborilgan.",
+        "tg": "Хонаи Паёмбар ﷺ ва Хадиҷа. Имрӯз боқӣ намондааст, ҷояш сохта шудааст.",
+        "kk": "Пайғамбар ﷺ мен Хадишаның үйі. Бүгінде сақталмаған, орны салынып кеткен.",
+        "ky": "Пайгамбар ﷺ менен Хадыйчанын үйү. Бүгүн сакталган эмес, орду курулуп кеткен."
+      },
+      "look": {
+        "ru": "Мекканский дом из камня и сырцового кирпича: открытый внутренний двор, жилые комнаты, комната для молитвы и хозяйственные пристройки.",
+        "en": "A Meccan house of stone and mud brick: an open inner courtyard, living rooms, a prayer room and outbuildings.",
+        "uz": "Tosh va xom g‘ishtdan qurilgan Makka uyi: ochiq ichki hovli, yashash xonalari, namozxona va xo‘jalik xonalari.",
+        "tg": "Хонаи маккагӣ аз санг ва хишти хом: ҳавлии дарунии кушод, утоқҳои зист, утоқи намоз ва иморатҳои хоҷагӣ.",
+        "kk": "Тас пен кесектен салынған Мекке үйі: ашық ішкі аула, тұрғын бөлмелер, намаз бөлмесі және шаруашылық қосалқылары.",
+        "ky": "Таш жана кыштан салынган Мекке үйү: ачык ички короо, турак бөлмөлөр, намаз бөлмөсү жана чарба имараттары."
+      },
+      "sira": {
+        "ru": "Здесь Пророк ﷺ прожил около 28 лет; здесь родились почти все его дети и прошли первые годы пророческой миссии.",
+        "en": "The Prophet ﷺ lived here for about 28 years; almost all his children were born here and his mission began here.",
+        "uz": "Payg‘ambar ﷺ bu yerda qariyb 28 yil yashadi; deyarli barcha farzandlari shu yerda tug‘ildi va payg‘ambarlik vazifasi boshlandi.",
+        "tg": "Паёмбар ﷺ дар ин ҷо қариб 28 сол зист; қариб ҳамаи фарзандонаш дар ин ҷо таваллуд шуданд ва рисолаташ оғоз ёфт.",
+        "kk": "Пайғамбар ﷺ мұнда 28 жылдай тұрды; балаларының барлығына жуығы осында туылып, пайғамбарлық миссиясы басталды.",
+        "ky": "Пайгамбар ﷺ бул жерде 28 жылдай жашады; балдарынын дээрлик баары ушул жерде төрөлүп, пайгамбарлык миссиясы башталган."
+      },
+      "dist": [
+        {
+          "m": 250,
+          "dir": "ne",
+          "sub": null
+        }
+      ]
+    },
+    "blackstone": {
+      "ar": "الحجر الأسود",
+      "city": "mecca",
+      "cat": "sacred",
+      "name": {
+        "ru": "Чёрный камень",
+        "en": "The Black Stone",
+        "uz": "Hajarul-asvad",
+        "tg": "Ҳаҷарул-асвад",
+        "kk": "Қара тас",
+        "ky": "Кара таш"
+      },
+      "sig": {
+        "ru": "Камень в восточном углу Каабы, от которого начинают обход — таваф.",
+        "en": "The stone in the eastern corner of the Kaaba where the circuit (tawaf) begins.",
+        "uz": "Ka’baning sharqiy burchagidagi tosh; tavof shu yerdan boshlanadi.",
+        "tg": "Санге дар кунҷи шарқии Каъба, ки тавоф аз он оғоз мешавад.",
+        "kk": "Қағбаның шығыс бұрышындағы тас, тауап осы жерден басталады.",
+        "ky": "Кааба чыгыш бурчундагы таш, тавап ушул жерден башталат."
+      },
+      "look": {
+        "ru": "Тёмный камень с красноватым оттенком в простой серебряной оправе, вмурованный в угол на высоте около 1,5 м.",
+        "en": "A dark stone with a reddish tint in a simple silver setting, set into the corner about 1.5 m high.",
+        "uz": "Qizg‘ish tovlanadigan qora tosh, oddiy kumush gardishda, burchakka taxminan 1,5 m balandlikda o‘rnatilgan.",
+        "tg": "Санги торик бо тобиши сурхчатоб дар ҳалқаи оддии нуқрагин, дар баландии тақрибан 1,5 м ба кунҷ шинонда шуда.",
+        "kk": "Қызғылт реңді қара тас, қарапайым күміс жиекте, бұрышқа шамамен 1,5 м биіктікте орнатылған.",
+        "ky": "Кызгылт өңдүү кара таш, жөнөкөй күмүш алкакта, бурчка болжол менен 1,5 м бийиктикте орнотулган."
+      },
+      "sira": {
+        "ru": "Когда курайшиты перестраивали Каабу (605 г.), племена спорили, кто установит камень. Пророк ﷺ, ещё до начала пророчества, предложил положить его на плащ, чтобы все племена подняли его вместе, и сам установил камень на место.",
+        "en": "When the Quraysh rebuilt the Kaaba (605), the clans disputed who would set the stone. Before his prophethood, the Prophet ﷺ had it placed on a cloak so all clans lifted it together, and set it in place himself.",
+        "uz": "Quraysh Ka’bani qayta qurayotganda (605) qabilalar toshni kim o‘rnatishi haqida bahslashdi. Payg‘ambarlikdan oldin Rasululloh ﷺ uni yopinchiqqa qo‘yib, barcha qabilalar birga ko‘tarishini taklif qildi va toshni o‘zi o‘rnatdi.",
+        "tg": "Ҳангоми бозсозии Каъба (605) қабилаҳо баҳс карданд, ки сангро кӣ гузорад. Паёмбар ﷺ ҳанӯз пеш аз паёмбарӣ пешниҳод кард, ки онро бар ридо гузоранд, то ҳамаи қабилаҳо якҷоя бардоранд, ва худ сангро ба ҷояш гузошт.",
+        "kk": "Құрайыш Қағбаны қайта салғанда (605) рулар тасты кім орнататыны туралы таласты. Пайғамбарлыққа дейін ол ﷺ тасты шапанға салып, барлық рулар бірге көтеруін ұсынды да, өзі орнына қойды.",
+        "ky": "Курайш Каабаны кайра курганда (605) уруулар ташты ким орнотору боюнча талашты. Пайгамбарлыкка чейин ал ﷺ ташты чапанга коюп, бардык уруулар чогуу көтөрүүсүн сунуштап, өзү ордуна койду."
+      },
+      "dist": [
+        {
+          "m": 0,
+          "dir": null,
+          "sub": null
+        }
+      ]
+    },
+    "hira": {
+      "ar": "غار حراء",
+      "city": "mecca",
+      "cat": "sira",
+      "name": {
+        "ru": "Пещера Хира (гора ан-Нур)",
+        "en": "Cave of Hira (Jabal al-Nour)",
+        "uz": "Hiro g‘ori (Nur tog‘i)",
+        "tg": "Ғори Ҳиро (кӯҳи Нур)",
+        "kk": "Хира үңгірі (Нұр тауы)",
+        "ky": "Хира үңкүрү (Нур тоосу)"
+      },
+      "sig": {
+        "ru": "Место уединения и размышлений Пророка ﷺ на горе Джабаль ан-Нур.",
+        "en": "The Prophet’s ﷺ place of seclusion and reflection on Jabal al-Nour.",
+        "uz": "Nur tog‘idagi Payg‘ambar ﷺ xilvat va tafakkur qilgan joy.",
+        "tg": "Ҷойи хилват ва тафаккури Паёмбар ﷺ дар кӯҳи Нур.",
+        "kk": "Нұр тауындағы Пайғамбардың ﷺ оңашаланып, ойға шомылған орны.",
+        "ky": "Нур тоосундагы Пайгамбардын ﷺ жалгыз калып ой жүгүрткөн жери."
+      },
+      "look": {
+        "ru": "Узкая природная расщелина в скалах длиной около 3,5 м и шириной около 1,5 м; внутри помещаются один-два человека.",
+        "en": "A narrow natural cleft in the rock about 3.5 m long and 1.5 m wide; it holds one or two people.",
+        "uz": "Uzunligi 3,5 m, eni 1,5 m ga yaqin tor tabiiy yoriq; ichiga bir-ikki kishi sig‘adi.",
+        "tg": "Шикофи танги табиӣ дар сахра, дарозиаш тақрибан 3,5 м ва паҳнояш 1,5 м; як-ду нафар мегунҷад.",
+        "kk": "Ұзындығы шамамен 3,5 м, ені 1,5 м тар табиғи жарық; ішіне бір-екі адам сыяды.",
+        "ky": "Узундугу 3,5 м, туурасы 1,5 мге жакын тар табигый жарака; ичине бир-эки киши батат."
+      },
+      "sira": {
+        "ru": "Около 610 года здесь Пророку ﷺ явился ангел Джибрил и были ниспосланы первые аяты Корана — начало суры «Аль-Алак».",
+        "en": "Around 610 the angel Jibril came to the Prophet ﷺ here and the first verses of the Qur’an were revealed — the opening of Surah al-‘Alaq.",
+        "uz": "Taxminan 610-yilda bu yerda Payg‘ambarga ﷺ Jabroil farishta keldi va Qur’onning ilk oyatlari — «Alaq» surasining boshi nozil bo‘ldi.",
+        "tg": "Тақрибан соли 610 дар ин ҷо ба Паёмбар ﷺ фариштаи Ҷабраил омад ва оятҳои нахустини Қуръон — ибтидои сураи «Алақ» нозил шуд.",
+        "kk": "Шамамен 610 жылы мұнда Пайғамбарға ﷺ Жәбірейіл періште келіп, Құранның алғашқы аяттары — «Ғалақ» сүресінің басы түсірілді.",
+        "ky": "Болжол менен 610-жылы бул жерде Пайгамбарга ﷺ Жебирейил периште келип, Курандын алгачкы аяттары — «Алак» сүрөсүнүн башы түшүрүлгөн."
+      },
+      "dist": [
+        {
+          "m": 4800,
+          "dir": "ne",
+          "sub": null
+        }
+      ]
+    },
+    "safamarwa": {
+      "ar": "الصفا والمروة",
+      "city": "mecca",
+      "cat": "sacred",
+      "name": {
+        "ru": "Холмы Сафа и Марва",
+        "en": "Safa and Marwa",
+        "uz": "Safo va Marva",
+        "tg": "Сафо ва Марва",
+        "kk": "Сафа мен Мәруа",
+        "ky": "Сафа жана Марва"
+      },
+      "sig": {
+        "ru": "Два холма, между которыми совершается сай — ритуальный проход во время хаджа и умры.",
+        "en": "Two hills between which the sa‘y — the ritual walk of hajj and umrah — is performed.",
+        "uz": "Haj va umrada sa’y — marosimiy yurish — ado etiladigan ikki tepalik.",
+        "tg": "Ду теппа, ки миёни онҳо саъй — гузари маросимии ҳаҷ ва умра — адо мешавад.",
+        "kk": "Қажылық пен ұмрада сағи — рәсімдік жүріс — жасалатын екі төбе.",
+        "ky": "Ажылык жана умрада саъй — ырым-жырымдык жүрүш — аткарылуучу эки дөбө."
+      },
+      "look": {
+        "ru": "Скальные выступы серого гранита: Сафа выше и круче, Марва — пологая. Между ними шла обычная торговая улица с домами.",
+        "en": "Outcrops of grey granite: Safa higher and steeper, Marwa gentler. An ordinary market street with houses ran between them.",
+        "uz": "Kulrang granit qoyalari: Safo balandroq va tikroq, Marva — qiyaroq. Ular orasida uylar bilan oddiy savdo ko‘chasi bo‘lgan.",
+        "tg": "Сахраҳои гранити хокистарӣ: Сафо баландтар ва нишебтар, Марва ҳамвортар. Миёнашон кӯчаи оддии тиҷоратӣ бо хонаҳо мегузашт.",
+        "kk": "Сұр граниттің жартастары: Сафа биігірек әрі тік, Мәруа — жайпақ. Олардың арасында үйлері бар қарапайым сауда көшесі жатты.",
+        "ky": "Боз граниттин аскалары: Сафа бийигирээк жана тик, Марва — жантайма. Алардын ортосунда үйлөрү бар жөнөкөй соода көчөсү өткөн."
+      },
+      "sira": {
+        "ru": "Поднявшись на Сафу, Пророк ﷺ впервые открыто призвал курайшитов к единобожию.",
+        "en": "Standing on Safa, the Prophet ﷺ first openly called the Quraysh to monotheism.",
+        "uz": "Safoga chiqib, Payg‘ambar ﷺ ilk bor Qurayshni ochiqchasiga tavhidga da’vat qildi.",
+        "tg": "Паёмбар ﷺ бар Сафо баромада, бори аввал Қурайшро ошкоро ба тавҳид даъват кард.",
+        "kk": "Пайғамбар ﷺ Сафаға шығып, құрайыштарды алғаш рет ашық таухидке шақырды.",
+        "ky": "Пайгамбар ﷺ Сафага чыгып, курайштарды биринчи жолу ачык таухидге чакырды."
+      },
+      "dist": [
+        {
+          "m": 130,
+          "dir": "se",
+          "sub": 0
+        },
+        {
+          "m": 300,
+          "dir": "ne",
+          "sub": 1
+        }
+      ]
+    },
+    "arqam": {
+      "ar": "دار الأرقم",
+      "city": "mecca",
+      "cat": "sira",
+      "name": {
+        "ru": "Дом аль-Аркама",
+        "en": "House of al-Arqam",
+        "uz": "Al-Arqam uyi",
+        "tg": "Хонаи Арқам",
+        "kk": "Әл-Арқам үйі",
+        "ky": "Аль-Аркамдын үйү"
+      },
+      "sig": {
+        "ru": "Место тайных собраний первых мусульман у подножия холма Сафа.",
+        "en": "The secret meeting place of the first Muslims at the foot of Safa.",
+        "uz": "Safo tepaligi etagida ilk musulmonlarning yashirin yig‘ilish joyi.",
+        "tg": "Ҷойи ҷамъомадҳои пинҳонии мусулмонони аввал дар доманаи Сафо.",
+        "kk": "Сафа төбесінің етегіндегі алғашқы мұсылмандардың жасырын жиналатын орны.",
+        "ky": "Сафа дөбөсүнүн этегиндеги алгачкы мусулмандардын жашыруун чогулуучу жери."
+      },
+      "look": {
+        "ru": "Небольшой каменный дом с плоской крышей и узкими окнами, откуда были видны Кааба и подступы к Сафе.",
+        "en": "A small stone house with a flat roof and narrow windows overlooking the Kaaba and the approaches to Safa.",
+        "uz": "Tekis tomli, tor derazali kichik tosh uy; undan Ka’ba va Safoga yo‘llar ko‘rinib turgan.",
+        "tg": "Хонаи хурди сангин бо боми ҳамвор ва тирезаҳои танг, ки аз он Каъба ва роҳҳои Сафо намоён буданд.",
+        "kk": "Жалпақ шатырлы, тар терезелі шағын тас үй; одан Қағба мен Сафаға апаратын жолдар көрінетін.",
+        "ky": "Жалпак чатырлуу, тар терезелүү кичинекей таш үй; андан Кааба жана Сафага баруучу жолдор көрүнчү."
+      },
+      "sira": {
+        "ru": "В ранний мекканский период здесь собиралась и училась первая община мусульман.",
+        "en": "In the early Meccan period the first Muslim community gathered and studied here.",
+        "uz": "Makka davrining boshida ilk musulmon jamoasi shu yerda yig‘ilib, ta’lim olgan.",
+        "tg": "Дар давраи аввали Макка ҷамъияти нахустини мусулмонон дар ин ҷо ҷамъ омада, таълим мегирифт.",
+        "kk": "Мекке кезеңінің басында алғашқы мұсылман қауымы осында жиналып, білім алған.",
+        "ky": "Мекке мезгилинин башында алгачкы мусулман жамааты ушул жерде чогулуп, билим алган."
+      },
+      "dist": [
+        {
+          "m": 120,
+          "dir": "e",
+          "sub": null
+        }
+      ]
+    },
+    "thawr": {
+      "ar": "غار ثور",
+      "city": "mecca",
+      "cat": "sira",
+      "name": {
+        "ru": "Пещера Саур",
+        "en": "Cave of Thawr",
+        "uz": "Savr g‘ori",
+        "tg": "Ғори Савр",
+        "kk": "Саур үңгірі",
+        "ky": "Саур үңкүрү"
+      },
+      "sig": {
+        "ru": "Убежище на горе Саур к югу от Мекки.",
+        "en": "A refuge on Mount Thawr, south of Mecca.",
+        "uz": "Makkaning janubidagi Savr tog‘idagi panoh.",
+        "tg": "Паноҳгоҳ дар кӯҳи Савр дар ҷануби Макка.",
+        "kk": "Меккенің оңтүстігіндегі Саур тауындағы пана.",
+        "ky": "Мекенин түштүгүндөгү Саур тоосундагы баш калкалоочу жай."
+      },
+      "look": {
+        "ru": "Небольшая пещера с двумя узкими низкими входами; высота свода — около 1,2–1,5 м.",
+        "en": "A small cave with two narrow, low entrances; the ceiling is about 1.2–1.5 m high.",
+        "uz": "Ikki tor va past kirishli kichik g‘or; shipi 1,2–1,5 m atrofida.",
+        "tg": "Ғори хурд бо ду даромадгоҳи танги паст; баландии шифташ тақрибан 1,2–1,5 м.",
+        "kk": "Екі тар әрі аласа кіреберісі бар шағын үңгір; төбесінің биіктігі шамамен 1,2–1,5 м.",
+        "ky": "Эки тар жана жапыз кире бериши бар кичинекей үңкүр; шыбынын бийиктиги 1,2–1,5 мдей."
+      },
+      "sira": {
+        "ru": "Во время хиджры в 622 году Пророк ﷺ и Абу Бакр три дня укрывались здесь от преследователей.",
+        "en": "During the Hijra in 622 the Prophet ﷺ and Abu Bakr hid here from their pursuers for three days.",
+        "uz": "622-yilgi hijrat chog‘ida Payg‘ambar ﷺ va Abu Bakr ta’qibchilardan uch kun shu yerda yashirindi.",
+        "tg": "Ҳангоми ҳиҷрат дар соли 622 Паёмбар ﷺ ва Абӯбакр се рӯз дар ин ҷо аз таъқибкунандагон пинҳон шуданд.",
+        "kk": "622 жылғы һижра кезінде Пайғамбар ﷺ мен Әбу Бәкір қуғыншылардан үш күн осында жасырынды.",
+        "ky": "622-жылкы хижрат учурунда Пайгамбар ﷺ жана Абу Бакр куугунчулардан үч күн ушул жерде жашынышкан."
+      },
+      "dist": [
+        {
+          "m": 5500,
+          "dir": "s",
+          "sub": null
+        }
+      ]
+    },
+    "quba": {
+      "ar": "مسجد قباء",
+      "city": "medina",
+      "cat": "mosque",
+      "name": {
+        "ru": "Мечеть Куба",
+        "en": "Quba Mosque",
+        "uz": "Quba masjidi",
+        "tg": "Масҷиди Қубо",
+        "kk": "Құба мешіті",
+        "ky": "Куба мечити"
+      },
+      "sig": {
+        "ru": "Первая мечеть в истории ислама.",
+        "en": "The first mosque in the history of Islam.",
+        "uz": "Islom tarixidagi birinchi masjid.",
+        "tg": "Нахустин масҷид дар таърихи ислом.",
+        "kk": "Ислам тарихындағы алғашқы мешіт.",
+        "ky": "Ислам тарыхындагы биринчи мечит."
+      },
+      "look": {
+        "ru": "Квадратное пространство, огороженное камнем; сначала без крыши, позже — навес на пальмовых столбах в южной части.",
+        "en": "A square space enclosed by stone; at first unroofed, later with a shade on palm posts along the south side.",
+        "uz": "Tosh bilan o‘ralgan kvadrat maydon; avval tomsiz, keyin janub tomonda xurmo ustunlaridagi soyabon qurilgan.",
+        "tg": "Фазои мураббаъ бо девори сангин; аввал бе бом, баъдтар дар қисми ҷанубӣ соябон бар сутунҳои нахл сохта шуд.",
+        "kk": "Таспен қоршалған шаршы алаң; алғашында шатырсыз, кейін оңтүстік жағында құрма бағаналарындағы күнқағар салынды.",
+        "ky": "Таш менен тосулган чарчы аянт; адегенде чатырсыз, кийин түштүк тарабында курма мамыларындагы күн калка тургузулган."
+      },
+      "sira": {
+        "ru": "Построена Пророком ﷺ и сподвижниками во время остановки в Куба по пути в Медину в 622 году.",
+        "en": "Built by the Prophet ﷺ and his companions during their stop at Quba on the way to Medina in 622.",
+        "uz": "622-yilda Madinaga yo‘lda Qubada to‘xtaganda Payg‘ambar ﷺ va sahobalar tomonidan qurilgan.",
+        "tg": "Паёмбар ﷺ ва саҳобагон дар соли 622 ҳангоми таваққуф дар Қубо дар роҳи Мадина онро сохтанд.",
+        "kk": "622 жылы Мединеге бара жатып Құбада аялдаған кезде Пайғамбар ﷺ мен сахабалар салған.",
+        "ky": "622-жылы Мединага баратып Кубада токтогондо Пайгамбар ﷺ жана сахабалар курушкан."
+      },
+      "dist": [
+        {
+          "m": 3200,
+          "dir": "s",
+          "sub": null
+        }
+      ]
+    },
+    "jumua": {
+      "ar": "مسجد الجمعة",
+      "city": "medina",
+      "cat": "mosque",
+      "name": {
+        "ru": "Масджид аль-Джума",
+        "en": "Masjid al-Jumu‘a",
+        "uz": "Juma masjidi",
+        "tg": "Масҷиди Ҷумъа",
+        "kk": "Жұма мешіті",
+        "ky": "Жума мечити"
+      },
+      "sig": {
+        "ru": "Место первой пятничной молитвы.",
+        "en": "The place of the first Friday prayer.",
+        "uz": "Birinchi juma namozi o‘qilgan joy.",
+        "tg": "Ҷойи нахустин намози ҷумъа.",
+        "kk": "Алғашқы жұма намазы оқылған орын.",
+        "ky": "Биринчи жума намазы окулган жер."
+      },
+      "look": {
+        "ru": "Расчищенная площадка в русле высохшего потока (вади Рануна), обнесённая невысоким земляным валом.",
+        "en": "A cleared ground in the bed of a dry stream (Wadi Ranuna), surrounded by a low earthen bank.",
+        "uz": "Qurigan soy o‘zanidagi (Ranuna vodiysi) tozalangan maydon, past tuproq uyum bilan o‘ralgan.",
+        "tg": "Майдони тозакардашуда дар маҷрои сели хушк (водии Рануна), бо пуштаи пасти хокӣ иҳота.",
+        "kk": "Кепкен арна табанындағы (Рануна уәдиі) тазартылған алаң, аласа топырақ үйіндісімен қоршалған.",
+        "ky": "Соолуган суу нугундагы (Рануна өрөөнү) тазаланган аянт, жапыз топурак дөңсөө менен курчалган."
+      },
+      "sira": {
+        "ru": "Здесь после хиджры Пророк ﷺ совершил первую пятничную проповедь (хутбу) и молитву.",
+        "en": "Here, after the Hijra, the Prophet ﷺ delivered the first Friday sermon (khutba) and led the prayer.",
+        "uz": "Bu yerda hijratdan so‘ng Payg‘ambar ﷺ birinchi juma xutbasini o‘qib, namoz o‘qidi.",
+        "tg": "Дар ин ҷо пас аз ҳиҷрат Паёмбар ﷺ нахустин хутбаи ҷумъаро хонд ва намоз гузошт.",
+        "kk": "Осында һижрадан кейін Пайғамбар ﷺ алғашқы жұма уағызын (хұтба) айтып, намаз оқыды.",
+        "ky": "Бул жерде хижраттан кийин Пайгамбар ﷺ биринчи жума хутбасын айтып, намаз окуган."
+      },
+      "dist": [
+        {
+          "m": 2400,
+          "dir": "s",
+          "sub": null
+        }
+      ]
+    },
+    "nabawi": {
+      "ar": "المسجد النبوي",
+      "city": "medina",
+      "cat": "mosque",
+      "name": {
+        "ru": "Мечеть Пророка ﷺ",
+        "en": "The Prophet’s ﷺ Mosque",
+        "uz": "Payg‘ambar ﷺ masjidi",
+        "tg": "Масҷиди Паёмбар ﷺ",
+        "kk": "Пайғамбар ﷺ мешіті",
+        "ky": "Пайгамбар ﷺ мечити"
+      },
+      "sig": {
+        "ru": "Религиозный и общественный центр Медины времён Пророка ﷺ.",
+        "en": "The religious and civic centre of Medina in the Prophet’s ﷺ time.",
+        "uz": "Payg‘ambar ﷺ davrida Madinaning diniy va ijtimoiy markazi.",
+        "tg": "Маркази динӣ ва ҷамъиятии Мадина дар замони Паёмбар ﷺ.",
+        "kk": "Пайғамбар ﷺ заманындағы Мединенің діни және қоғамдық орталығы.",
+        "ky": "Пайгамбар ﷺ доорундагы Мединанын диний жана коомдук борбору."
+      },
+      "look": {
+        "ru": "Двор около 30×35 м со стенами из необожжённого кирпича на каменном фундаменте. Опоры — стволы финиковых пальм, кровля — из пальмовых ветвей и глины. С востока примыкали комнаты (худжраты) жён Пророка ﷺ.",
+        "en": "A courtyard of about 30×35 m with mud-brick walls on a stone base. Palm trunks served as pillars; the roof was of palm fronds and clay. The rooms (hujurat) of the Prophet’s ﷺ wives adjoined it on the east.",
+        "uz": "Tosh poydevordagi xom g‘isht devorli, taxminan 30×35 m hovli. Ustunlar — xurmo tanalari, tomi — xurmo shoxlari va loydan. Sharq tomonda Payg‘ambar ﷺ ayollarining hujralari bor edi.",
+        "tg": "Ҳавлии тақрибан 30×35 м бо деворҳои хишти хом бар таҳкурсии сангин. Сутунҳо — танаҳои нахл, бом — аз шохаҳои нахл ва гил. Аз шарқ ҳуҷраҳои занони Паёмбар ﷺ пайваст буданд.",
+        "kk": "Тас іргетасқа қаланған кесек қабырғалы, шамамен 30×35 м аула. Тіректері — құрма діңдері, шатыры — құрма бұтақтары мен балшықтан. Шығысында Пайғамбар ﷺ әйелдерінің бөлмелері (хужралар) тұрды.",
+        "ky": "Таш пайдубалдагы кыш дубалдуу, болжол менен 30×35 м короо. Тирөөчтөрү — курма сөңгөктөрү, чатыры — курма бутактарынан жана ылайдан. Чыгышында Пайгамбардын ﷺ аялдарынын бөлмөлөрү (хужралар) турган."
+      },
+      "sira": {
+        "ru": "Мечеть заложена Пророком ﷺ сразу после хиджры в 622 году; он сам участвовал в строительстве.",
+        "en": "The Prophet ﷺ founded the mosque right after the Hijra in 622 and took part in building it himself.",
+        "uz": "Masjidga Payg‘ambar ﷺ‎ 622-yilda hijratdan so‘ng darhol asos soldi va qurilishda o‘zi qatnashdi.",
+        "tg": "Масҷидро Паёмбар ﷺ фавран пас аз ҳиҷрат дар соли 622 бунёд гузошт ва худ дар сохтмон ширкат кард.",
+        "kk": "Мешіттің іргетасын Пайғамбар ﷺ‎ 622 жылы һижрадан кейін бірден қалап, құрылысқа өзі қатысты.",
+        "ky": "Мечиттин пайдубалын Пайгамбар ﷺ‎ 622-жылы хижраттан кийин дароо түптөп, курулушка өзү катышкан."
+      },
+      "dist": [
+        {
+          "m": 0,
+          "dir": null,
+          "sub": null
+        }
+      ]
+    },
+    "qiblatayn": {
+      "ar": "مسجد القبلتين",
+      "city": "medina",
+      "cat": "mosque",
+      "name": {
+        "ru": "Мечеть аль-Кыблатайн",
+        "en": "Masjid al-Qiblatayn",
+        "uz": "Qiblatayn masjidi",
+        "tg": "Масҷиди Қиблатайн",
+        "kk": "Әл-Қыблатайн мешіті",
+        "ky": "Аль-Кыблатайн мечити"
+      },
+      "sig": {
+        "ru": "«Мечеть двух кибл» — память о смене направления молитвы.",
+        "en": "“The Mosque of the Two Qiblas” — a memorial of the change in the direction of prayer.",
+        "uz": "«Ikki qibla masjidi» — namoz yo‘nalishi o‘zgargani xotirasi.",
+        "tg": "«Масҷиди ду қибла» — ёдгори тағйири самти намоз.",
+        "kk": "«Екі құбыла мешіті» — намаз бағытының өзгергенінің естелігі.",
+        "ky": "«Эки кыбыла мечити» — намаз багытынын өзгөргөнүнүн эстелиги."
+      },
+      "look": {
+        "ru": "Простая мечеть из сырцового кирпича в квартале Бану Салима. Позднее в ней отмечали оба направления молитвы.",
+        "en": "A simple mud-brick mosque in the quarter of Banu Salima. Later both directions of prayer were marked in it.",
+        "uz": "Banu Salima mahallasidagi xom g‘ishtdan qurilgan oddiy masjid. Keyinchalik unda ikki namoz yo‘nalishi belgilangan.",
+        "tg": "Масҷиди оддии хишти хом дар маҳаллаи Бану Салима. Баъдтар дар он ҳарду самти намоз нишона шуданд.",
+        "kk": "Бану Сәлима мекеніндегі кесектен салынған қарапайым мешіт. Кейінірек онда намаздың екі бағыты да белгіленді.",
+        "ky": "Бану Салима кварталындагы кыштан салынган жөнөкөй мечит. Кийинчерээк анда намаздын эки багыты тең белгиленген."
+      },
+      "sira": {
+        "ru": "По преданию, здесь во время молитвы Пророк ﷺ получил откровение о смене киблы с Иерусалима на Мекку (2 г. х., 624 г.).",
+        "en": "According to tradition, the Prophet ﷺ received here, during prayer, the revelation changing the qibla from Jerusalem to Mecca (2 AH, 624).",
+        "uz": "Rivoyatga ko‘ra, bu yerda namoz paytida Payg‘ambarga ﷺ qiblani Quddusdan Makkaga o‘zgartirish haqida vahiy keldi (hijriy 2, 624-yil).",
+        "tg": "Тибқи ривоят, дар ин ҷо ҳангоми намоз ба Паёмбар ﷺ ваҳйи тағйири қибла аз Қудс ба Макка нозил шуд (с. 2 ҳ., 624).",
+        "kk": "Риуаят бойынша, осында намаз үстінде Пайғамбарға ﷺ құбыланы Құдыстан Меккеге ауыстыру туралы уахи түсті (һ. 2 ж., 624).",
+        "ky": "Риваят боюнча, ушул жерде намаз учурунда Пайгамбарга ﷺ кыбыланы Куддустан Меккеге алмаштыруу тууралуу вахий түшкөн (х. 2-ж., 624)."
+      },
+      "dist": [
+        {
+          "m": 4500,
+          "dir": "nw",
+          "sub": null
+        }
+      ]
+    },
+    "baqi": {
+      "ar": "البقيع",
+      "city": "medina",
+      "cat": "memorial",
+      "name": {
+        "ru": "Аль-Баки",
+        "en": "Al-Baqi",
+        "uz": "Al-Baqi’",
+        "tg": "Ал-Бақеъ",
+        "kk": "Әл-Бақиъ",
+        "ky": "Аль-Бакиъ"
+      },
+      "sig": {
+        "ru": "Главное кладбище Медины к востоку от Мечети Пророка ﷺ.",
+        "en": "The main cemetery of Medina, east of the Prophet’s ﷺ Mosque.",
+        "uz": "Payg‘ambar ﷺ masjidining sharqidagi Madinaning asosiy qabristoni.",
+        "tg": "Қабристони асосии Мадина дар шарқи Масҷиди Паёмбар ﷺ.",
+        "kk": "Пайғамбар ﷺ мешітінің шығысындағы Мединенің басты зираты.",
+        "ky": "Пайгамбар ﷺ мечитинин чыгышындагы Мединанын башкы көрүстөнү."
+      },
+      "look": {
+        "ru": "Открытая земля, поросшая колючим кустарником гаркад, без ограды; могилы отмечались простыми камнями.",
+        "en": "Open ground covered with thorny gharqad shrubs, unwalled; graves were marked with plain stones.",
+        "uz": "Tikanli g‘arqad butalari o‘sgan, to‘siqsiz ochiq yer; qabrlar oddiy toshlar bilan belgilangan.",
+        "tg": "Замини кушоди бе девор бо буттаҳои хордори ғарқад; қабрҳо бо сангҳои оддӣ нишона мешуданд.",
+        "kk": "Тікенді ғарқад бұталары өскен, қоршаусыз ашық жер; қабірлер қарапайым тастармен белгіленген.",
+        "ky": "Тикенектүү гаркад бадалдары өскөн, тосмосуз ачык жер; мүрзөлөр жөнөкөй таштар менен белгиленген."
+      },
+      "sira": {
+        "ru": "Место захоронения, определённое Пророком ﷺ; здесь похоронены его сын Ибрахим, дочери и многие сподвижники.",
+        "en": "A burial ground designated by the Prophet ﷺ; his son Ibrahim, his daughters and many companions are buried here.",
+        "uz": "Payg‘ambar ﷺ belgilagan qabriston; bu yerda o‘g‘li Ibrohim, qizlari va ko‘plab sahobalar dafn etilgan.",
+        "tg": "Қабристоне, ки Паёмбар ﷺ муайян кард; писараш Иброҳим, духтаронаш ва бисёр саҳобагон дар ин ҷо дафн шудаанд.",
+        "kk": "Пайғамбар ﷺ белгілеген зират; мұнда ұлы Ибраһим, қыздары мен көптеген сахабалар жерленген.",
+        "ky": "Пайгамбар ﷺ белгилеген көрүстөн; бул жерде уулу Ибрахим, кыздары жана көптөгөн сахабалар коюлган."
+      },
+      "dist": [
+        {
+          "m": 150,
+          "dir": "e",
+          "sub": null
+        }
+      ]
+    },
+    "uhud": {
+      "ar": "جبل أحد",
+      "city": "medina",
+      "cat": "memorial",
+      "name": {
+        "ru": "Гора Ухуд",
+        "en": "Mount Uhud",
+        "uz": "Uhud tog‘i",
+        "tg": "Кӯҳи Уҳуд",
+        "kk": "Ұхуд тауы",
+        "ky": "Ухуд тоосу"
+      },
+      "sig": {
+        "ru": "Гора к северу от Медины — место битвы и захоронения павших.",
+        "en": "A mountain north of Medina — the site of the battle and of the graves of the fallen.",
+        "uz": "Madinaning shimolidagi tog‘ — jang va shahidlar dafn etilgan joy.",
+        "tg": "Кӯҳе дар шимоли Мадина — ҷойи ҷанг ва дафни шаҳидон.",
+        "kk": "Мединенің солтүстігіндегі тау — шайқас және шейіттер жерленген орын.",
+        "ky": "Мединанын түндүгүндөгү тоо — салгылашуу жана шейиттер коюлган жер."
+      },
+      "look": {
+        "ru": "Скальный хребет из красноватого гранита длиной около 7 км; у подножия — невысокий холм лучников и плато с могилами павших.",
+        "en": "A ridge of reddish granite about 7 km long; at its foot, a low archers’ hill and a plateau with the graves of the fallen.",
+        "uz": "Uzunligi 7 km ga yaqin qizg‘ish granit tizmasi; etagida past kamonchilar tepaligi va shahidlar qabrlari bor maydon.",
+        "tg": "Қаторкӯҳи гранити сурхчатоб бо дарозии тақрибан 7 км; дар доманааш теппаи пасти тирандозон ва ҳамворӣ бо қабрҳои шаҳидон.",
+        "kk": "Ұзындығы шамамен 7 км қызғылт граниттен тұратын жота; етегінде аласа садақшылар төбесі мен шейіттер қабірлері бар алаң.",
+        "ky": "Узундугу 7 кмдей кызгылт граниттен турган кырка тоо; этегинде жапыз жаачылар дөбөсү жана шейиттердин мүрзөлөрү бар түздүк."
+      },
+      "sira": {
+        "ru": "В 625 году у горы произошла битва при Ухуде. Здесь похоронены павшие, среди них Хамза ибн Абд аль-Мутталиб.",
+        "en": "In 625 the Battle of Uhud took place by the mountain. The fallen are buried here, among them Hamza ibn Abd al-Muttalib.",
+        "uz": "625-yilda tog‘ yonida Uhud jangi bo‘ldi. Bu yerda shahidlar, jumladan Hamza ibn Abdulmuttalib dafn etilgan.",
+        "tg": "Соли 625 назди кӯҳ ҷанги Уҳуд рух дод. Шаҳидон, аз ҷумла Ҳамза ибни Абдулмутталиб, дар ин ҷо дафн шудаанд.",
+        "kk": "625 жылы тау түбінде Ұхуд шайқасы болды. Мұнда шейіттер, солардың ішінде Хамза ибн Абдулмұтталиб жерленген.",
+        "ky": "625-жылы тоонун этегинде Ухуд салгылашуусу болгон. Бул жерде шейиттер, алардын ичинде Хамза ибн Абдулмутталиб коюлган."
+      },
+      "dist": [
+        {
+          "m": 5500,
+          "dir": "n",
+          "sub": null
+        }
+      ]
+    },
+    "fath": {
+      "ar": "مسجد الفتح",
+      "city": "medina",
+      "cat": "sira",
+      "name": {
+        "ru": "Масджид аль-Фатх (гора Сал‘)",
+        "en": "Masjid al-Fath (Mount Sal‘)",
+        "uz": "Al-Fath masjidi (Sal’ tog‘i)",
+        "tg": "Масҷиди Фатҳ (кӯҳи Салъ)",
+        "kk": "Әл-Фатх мешіті (Сәлъ тауы)",
+        "ky": "Аль-Фатх мечити (Салъ тоосу)"
+      },
+      "sig": {
+        "ru": "Место у горы Сал‘, связанное с Битвой у рва; район «Семи мечетей».",
+        "en": "A site by Mount Sal‘ linked to the Battle of the Trench; the “Seven Mosques” area.",
+        "uz": "Sal’ tog‘i yonidagi Xandaq jangi bilan bog‘liq joy; «Yetti masjid» hududi.",
+        "tg": "Ҷое назди кӯҳи Салъ, ки ба ҷанги Хандақ вобаста аст; мавзеи «Ҳафт масҷид».",
+        "kk": "Сәлъ тауы жанындағы Хандақ шайқасымен байланысты орын; «Жеті мешіт» аумағы.",
+        "ky": "Салъ тоосунун жанындагы Хандак салгылашуусу менен байланыштуу жер; «Жети мечит» аймагы."
+      },
+      "look": {
+        "ru": "Небольшая скальная площадка на склоне горы Сал‘, где стоял шатёр Пророка ﷺ; постройки появились позже.",
+        "en": "A small rocky platform on the slope of Mount Sal‘ where the Prophet’s ﷺ tent stood; buildings came later.",
+        "uz": "Sal’ tog‘i yonbag‘ridagi kichik qoyali maydoncha, u yerda Payg‘ambarning ﷺ chodiri turgan; binolar keyinroq paydo bo‘lgan.",
+        "tg": "Майдончаи хурди сангин дар нишебии кӯҳи Салъ, ки хаймаи Паёмбар ﷺ он ҷо буд; биноҳо баъдтар пайдо шуданд.",
+        "kk": "Сәлъ тауы беткейіндегі шағын тасты алаңқай, онда Пайғамбардың ﷺ шатыры тұрған; құрылыстар кейін пайда болды.",
+        "ky": "Салъ тоосунун капталындагы кичинекей таштуу аянтча, анда Пайгамбардын ﷺ чатыры турган; имараттар кийин пайда болгон."
+      },
+      "sira": {
+        "ru": "Во время осады Медины в 627 году (Битва у рва — аль-Хандак) здесь находился командный пункт Пророка ﷺ.",
+        "en": "During the siege of Medina in 627 (the Battle of the Trench — al-Khandaq) the Prophet’s ﷺ command post was here.",
+        "uz": "627-yilgi Madina qamali (Xandaq jangi) paytida Payg‘ambarning ﷺ qo‘mondonlik joyi shu yerda bo‘lgan.",
+        "tg": "Ҳангоми муҳосираи Мадина дар соли 627 (ҷанги Хандақ) қароргоҳи фармондеҳии Паёмбар ﷺ дар ин ҷо буд.",
+        "kk": "627 жылғы Медине қоршауы кезінде (Хандақ шайқасы) Пайғамбардың ﷺ қолбасшылық орны осында болған.",
+        "ky": "627-жылкы Медина курчоосу учурунда (Хандак салгылашуусу) Пайгамбардын ﷺ колбашчылык жайы ушул жерде болгон."
+      },
+      "dist": [
+        {
+          "m": 3800,
+          "dir": "nw",
+          "sub": null
+        }
+      ]
+    },
+    "kaaba": {
+      "ar": "الكعبة",
+      "city": "mecca",
+      "cat": "sacred",
+      "name": {
+        "ru": "Кааба",
+        "en": "The Kaaba",
+        "uz": "Ka’ba",
+        "tg": "Каъба",
+        "kk": "Қағба",
+        "ky": "Кааба"
+      },
+      "sig": {
+        "ru": "Главное святилище ислама, центр единобожия и кибла — направление молитвы.",
+        "en": "The main sanctuary of Islam, the centre of monotheism and the qibla — the direction of prayer.",
+        "uz": "Islomning bosh ziyoratgohi, tavhid markazi va qibla — namoz yo‘nalishi.",
+        "tg": "Муқаддастарин макони ислом, маркази тавҳид ва қибла — самти намоз.",
+        "kk": "Исламның басты киелі орны, таухид орталығы және құбыла — намаз бағыты.",
+        "ky": "Исламдын башкы ыйык жайы, таухид борбору жана кыбыла — намаздын багыты."
+      },
+      "look": {
+        "ru": "Прямоугольное здание из синеватого мекканского базальта на глиняном растворе, высотой около 9 м. После перестройки курайшитами (605 г.) получило крышу; внутри стояли колонны. Покрывалось тканями разных цветов.",
+        "en": "A rectangular building of bluish Meccan basalt set in clay, about 9 m high. After the Quraysh rebuilt it (605) it had a roof and inner columns. It was covered with cloths of various colours.",
+        "uz": "Loy qorishmali ko‘kimtir Makka bazaltidan qurilgan, balandligi 9 m ga yaqin to‘rtburchak bino. Quraysh qayta qurgach (605) tomli bo‘ldi, ichida ustunlar bor edi. Turli rangdagi matolar bilan yopilgan.",
+        "tg": "Бинои росткунҷа аз базалти кабудтоби Макка бо гил, баландиаш тақрибан 9 м. Пас аз бозсозии Қурайш (605) бом ёфт, дохилаш сутунҳо дошт. Бо матоъҳои рангоранг пӯшонида мешуд.",
+        "kk": "Сазбен қаланған көкшіл Мекке базальтынан тұрғызылған, биіктігі шамамен 9 м тікбұрышты ғимарат. Құрайыш қайта салған соң (605) шатырлы болды, ішінде бағаналар тұрды. Түрлі түсті матамен жабылатын.",
+        "ky": "Чопо менен кыналган көгүш Мекке базальтынан тургузулган, бийиктиги 9 мге жакын тик бурчтуу имарат. Курайш кайра курган соң (605) чатырлуу болду, ичинде мамылар турган. Ар түстүү кездемелер менен жабылчу."
+      },
+      "sira": {
+        "ru": "В 630 году, после освобождения Мекки, Пророк ﷺ очистил Каабу от идолов и вернул ей значение дома единобожия.",
+        "en": "In 630, after the liberation of Mecca, the Prophet ﷺ cleansed the Kaaba of idols and restored it as the house of monotheism.",
+        "uz": "630-yilda, Makka ozod etilgach, Payg‘ambar ﷺ Ka’bani butlardan tozaladi va uni tavhid uyi sifatida qayta tikladi.",
+        "tg": "Соли 630, пас аз озод шудани Макка, Паёмбар ﷺ Каъбаро аз бутҳо пок кард ва онро ба хонаи тавҳид баргардонд.",
+        "kk": "630 жылы Мекке азат етілген соң Пайғамбар ﷺ Қағбаны пұттардан тазартып, оны таухид үйі ретінде қайта қалпына келтірді.",
+        "ky": "630-жылы Мекке бошотулгандан кийин Пайгамбар ﷺ Каабаны буттардан тазалап, аны таухид үйү катары кайра калыбына келтирди."
+      },
+      "dist": [
+        {
+          "m": 0,
+          "dir": null,
+          "sub": null
+        }
+      ]
+    },
+    "maqam": {
+      "ar": "مقام إبراهيم",
+      "city": "mecca",
+      "cat": "sacred",
+      "name": {
+        "ru": "Макам Ибрахим",
+        "en": "Maqam Ibrahim",
+        "uz": "Maqomi Ibrohim",
+        "tg": "Мақоми Иброҳим",
+        "kk": "Мақам Ибраһим",
+        "ky": "Макам Ибрахим"
+      },
+      "sig": {
+        "ru": "Камень, на котором стоял пророк Ибрахим при строительстве Каабы.",
+        "en": "The stone on which the prophet Ibrahim (Abraham) stood while building the Kaaba.",
+        "uz": "Ibrohim alayhissalom Ka’bani qurishda ustida turgan tosh.",
+        "tg": "Санге, ки Иброҳим (а) ҳангоми сохтани Каъба бар он истода буд.",
+        "kk": "Ибраһим пайғамбар Қағбаны салғанда үстінде тұрған тас.",
+        "ky": "Ибрахим пайгамбар Каабаны курууда үстүндө турган таш."
+      },
+      "look": {
+        "ru": "Небольшой светлый камень со следами стоп; стоял под открытым небом у стены Каабы, без навесов.",
+        "en": "A small light-coloured stone bearing footprints; it stood in the open by the Kaaba’s wall, without any canopy.",
+        "uz": "Oyoq izlari qolgan kichik och rangli tosh; Ka’ba devori yonida ochiq osmon ostida, soyabonsiz turgan.",
+        "tg": "Санги хурди равшан бо нақши пойҳо; дар назди девори Каъба зери осмони кушод, бе соябон меистод.",
+        "kk": "Табан іздері қалған шағын ақшыл тас; Қағба қабырғасының жанында ашық аспан астында, күнқағарсыз тұрған.",
+        "ky": "Таман издери калган кичинекей ачык түстөгү таш; Кааба дубалынын жанында ачык асман астында, күн калкасыз турган."
+      },
+      "sira": {
+        "ru": "Пророк ﷺ совершал молитву у Макама после обхода Каабы, исполняя повеление Корана (2:125).",
+        "en": "The Prophet ﷺ prayed at the Maqam after the circuit of the Kaaba, following the command of the Qur’an (2:125).",
+        "uz": "Payg‘ambar ﷺ Qur’on amriga (2:125) ko‘ra tavofdan so‘ng Maqom ortida namoz o‘qirdi.",
+        "tg": "Паёмбар ﷺ пас аз тавоф, ба фармони Қуръон (2:125), назди Мақом намоз мегузошт.",
+        "kk": "Пайғамбар ﷺ Құран бұйрығы бойынша (2:125) тауаптан соң Мақамның артында намаз оқыды.",
+        "ky": "Пайгамбар ﷺ Куран буйругу боюнча (2:125) таваптан кийин Макамдын артында намаз окучу."
+      },
+      "dist": [
+        {
+          "m": 15,
+          "dir": "e",
+          "sub": null
+        }
+      ]
+    }
+  },
+  "safaMarwa": {
+    "ru": [
+      "Сафа",
+      "Марва"
+    ],
+    "en": [
+      "Safa",
+      "Marwa"
+    ],
+    "uz": [
+      "Safo",
+      "Marva"
+    ],
+    "tg": [
+      "Сафо",
+      "Марва"
+    ],
+    "kk": [
+      "Сафа",
+      "Мәруа"
+    ],
+    "ky": [
+      "Сафа",
+      "Марва"
+    ]
+  }
 }

@@ -197,10 +197,15 @@ final class ZikrViewModel: ObservableObject {
         banner = nil
     }
 
+    /// ZKR-53: глава без города открывается листом на нативной вкладке «Путь Сиры» (TabsView);
+    /// false — нативного экрана нет или у главы есть город: тогда команда в веб, как раньше.
+    var openChapterNatively: ((String) -> Bool)?
+
     /// «Изучить»: глава на карте (или лист на «Пути Сиры»), веб сам переключает вкладку.
     func exploreBanner() {
         guard let id = banner?.focusChapterID else { return }
         hideBanner()
+        if openChapterNatively?(id) == true { return }
         queue.enqueue { [weak self] in
             guard let self else { return }
             await self.sink.explore(chapterID: id)

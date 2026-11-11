@@ -23,6 +23,9 @@ final class AppContainer: ObservableObject {
     /// ZKR-52: false → вкладка «Зикр» снова целиком веб-экран (как 1.1.1).
     /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
     static let isNativeZikrEnabled = true
+    /// ZKR-53: false → вкладка «Путь Сиры» снова целиком веб-экран (как 1.1.1).
+    /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
+    static let isNativeSiraEnabled = true
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
@@ -39,6 +42,8 @@ final class AppContainer: ObservableObject {
     /// ZKR-52: команды счётчика в веб и тексты уровней/глав экрана «Зикр».
     let zikrSink: any ZikrCommandSink
     let zikrContent: any ZikrContentProviding
+    /// ZKR-53: команды экрана «Путь Сиры» в веб (тексты глав и мест — тот же zikrContent).
+    let siraSink: any SiraCommandSink
     let presenter: any PresenterProviding
 
     private let legacyProgressFileURL: URL?
@@ -53,6 +58,7 @@ final class AppContainer: ObservableObject {
         settingsSink: (any SettingsCommandSink)? = nil,
         zikrSink: (any ZikrCommandSink)? = nil,
         zikrContent: any ZikrContentProviding = BundledZikrContentProvider(),
+        siraSink: (any SiraCommandSink)? = nil,
         presenter: (any PresenterProviding)? = nil
     ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
@@ -70,6 +76,7 @@ final class AppContainer: ObservableObject {
             commands: { WebViewManager.shared }
         )
         self.zikrContent = zikrContent
+        self.siraSink = siraSink ?? WebSiraCommandSink { WebViewManager.shared }
         self.presenter = presenter ?? KeyWindowPresenterProvider()
     }
 
@@ -146,6 +153,16 @@ final class AppContainer: ObservableObject {
             localization: localization,
             feedback: ZikrFeedbackService(),
             announcer: VoiceOverAnnouncer()
+        )
+    }
+
+    /// ZKR-53: модель экрана «Путь Сиры».
+    func makeSiraViewModel() -> SiraViewModel {
+        SiraViewModel(
+            repository: progress,
+            sink: siraSink,
+            contentProvider: zikrContent,
+            localization: localization
         )
     }
 

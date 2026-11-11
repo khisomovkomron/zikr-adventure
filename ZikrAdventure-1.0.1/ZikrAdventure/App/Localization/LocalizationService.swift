@@ -97,6 +97,16 @@ final class LocalizationService: ObservableObject {
         return formatter.string(from: NSNumber(value: number)) ?? String(number)
     }
 
+    /// ZKR-53: дробное число в локали языка — `toLocaleString(locale(), { maximumFractionDigits })` (км в distText()).
+    func format(_ number: Double, maximumFractionDigits: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.locale = locale
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = maximumFractionDigits
+        return formatter.string(from: NSNumber(value: number)) ?? String(number)
+    }
+
     func string(for key: L10nKey, language: AppLanguage) -> String {
         let missing = "\u{0}"
         if let bundle = bundle(for: language) {

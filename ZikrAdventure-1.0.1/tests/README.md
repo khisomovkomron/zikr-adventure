@@ -117,6 +117,14 @@ Tests the counter commands of `window.zikrNative` used by the native Zikr screen
 
 **Run:** `node tests/zikr-native.cjs`
 
+### `sira-native.cjs` (ZKR-53)
+Tests the Sira path commands of `window.zikrNative` used by the native «Путь Сиры» screen:
+- `markViewed(id)` = what «Читать» does in `chapterCard` / `placeCard` (only open chapters, preview counts as open; saved once)
+- `showChapter(id)` = the row's «На карте» (`data-go`): `markViewed` + `openCity(city, chapterFocus(ch))` (hira → nur, safamarwa → safa); chapters without a city are rejected
+- the web screen still uses the same `markViewed` / `openCity` code
+
+**Run:** `node tests/sira-native.cjs`
+
 ### `l10n-native.cjs` (ZKR-50)
 Checks that `ZikrAdventure/Resources/Localizable.xcstrings` is up to date with the `UI` dictionary in
 `index.html` + `tools/l10n-native.json` (runs `tools/l10n-from-web.mjs --check`), that every key has
