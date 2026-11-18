@@ -6,7 +6,7 @@
 // ZKR-52: и главная вкладка «Зикр» (счётчик); шестерёнка и «Карта» выбирают нативную вкладку.
 // ZKR-53: и вкладка «Путь Сиры»; «Изучить» в баннере для главы без города открывает её нативный лист.
 // ZKR-57: и вкладка «Карта»; «На карте» в «Пути Сиры» и «Изучить» для главы с городом открывают нативную карту.
-// Пока показан веб-онбординг или его состояние неизвестно, видна веб-версия, как в 1.1.1.
+// ZKR-65: нативный онбординг перекрывает всё приложение до завершения; состояние берётся после восстановления веба.
 
 import SwiftUI
 import ZikrContent
@@ -20,6 +20,7 @@ struct TabsView: View {
     @StateObject private var zikrViewModel: ZikrViewModel
     @StateObject private var siraViewModel: SiraViewModel
     @StateObject private var mapViewModel: MapViewModel
+    @StateObject private var onboarding: OnboardingViewModel
     @State private var webOnboarding = WebOnboardingTracker()
     private let auth: any AuthService
 #if DEBUG
@@ -30,6 +31,7 @@ struct TabsView: View {
     private static let onboardingPollInterval: UInt64 = 500_000_000
 
     init(container: AppContainer) {
+        _onboarding = StateObject(wrappedValue: container.makeOnboardingViewModel())
         localization = container.localization
         auth = container.auth
         _infoViewModel = StateObject(wrappedValue: container.makeInfoViewModel(
@@ -39,6 +41,14 @@ struct TabsView: View {
         _zikrViewModel = StateObject(wrappedValue: container.makeZikrViewModel())
         _siraViewModel = StateObject(wrappedValue: container.makeSiraViewModel())
         _mapViewModel = StateObject(wrappedValue: container.makeMapViewModel())
+    }
+
+    private var blocksUnderlyingUI: Bool {
+        AppContainer.isNativeOnboardingEnabled && onboarding.isVisible != false
+    }
+
+    private var onboardingVisibility: Bool? {
+        AppContainer.isNativeOnboardingEnabled ? onboarding.isVisible : webOnboarding.isVisible
     }
 
     private var isNativeInfoAvailable: Bool {
@@ -71,7 +81,7 @@ struct TabsView: View {
         NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeMapAvailable,
             isTabSelected: selectedTab == .map,
-            isWebOnboardingVisible: webOnboarding.isVisible
+            isWebOnboardingVisible: onboardingVisibility
         )
     }
 
@@ -79,7 +89,7 @@ struct TabsView: View {
         NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeSiraAvailable,
             isTabSelected: selectedTab == .path,
-            isWebOnboardingVisible: webOnboarding.isVisible
+            isWebOnboardingVisible: onboardingVisibility
         )
     }
 
@@ -87,7 +97,7 @@ struct TabsView: View {
         NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeZikrAvailable,
             isTabSelected: selectedTab == .zikr,
-            isWebOnboardingVisible: webOnboarding.isVisible
+            isWebOnboardingVisible: onboardingVisibility
         )
     }
 
@@ -95,7 +105,7 @@ struct TabsView: View {
         NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeInfoAvailable,
             isTabSelected: selectedTab == .info,
-            isWebOnboardingVisible: webOnboarding.isVisible
+            isWebOnboardingVisible: onboardingVisibility
         )
     }
 
@@ -103,17 +113,18 @@ struct TabsView: View {
         NativeScreenGate.shouldShowNativeScreen(
             isEnabled: isNativeSettingsAvailable,
             isTabSelected: selectedTab == .settings,
-            isWebOnboardingVisible: webOnboarding.isVisible
+            isWebOnboardingVisible: onboardingVisibility
         )
     }
 
     /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
     /// и пока выбрана нативная вкладка с открытым онбордингом.
     private var needsOnboardingPoll: Bool {
+        guard !AppContainer.isNativeOnboardingEnabled else { return false }
         guard isNativeInfoAvailable || isNativeSettingsAvailable || isNativeZikrAvailable || isNativeSiraAvailable
                 || isNativeMapAvailable,
-              webOnboarding.isVisible != false else { return false }
-        return webOnboarding.isVisible == nil
+              onboardingVisibility != false else { return false }
+        return onboardingVisibility == nil
             || (selectedTab == .info && isNativeInfoAvailable)
             || (selectedTab == .settings && isNativeSettingsAvailable)
             || (selectedTab == .zikr && isNativeZikrAvailable)
@@ -124,10 +135,12 @@ struct TabsView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization)
+                WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization,
+                            isCoveredByNativeScreen: blocksUnderlyingUI || showsNativeInfo || showsNativeSettings
+                                || showsNativeZikr || showsNativeSira || showsNativeMap)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea(edges: .top)
-                    .accessibilityHidden(showsNativeInfo || showsNativeSettings || showsNativeZikr || showsNativeSira || showsNativeMap)
+                    .accessibilityHidden(blocksUnderlyingUI || showsNativeInfo || showsNativeSettings || showsNativeZikr || showsNativeSira || showsNativeMap)
 
                 if showsNativeZikr {
                     ZikrView(viewModel: zikrViewModel) { tab in
@@ -148,6 +161,7 @@ struct TabsView: View {
                 }
             }
 
+            Group {
 #if DEBUG
             NativeTabBar(
                 selectedTab: $selectedTab,
@@ -158,6 +172,13 @@ struct TabsView: View {
 #else
             NativeTabBar(selectedTab: $selectedTab, localization: localization)
 #endif
+            }
+            .allowsHitTesting(!blocksUnderlyingUI)
+            .accessibilityHidden(blocksUnderlyingUI)
+        }
+        .fullScreenCover(isPresented: Binding(get: { blocksUnderlyingUI }, set: { _ in })) {
+            OnboardingView(viewModel: onboarding)
+                .interactiveDismissDisabled()
         }
         .onChange(of: selectedTab) { newTab in
             WebViewManager.shared.selectTab(newTab.webID)
@@ -186,7 +207,7 @@ struct TabsView: View {
             // ZKR-53: главы и просмотры экрана «Путь Сиры» — тоже всё время жизни экрана.
             // ZKR-57: глава с городом — explore() на нативной карте.
             zikrViewModel.openChapterNatively = { id in
-                guard webOnboarding.isVisible == false else { return false }
+                guard onboardingVisibility == false else { return false }
                 if isNativeSiraAvailable, siraViewModel.openFromBanner(id) {
                     selectedTab = .path
                     return true
@@ -205,7 +226,7 @@ struct TabsView: View {
                 selectedTab = tab
             }
             siraViewModel.openOnMapNatively = { id, withSheet in
-                guard isNativeMapAvailable, webOnboarding.isVisible == false else { return false }
+                guard isNativeMapAvailable, onboardingVisibility == false else { return false }
                 // Лист «Читать» уже отметил главу просмотренной: карта второй раз её не отмечает.
                 let opened = withSheet ? mapViewModel.explore(id, marksViewed: false) : mapViewModel.showChapter(id)
                 if opened { selectedTab = .map }
@@ -217,7 +238,7 @@ struct TabsView: View {
             guard needsOnboardingPoll else { return }
             while !Task.isCancelled {
                 webOnboarding.record(await WebViewManager.shared.isOnboardingVisible())
-                if webOnboarding.isVisible == false { break }
+                if onboardingVisibility == false { break }
                 try? await Task.sleep(nanoseconds: Self.onboardingPollInterval)
             }
         }
@@ -234,6 +255,7 @@ struct WebHostView: UIViewControllerRepresentable {
     @Binding var selectedTab: TabItem
     let auth: any AuthService
     let localization: LocalizationService
+    var isCoveredByNativeScreen = false
 
     func makeCoordinator() -> Coordinator {
         Coordinator(selectedTab: $selectedTab)
@@ -260,6 +282,10 @@ struct WebHostView: UIViewControllerRepresentable {
     func updateUIViewController(_ controller: WebAppViewController, context: Context) {
         context.coordinator.selectedTab = $selectedTab
         controller.localization = localization
+        // UIViewControllerRepresentable: SwiftUI's accessibilityHidden alone does not reliably
+        // hide WebKit's separate accessibility tree. Hide only the covered UIKit subtree.
+        controller.view.accessibilityElementsHidden = isCoveredByNativeScreen
+        controller.view.isUserInteractionEnabled = !isCoveredByNativeScreen
     }
 
     final class Coordinator {

@@ -54,8 +54,19 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         contentController.add(WeakScriptMessageHandler(target: self), name: "zikr")
         
         // Сохранённый прогресс передаётся странице ещё до запуска её скриптов.
+        var restoreJSON = progressStore.loadJSONLiteral()
+        var fixturePrelude = ""
+#if DEBUG
+        // Только управляемые UI-тесты, на отдельном симуляторе. В Release этого кода нет.
+        let environment = ProcessInfo.processInfo.environment
+        if environment["ZIKR_UITEST_AUTH"] == "guest",
+           let fixture = environment["ZIKR_UITEST_ONBOARDING"], ["fresh", "completed"].contains(fixture) {
+            restoreJSON = "{\"v\":2,\"total\":123,\"daily\":{},\"onboarded\":\(fixture == "completed"),\"settings\":{\"lang\":\"en\"}}"
+            fixturePrelude = "localStorage.removeItem('zikr-adventure.v1'); localStorage.removeItem('zikr-adventure.v2');"
+        }
+#endif
         let restoreScript = WKUserScript(
-            source: "window.__ZIKR_NATIVE_STATE = \(progressStore.loadJSONLiteral());",
+            source: "\(fixturePrelude) window.__ZIKR_NATIVE_STATE = \(restoreJSON);",
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         )
@@ -65,6 +76,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         let hideTabbarScript = WKUserScript(
             source: """
             window.__ZIKR_NATIVE_TABS = true;
+            window.__ZIKR_NATIVE_ONBOARDING = \(AppContainer.isNativeOnboardingEnabled);
             document.addEventListener('DOMContentLoaded', () => {
                 const tabbar = document.getElementById('tabbar');
                 if (tabbar) tabbar.style.display = 'none';
@@ -267,6 +279,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         webView.configuration.userContentController.addUserScript(WKUserScript(
             source: """
             window.__ZIKR_NATIVE_TABS = true;
+            window.__ZIKR_NATIVE_ONBOARDING = \(AppContainer.isNativeOnboardingEnabled);
             document.addEventListener('DOMContentLoaded', () => {
                 const tabbar = document.getElementById('tabbar');
                 if (tabbar) tabbar.style.display = 'none';

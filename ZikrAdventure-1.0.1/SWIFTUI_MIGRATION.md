@@ -95,3 +95,7 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 ZKR-52, ZKR-53 и ZKR-57 собраны и проверены на Mac (Xcode 27.2, симулятор iPhone 17, iOS 27.0): `xcodebuild test`, UI-тесты и скриншоты light/dark сравнены с веб-экраном (`AppContainer.isNativeZikrEnabled = false` / `isNativeSiraEnabled = false` / `isNativeMapEnabled = false`). Ниже — заметка из ZKR-47.
 
 Xcode в этой среде нет. Сборка, симулятор и жесты на устройстве не запускались. Проверены исходники, pbxproj, `project.yml` и `git diff` против `ba79a3f` для `ZikrAdventure-AppStore/`.
+
+## ZKR-65: нативный онбординг (1.2.0)
+
+Три прежних шага и шесть языков перенесены в `Features/Onboarding`. До восстановления веб-состояния показана загрузка. `onboardingStatus()` возвращает сохранённый флаг, `completeOnboarding()` идемпотентно завершает прежний сценарий; веб остаётся единственным писателем. Флаг `isNativeOnboardingEnabled` возвращает исходный веб-путь. Подробнее: `docs/ONBOARDING-1.2.0.md` и Confluence 9338882. Удаление WebView и перенос writer в Swift остаются ZKR-59.

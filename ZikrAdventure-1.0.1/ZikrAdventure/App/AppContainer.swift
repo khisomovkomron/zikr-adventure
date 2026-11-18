@@ -29,6 +29,17 @@ final class AppContainer: ObservableObject {
     /// ZKR-57: false → вкладка «Карта» снова целиком веб-экран (как 1.1.1), переходы из «Пути Сиры»
     /// и «Зикра» — снова через веб (showChapter / explore). Работает только вместе с isWebMirrorEnabled.
     static let isNativeMapEnabled = true
+    static let isNativeOnboardingEnabled: Bool = {
+#if DEBUG
+        if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest",
+           ProcessInfo.processInfo.environment["ZIKR_UITEST_WEB_ONBOARDING"] == "1" { return false }
+#endif
+        return true
+    }()
+
+    func makeOnboardingViewModel() -> OnboardingViewModel {
+        OnboardingViewModel(sink: WebOnboardingCommandSink(), settings: settingsSink, localization: localization)
+    }
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
