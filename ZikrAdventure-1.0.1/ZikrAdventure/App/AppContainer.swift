@@ -26,6 +26,9 @@ final class AppContainer: ObservableObject {
     /// ZKR-53: false → вкладка «Путь Сиры» снова целиком веб-экран (как 1.1.1).
     /// Работает только вместе с isWebMirrorEnabled (экран читает zikr-state.json).
     static let isNativeSiraEnabled = true
+    /// ZKR-57: false → вкладка «Карта» снова целиком веб-экран (как 1.1.1), переходы из «Пути Сиры»
+    /// и «Зикра» — снова через веб (showChapter / explore). Работает только вместе с isWebMirrorEnabled.
+    static let isNativeMapEnabled = true
 
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
@@ -44,6 +47,9 @@ final class AppContainer: ObservableObject {
     let zikrContent: any ZikrContentProviding
     /// ZKR-53: команды экрана «Путь Сиры» в веб (тексты глав и мест — тот же zikrContent).
     let siraSink: any SiraCommandSink
+    /// ZKR-57: команды экрана «Карта» в веб и сцены карт (ZikrContent/map-content.json).
+    let mapSink: any MapCommandSink
+    let mapContent: any MapContentProviding
     let presenter: any PresenterProviding
 
     private let legacyProgressFileURL: URL?
@@ -59,6 +65,8 @@ final class AppContainer: ObservableObject {
         zikrSink: (any ZikrCommandSink)? = nil,
         zikrContent: any ZikrContentProviding = BundledZikrContentProvider(),
         siraSink: (any SiraCommandSink)? = nil,
+        mapSink: (any MapCommandSink)? = nil,
+        mapContent: any MapContentProviding = BundledMapContentProvider(),
         presenter: (any PresenterProviding)? = nil
     ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
@@ -77,6 +85,8 @@ final class AppContainer: ObservableObject {
         )
         self.zikrContent = zikrContent
         self.siraSink = siraSink ?? WebSiraCommandSink { WebViewManager.shared }
+        self.mapSink = mapSink ?? WebMapCommandSink { WebViewManager.shared }
+        self.mapContent = mapContent
         self.presenter = presenter ?? KeyWindowPresenterProvider()
     }
 
@@ -161,6 +171,17 @@ final class AppContainer: ObservableObject {
         SiraViewModel(
             repository: progress,
             sink: siraSink,
+            contentProvider: zikrContent,
+            localization: localization
+        )
+    }
+
+    /// ZKR-57: модель экрана «Карта».
+    func makeMapViewModel() -> MapViewModel {
+        MapViewModel(
+            repository: progress,
+            sink: mapSink,
+            mapContentProvider: mapContent,
             contentProvider: zikrContent,
             localization: localization
         )

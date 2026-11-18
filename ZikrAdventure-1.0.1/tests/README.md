@@ -125,6 +125,15 @@ Tests the Sira path commands of `window.zikrNative` used by the native «Пут�
 
 **Run:** `node tests/sira-native.cjs`
 
+### `map-native.cjs` (ZKR-57)
+Tests the map commands of `window.zikrNative` used by the native «Карта» screen and the map data generator:
+- `selectCity(id|null)` writes `state.city`, stops the web city loop and stays in world mode; unknown cities are rejected
+- `saveCamera(id, x, y, z)` writes `state.cameras[id]` (clamped like the web), non-finite values are rejected
+- `tools/zikr-map-from-web.mjs --check` (`map-content.json` and `map-draw.js` match `index.html`)
+- the drawing code from `index.html` runs on the recording canvas shim: all sprites, far layers and the ground
+
+**Run:** `node tests/map-native.cjs`
+
 ### `l10n-native.cjs` (ZKR-50)
 Checks that `ZikrAdventure/Resources/Localizable.xcstrings` is up to date with the `UI` dictionary in
 `index.html` + `tools/l10n-native.json` (runs `tools/l10n-from-web.mjs --check`), that every key has

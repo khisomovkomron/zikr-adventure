@@ -12,6 +12,7 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
        ├─ ZStack
        │    ├─ WebHostView  →  WebViewManager.shared.viewController  (один WKWebView)
        │    ├─ ZikrView      (ZKR-52, поверх веба на вкладке «Зикр»)
+       │    ├─ MapView       (ZKR-57, поверх веба на вкладке «Карта»)
        │    ├─ SiraView      (ZKR-53, поверх веба на вкладке «Путь Сиры»)
        │    ├─ InfoView      (ZKR-48, поверх веба на вкладке «Инфо»)
        │    └─ SettingsView  (ZKR-50, поверх веба на вкладке «Настройки»)
@@ -47,6 +48,8 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 - Смена языка в вебе ставит `suppressTabChange`, чтобы `selectTab` при перерисовке не дёргал native-вкладку.
 - Веб-`#tabbar` скрывается флагом `window.__ZIKR_NATIVE_TABS` (элемент в `index.html` остаётся).
 
+- Native → web «Карта» (ZKR-57): `window.zikrNative.selectCity(id|null)` (выбор города на обзорной карте: веб пишет `state.city`, останавливает свой цикл города и остаётся в режиме обзора), `saveCamera(id, x, y, z)` (камера города после жеста, только конечные числа, `clampCam` как в вебе) и `markViewed(id)` (лист места с главой) через `WebMapCommandSink`. Веб остаётся единственным писателем `city / cameras / viewed`; экран читает их из `ProgressRepository.changes()`. Город рисует native: `CityCanvasView` (UIKit, дерево CALayer — земля, тени, спрайты с покачиванием/свечением/появлением, параллакс дальних планов, пульс выделения, маркеры в экранных координатах; панорама с инерцией, pinch, тап по `CityGeometry.hitTest`). Спрайты не перерисованы руками: `tools/zikr-map-from-web.mjs` переносит код рисования из `index.html` без изменений в `map-draw.js`, JavaScriptCore выполняет его поверх записывающего Canvas 2D (`map-canvas-shim.js`), `CanvasReplay` воспроизводит операции в Core Graphics — пиксели как в вебе (спрайты DPR 2, земля 1.5, как в вебе). «На карте» на «Пути Сиры» и «Изучить» в баннере «Зикра» открывают нативный город (`SiraViewModel.openOnMapNatively`), веб-команды `showChapter / explore` тогда не отправляются.
+
 ## Файлы каркаса
 
 | Файл | Роль |
@@ -55,19 +58,22 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 | `App/TabsView.swift` | VStack: web view + NativeTabBar, iOS 16 `onChange(of:)` |
 | `App/TabItem.swift` | zikr, map, path, info, settings + SF Symbols |
 | `App/WebViewManager.swift` | singleton, eager controller |
-| `App/AppContainer.swift` | DI: репозитории, зеркало, `auth`, `localization`, `settingsSink`, фабрики view model, флаги `isNativeInfoEnabled` / `isNativeSettingsEnabled` / `isNativeZikrEnabled` / `isNativeSiraEnabled` |
+| `App/AppContainer.swift` | DI: репозитории, зеркало, `auth`, `localization`, `settingsSink`, фабрики view model, флаги `isNativeInfoEnabled` / `isNativeSettingsEnabled` / `isNativeZikrEnabled` / `isNativeSiraEnabled` / `isNativeMapEnabled` |
 | `App/Localization/` | `LocalizationService` (язык, `tr`, числа в локали языка), `L10nKey` |
 | `App/Auth/` | `AuthService`, `AuthCoordinator`, `AccountDeletionFlow` (ZKR-56) |
 | `App/Settings/` | `WebSettingsCommandSink`, системные сервисы (Reduce Motion, Safari) |
 | `App/Zikr/` | `WebZikrCommandSink`, `SerialCommandQueue`, `ZikrFeedbackService` (вибрация как `vibrate()`, звук `tapSound()` на AVAudioEngine), `VoiceOverAnnouncer` |
 | `App/Sira/` | `WebSiraCommandSink` (ZKR-53) |
+| `App/Map/` | `WebMapCommandSink` (ZKR-57) |
+| `Features/Map/` | `MapView` (обзор, город, панель, кнопки), `WorldMapCanvas` (SVG обзорной карты в `Canvas`), `CityCanvasView` (сцена города на CALayer), `CitySceneAssets` (сборка спрайтов и земли в фоне, кэш), `MapSheets` (карточка объекта, список мест, легенда), `MapViewModel` |
+| `ZikrKit/ZikrContent` (ZKR-57) | `map-content.json` (города, объекты, точки, обзорная карта `GEO`), `map-draw.js` (код рисования из `index.html`) — `node tools/zikr-map-from-web.mjs`; `MapContent`, `CityGeometry` (изометрия, камера, hit-test), `MapSpriteFactory` + `map-canvas-shim.js` |
 | `Features/Sira/` | `SiraView` (уровни, лента глав, метка «Новое»), `SiraChapterSheet` (chapterCard / placeCard), `SiraViewModel` |
 | `Features/Zikr/` | `ZikrView`, `ZikrTapButton`, `ZikrProgressCard`, `ZikrUnlockBannerView`, `ZikrHistorySheet`, `ZikrViewModel` |
 | `ZikrKit/ZikrContent` | `zikr-content.json` (названия уровней, заголовки и годы глав на 6 языках; ZKR-53: город, место, фокус и текст глав, карточки мест глав `PLACES`, расстояния `DIST`, `SAFA_MARWA`) — генерируется `node tools/zikr-content-from-web.mjs` из `index.html` |
 | `Features/Settings/` | `SettingsView`, `SettingsAccountSection`, `SettingsViewModel`, `SettingsConfirmation` |
 | `Resources/Localizable.xcstrings` | генерируется `node tools/l10n-from-web.mjs` из UI в `index.html` + `tools/l10n-native.json`; руками не править |
 | `App/WebAppViewController.swift` | WKWebView, мосты, `selectTab` |
-| `Web/index.html` | `__ZIKR_NATIVE_TABS`, `tab.change`, `lang.change`, `suppressTabChange`, `window.zikrNative` (ZKR-50, ZKR-52: `tap / undo / reset / snapshot / explore`, ZKR-53: `markViewed / showChapter`) |
+| `Web/index.html` | `__ZIKR_NATIVE_TABS`, `tab.change`, `lang.change`, `suppressTabChange`, `window.zikrNative` (ZKR-50, ZKR-52: `tap / undo / reset / snapshot / explore`, ZKR-53: `markViewed / showChapter`, ZKR-57: `selectCity / saveCamera`) |
 
 Данные уровней в `index.html` не менялись.
 
@@ -80,12 +86,12 @@ ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зерка
 ## Тесты
 
 - `ZikrKit` — пакетные тесты (домен, хранилище, гейт).
-- `ZikrAdventureTests` — unit-тесты приложения: `SettingsViewModel`, `AccountDeletionFlow`, `LocalizationService`, `ZikrViewModel` (ZKR-52: оптимизм, 200 быстрых нажатий, сверка, сброс, баннер, цель, вибрация/звук), `SerialCommandQueue`, `WebZikrCommandSink`, `SiraViewModel` и `WebSiraCommandSink` (ZKR-53: группы, «Новое», предпросмотр, distText, команды).
-- `ZikrAdventureUITests` — «Инфо», «Настройки», «Зикр» и «Путь Сиры». `ZIKR_UITEST_AUTH=signedIn|guest` (только DEBUG) подменяет Firebase.
+- `ZikrAdventureTests` — unit-тесты приложения: `SettingsViewModel`, `AccountDeletionFlow`, `LocalizationService`, `ZikrViewModel` (ZKR-52: оптимизм, 200 быстрых нажатий, сверка, сброс, баннер, цель, вибрация/звук), `SerialCommandQueue`, `WebZikrCommandSink`, `SiraViewModel` и `WebSiraCommandSink` (ZKR-53: группы, «Новое», предпросмотр, distText, команды), `MapViewModel` (ZKR-57: выбор города, город, камера, листы, список, переходы из «Пути Сиры»). Пакет: `MapContentTests`, `MapSpriteFactoryTests` (рамки всех спрайтов против `CityGeometry`, пиксели Каабы, земля, дальние планы).
+- `ZikrAdventureUITests` — «Инфо», «Настройки», «Зикр», «Путь Сиры» и «Карта». `ZIKR_UITEST_AUTH=signedIn|guest` (только DEBUG) подменяет Firebase.
 - `tests/*.cjs` — веб (`node tests/<file>.cjs`).
 
 ## Ограничения среды, в которой писался код
 
-ZKR-52 и ZKR-53 собраны и проверены на Mac (Xcode 27.2, симулятор iPhone 17, iOS 27.0): `xcodebuild test`, UI-тесты и скриншоты light/dark сравнены с веб-экраном (`AppContainer.isNativeZikrEnabled = false` / `isNativeSiraEnabled = false`). Ниже — заметка из ZKR-47.
+ZKR-52, ZKR-53 и ZKR-57 собраны и проверены на Mac (Xcode 27.2, симулятор iPhone 17, iOS 27.0): `xcodebuild test`, UI-тесты и скриншоты light/dark сравнены с веб-экраном (`AppContainer.isNativeZikrEnabled = false` / `isNativeSiraEnabled = false` / `isNativeMapEnabled = false`). Ниже — заметка из ZKR-47.
 
 Xcode в этой среде нет. Сборка, симулятор и жесты на устройстве не запускались. Проверены исходники, pbxproj, `project.yml` и `git diff` против `ba79a3f` для `ZikrAdventure-AppStore/`.

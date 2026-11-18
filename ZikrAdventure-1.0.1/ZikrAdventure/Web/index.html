@@ -1895,6 +1895,22 @@ if (IS_APP) {
     showChapter(id) {
       const ch = CH.find((c) => c.id === id); if (!ch || !ch.city || !isOpen(ch.id)) return false;
       markViewed(ch.id); openCity(ch.city, chapterFocus(ch)); return true;
+    },
+    // ZKR-57: нативный экран «Карта». Карту рисует native; веб только записывает выбор города
+    // (как selectWorldCity: state.city) и камеру города после жеста (как saveCam: state.cameras[id]).
+    selectCity(id) {
+      if (id !== null && !(typeof id === "string" && GEO.cities[id])) return false;
+      // Сцену города рисует native: веб-цикл карты города под нативным экраном не нужен.
+      if (mapView.mode === "city") { stopCityLoop(); mapView.mode = "world"; }
+      mapView.selected = id; state.city = id; persist();
+      worldVB = id ? (() => { const [x, y] = proj(...GEO.cities[id]); return [x - 170, y - 150, 340, 400]; })() : WORLD_FULL.slice();
+      if (currentTab === "map" && mapView.mode === "world") renderMap();
+      return true;
+    },
+    saveCamera(id, x, y, z) {
+      if (!(typeof id === "string" && GEO.cities[id]) || ![x, y, z].every(Number.isFinite)) return false;
+      const cam = { x, y, z }; if (cities[id] && cities[id].cam) { Object.assign(cities[id].cam, cam); clampCam(cities[id]); }
+      state.cameras[id] = cities[id] && cities[id].cam ? { ...cities[id].cam } : cam; persist(); return true;
     }
   });
 }
