@@ -2,7 +2,7 @@
 
 План и результаты: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/9371669
 Jira: https://zikr-app.atlassian.net/browse/ZKR-62
-Версия 1.2.0. Ветка `codex/zkr-62-state-mirror`, PR в `release/1.2.0`.
+Версия 1.2.0. Ветка `codex/zkr-62-state-mirror`, [Draft PR #16](https://github.com/khisomovkomron/zikr-adventure/pull/16) в `release/1.2.0`. Статус In Review до iOS QA.
 
 ## Решение
 
