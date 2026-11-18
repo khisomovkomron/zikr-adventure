@@ -16,15 +16,6 @@ struct MapView: View {
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var worldViewBox: [Double]
     @State private var assets: CitySceneAssets?
-    @State private var scene: SceneSetup?
-
-    /// Камера и проявление при создании сцены города (renderCity: city.cam, lastUnlockKey).
-    private struct SceneSetup: Equatable {
-        let cityID: String
-        let camera: CityGeometry.Camera
-        let animatesIntro: Bool
-        let reveal: Set<String>
-    }
 
     init(viewModel: MapViewModel) {
         self.viewModel = viewModel
@@ -250,7 +241,7 @@ struct MapView: View {
         let groundKey = CitySceneAssets.groundKey(unlocked: viewModel.unlocked, preview: viewModel.preview)
         ZStack {
             Theme.Color.bgSubtle
-            if let city = viewModel.city(id), let assets, assets.cityID == id, let scene, scene.cityID == id {
+            if let city = viewModel.city(id), let assets, assets.cityID == id, let scene = viewModel.scene, scene.cityID == id {
                 CityCanvas(
                     city: city,
                     size: viewModel.mapContent?.size ?? 40,
@@ -296,15 +287,7 @@ struct MapView: View {
             )
         }
         guard !Task.isCancelled, let built, viewModel.mode == .city(id) else { return }
-        if scene?.cityID != id {
-            let start = CityGeometry.initialCamera(saved: viewModel.savedCamera(id), city: city, size: viewModel.mapContent?.size ?? 40)
-            scene = SceneSetup(
-                cityID: id,
-                camera: start.camera,
-                animatesIntro: start.animatesIntro,
-                reveal: viewModel.takeRevealedObjects(city: id, reduceMotion: reducesMotion)
-            )
-        }
+        viewModel.prepareScene(city: id, reduceMotion: reducesMotion)
         assets = built
         viewModel.sceneCache = built
     }

@@ -34,6 +34,14 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
         }
     }
 
+    /// Начальные параметры сцены города.
+    struct SceneSetup: Equatable {
+        let cityID: String
+        let camera: CityGeometry.Camera
+        let animatesIntro: Bool
+        let reveal: Set<String>
+    }
+
     /// Команда камере сцены (animateCam / focusObject); id растёт, чтобы повтор той же команды сработал.
     struct CameraRequest: Equatable {
         enum Kind: Equatable {
@@ -56,6 +64,10 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
     /// city.selected: подсвеченный объект сцены (пульсирующий ромб).
     @Published private(set) var selectedObjectID: String?
     @Published private(set) var cameraRequest: CameraRequest?
+    /// Камера и проявление, с которыми создаётся сцена города (renderCity: city.cam, lastUnlockKey).
+    /// Живёт, пока город показан; уход на обзор / на другую вкладку / веб-сброс снимает её (nil),
+    /// и следующий вход берёт сохранённую камеру (state.cameras), а не начальную «с наездом».
+    @Published private(set) var scene: SceneSetup?
 
     let localization: LocalizationService
     let content: ZikrScreenContent?
@@ -75,9 +87,11 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
     /// lastUnlockKey: набор открытых глав при прошлом показе города — для проявления новых объектов.
     private var lastUnlockKey: [String: String] = [:]
     private var requestCounter = 0
+    /// Прошлый снимок веба: по нему узнаётся «Сбросить всё».
+    private var lastSnapshot: ProgressState?
     private var pendingSheet: Task<Void, Never>?
-    private var viewedLocally: [String] = []
-    private var viewed: [String] = []
+    /// state.viewed (снимок веба) + главы, отмеченные отсюда: markViewed не уходит в веб повторно.
+    private var viewed: Set<String> = []
 
     init(
         repository: any ProgressRepository,
@@ -129,6 +143,7 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
         pendingSheet?.cancel()
         pendingSheet = nil
         closeSheet()
+        scene = nil
     }
 
     // MARK: - Главы и места (ChapterSheetModel)
@@ -166,6 +181,20 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
         cameras[cityID].map { CityGeometry.Camera(x: $0.x, y: $0.y, z: $0.z) }
     }
 
+    /// renderCity(): камера сцены при показе города — сохранённая (state.cameras, как city.cam после saveCam) или
+    /// «наезд» introZoom → 1, если сохранённой нет; проявление слоёв, открытых с прошлого показа.
+    /// Повторный вызов для того же города ничего не меняет, пока сцена показана.
+    func prepareScene(city id: String, reduceMotion: Bool) {
+        guard scene?.cityID != id, let city = city(id) else { return }
+        let start = CityGeometry.initialCamera(saved: savedCamera(id), city: city, size: mapContent?.size ?? 40)
+        scene = SceneSetup(
+            cityID: id,
+            camera: start.camera,
+            animatesIntro: start.animatesIntro,
+            reveal: takeRevealedObjects(city: id, reduceMotion: reduceMotion)
+        )
+    }
+
     /// Название места для метки и списка: подпись Сафа / Марва или имя без «(…)» в конце.
     func label(_ object: MapContent.Object) -> String {
         if let sub = object.sub, object.place == "safamarwa" {
@@ -193,6 +222,7 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
     /// «Открыть карту города» / openCity(id, focusId).
     func openCity(_ id: String, focus: String? = nil) {
         guard let city = city(id) else { return }
+        if mode != .city(id) { scene = nil }
         mode = .city(id)
         if selectedCity != id {
             selectedCity = id
@@ -212,6 +242,7 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
         sheet = nil
         selectedObjectID = nil
         cameraRequest = nil
+        scene = nil
         mode = .world
     }
 
@@ -226,12 +257,12 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
 
     // MARK: - Переходы из «Пути Сиры» и «Зикра»
 
-    /// explore(ch): отметка просмотра, карта города с фокусом на месте главы, через 550 мс (50 — без анимаций)
+    /// explore(ch): отметка просмотра (marksViewed: false — глава уже отмечена листом «Читать»), карта города с фокусом на месте главы, через 550 мс (50 — без анимаций)
     /// лист chapterCard(ch, false). false — у главы нет города (лист показывает «Путь Сиры»).
     @discardableResult
-    func explore(_ chapterID: String) -> Bool {
+    func explore(_ chapterID: String, marksViewed: Bool = true) -> Bool {
         guard let chapter = chapter(chapterID), let cityID = chapter.city, city(cityID) != nil else { return false }
-        markViewed(chapterID)
+        if marksViewed { markViewed(chapterID) }
         openCity(cityID, focus: Self.chapterFocus(chapter))
         pendingSheet?.cancel()
         let delay: UInt64 = animationsEnabled ? 550_000_000 : 50_000_000
@@ -245,9 +276,9 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
 
     /// «На карте» в строке главы (data-go): markViewed + openCity без листа.
     @discardableResult
-    func showChapter(_ chapterID: String) -> Bool {
+    func showChapter(_ chapterID: String, marksViewed: Bool = true) -> Bool {
         guard let chapter = chapter(chapterID), let cityID = chapter.city, city(cityID) != nil else { return false }
-        markViewed(chapterID)
+        if marksViewed { markViewed(chapterID) }
         openCity(cityID, focus: Self.chapterFocus(chapter))
         return true
     }
@@ -351,6 +382,7 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
     // MARK: - Запись
 
     private func markViewed(_ id: String) {
+        guard viewed.insert(id).inserted else { return }
         enqueue { await $0.sink.markViewed(chapterID: id) }
     }
 
@@ -367,19 +399,46 @@ final class MapViewModel: ObservableObject, ChapterSheetModel {
     }
 
     private func apply(_ progress: ProgressState) {
+        // resetAllProgress() («Сбросить всё»): прогресс был, стал пустым — веб снял выбор города и ушёл на обзор.
+        // Устаревший снимок так не выглядит (раньше прогресса не было вовсе), поэтому сравнение с прошлым снимком.
+        let webReset = lastSnapshot.map { !Self.isFresh($0) && Self.isFresh(progress) } ?? false
+        lastSnapshot = progress
         if settings != progress.settings { settings = progress.settings }
         if total != progress.total { total = progress.total }
+        if webReset || (!unlocked.isEmpty && progress.unlocked.isEmpty) {
+            // zikrReset("all") / resetAllProgress: веб забывает lastUnlockKey — и сцена здесь начинается заново.
+            lastUnlockKey = [:]
+            scene = nil
+        }
         if unlocked != progress.unlocked { unlocked = progress.unlocked }
-        // Пока команды в очереди, снимок без них не откатывает локальные камеры и выбор города.
+        // Пока команды в очереди, снимок без них не откатывает локальные камеры, просмотры и выбор города.
         if queue.pending == 0 {
             cameras = progress.cameras
+            viewed = Set(progress.viewed)
             if !hasState, case .world = mode { selectedCity = progress.city }
         } else {
             cameras = progress.cameras.merging(cameras) { _, local in local }
+            viewed.formUnion(progress.viewed)
+            if !hasState, case .world = mode, selectedCity == nil { selectedCity = progress.city }
         }
-        if !hasState {
-            hasState = true
-            if queue.pending > 0, case .world = mode, selectedCity == nil { selectedCity = progress.city }
-        }
+        if webReset { resyncAfterWebReset() }
+        hasState = true
+    }
+
+    /// Состояние freshState(): ни счёта, ни глав, ни камер, ни выбранного города.
+    private static func isFresh(_ progress: ProgressState) -> Bool {
+        progress.total == 0 && progress.unlocked.isEmpty && progress.viewed.isEmpty && progress.cameras.isEmpty && progress.city == nil
+    }
+
+    /// После «Сбросить всё» веб: mapView.mode = "world", mapView.selected = null (resetAllProgress) — так же и здесь.
+    private func resyncAfterWebReset() {
+        pendingSheet?.cancel()
+        sheet = nil
+        selectedObjectID = nil
+        cameraRequest = nil
+        scene = nil
+        lastUnlockKey = [:]
+        mode = .world
+        if selectedCity != nil { selectedCity = nil }
     }
 }

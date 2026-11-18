@@ -206,7 +206,8 @@ struct TabsView: View {
             }
             siraViewModel.openOnMapNatively = { id, withSheet in
                 guard isNativeMapAvailable, webOnboarding.isVisible == false else { return false }
-                let opened = withSheet ? mapViewModel.explore(id) : mapViewModel.showChapter(id)
+                // Лист «Читать» уже отметил главу просмотренной: карта второй раз её не отмечает.
+                let opened = withSheet ? mapViewModel.explore(id, marksViewed: false) : mapViewModel.showChapter(id)
                 if opened { selectedTab = .map }
                 return opened
             }

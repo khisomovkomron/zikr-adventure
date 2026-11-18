@@ -234,6 +234,122 @@ final class MapViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.label(mecca.object(id: "kaaba")!).contains("("))
     }
 
+    // MARK: - ZKR-57 (правки ревью PR #14)
+
+    /// Первый вход — «наезд» introZoom; после жеста камера сохранена; повторный вход (город → обзор → город) берёт
+    /// сохранённую камеру и не проигрывает наезд (renderCity: city.cam / state.cameras[id]).
+    func testReEnteringCityRestoresSavedCameraWithoutIntro() async {
+        await setUp(makeState())
+        viewModel.openCity("mecca")
+        viewModel.prepareScene(city: "mecca", reduceMotion: false)
+        let first = try! XCTUnwrap(viewModel.scene)
+        XCTAssertEqual(first.cityID, "mecca")
+        XCTAssertTrue(first.animatesIntro, "нет сохранённой камеры — наезд")
+        XCTAssertEqual(first.camera.z, CityGeometry.introZoom, accuracy: 0.0001)
+
+        let settled = CityGeometry.Camera(x: 120, y: 640, z: 1.35)
+        viewModel.cameraDidSettle(city: "mecca", camera: settled)
+        viewModel.prepareScene(city: "mecca", reduceMotion: false)
+        XCTAssertEqual(viewModel.scene, first, "пока город показан, сцена не пересоздаётся")
+
+        viewModel.backToWorld()
+        XCTAssertNil(viewModel.scene, "уход на обзор снимает сцену")
+        viewModel.openCity("mecca")
+        viewModel.prepareScene(city: "mecca", reduceMotion: false)
+        let again = try! XCTUnwrap(viewModel.scene)
+        XCTAssertFalse(again.animatesIntro, "повторный вход — без наезда")
+        XCTAssertEqual(again.camera, CityGeometry.clamp(settled, size: viewModel.mapContent?.size ?? 40), "камера восстановлена из сохранённой")
+        XCTAssertNotEqual(again.camera, first.camera)
+        await viewModel.drainCommands()
+        XCTAssertEqual(
+            sink.calls.filter { if case .saveCamera = $0 { return true } else { return false } },
+            [.saveCamera("mecca", 120, 640, 1.35)], "камера записана один раз"
+        )
+    }
+
+    /// Вход в другой город и возврат через вкладку: камера каждого города — своя, сохранённая.
+    func testSceneIsPerCityAndDroppedWhenTabIsHidden() async {
+        await setUp(makeState(cameras: ["medina": CameraPosition(x: 5, y: 500, z: 1.1)]))
+        viewModel.openCity("mecca")
+        viewModel.prepareScene(city: "mecca", reduceMotion: true)
+        viewModel.openCity("medina")
+        XCTAssertNil(viewModel.scene, "другой город — сцена снята до prepareScene")
+        viewModel.prepareScene(city: "medina", reduceMotion: true)
+        XCTAssertEqual(viewModel.scene?.cityID, "medina")
+        XCTAssertFalse(viewModel.scene?.animatesIntro ?? true)
+        XCTAssertEqual(viewModel.savedCamera("medina"), CityGeometry.Camera(x: 5, y: 500, z: 1.1))
+        viewModel.didDisappear()
+        XCTAssertNil(viewModel.scene, "вкладка скрыта — сцена пересоздаётся с сохранённой камерой")
+        XCTAssertEqual(viewModel.mode, .city("medina"))
+    }
+
+    /// «Сбросить всё» в вебе: выбор города снят, обзор, камеры и проявление забыты — нативная карта следует снимку.
+    func testWebResetResyncsSelectedCityAndLeavesCity() async {
+        await setUp(makeState(total: 500, unlocked: ["ch01", "ch02"], cameras: ["mecca": CameraPosition(x: 1, y: 2, z: 1)], city: "mecca"))
+        XCTAssertEqual(viewModel.selectedCity, "mecca")
+        viewModel.openCity("mecca")
+        viewModel.prepareScene(city: "mecca", reduceMotion: false)
+        _ = viewModel.takeRevealedObjects(city: "mecca", reduceMotion: false)
+        await viewModel.drainCommands()
+        await repository.emit(makeState(total: 500, unlocked: ["ch01", "ch02"], cameras: ["mecca": CameraPosition(x: 1, y: 2, z: 1)], city: "mecca"))
+
+        await repository.emit(makeState())
+        await waitUntil { self.viewModel.selectedCity == nil }
+        XCTAssertEqual(viewModel.mode, .world, "веб после сброса — обзор")
+        XCTAssertNil(viewModel.scene)
+        XCTAssertNil(viewModel.savedCamera("mecca"), "камеры сброшены")
+        XCTAssertEqual(viewModel.takeRevealedObjects(city: "mecca", reduceMotion: false), [], "lastUnlockKey забыт: первый показ без проявления")
+        // Устаревший (пустой) снимок до появления прогресса сбросом не считается: выбор города не затирается.
+        viewModel.selectCity("medina")
+        await viewModel.drainCommands()
+        await repository.emit(makeState(city: "medina"))
+        await repository.emit(makeState(total: 1, city: "medina"))
+        await waitUntil { self.viewModel.total == 1 }
+        XCTAssertEqual(viewModel.selectedCity, "medina")
+    }
+
+    /// Глава отмечается просмотренной один раз: повторное нажатие на место, «На карте» после «Читать» (marksViewed: false)
+    /// и повтор showChapter не шлют markViewed снова.
+    func testMarkViewedIsSentOnce() async {
+        await setUp(makeState(unlocked: ["ch05", "ch16"]))
+        XCTAssertTrue(viewModel.showChapter("ch05"))
+        XCTAssertTrue(viewModel.showChapter("ch05"))
+        viewModel.selectObject("nur")
+        viewModel.selectObject(nil)
+        viewModel.selectObject("nur")
+        XCTAssertTrue(viewModel.explore("ch05"))
+        XCTAssertTrue(viewModel.explore("ch16", marksViewed: false))
+        await viewModel.drainCommands()
+        let marks = sink.calls.filter { if case .markViewed = $0 { return true } else { return false } }
+        XCTAssertEqual(marks, [.markViewed("ch05")])
+        // Снимок веба с просмотренной главой тоже учитывается.
+        await repository.emit(makeState(total: 7, unlocked: ["ch05", "ch16"]).with(viewed: ["ch16"]))
+        await waitUntil { self.viewModel.total == 7 }
+        viewModel.selectObject(nil)
+        XCTAssertTrue(viewModel.showChapter("ch16"))
+        await viewModel.drainCommands()
+        XCTAssertEqual(sink.calls.filter { if case .markViewed = $0 { return true } else { return false } }, [.markViewed("ch05")])
+    }
+
+    /// Один JSContext на пересборки земли: сборка города и затем земли (новая глава) не создаёт контекст заново.
+    func testGroundRebuildReusesSingleJSContext() async throws {
+        await setUp(makeState(unlocked: ["ch01"]))
+        let city = try XCTUnwrap(viewModel.city("mecca"))
+        let first = await CitySceneAssets.build(
+            cityID: "mecca", city: city, open: ["ch01"], unlocked: ["ch01"], preview: false
+        )
+        XCTAssertNotNil(first?.ground)
+        let created = CitySceneAssets.factoryCreations
+        XCTAssertEqual(created, 1)
+        let rebuilt = await CitySceneAssets.build(
+            cityID: "mecca", city: city, open: ["ch01", "ch02"], unlocked: ["ch01", "ch02"], preview: false, reusing: first
+        )
+        XCTAssertNotNil(rebuilt?.ground)
+        XCTAssertEqual(rebuilt?.sprites.count, first?.sprites.count, "спрайты повторно используются")
+        XCTAssertNotEqual(rebuilt?.groundKey, first?.groundKey)
+        XCTAssertEqual(CitySceneAssets.factoryCreations, created, "JSContext не создаётся заново")
+    }
+
     func testWebSinkScripts() async {
         let web = FakeWebCommands()
         let sink = WebMapCommandSink { web }
@@ -253,4 +369,12 @@ final class MapViewModelTests: XCTestCase {
 
 private enum CH {
     static var allIDs: [String] { (try? BundledZikrContentProvider().loadZikrContent().chapters.map(\.id)) ?? [] }
+}
+
+private extension ProgressState {
+    func with(viewed: [String]) -> ProgressState {
+        var copy = self
+        copy.viewed = viewed
+        return copy
+    }
 }

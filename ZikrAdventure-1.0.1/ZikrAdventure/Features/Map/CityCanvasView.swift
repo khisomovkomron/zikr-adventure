@@ -69,6 +69,7 @@ final class CityCanvasView: UIView, UIGestureRecognizerDelegate {
         isAccessibilityElement = true
         accessibilityTraits = .image
         accessibilityIdentifier = "map.city.canvas"
+        publishCameraForUITests()
     }
 
     @available(*, unavailable)
@@ -225,6 +226,12 @@ final class CityCanvasView: UIView, UIGestureRecognizerDelegate {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        if window == nil, inertia != nil || cameraAnimation != nil {
+            // Сцену убрали посреди движения: камера, как в вебе, остаётся там, где была (city.cam).
+            inertia = nil
+            cameraAnimation = nil
+            settle()
+        }
         updateDisplayLink()
     }
 
@@ -388,8 +395,12 @@ final class CityCanvasView: UIView, UIGestureRecognizerDelegate {
     /// pointerdown: любое касание останавливает инерцию и анимацию камеры.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        // Прерванные инерция или анимация камеры: камера остаётся там, где остановилась — её сохраняем сразу
+        // (веб сохраняет её в pointerup любого касания, в том числе нажатия-остановки).
+        let interrupted = inertia != nil || cameraAnimation != nil
         inertia = nil
         cameraAnimation = nil
+        if interrupted { settle() }
     }
 
     @objc private func handlePan(_ g: UIPanGestureRecognizer) {
@@ -413,9 +424,11 @@ final class CityCanvasView: UIView, UIGestureRecognizerDelegate {
             let v = g.velocity(in: self)
             let vx = v.x * 0.016, vy = v.y * 0.016
             if !reduceMotion, g.state == .ended, hypot(vx, vy) > 2 {
+                // Камеру сохранит конец инерции (saveCam в stepCamera): здесь вторая запись не нужна.
                 inertia = (vx, vy)
+            } else {
+                settle()
             }
-            settle()
             updateDisplayLink()
         default:
             break
@@ -476,6 +489,16 @@ final class CityCanvasView: UIView, UIGestureRecognizerDelegate {
 
     private func settle() {
         onCameraSettle?(camera)
+        publishCameraForUITests()
+    }
+
+    /// Только в UI-тестах (ZIKR_UITEST_AUTH): масштаб камеры в accessibilityValue — тест повторного входа
+    /// проверяет, что камера восстановлена, а не начата заново. Пользователям значение не показывается.
+    private static let exposesCamera = ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] != nil
+
+    private func publishCameraForUITests() {
+        guard Self.exposesCamera else { return }
+        accessibilityValue = String(format: "z=%.2f", camera.z)
     }
 
     // MARK: - Растры маркеров

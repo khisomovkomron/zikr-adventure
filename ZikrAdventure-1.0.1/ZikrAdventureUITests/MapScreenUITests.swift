@@ -120,6 +120,42 @@ final class MapScreenUITests: XCTestCase {
         XCTAssertTrue(waitFor(relaunched.descendants(matching: .any)["zikr.total"], value: "0"))
     }
 
+    /// Повторный вход в город (город → обзор → тот же город): камера восстановлена из сохранённой, «наезд» не повторяется.
+    func testReEnteringCityRestoresCameraWithoutIntro() {
+        let app = launch()
+        count(to: 10, in: app)
+        app.buttons["tab.map"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["map.screen"].waitForExistence(timeout: 10))
+        if app.buttons["map.city.back"].exists { app.buttons["map.city.back"].tap() }
+        // Выбор города переживает запуск: панель от прошлого теста закрываем, чтобы кнопки городов были видны.
+        if app.buttons["map.panel.close"].waitForExistence(timeout: 2) { app.buttons["map.panel.close"].tap() }
+        XCTAssertTrue(app.buttons["map.world.pick.mecca"].waitForExistence(timeout: 5))
+        app.buttons["map.world.pick.mecca"].tap()
+        app.buttons["map.panel.open"].tap()
+        let canvas = app.descendants(matching: .any)["map.city.canvas"]
+        XCTAssertTrue(canvas.waitForExistence(timeout: 10))
+        // Первый вход: наезд 1/1,8 → 1.
+        XCTAssertTrue(waitFor(canvas, value: "z=1.00", timeout: 10), "наезд заканчивается масштабом 1")
+        app.buttons["map.city.zoomIn"].tap()
+        XCTAssertTrue(waitFor(canvas, value: "z=1.40", timeout: 5))
+        Thread.sleep(forTimeInterval: 0.8)
+
+        app.buttons["map.city.back"].tap()
+        XCTAssertTrue(waitFor(app.staticTexts["map.world.title"], label: "Карта"))
+        app.buttons["map.panel.open"].tap()
+        let again = app.descendants(matching: .any)["map.city.canvas"]
+        XCTAssertTrue(again.waitForExistence(timeout: 10))
+        // Без наезда: камера сразу 1.40 и остаётся ей дольше, чем идёт наезд (1,1 с).
+        XCTAssertTrue(waitFor(again, value: "z=1.40", timeout: 5), "камера восстановлена, а не начата заново")
+        Thread.sleep(forTimeInterval: 2)
+        XCTAssertEqual(value(again), "z=1.40", "наезд не проигрывается повторно")
+
+        app.buttons["map.city.back"].tap()
+        app.buttons["tab.zikr"].tap()
+        resetAll(app)
+        XCTAssertTrue(waitFor(app.descendants(matching: .any)["zikr.total"], value: "0"))
+    }
+
     func testSiraShowOnMapOpensNativeCity() {
         let app = launch()
         count(to: 10, in: app)
