@@ -19,7 +19,7 @@ export const LANGS = ['ru', 'en', 'uz', 'tg', 'kk', 'ky'];
 // ZKR-53: + экран «Путь Сиры» и карточки глав/мест (path, card, cat, city, dir, unit, dist).
 // ZKR-57: + экран «Карта» (map, obj, legend, preview).
 const NATIVE_EXTRA_KEYS = new Set(['info.privacy']);
-export const isNativeKey = (key) => /^(tab|common|set|auth|history|zikr|level|reset|banner|a11y|path|card|cat|city|dir|unit|dist|map|obj|legend|preview)\./.test(key) || NATIVE_EXTRA_KEYS.has(key);
+export const isNativeKey = (key) => /^(tab|common|set|auth|history|zikr|level|reset|banner|a11y|path|card|cat|city|dir|unit|dist|map|obj|legend|preview|onb)\./.test(key) || NATIVE_EXTRA_KEYS.has(key);
 
 export function readWebUI(html) {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];

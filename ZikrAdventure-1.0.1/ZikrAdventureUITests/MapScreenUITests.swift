@@ -272,6 +272,8 @@ final class MapScreenUITests: XCTestCase {
     private func skipOnboardingIfShown(_ app: XCUIApplication) {
         let deadline = Date().addingTimeInterval(8)
         while Date() < deadline {
+            let nativeSkip = app.buttons["onboarding.skip"]
+            if nativeSkip.exists { nativeSkip.tap(); return }
             for title in Self.skipTitles {
                 let button = app.webViews.buttons[title]
                 if button.exists {

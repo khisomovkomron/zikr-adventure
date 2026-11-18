@@ -23,10 +23,28 @@ struct ZikrAdventureApp: App {
         }
     }
 
+    /// Явная тема для снимков UI-тестов; в обычном запуске и Release используется системная.
+    private static var uiTestColorScheme: ColorScheme? {
+#if DEBUG
+        let process = ProcessInfo.processInfo
+        guard process.environment["ZIKR_UITEST_AUTH"] == "guest",
+              let index = process.arguments.firstIndex(of: "-AppleInterfaceStyle"),
+              process.arguments.indices.contains(index + 1) else { return nil }
+        switch process.arguments[index + 1] {
+        case "Light": return .light
+        case "Dark": return .dark
+        default: return nil
+        }
+#else
+        return nil
+#endif
+    }
+
     var body: some Scene {
         WindowGroup {
             TabsView(container: container)
                 .background(Theme.Color.bg.ignoresSafeArea())
+                .preferredColorScheme(Self.uiTestColorScheme)
                 .task {
                     // ZKR-49: нативный слой данных в режиме «тени» (только зеркало веб-состояния).
                     await container.bootstrap()

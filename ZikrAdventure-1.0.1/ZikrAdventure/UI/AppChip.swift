@@ -55,6 +55,7 @@ struct AppChipGroup: View {
 /// flex-wrap для чипов (ZKR-50: и для чипов языка в «Настройках»). `Layout` доступен с iOS 16, без ViewThatFits и без сетки из N колонок.
 struct AppChipFlowLayout: Layout {
     var spacing: CGFloat
+    var centersRows = false
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         arrange(in: proposal.width, subviews: subviews).size
@@ -63,8 +64,12 @@ struct AppChipFlowLayout: Layout {
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let result = arrange(in: bounds.width, subviews: subviews)
         for index in subviews.indices {
+            let rowY = result.origins[index].y
+            let rowWidth = subviews.indices.filter { result.origins[$0].y == rowY }
+                .map { result.origins[$0].x + result.sizes[$0].width }.max() ?? 0
+            let offset = centersRows ? max(0, (bounds.width - rowWidth) / 2) : 0
             subviews[index].place(
-                at: CGPoint(x: bounds.minX + result.origins[index].x, y: bounds.minY + result.origins[index].y),
+                at: CGPoint(x: bounds.minX + offset + result.origins[index].x, y: bounds.minY + rowY),
                 proposal: ProposedViewSize(result.sizes[index])
             )
         }

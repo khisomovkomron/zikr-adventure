@@ -10,7 +10,9 @@
     "auth-1.1.0-setup": "524289",
     "auth-1.1.0-ux": "491522",
     "release-1.1.0": "589825",
-    "ui-kit": "2850835"
+    "ui-kit": "2850835",
+    "onboarding-1.2.0-plan": "9338882",
+    "release-1.2.0": "9273348"
   },
   "private": true
 }

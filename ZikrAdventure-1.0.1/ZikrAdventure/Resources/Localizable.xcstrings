@@ -4389,6 +4389,416 @@
         }
       }
     },
+    "onb.1t" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astaghfirullah"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Астағфируллаһ"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Астагфируллах"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Астагфируллах"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Астағфируллоҳ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Astag‘firulloh"
+          }
+        }
+      }
+    },
+    "onb.1x" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“I ask Allah for forgiveness.” Tap the large button for each repetition — the count is saved."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Алладан кешірім сұраймын». Әр қайталауда үлкен түймені басыңыз — есеп сақталады."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Аллахтан кечирим сурайм». Ар бир кайталоодо чоң баскычты басыңыз — эсеп сакталат."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Прошу у Аллаха прощения». Нажимайте большую кнопку при каждом повторении — счёт сохраняется."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Аз Аллоҳ омурзиш металабам». Ҳар такрор тугмаи калонро пахш кунед — ҳисоб нигоҳ дошта мешавад."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Allohdan mag‘firat so‘rayman». Har bir takrorda katta tugmani bosing — hisob saqlanadi."
+          }
+        }
+      }
+    },
+    "onb.2t" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Sira path"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сира жолы"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сира жолу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Путь Сиры"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Роҳи Сийра"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siyrat yo‘li"
+          }
+        }
+      }
+    },
+    "onb.2x" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mecca and Medina of the 7th century. Along the path 19 chapters about the Prophet’s ﷺ life open, and the cities around the sacred places come alive."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VII ғасырдағы Мекке мен Медине. Жол бойы Пайғамбар ﷺ өмірі туралы 19 тарау ашылып, қасиетті орындар айналасындағы қалалар жанданады."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VII кылымдагы Мекке жана Медина. Жол боюу Пайгамбар ﷺ өмүрү тууралуу 19 бөлүм ачылып, ыйык жерлердин айланасындагы шаарлар жанданат."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мекка и Медина VII века. По мере пути открываются 19 глав о жизни Пророка ﷺ, а города вокруг святынь оживают."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Макка ва Мадинаи асри VII. Дар роҳ 19 боб дар бораи ҳаёти Паёмбар ﷺ кушода мешаванд ва шаҳрҳо атрофи ҷойҳои муқаддас зинда мегарданд."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VII asrdagi Makka va Madina. Yo‘l davomida Payg‘ambar ﷺ hayoti haqida 19 bob ochiladi, muqaddas joylar atrofidagi shaharlar jonlanadi."
+          }
+        }
+      }
+    },
+    "onb.3t" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With respect"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Құрметпен"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Урмат менен"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С уважением"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бо эҳтиром"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hurmat bilan"
+          }
+        }
+      }
+    },
+    "onb.3x" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sacred places are always open and never prizes. The count is not a measure of spiritual worth. No ratings, no ads."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Қасиетті орындар әрдайым ашық және ешқашан сыйлық емес. Есеп — рухани құндылықтың өлшемі емес. Рейтинг пен жарнамасыз."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ыйык жерлер дайыма ачык жана эч качан сыйлык эмес. Эсеп — рухий баалуулуктун ченеми эмес. Рейтинг жана жарнамасыз."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Священные места всегда открыты и никогда не являются призами. Счёт — не мера духовной ценности. Без рейтингов и рекламы."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ҷойҳои муқаддас ҳамеша кушодаанд ва ҳеҷ гоҳ мукофот нестанд. Ҳисоб меъёри арзиши маънавӣ нест. Бе рейтинг ва реклама."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muqaddas joylar doim ochiq va hech qachon mukofot emas. Hisob ma’naviy qadr o‘lchovi emas. Reyting va reklamasiz."
+          }
+        }
+      }
+    },
+    "onb.lang" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тіл"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тил"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Язык"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Til"
+          }
+        }
+      }
+    },
+    "onb.next" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Әрі қарай"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кийинки"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Минбаъд"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyingi"
+          }
+        }
+      }
+    },
+    "onb.skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Өткізу"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Өткөрүү"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пропустить"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Гузаштан"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O‘tkazib yuborish"
+          }
+        }
+      }
+    },
+    "onb.start" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Begin"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бастау"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Баштоо"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оғоз"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boshlash"
+          }
+        }
+      }
+    },
     "path.all" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -7,6 +7,16 @@
 // Логика никогда не ветвится по локализованной строке — только по ключу.
 
 enum L10nKey: String, CaseIterable {
+    case onb1t = "onb.1t"
+    case onb1x = "onb.1x"
+    case onb2t = "onb.2t"
+    case onb2x = "onb.2x"
+    case onb3t = "onb.3t"
+    case onb3x = "onb.3x"
+    case onbNext = "onb.next"
+    case onbSkip = "onb.skip"
+    case onbStart = "onb.start"
+    case onbLang = "onb.lang"
     case a11yButton = "a11y.button"
     case a11yCorrect = "a11y.correct"
     case a11yCounter = "a11y.counter"

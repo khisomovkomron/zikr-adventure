@@ -1907,6 +1907,11 @@ if (IS_APP) {
       if (currentTab === "map" && mapView.mode === "world") renderMap();
       return true;
     },
+    completeOnboarding() {
+      if (!state.onboarded) { state.onboarded = true; persist(); }
+      closeOnboarding(); return state.onboarded === true;
+    },
+    onboardingStatus() { return JSON.stringify({ onboarded: !!state.onboarded, language: state.settings.lang }); },
     saveCamera(id, x, y, z) {
       if (!(typeof id === "string" && GEO.cities[id]) || ![x, y, z].every(Number.isFinite)) return false;
       const cam = { x, y, z }; if (cities[id] && cities[id].cam) { Object.assign(cities[id].cam, cam); clampCam(cities[id]); }
@@ -2025,6 +2030,7 @@ document.addEventListener("visibilitychange", () => { updateWakeLock(); if (docu
 
 /* ---------- onboarding ---------- */
 function showOnboarding() {
+  if (window.__ZIKR_NATIVE_ONBOARDING) return;
   let page = 0; const pages = [["onb.1t", "onb.1x", true], ["onb.2t", "onb.2x", "path"], ["onb.3t", "onb.3x", "sacred"]];
   const el = document.createElement("div"); el.className = "onb"; el.id = "onb";
   const draw = () => {
