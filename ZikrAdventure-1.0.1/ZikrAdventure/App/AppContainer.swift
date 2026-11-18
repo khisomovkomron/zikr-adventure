@@ -111,8 +111,12 @@ final class AppContainer: ObservableObject {
         return AuthCoordinator()
     }
 
-    /// Application Support/zikr-state.json; версия из CFBundleShortVersionString.
-    static func live() -> AppContainer {
+    /// ZKR-62: один контейнер на процесс, включая повторные SwiftUI App.init.
+    /// StateObject и раннее зеркало всегда получают один экземпляр. Preview/init изолированы.
+    static func live() -> AppContainer { liveContainer }
+
+    /// Лениво создаётся без обращения к WebViewManager.shared (до Firebase.configure).
+    private static let liveContainer: AppContainer = {
         let stateURL = (try? JSONStateStore.defaultFileURL())
             ?? FileManager.default.temporaryDirectory.appendingPathComponent("zikr-state.json")
         return AppContainer(
@@ -120,7 +124,7 @@ final class AppContainer: ObservableObject {
             legacyProgressFileURL: legacyProgressFileURL(),
             appVersion: appVersion()
         )
-    }
+    }()
 
     /// Временный каталог (FileManager.temporaryDirectory/UUID) — для превью и экспериментов.
     static func preview() -> AppContainer {

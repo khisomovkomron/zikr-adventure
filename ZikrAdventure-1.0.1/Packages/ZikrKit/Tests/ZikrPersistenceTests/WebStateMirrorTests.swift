@@ -4,6 +4,25 @@ import ZikrDomain
 @testable import ZikrPersistence
 
 final class WebStateMirrorTests: TempDirTestCase {
+    func testUnreadableStoreResumesWithLatestSnapshotAfterAvailabilitySignal() async throws {
+        _ = await makeStore().bootstrap(LegacySources(webLiveJSON: stateJSON(total: 5)))
+        let reader = FlakyReader(failures: 1)
+        let store = JSONStateStore(fileURL: stateURL, appVersion: "1.2.0-test",
+                                   readData: { try reader.read($0) })
+        let mirror = WebStateMirror(store: store)
+        mirror.enqueue(stateJSON(total: 10))
+        await mirror.flushForTesting()
+        mirror.enqueue(stateJSON(total: 20))
+        await mirror.flushForTesting()
+        XCTAssertEqual(reader.callCount, 1)
+        XCTAssertEqual(try readDocument().progress.total, 5)
+        await mirror.retryUnreadableFile()
+        mirror.enqueue(stateJSON(total: 30))
+        await mirror.flushForTesting()
+        XCTAssertEqual(reader.callCount, 2)
+        XCTAssertEqual(try readDocument().progress.total, 30)
+    }
+
     // 7.1
     func testThousandSnapshotsCoalesce() async throws {
         let mirror = WebStateMirror(store: makeStore())
