@@ -92,7 +92,16 @@ public final class MapSpriteFactory {
             let id = info["canvas"] as? Int,
             let image = image(canvas: id)
         else { return nil }
+        // Земля большая: растр теперь у MapGround, а холст и его команды в контексте больше не нужны (контекст общий).
+        images[id] = nil
+        _ = evaluate("__release(\(id))")
         return MapGround(image: image, originX: Self.number(info["ox"]), width: Self.number(info["W"]), height: Self.number(info["H"]))
+    }
+
+    /// Освобождает растры, накопленные при сборке: спрайты и земля уже у вызывающего, а тайлы при следующей сборке
+    /// отрисуются из команд (JSContext живёт долго, растры в нём не копятся).
+    public func purgeImageCache() {
+        images.removeAll()
     }
 
     // MARK: - JavaScriptCore

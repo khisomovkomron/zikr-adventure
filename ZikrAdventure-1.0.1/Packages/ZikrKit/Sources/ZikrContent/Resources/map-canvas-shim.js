@@ -67,4 +67,6 @@ function __ground(terrain, overlays, unlocked, preview) {
   renderGround(city);
   return JSON.stringify({ canvas: city.ground.__id, ox: city.groundOx, W: city.groundW, H: city.groundH });
 }
+// Холст отработал (земля города): команды больше не нужны.
+function __release(id) { __canvases[id].ops = []; }
 function __canvasJSON(id) { var c = __canvases[id]; return JSON.stringify({ w: c.width, h: c.height, ops: c.ops }); }
