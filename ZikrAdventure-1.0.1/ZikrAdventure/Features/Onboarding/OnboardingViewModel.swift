@@ -36,10 +36,13 @@ final class OnboardingViewModel: ObservableObject {
     private let sink: any OnboardingCommandSink
     private let settings: any SettingsCommandSink
 
-    init(sink: any OnboardingCommandSink, settings: any SettingsCommandSink, localization: LocalizationService) {
+    init(sink: any OnboardingCommandSink, settings: any SettingsCommandSink, localization: LocalizationService,
+         initialStatus: OnboardingStatus? = nil) {
         self.sink = sink
         self.settings = settings
         self.localization = localization
+        self.isVisible = initialStatus.map { !$0.onboarded }
+        if let initialStatus { localization.setLanguage(code: initialStatus.language) }
     }
 
     func refresh() async {

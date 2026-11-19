@@ -11,6 +11,7 @@ final class NativeCommandStoreTests: TempDirTestCase {
         let store = makeStore()
         let data = try JSONEncoder().encode(progress)
         _ = await store.bootstrap(LegacySources(webLiveJSON: String(decoding: data, as: UTF8.self)))
+        try await store.activateNative(LegacySources())
         return store
     }
 

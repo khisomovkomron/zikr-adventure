@@ -50,6 +50,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // ZKR-59: старый UI не запускается после перехода на native writer.
+        guard AppContainer.isWebMirrorEnabled else { return }
         let background = UIColor(named: "LaunchBackground") ?? .systemBackground
         view.backgroundColor = background
 
@@ -157,6 +159,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         case "keepAwake":
             UIApplication.shared.isIdleTimerDisabled = (body["on"] as? Bool) ?? false
         case "save":
+            guard AppContainer.isWebMirrorEnabled else { return }
             if let json = body["data"] as? String {
                 progressStore.save(json: json)
                 stateMirror?.enqueue(json)

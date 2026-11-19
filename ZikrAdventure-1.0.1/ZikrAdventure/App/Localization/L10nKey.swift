@@ -7,6 +7,7 @@
 // Логика никогда не ветвится по локализованной строке — только по ключу.
 
 enum L10nKey: String, CaseIterable {
+    case startupRestoreFailed = "startup.restoreFailed"
     case onb1t = "onb.1t"
     case onb1x = "onb.1x"
     case onb2t = "onb.2t"

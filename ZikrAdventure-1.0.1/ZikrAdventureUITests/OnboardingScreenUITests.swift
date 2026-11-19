@@ -49,7 +49,7 @@ final class OnboardingScreenUITests: XCTestCase {
         XCTAssertFalse(app.buttons["onboarding.skip"].exists)
     }
 
-    func testLanguageThemeAndWebReferenceScreenshots() {
+    func testLanguageThemeScreenshots() {
         let app = XCUIApplication()
         app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
         app.launchEnvironment["ZIKR_UITEST_ONBOARDING"] = "fresh"
@@ -69,12 +69,7 @@ final class OnboardingScreenUITests: XCTestCase {
             app.buttons["onboarding.next"].tap()
             capture(app, "native-\(style)-ky-3")
             app.terminate()
-            app.launchEnvironment["ZIKR_UITEST_WEB_ONBOARDING"] = "1"
-            app.launch()
-            XCTAssertTrue(app.webViews.buttons["Skip"].waitForExistence(timeout: 60))
-            capture(app, "web-\(style)-en-1")
-            app.terminate()
-            app.launchEnvironment.removeValue(forKey: "ZIKR_UITEST_WEB_ONBOARDING")
+
         }
     }
 
@@ -87,6 +82,7 @@ final class OnboardingScreenUITests: XCTestCase {
 
     private func assertCounter(_ app: XCUIApplication, value: String) {
         XCTAssertTrue(app.buttons["zikr.button"].waitForExistence(timeout: 60))
+        XCTAssertEqual(app.webViews.count, 0, "Основной интерфейс не должен содержать WebView")
         let counter = app.descendants(matching: .any)["zikr.total"].firstMatch
         let predicate = NSPredicate(format: "value == %@ OR label == %@", value, value)
         XCTAssertEqual(XCTWaiter().wait(for: [XCTNSPredicateExpectation(predicate: predicate, object: counter)], timeout: 10), .completed)

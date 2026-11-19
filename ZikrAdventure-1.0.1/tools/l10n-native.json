@@ -28,5 +28,34 @@
         "review": true
       }
     }
+  },
+  "startup.restoreFailed": {
+    "comment": "Ошибка восстановления прогресса перед показом основных экранов. Переводы кроме ru/en требуют вычитки.",
+    "values": {
+      "ru": {
+        "value": "Не удалось восстановить сохранённый прогресс. Попробуйте ещё раз.",
+        "review": false
+      },
+      "en": {
+        "value": "Couldn’t restore your saved progress. Please try again.",
+        "review": false
+      },
+      "uz": {
+        "value": "Saqlangan natijani tiklab bo‘lmadi. Yana urinib ko‘ring.",
+        "review": true
+      },
+      "tg": {
+        "value": "Пешрафти захирашуда барқарор нашуд. Боз кӯшиш кунед.",
+        "review": true
+      },
+      "kk": {
+        "value": "Сақталған прогресті қалпына келтіру мүмкін болмады. Қайталап көріңіз.",
+        "review": true
+      },
+      "ky": {
+        "value": "Сакталган прогрессти калыбына келтирүү мүмкүн болгон жок. Кайра аракет кылыңыз.",
+        "review": true
+      }
+    }
   }
 }

@@ -106,3 +106,8 @@ Xcode в этой среде нет. Сборка, симулятор и жес�
 Добавлены `NativeProgressCommand`, чистый `NativeProgressReducer` и атомарный `JSONStateStore.execute`. Это подготовка единственного native writer, а не переключение приложения: `AppContainer` продолжает использовать веб-команды. Формат schema 3 и старые хранилища не изменены. Нельзя одновременно подключать новый writer и `WebStateMirror`.
 
 План следующих этапов и проверки: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/9666564, локальный протокол `docs/NATIVE-COMMANDS-1.2.0.md`. Удаление WebView остаётся после переключения, миграции и ZKR-58; задача ZKR-59 не закрыта.
+
+
+## ZKR-59/B: native writer подключён
+
+Текущий корень — `NativeRootView`, все sink по умолчанию — `NativeCommandSink`. Bootstrap завершает однократный импорт до показа основных экранов и атомарно ставит `meta.nativeWriterActivated` (optional, schema 3). После активации legacy не перечитывается и веб-записи запрещены. `WebViewManager` не создаётся; старый UI-каркас остаётся до QA/этапа D. Только read-only headless-reader использует WebKit для старого localStorage. Подробности и реальные результаты: `docs/NATIVE-COMMANDS-1.2.0.md`. Предыдущие разделы про shadow/default web writer описывают прошлые этапы и не являются текущей live-схемой.

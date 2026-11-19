@@ -1,9 +1,4 @@
-// ZikrAdventureApp.swift
-// Точка входа приложения ZIKR ADVENTURE.
-// SwiftUI App lifecycle: TabsView держит один shared WKWebView и нативный tab bar.
-// Интерфейс приложения встроен в сборку (папка Web) и работает полностью офлайн:
-// без интернета, регистрации, рекламы и аналитики.
-// Версия 1.1.0 добавляет необязательную авторизацию через Google и Apple.
+// ZKR-59: SwiftUI UI, native writer и однократная legacy-миграция.
 
 import SwiftUI
 import FirebaseCore
@@ -16,11 +11,7 @@ struct ZikrAdventureApp: App {
     init() {
         let container = AppContainer.live()
         _container = StateObject(wrappedValue: container)
-        // ZKR-49/ZKR-61: зеркало подключается до того, как TabsView создаст WKWebView и страница
-        // загрузится, — первый снимок (didFinish) и первые "save" не пропускаются.
-        if AppContainer.isWebMirrorEnabled {
-            WebViewManager.attachStateMirrorEarly(container.webStateMirror)
-        }
+
     }
 
     /// Явная тема для снимков UI-тестов; в обычном запуске и Release используется системная.
@@ -42,7 +33,7 @@ struct ZikrAdventureApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabsView(container: container)
+            NativeRootView(container: container)
                 .background(Theme.Color.bg.ignoresSafeArea())
                 .preferredColorScheme(Self.uiTestColorScheme)
                 .task {

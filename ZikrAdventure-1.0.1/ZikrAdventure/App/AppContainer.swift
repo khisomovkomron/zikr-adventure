@@ -1,20 +1,17 @@
 // AppContainer.swift
-// Контейнер зависимостей нативного слоя данных (ZKR-49).
-// Режим «тени»: native только зеркалирует состояние веб-страницы в zikr-state.json
-// и сам не пишет ни в progress.json, ни в localStorage.
-// ZKR-50: настройки меняются только командами в веб (window.zikrNative.*) — веб остаётся
-// единственным писателем; здесь же живут общие AuthService и LocalizationService.
+// ZKR-59: native writer; legacy-миграция завершена до показа экранов.
+// Legacy-флаги оставлены до удаления старого каркаса после QA.
 
 import Foundation
+import UIKit
 import ZikrContent
 import ZikrDomain
 import ZikrPersistence
 
 @MainActor
 final class AppContainer: ObservableObject {
-    /// Аварийный выключатель: false → зеркало не подключается, bootstrap не выполняется,
-    /// приложение работает ровно как 1.1.1.
-    static let isWebMirrorEnabled = true
+    /// Старый веб-каркас отключён; NativeRootView от этого флага не зависит.
+    static let isWebMirrorEnabled = false
     /// ZKR-48: false → вкладка «Инфо» снова целиком веб-экран (как 1.1.1).
     static let isNativeInfoEnabled = true
     /// ZKR-50: false → вкладка «Настройки» снова целиком веб-экран (как 1.1.1).
@@ -38,9 +35,16 @@ final class AppContainer: ObservableObject {
     }()
 
     func makeOnboardingViewModel() -> OnboardingViewModel {
-        OnboardingViewModel(sink: WebOnboardingCommandSink(), settings: settingsSink, localization: localization)
+        OnboardingViewModel(sink: nativeCommands, settings: settingsSink, localization: localization,
+                            initialStatus: startupOnboardingStatus)
     }
 
+    @Published private(set) var isNativeReady = false
+    @Published private(set) var hasStartupError = false
+    private var isBootstrapping = false
+    private var startupOnboardingStatus: OnboardingStatus?
+    let nativeCommands: NativeCommandSink
+    private let legacyReader: (any LegacyStorageReading)?
     let stateStore: JSONStateStore
     let progress: any ProgressRepository
     let settings: any SettingsRepository
@@ -78,7 +82,8 @@ final class AppContainer: ObservableObject {
         siraSink: (any SiraCommandSink)? = nil,
         mapSink: (any MapCommandSink)? = nil,
         mapContent: any MapContentProviding = BundledMapContentProvider(),
-        presenter: (any PresenterProviding)? = nil
+        presenter: (any PresenterProviding)? = nil,
+        legacyReader: (any LegacyStorageReading)? = nil
     ) {
         let store = JSONStateStore(fileURL: stateFileURL, appVersion: appVersion)
         self.stateStore = store
@@ -89,15 +94,20 @@ final class AppContainer: ObservableObject {
         self.infoContent = infoContent
         self.auth = auth ?? Self.makeAuthService()
         self.localization = localization ?? LocalizationService()
-        self.settingsSink = settingsSink ?? WebSettingsCommandSink { WebViewManager.shared }
-        self.zikrSink = zikrSink ?? WebZikrCommandSink(
-            queries: { WebViewManager.shared },
-            commands: { WebViewManager.shared }
-        )
         self.zikrContent = zikrContent
-        self.siraSink = siraSink ?? WebSiraCommandSink { WebViewManager.shared }
-        self.mapSink = mapSink ?? WebMapCommandSink { WebViewManager.shared }
         self.mapContent = mapContent
+        self.legacyReader = legacyReader
+        let catalog: NativeCommandCatalog?
+        if let content = try? zikrContent.loadZikrContent(), let map = try? mapContent.loadMapContent() {
+            catalog = NativeCommandCatalog(cityIDs: Set(map.cities.keys), chapterCities: Dictionary(
+                uniqueKeysWithValues: content.chapters.compactMap { chapter in chapter.city.map { (chapter.id, $0) } }))
+        } else { catalog = nil }
+        let commands = NativeCommandSink(store: store, catalog: catalog)
+        self.nativeCommands = commands
+        self.settingsSink = settingsSink ?? commands
+        self.zikrSink = zikrSink ?? commands
+        self.siraSink = siraSink ?? commands
+        self.mapSink = mapSink ?? commands
         self.presenter = presenter ?? KeyWindowPresenterProvider()
     }
 
@@ -117,8 +127,24 @@ final class AppContainer: ObservableObject {
 
     /// Лениво создаётся без обращения к WebViewManager.shared (до Firebase.configure).
     private static let liveContainer: AppContainer = {
-        let stateURL = (try? JSONStateStore.defaultFileURL())
-            ?? FileManager.default.temporaryDirectory.appendingPathComponent("zikr-state.json")
+        // Не создаём каталог до разблокировки и никогда не подменяем постоянный путь временным.
+        var stateURL = supportDirectory().appendingPathComponent(JSONStateStore.fileName)
+#if DEBUG
+        if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" {
+            stateURL = stateURL.deletingLastPathComponent().appendingPathComponent("UITests/zikr-state.json")
+            if let fixture = ProcessInfo.processInfo.environment["ZIKR_UITEST_ONBOARDING"], ["fresh", "completed"].contains(fixture) {
+                let progress = ProgressState(total: 123, settings: AppSettings(lang: .en), onboarded: fixture == "completed")
+                let document = StateDocument(progress: progress, meta: .init(createdAt: Date(), createdFrom: "uiTest",
+                    writtenByAppVersion: appVersion(), nativeWriterActivated: true))
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                if let data = try? encoder.encode(document) {
+                    try? FileManager.default.createDirectory(at: stateURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+                    try? data.write(to: stateURL, options: .atomic)
+                }
+            }
+        }
+#endif
         return AppContainer(
             stateFileURL: stateURL,
             legacyProgressFileURL: legacyProgressFileURL(),
@@ -137,16 +163,54 @@ final class AppContainer: ObservableObject {
         )
     }
 
-    /// Первичная миграция из Application Support/progress.json (только чтение).
-    /// Существующий zikr-state.json не переписывается.
+    /// Однократная активация native writer; UI остаётся закрытым при недоступных данных.
     func bootstrap() async {
-        guard Self.isWebMirrorEnabled else { return }
-        // ZKR-61: чтение progress.json — вне главного потока.
-        let url = legacyProgressFileURL
-        let sources = await Task.detached(priority: .utility) {
-            url.map { LegacySources.progressFile(at: $0) } ?? LegacySources()
-        }.value
-        await stateStore.bootstrap(sources)
+        if isNativeReady {
+            if let settings = await settings.load() {
+                UIApplication.shared.isIdleTimerDisabled = settings.keepAwake && UIApplication.shared.applicationState == .active
+            }
+            return
+        }
+        guard !isBootstrapping else { return }
+        isBootstrapping = true
+        hasStartupError = false
+        defer { isBootstrapping = false }
+        do {
+            guard UIApplication.shared.isProtectedDataAvailable else { throw CocoaError(.fileReadNoPermission) }
+            guard nativeCommands.catalog != nil else { throw CocoaError(.fileReadCorruptFile) }
+            await stateStore.retryUnreadableFile()
+            if await stateStore.document()?.meta.nativeWriterActivated != true {
+                let sourcesFromReader: LegacySources
+#if DEBUG
+                if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" {
+                    sourcesFromReader = LegacySources()
+                } else { sourcesFromReader = try await (legacyReader ?? LegacyStorageReader()).read() }
+#else
+                sourcesFromReader = try await (legacyReader ?? LegacyStorageReader()).read()
+#endif
+                var sources = sourcesFromReader
+                var url = legacyProgressFileURL
+#if DEBUG
+                if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" { url = nil }
+#endif
+                sources.progressFileJSON = try await Task.detached(priority: .utility) {
+                    guard let url else { return nil as String? }
+                    do {
+                        let data = try Data(contentsOf: url)
+                        guard let value = String(data: data, encoding: .utf8) else { throw CocoaError(.fileReadCorruptFile) }
+                        return value
+                    } catch let error as CocoaError where error.code == .fileReadNoSuchFile { return nil }
+                }.value
+                try await stateStore.activateNative(sources)
+            }
+            guard let progress = await stateStore.document()?.progress else { throw CocoaError(.fileReadUnknown) }
+            startupOnboardingStatus = OnboardingStatus(onboarded: progress.onboarded, language: progress.settings.lang.rawValue)
+            localization.setLanguage(progress.settings.lang)
+            auth.activate()
+            isNativeReady = true
+        } catch {
+            hasStartupError = true
+        }
     }
 
     // MARK: - Фабрики view model (ZKR-64: DI в одном месте)
@@ -204,8 +268,13 @@ final class AppContainer: ObservableObject {
 
     /// Application Support/progress.json — файл, который ведёт ProgressFileStore.
     nonisolated static func legacyProgressFileURL() -> URL? {
-        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?
-            .appendingPathComponent("progress.json")
+        supportDirectory().appendingPathComponent("progress.json")
+    }
+
+    nonisolated private static func supportDirectory() -> URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+                .appendingPathComponent("Library/Application Support", isDirectory: true)
     }
 
     private static func appVersion() -> String {
