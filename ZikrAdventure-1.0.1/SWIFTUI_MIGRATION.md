@@ -99,3 +99,10 @@ Xcode в этой среде нет. Сборка, симулятор и жес�
 ## ZKR-65: нативный онбординг (1.2.0)
 
 Три прежних шага и шесть языков перенесены в `Features/Onboarding`. До восстановления веб-состояния показана загрузка. `onboardingStatus()` возвращает сохранённый флаг, `completeOnboarding()` идемпотентно завершает прежний сценарий; веб остаётся единственным писателем. Флаг `isNativeOnboardingEnabled` возвращает исходный веб-путь. Подробнее: `docs/ONBOARDING-1.2.0.md` и Confluence 9338882. Удаление WebView и перенос writer в Swift остаются ZKR-59.
+
+
+## ZKR-59/A: нативные команды (19.11.2026)
+
+Добавлены `NativeProgressCommand`, чистый `NativeProgressReducer` и атомарный `JSONStateStore.execute`. Это подготовка единственного native writer, а не переключение приложения: `AppContainer` продолжает использовать веб-команды. Формат schema 3 и старые хранилища не изменены. Нельзя одновременно подключать новый writer и `WebStateMirror`.
+
+План следующих этапов и проверки: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/9666564, локальный протокол `docs/NATIVE-COMMANDS-1.2.0.md`. Удаление WebView остаётся после переключения, миграции и ZKR-58; задача ZKR-59 не закрыта.

@@ -53,6 +53,9 @@ public actor JSONStateStore: StateStore {
         }
     }
 
+    /// ZKR-59: используется actor-изолированной транзакцией команд.
+    var commandDate: Date { clock.now }
+
     // MARK: - Bootstrap
 
     /// Первичная загрузка/миграция. Повторный вызов ничего не переписывает.
