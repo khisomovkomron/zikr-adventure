@@ -36,10 +36,6 @@ struct ZikrAdventureApp: App {
             NativeRootView(container: container)
                 .background(Theme.Color.bg.ignoresSafeArea())
                 .preferredColorScheme(Self.uiTestColorScheme)
-                .task {
-                    // ZKR-49: нативный слой данных в режиме «тени» (только зеркало веб-состояния).
-                    await container.bootstrap()
-                }
         }
     }
 }

@@ -5,8 +5,20 @@ import ZikrDomain
 struct NativeRootView: View {
     @ObservedObject var container: AppContainer
     @Environment(\.scenePhase) private var scenePhase
-    var body: some View {
-        Group {
+    @ViewBuilder var body: some View {
+#if DEBUG
+        // Unit-host не запускает реальную миграцию параллельно тестам с собственными источниками.
+        // UI-тесты явно выбирают гостевой профиль и проверяют настоящий корень приложения.
+        if (ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil || NSClassFromString("XCTestCase") != nil),
+           ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == nil {
+            Color.clear
+        } else { content }
+#else
+        content
+#endif
+    }
+    private var content: some View {
+        ZStack {
             if container.isNativeReady { NativeTabsView(container: container) }
             else if container.hasStartupError {
                 VStack(spacing: 20) {
@@ -14,8 +26,9 @@ struct NativeRootView: View {
                     Button(container.localization.tr(.authRetry)) { Task { await container.bootstrap() } }
                         .accessibilityIdentifier("startup.retry")
                 }.padding()
-            } else { ProgressView().accessibilityIdentifier("startup.loading") }
+            } else { ProgressView().tint(Theme.Color.accent).accessibilityIdentifier("startup.loading") }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .task { await container.bootstrap() }
         .onChange(of: scenePhase) { phase in
             if phase == .active { Task { await container.bootstrap() } }

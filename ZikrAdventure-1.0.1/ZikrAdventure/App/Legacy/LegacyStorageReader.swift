@@ -18,6 +18,8 @@ final class LegacyStorageReader: NSObject, LegacyStorageReading, WKNavigationDel
     private var timeout: Task<Void, Never>?
 
     func read() async throws -> LegacySources {
+        // navigationDelegate и timeout держат weak self; временный reader должен жить до ответа.
+        defer { withExtendedLifetime(self) {} }
         guard continuation == nil else { throw CocoaError(.coderInvalidValue) }
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
