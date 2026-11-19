@@ -1,10 +1,8 @@
 // ZikrViewModel.swift
 // ZKR-52: состояние нативного экрана «Зикр» (renderZikr() / refreshZikr() в index.html).
-// Чтение — ProgressRepository (zikr-state.json, зеркало веба): load() и changes().
-// Запись — только команды в веб (ZikrCommandSink → window.zikrNative.*): веб остаётся единственным писателем.
+// Чтение — ProgressRepository (zikr-state.json), запись — ZikrCommandSink (live: NativeCommandSink).
 // Отклик оптимистичный: нажатие сразу меняет total / today / session, вибрация и звук — сразу.
-// Затем ответ веба (снимок) и снимки zikr-state.json сверяют экран; пока в очереди есть
-// неподтверждённые команды или снимок старше уже подтверждённого, значение на экране не откатывается.
+// Ответ команды и снимки repository сверяют экран; неподтверждённые команды защищены от отката.
 
 import Foundation
 import ZikrContent
@@ -26,7 +24,7 @@ final class ZikrViewModel: ObservableObject {
     /// Number.MAX_SAFE_INTEGER — верхняя граница total в onZikr().
     static let maxTotal: Int64 = 9_007_199_254_740_991
 
-    /// nil — zikr-state.json ещё нет (зеркало не получило снимок): показывается веб-экран.
+    /// nil — repository ещё не загрузил настройки.
     @Published private(set) var settings: AppSettings?
     @Published private(set) var total: Int64 = 0
     @Published private(set) var today: Int64 = 0
@@ -51,7 +49,7 @@ final class ZikrViewModel: ObservableObject {
     private let clock: any AppClock
     private let bannerDuration: UInt64
     private let queue = SerialCommandQueue()
-    /// state.updatedAt последнего подтверждённого вебом изменения: более старые снимки файла не применяются.
+    /// state.updatedAt последней подтверждённой команды: старые снимки файла не применяются.
     private var confirmedUpdatedAt: Int64 = 0
     /// Команда не прошла — после очереди перечитать файл.
     private var needsResync = false
@@ -83,7 +81,7 @@ final class ZikrViewModel: ObservableObject {
         }
     }
 
-    /// Без контента уровней/глав экран не показывается (остаётся веб, как в 1.1.1).
+    /// Экран доступен после загрузки настроек и контента уровней/глав.
     var isAvailable: Bool { settings != nil && content != nil }
     var canUndoOrReset: Bool { total > 0 }
     var hasPendingCommands: Bool { queue.pending > 0 }
@@ -117,8 +115,15 @@ final class ZikrViewModel: ObservableObject {
 
     // MARK: - Действия (onZikr / onUndo / openResetDialog)
 
+    /// Пересчитать день без записи: история, общий счёт и сеанс остаются прежними.
+    func refreshDay() {
+        let current = daily[dayKey] ?? 0
+        if today != current { today = current }
+    }
+
     func tap() {
         guard let settings else { return }
+        refreshDay()
         total = min(total + 1, Self.maxTotal)
         today += 1
         session += 1
@@ -133,6 +138,7 @@ final class ZikrViewModel: ObservableObject {
 
     func undo() {
         guard let settings, total > 0 else { return }
+        refreshDay()
         total -= 1
         if today > 0 { today -= 1 }
         daily[dayKey] = today
@@ -283,7 +289,7 @@ final class ZikrViewModel: ObservableObject {
     }
 
     /// Снимок zikr-state.json. Настройки применяются всегда; счёт — только если очередь пуста
-    /// и снимок не старше подтверждённого ответа веба.
+    /// и снимок не старше подтверждённого ответа команды.
     private func apply(_ progress: ProgressState) {
         if settings != progress.settings {
             settings = progress.settings
