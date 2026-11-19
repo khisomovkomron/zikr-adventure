@@ -28,7 +28,7 @@ final class AppContainer: ObservableObject {
     static let isNativeMapEnabled = true
     static let isNativeOnboardingEnabled: Bool = {
 #if DEBUG
-        if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest",
+        if UITestAuthService.isEnabled(in: ProcessInfo.processInfo.environment),
            ProcessInfo.processInfo.environment["ZIKR_UITEST_WEB_ONBOARDING"] == "1" { return false }
 #endif
         return true
@@ -130,7 +130,7 @@ final class AppContainer: ObservableObject {
         // Не создаём каталог до разблокировки и никогда не подменяем постоянный путь временным.
         var stateURL = supportDirectory().appendingPathComponent(JSONStateStore.fileName)
 #if DEBUG
-        if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" {
+        if UITestAuthService.isEnabled(in: ProcessInfo.processInfo.environment) {
             stateURL = stateURL.deletingLastPathComponent().appendingPathComponent("UITests/zikr-state.json")
             if let fixture = ProcessInfo.processInfo.environment["ZIKR_UITEST_ONBOARDING"], ["fresh", "completed"].contains(fixture) {
                 let progress = ProgressState(total: 123, settings: AppSettings(lang: .en), onboarded: fixture == "completed")
@@ -182,7 +182,7 @@ final class AppContainer: ObservableObject {
             if await stateStore.document()?.meta.nativeWriterActivated != true {
                 let sourcesFromReader: LegacySources
 #if DEBUG
-                if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" {
+                if UITestAuthService.isEnabled(in: ProcessInfo.processInfo.environment) {
                     sourcesFromReader = LegacySources()
                 } else { sourcesFromReader = try await (legacyReader ?? LegacyStorageReader()).read() }
 #else
@@ -191,7 +191,7 @@ final class AppContainer: ObservableObject {
                 var sources = sourcesFromReader
                 var url = legacyProgressFileURL
 #if DEBUG
-                if ProcessInfo.processInfo.environment["ZIKR_UITEST_AUTH"] == "guest" { url = nil }
+                if UITestAuthService.isEnabled(in: ProcessInfo.processInfo.environment) { url = nil }
 #endif
                 sources.progressFileJSON = try await Task.detached(priority: .utility) {
                     guard let url else { return nil as String? }
