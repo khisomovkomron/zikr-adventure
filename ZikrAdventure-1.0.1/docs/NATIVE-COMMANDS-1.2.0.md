@@ -2,7 +2,7 @@
 
 Jira: https://zikr-app.atlassian.net/browse/ZKR-59
 Confluence: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/9666564
-Версия 1.2.0, ветка `codex/zkr-59-native-commands`, PR в `release/1.2.0`.
+Версия 1.2.0, ветка `codex/zkr-59-native-commands`, [Draft PR #17](https://github.com/khisomovkomron/zikr-adventure/pull/17) в `release/1.2.0`.
 
 ## Что сделано
 
