@@ -75,7 +75,8 @@ final class StoreReadErrorTests: TempDirTestCase {
         XCTAssertEqual(try Data(contentsOf: stateURL), before)
         XCTAssertEqual(try corruptNames(), [])
 
-        // Файл снова читается — тот же экземпляр хранилища подхватывает его без потерь.
+        // Системный сигнал разрешает восстановление тем же экземпляром без потерь.
+        await store.retryUnreadableFile()
         let again = await store.bootstrap(LegacySources(webLiveJSON: stateJSON(total: 99)))
         XCTAssertEqual(again, .existing)
         let wroteNow = await store.replaceFromWeb(json: stateJSON(total: 6))
@@ -83,7 +84,7 @@ final class StoreReadErrorTests: TempDirTestCase {
         XCTAssertEqual(try readDocument().progress.total, 6)
     }
 
-    func testReadErrorIsRetriedOnNextAccess() async throws {
+    func testReadErrorWaitsForExplicitAvailabilitySignal() async throws {
         _ = await makeStore().bootstrap(LegacySources(webLiveJSON: stateJSON(total: 5)))
         let before = try Data(contentsOf: stateURL)
         let reader = FlakyReader(failures: 2)
@@ -101,8 +102,28 @@ final class StoreReadErrorTests: TempDirTestCase {
         }
         XCTAssertEqual(try Data(contentsOf: stateURL), before)
 
+        for _ in 0..<100 {
+            _ = await store.document()
+            _ = await store.replaceFromWeb(json: stateJSON(total: 99))
+            _ = await store.bootstrap(LegacySources(webLiveJSON: stateJSON(total: 99)))
+        }
+        XCTAssertEqual(reader.callCount, 1, "save/read/bootstrap не повторяют неудачное чтение")
+        XCTAssertEqual(try Data(contentsOf: stateURL), before)
+        await store.retryUnreadableFile() // Вторая попытка тоже неудачна.
+        let unavailable = await store.document()
+        XCTAssertNil(unavailable)
+        XCTAssertEqual(reader.callCount, 2)
+        let blocked = await store.replaceFromWeb(json: stateJSON(total: 99))
+        XCTAssertFalse(blocked)
+        let changes = await store.changes()
+        var iterator = changes.makeAsyncIterator()
+        await store.retryUnreadableFile() // Файл снова доступен.
+        let restored = await iterator.next()
+        XCTAssertEqual(restored?.total, 5, "UI получает восстановленный прогресс без нового изменения")
         let doc = await store.document()
         XCTAssertEqual(doc?.progress.total, 5)
+        XCTAssertEqual(reader.callCount, 3)
+        await store.retryUnreadableFile() // Здоровый store не перечитывается.
         XCTAssertEqual(reader.callCount, 3)
         let again = await store.bootstrap(LegacySources(webLiveJSON: stateJSON(total: 99)))
         XCTAssertEqual(again, .existing)

@@ -25,6 +25,7 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
     private var authStateSubscription: AnyCancellable?
+    private var dataAvailabilitySubscriptions: Set<AnyCancellable> = []
     /// ZKR-50: один экземпляр на приложение (AppContainer). Задаётся до viewDidLoad.
     var authService: (any AuthService)? {
         didSet {
@@ -38,6 +39,8 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     weak var webViewManager: WebViewManager?
     /// ZKR-61: если зеркало подключено уже после загрузки страницы, текущий снимок
     /// снимается сразу (replay), а не ждёт следующего "save".
+    /// ZKR-62: штатный старт использует раннее подключение, но этот путь нужен при
+    /// повторном включении/замене зеркала уже живой страницы (attachStateMirror).
     var stateMirror: WebStateMirror? {
         didSet {
             guard stateMirror !== oldValue, isWebViewLoaded, let webView else { return }
@@ -108,6 +111,22 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             webView.load(URLRequest(url: url))
         }
         lightImpact.prepare()
+        // ZKR-62: save не должен заново читать защищённый файл при каждом нажатии.
+        // Повтор разрешён после системного сигнала, затем берём актуальный веб-снимок.
+        for name in [UIApplication.protectedDataDidBecomeAvailableNotification,
+                     UIApplication.didBecomeActiveNotification] {
+            NotificationCenter.default.publisher(for: name)
+                .sink { [weak self] _ in
+                    Task { @MainActor [weak self] in
+                        guard let self, let mirror = self.stateMirror else { return }
+                        await mirror.retryUnreadableFile()
+                        guard self.stateMirror === mirror, self.isWebViewLoaded,
+                              let webView = self.webView else { return }
+                        LegacyWebStateImporter.capture(from: webView, into: mirror)
+                    }
+                }
+                .store(in: &dataAvailabilitySubscriptions)
+        }
     }
 
     // MARK: - Сообщения со страницы

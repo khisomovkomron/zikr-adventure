@@ -83,6 +83,12 @@ public final class WebStateMirror: @unchecked Sendable {
         wake.yield(())
     }
 
+    /// ZKR-62: возобновляет чтение после разблокировки/возврата приложения.
+    /// Свежий снимок страницы ставится вызывающим контроллером после этого сигнала.
+    public func retryUnreadableFile() async {
+        await store.retryUnreadableFile()
+    }
+
     /// Ждёт обработки всего, что было поставлено в очередь до вызова. Только для тестов.
     public func flushForTesting() async {
         let target = counters().enqueued

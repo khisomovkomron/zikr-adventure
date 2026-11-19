@@ -7,6 +7,14 @@ import ZikrDomain
 
 @MainActor
 final class SettingsViewModelTests: XCTestCase {
+    func testLiveContainerAndMirrorRemainIdenticalAcrossRepeatedAppInitialization() {
+        let first = AppContainer.live()
+        let second = AppContainer.live()
+        XCTAssertTrue(first === second)
+        XCTAssertTrue(first.stateStore === second.stateStore)
+        XCTAssertTrue(first.webStateMirror === second.webStateMirror)
+    }
+
     private var repository: FakeSettingsRepository!
     private var sink: FakeSettingsSink!
     private var auth: FakeAuthService!

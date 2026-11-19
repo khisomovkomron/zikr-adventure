@@ -21,8 +21,9 @@ public actor JSONStateStore: StateStore {
     /// Файл из будущей схемы: запись отключена до конца сессии.
     private var readOnlySchema: Int?
     /// ZKR-61: файл есть, но не читается (например, защита данных до первой разблокировки).
-    /// Файл не трогается и не перезаписывается; чтение повторяется при следующем обращении.
+    /// Файл не трогается; автоматические повторы запрещены до сигнала доступности данных.
     private var unreadable = false
+    private var didLogReadError = false
     private var lastWrittenProgress: Data?
     private var observers: [UUID: AsyncStream<ProgressState>.Continuation] = [:]
 
@@ -142,6 +143,19 @@ public actor JSONStateStore: StateStore {
 
     static let unreadableReason = "zikr-state.json unreadable"
 
+    /// ZKR-62: одна новая попытка только по системному сигналу (разблокировка/foreground).
+    /// Обычные save/read/update не повторяют неудачное чтение. Здоровый store не перечитывается.
+    public func retryUnreadableFile() {
+        guard unreadable else { return }
+        loaded = false
+        loadIfNeeded()
+        // UI мог подписаться, пока document был недоступен. Даже неизменный веб-снимок
+        // затем пропускает write, поэтому восстановленный прогресс публикуем здесь.
+        if !unreadable, let cached {
+            for continuation in observers.values { continuation.yield(cached.progress) }
+        }
+    }
+
     private func loadIfNeeded() {
         guard !loaded else { return }
         loaded = true
@@ -154,9 +168,11 @@ public actor JSONStateStore: StateStore {
             data = try readData(fileURL)
         } catch {
             // ZKR-61: ошибка ввода-вывода — не повреждение. Файл остаётся на месте,
-            // запись блокируется, при следующем обращении чтение повторяется.
-            Log.persistence.error("zikr-state.json unreadable; will retry")
-            loaded = false
+            // запись блокируется до явного сигнала retryUnreadableFile().
+            if !didLogReadError {
+                Log.persistence.error("zikr-state.json unreadable; waiting for data availability")
+                didLogReadError = true
+            }
             unreadable = true
             return
         }
