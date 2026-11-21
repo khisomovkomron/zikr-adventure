@@ -38,7 +38,17 @@ cd "$TASK_ROOT/ZikrAdventure-1.0.1"
 xcodebuild archive -project ZikrAdventure.xcodeproj -scheme ZikrAdventure -configuration Release \
   -destination 'generic/platform=iOS' -archivePath "$ZIKR_EXPORT_DIR/ZikrAdventure.xcarchive" \
   -derivedDataPath /private/tmp/zikr62-ios -jobs 2 -skipPackageUpdates \
-  -disableAutomaticPackageResolution -allowProvisioningUpdates "${ZIKR_AUTH_OPTIONS[@]}" DEVELOPMENT_TEAM="$ZIKR_TEAM_ID" CODE_SIGN_STYLE=Automatic
+  -disableAutomaticPackageResolution CODE_SIGNING_ALLOWED=NO
+# Preserve the app's requested capabilities in the intermediate archive. This ad-hoc
+# signature is local only: exportArchive replaces it with App Store distribution signing.
+# Without it an unsigned archive can lose Sign in with Apple during cloud export.
+codesign --force --sign - --generate-entitlement-der \
+  --entitlements "$TASK_ROOT/ZikrAdventure-1.0.1/ZikrAdventure/ZikrAdventure.entitlements" \
+  "$ZIKR_EXPORT_DIR/ZikrAdventure.xcarchive/Products/Applications/ZikrAdventure.app"
 xcodebuild -exportArchive -archivePath "$ZIKR_EXPORT_DIR/ZikrAdventure.xcarchive" \
   -exportPath "$ZIKR_EXPORT_DIR/ipa" -exportOptionsPlist "$ZIKR_EXPORT_DIR/ExportOptions.plist" \
   -allowProvisioningUpdates "${ZIKR_AUTH_OPTIONS[@]}"
+
+ZIKR_IPAS=("$ZIKR_EXPORT_DIR"/ipa/*.ipa(N))
+(( ${#ZIKR_IPAS} == 1 )) || { print -u2 'Expected exactly one exported IPA'; exit 2; }
+python3 "$TASK_ROOT/tools/verify_testflight_ipa.py" "$ZIKR_IPAS[1]" --output "$ZIKR_EXPORT_DIR/verification.json"
