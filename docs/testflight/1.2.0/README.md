@@ -53,3 +53,7 @@
 До загрузки обнаружено: unsigned archive при обычном cloud export терял Apple Sign In entitlement. Первый такой IPA отклонён локальной проверкой и не загружен. Проверенный путь: промежуточная ad-hoc подпись архива с исходными entitlements → automatic distribution export → строгая проверка итогового IPA. Встроенные сертификаты/профили не отзываются; локальный Distribution private key не требуется при cloud signing.
 
 Положительный тест: исправленный IPA содержит исходные entitlements, profile и get-task-allow=false, codesign deep/strict PASS, Apple validation PASS. Отрицательный тест: исходный IPA без Sign in with Apple отвергается новым guard. Это не подтверждает реальную авторизацию на устройстве — её проверяет Комрон в TestFlight.
+
+## Приёмка завершена
+
+21.11.2026 Комрон подтвердил проверку TestFlight 1.2.0 (5), отсутствие обнаруженных багов и разрешил релиз. QA ZKR-43/56/58 закрыт на основании его сообщения, без выдумывания модели/iOS. Тот же build 5 отправлен на App Review, WAITING_FOR_REVIEW, автоматическая публикация AFTER_APPROVAL. Main/tag разрешены после этой приёмки. App Store publication и Jira released пока не подтверждены; актуальная запись — docs/releases/1.2.0.md / Confluence 9273348.

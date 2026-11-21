@@ -1,0 +1,4 @@
+Zikr Adventure now has a native interface.
+- Updated counting, Seerah journey, map, settings and onboarding screens.
+- Improved daily counter updates when the day changes.
+- Existing local progress and settings are carried over when updating the app.
