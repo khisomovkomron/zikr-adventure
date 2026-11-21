@@ -13,6 +13,7 @@ ZIKR_PREFLIGHT_RESULT="$(python3 "$TASK_ROOT/tools/testflight_preflight.py")"
 python3 - "$TASK_ROOT" "$ZIKR_PREFLIGHT_RESULT" <<'PY'
 import json,pathlib,re,subprocess,sys
 r=pathlib.Path(sys.argv[1]);p=r/'ZikrAdventure-1.0.1'
+assert subprocess.check_output(['git','branch','--show-current'],cwd=r,text=True).strip()=='release/1.2.0', 'Archive only the accepted release/1.2.0 branch'
 y=(p/'project.yml').read_text();x=(p/'ZikrAdventure.xcodeproj/project.pbxproj').read_text()
 assert 'MARKETING_VERSION: "1.2.0"' in y and x.count('MARKETING_VERSION = 1.2.0;')==2
 b=re.search(r'CURRENT_PROJECT_VERSION:\s*"?([0-9]+)',y)[1]
