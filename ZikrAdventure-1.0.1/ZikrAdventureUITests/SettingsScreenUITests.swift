@@ -34,7 +34,7 @@ final class SettingsScreenUITests: XCTestCase {
         XCTAssertTrue(waitFor(toggle, valueNot: before))
         let after = toggle.value as? String
 
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         XCTAssertTrue(waitForDisappearance(toggle))
         app.buttons["tab.settings"].tap()
         XCTAssertTrue(toggle.waitForExistence(timeout: 5))

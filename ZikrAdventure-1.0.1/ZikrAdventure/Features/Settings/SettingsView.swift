@@ -9,10 +9,13 @@ import ZikrDomain
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @ObservedObject var localization: LocalizationService
+    var openInfo: (() -> Void)?
+    @AppStorage("app.appearance") private var appearance = "system"
 
-    init(viewModel: SettingsViewModel) {
+    init(viewModel: SettingsViewModel, openInfo: (() -> Void)? = nil) {
         self.viewModel = viewModel
         self.localization = viewModel.localization
+        self.openInfo = openInfo
     }
 
     var body: some View {
@@ -28,6 +31,7 @@ struct SettingsView: View {
             presenting: viewModel.pendingConfirmation
         ) { confirmation in
             Button(tr(confirmation.actionKey), role: .destructive) {
+                if confirmation == .resetDefaults { appearance = "system" }
                 Task { await viewModel.confirm(confirmation) }
             }
             Button(tr(.commonCancel), role: .cancel) {
@@ -93,6 +97,20 @@ struct SettingsView: View {
 
                 languageSection(selected: settings.lang)
 
+                AppSectionHeader(title: tr(.settingsAppearance))
+                AppList {
+                    Picker(tr(.settingsAppearance), selection: $appearance) {
+                        Text(tr(.appearanceSystem)).tag("system")
+                        Text(tr(.appearanceLight)).tag("light")
+                        Text(tr(.appearanceDark)).tag("dark")
+                    }
+                    .pickerStyle(.menu)
+                    .tint(Theme.Color.accent)
+                    .themeFont(.body)
+                    .padding(Theme.Space.s3)
+                    .accessibilityIdentifier("settings.appearance")
+                }
+
                 AppSectionHeader(title: tr(.setFeedback))
                 AppList {
                     toggleRow(.haptics, .setHaptics, first: true)
@@ -151,6 +169,17 @@ struct SettingsView: View {
 
                 AppFootnote(text: tr(.setSaveDevice))
                     .accessibilityIdentifier("settings.saveWhere")
+
+                AppSectionHeader(title: tr(.settingsHelp))
+                AppList {
+                    AppListRow(title: tr(.infoPrivacy), showsTopDivider: false) {
+                        viewModel.openPrivacy()
+                    }.accessibilityIdentifier("settings.privacy")
+                    if let openInfo {
+                        AppListRow(title: tr(.settingsAbout), action: openInfo)
+                            .accessibilityIdentifier("settings.info")
+                    }
+                }
             }
             .padding(.horizontal, Theme.Space.screenX)
             .padding(.bottom, Theme.Space.screenBottom)

@@ -7,6 +7,7 @@ import FirebaseCore
 struct ZikrAdventureApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var container: AppContainer
+    @AppStorage("app.appearance") private var appearance = "system"
 
     init() {
         let container = AppContainer.live()
@@ -35,7 +36,15 @@ struct ZikrAdventureApp: App {
         WindowGroup {
             NativeRootView(container: container)
                 .background(Theme.Color.bg.ignoresSafeArea())
-                .preferredColorScheme(Self.uiTestColorScheme)
+                .preferredColorScheme(Self.uiTestColorScheme ?? selectedColorScheme)
+        }
+    }
+
+    private var selectedColorScheme: ColorScheme? {
+        switch appearance {
+        case "light": return .light
+        case "dark": return .dark
+        default: return nil
         }
     }
 }

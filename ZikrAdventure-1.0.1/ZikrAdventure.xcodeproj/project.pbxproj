@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75A000000000000000000003 /* MainNavigationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A000000000000000000004 /* MainNavigationUITests.swift */; };
+		75A000000000000000000001 /* MainSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A000000000000000000002 /* MainSections.swift */; };
 		004821CD93787002D5E1FF37 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C7C2F873F029703FBD920283 /* FirebaseAuth */; };
 		01925156B687C1CC58433620 /* SiraViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC919146302F68654FC8DE97 /* SiraViewModelTests.swift */; };
 		06B526B22192EEB958CD7838 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4D77D12429DE1E637F6DB /* InfoView.swift */; };
@@ -122,6 +124,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		75A000000000000000000004 /* MainNavigationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationUITests.swift; sourceTree = "<group>"; };
+		75A000000000000000000002 /* MainSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSections.swift; sourceTree = "<group>"; };
 		0253D58DBC2E14A7D8FABA11 /* InfoIcon+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoIcon+Image.swift"; sourceTree = "<group>"; };
 		0505A46AD677CB8B18962B25 /* SystemServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemServices.swift; sourceTree = "<group>"; };
 		090D6D9141A3D69F3FAF074E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -438,6 +442,7 @@
 				207CEAE274F0884D5B546168 /* SettingsScreenUITests.swift */,
 				78D605FD65403450C7A447D3 /* SiraScreenUITests.swift */,
 				BB7CAD75DAB91F87E8DA5F09 /* ZikrScreenUITests.swift */,
+				75A000000000000000000004 /* MainNavigationUITests.swift */,
 			);
 			path = ZikrAdventureUITests;
 			sourceTree = "<group>";
@@ -485,6 +490,7 @@
 				7612632BFBD11E9A7A4C49B0 /* BundleSchemeHandler.swift */,
 				7E3A8529B75DCE457D6EAFC1 /* NativeCommandSink.swift */,
 				B719DC745BB99529D691745E /* NativeRootView.swift */,
+				75A000000000000000000002 /* MainSections.swift */,
 				89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
 				5199F2D81C17D26698A0F729 /* TabItem.swift */,
 				8604538E420B1572162E1CA0 /* TabsView.swift */,
@@ -686,6 +692,7 @@
 				4C7B9D017B76A856C59AACDE /* SettingsScreenUITests.swift in Sources */,
 				178BC742D6AD42C846496837 /* SiraScreenUITests.swift in Sources */,
 				098257CDE804B986923EA848 /* ZikrScreenUITests.swift in Sources */,
+				75A000000000000000000003 /* MainNavigationUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,6 +732,7 @@
 				7BA131A324E695B081A36BC2 /* MapViewModel.swift in Sources */,
 				AD48E0C251536FB52683449A /* NativeCommandSink.swift in Sources */,
 				C3D13F33158EACD724AFB366 /* NativeRootView.swift in Sources */,
+				75A000000000000000000001 /* MainSections.swift in Sources */,
 				17277F714140184FAA0FE3B6 /* OnboardingView.swift in Sources */,
 				F4C9EE585F01107EEDAFF909 /* OnboardingViewModel.swift in Sources */,
 				176DE052B0167EB3873B09A3 /* ProgressFileStore.swift in Sources */,
@@ -885,7 +893,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 742Y7LBK4U;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -899,7 +907,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -999,7 +1007,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 742Y7LBK4U;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1019,7 +1027,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

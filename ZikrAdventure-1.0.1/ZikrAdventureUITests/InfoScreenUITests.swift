@@ -19,9 +19,7 @@ final class InfoScreenUITests: XCTestCase {
         app.launch()
         skipOnboardingIfShown(app)
 
-        let infoTab = app.buttons["tab.info"]
-        XCTAssertTrue(infoTab.waitForExistence(timeout: 10))
-        infoTab.tap()
+        app.openAppInfo()
 
         for row in ["about", "how", "sources", "privacy", "legend"] {
             XCTAssertTrue(app.buttons["info.row.\(row)"].waitForExistence(timeout: 10), "нет строки \(row)")
@@ -43,9 +41,9 @@ final class InfoScreenUITests: XCTestCase {
         // Уход с вкладки закрывает лист; возврат — снова список.
         app.buttons["info.row.privacy"].tap()
         XCTAssertTrue(app.buttons["info.sheet.close"].waitForExistence(timeout: 5))
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         XCTAssertTrue(waitForDisappearance(app.buttons["info.row.about"]))
-        infoTab.tap()
+        app.openAppInfo()
         XCTAssertTrue(app.buttons["info.row.about"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["info.sheet.close"].exists)
     }
