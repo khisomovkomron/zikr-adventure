@@ -116,6 +116,10 @@ struct HomeView: View {
                             }.themeFont(.body).foregroundColor(Theme.Color.accent)
                         }
                     }
+                    preview(title: .qiblaTitle, destination: .qibla) {
+                        Label(localization.tr(.qiblaHomeSummary), systemImage: "location.north.circle")
+                            .themeFont(.body)
+                    }
                 } else {
                     ProgressView().frame(maxWidth: .infinity)
                         .accessibilityIdentifier("home.loading")
@@ -194,6 +198,7 @@ struct ServicesView: View {
                 Text(localization.tr(.servicesIntro)).themeFont(.footnote).foregroundColor(Theme.Color.textSecondary)
                 Text(localization.tr(.servicesPractice)).themeFont(.headingSM).accessibilityAddTraits(.isHeader)
                 service(.zikr, symbol: "circle.dotted", summary: .homeOpenCounter)
+                service(.qibla, symbol: "location.north.circle", summary: .qiblaHomeSummary)
                 Text(localization.tr(.servicesKnowledge)).themeFont(.headingSM).accessibilityAddTraits(.isHeader)
                 service(.path, symbol: "book", summary: .homeSiraSummary)
                 service(.map, symbol: "map", summary: .homeMapSummary)

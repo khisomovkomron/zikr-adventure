@@ -7,6 +7,21 @@
 // Логика никогда не ветвится по локализованной строке — только по ключу.
 
 enum L10nKey: String, CaseIterable {
+    case qiblaTitle = "qibla.title"
+    case qiblaHomeSummary = "qibla.homeSummary"
+    case qiblaLive = "qibla.live"
+    case qiblaNorthOnly = "qibla.northOnly"
+    case qiblaWaiting = "qibla.waiting"
+    case qiblaPermissionNote = "qibla.permissionNote"
+    case qiblaUsePhone = "qibla.usePhone"
+    case qiblaOpenSettings = "qibla.openSettings"
+    case qiblaRetry = "qibla.retry"
+    case qiblaNorthLetter = "qibla.northLetter"
+    case qiblaKaaba = "qibla.kaaba"
+    case qiblaTurnValue = "qibla.turnValue"
+
+
+
     case navHome = "nav.home"
     case navServices = "nav.services"
     case homeMyDay = "home.myDay"

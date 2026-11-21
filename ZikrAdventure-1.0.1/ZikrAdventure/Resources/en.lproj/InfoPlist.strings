@@ -1,1 +1,2 @@
 "CFBundleDisplayName" = "Zikr Adventure";
+"NSLocationWhenInUseUsageDescription" = "Your location is used on your phone to calculate the direction to the Kaaba.";

@@ -22,6 +22,21 @@ extension XCUIApplication {
 }
 
 final class MainNavigationUITests: XCTestCase {
+    func testQiblaRequiresPhoneLocationAndKeepsNorthDial() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
+        app.launchEnvironment["ZIKR_UITEST_ONBOARDING"] = "completed"
+        app.launch()
+        app.openService("qibla")
+        XCTAssertTrue(app.descendants(matching: .any)["qibla.screen"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.descendants(matching: .any)["qibla.dial"].exists)
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        XCTAssertFalse(app.buttons["qibla.city.dushanbe"].exists)
+        XCTAssertFalse(app.textFields["qibla.latitude"].exists)
+        XCTAssertFalse(app.buttons["qibla.forget"].exists)
+    }
+
     func testHomeCounterReturnAndImplementedServicesOnly() {
         continueAfterFailure = false
         let app = XCUIApplication()
@@ -43,8 +58,8 @@ final class MainNavigationUITests: XCTestCase {
         }
         XCTAssertEqual(XCTWaiter().wait(for: [XCTNSPredicateExpectation(predicate: updated, object: homeTotal)], timeout: 10), .completed)
         app.buttons["tab.services"].tap()
-        for id in ["zikr", "path", "map"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
-        for id in ["qibla", "prayer", "names", "hijri", "quran", "words", "ramadan", "reminders", "activity"] {
+        for id in ["zikr", "path", "map", "qibla"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
+        for id in ["prayer", "names", "hijri", "quran", "words", "ramadan", "reminders", "activity"] {
             XCTAssertFalse(app.buttons["service.\(id)"].exists)
         }
         XCTAssertFalse(app.buttons["tab.zikr"].exists)

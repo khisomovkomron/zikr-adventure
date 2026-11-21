@@ -5878,6 +5878,510 @@
         }
       }
     },
+    "qibla.homeSummary" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction to the Kaaba from your phone location"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Телефон орнынан Қағба бағыты"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Телефондун жайгашуусунан Каабанын багыты"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Направление на Каабу по местоположению телефона"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Самти Каъба аз макони телефон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Telefon joylashuvidan Ka’ba yo‘nalishi"
+          }
+        }
+      }
+    },
+    "qibla.kaaba" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KAABA"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ҚАҒБА"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "КААБА"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "КААБА"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "КАЪБА"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "KA’BA"
+          }
+        }
+      }
+    },
+    "qibla.live" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your phone toward the Qibla"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Телефонды құбылаға қарай бұрыңыз"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Телефонду кыбылага буруңуз"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поверните телефон к направлению киблы"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Телефонро ба самти қибла гардонед"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Telefonni qibla tomon buring"
+          }
+        }
+      }
+    },
+    "qibla.northLetter" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "С"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Т"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ш"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sh"
+          }
+        }
+      }
+    },
+    "qibla.northOnly" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magnetic north · Qibla unavailable"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Магниттік солтүстік · құбыла қолжетімсіз"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Магниттик түндүк · кыбыла жеткиликсиз"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Магнитный север · кибла недоступна"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Шимоли магнитӣ · қибла дастрас нест"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Magnit shimol · qibla mavjud emas"
+          }
+        }
+      }
+    },
+    "qibla.openSettings" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open iOS Settings"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "iOS параметрлерін ашу"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "iOS жөндөөлөрүн ачуу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки iOS"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Кушодани танзимоти iOS"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "iOS sozlamalarini ochish"
+          }
+        }
+      }
+    },
+    "qibla.permissionNote" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location to find the Qibla. Coordinates are processed only on your phone."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Құбыланы табу үшін орынға рұқсат беріңіз. Координаттар тек телефонда өңделеді."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Кыбыланы табуу үчүн жайгашууга уруксат бериңиз. Координаттар телефондо гана иштетилет."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите местоположение, чтобы определить киблу. Координаты обрабатываются только на телефоне."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Барои ёфтани қибла маконро иҷозат диҳед. Координатҳо танҳо дар телефон коркард мешаванд."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Qiblani aniqlash uchun joylashuvga ruxsat bering. Koordinatalar faqat telefonda ishlanadi."
+          }
+        }
+      }
+    },
+    "qibla.retry" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh location"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Орынды жаңарту"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жайгашууну жаңыртуу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновить местоположение"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Навсозии макон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Joylashuvni yangilash"
+          }
+        }
+      }
+    },
+    "qibla.title" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qibla"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Құбыла"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Кыбыла"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кибла"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Қибла"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Qibla"
+          }
+        }
+      }
+    },
+    "qibla.turnValue" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offset %1$@°: positive is right, negative is left"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ауытқу %1$@°: оң — оңға, теріс — солға"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Четтөө %1$@°: оң — оңго, терс — солго"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отклонение %1$@°: плюс — вправо, минус — влево"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Инҳироф %1$@°: мусбат — рост, манфӣ — чап"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Og‘ish %1$@°: musbat — o‘ngga, manfiy — chapga"
+          }
+        }
+      }
+    },
+    "qibla.usePhone" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Орынға рұқсат беру"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жайгашууга уруксат берүү"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить местоположение"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Иҷозати макон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Joylashuvga ruxsat berish"
+          }
+        }
+      }
+    },
+    "qibla.waiting" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for reliable compass data"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Компас деректері күтілуде"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Компастын ишенимдүү маалыматы күтүлүүдө"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидаем достоверные данные компаса"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Интизори маълумоти боэътимоди қутбнамо"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ishonchli kompas ma’lumotlari kutilmoqda"
+          }
+        }
+      }
+    },
     "reset.all" : {
       "extractionState" : "manual",
       "localizations" : {

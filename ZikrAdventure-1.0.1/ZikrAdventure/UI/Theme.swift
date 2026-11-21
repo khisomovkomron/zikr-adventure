@@ -12,6 +12,7 @@ enum Theme {
     /// Имена ассетов совпадают с CSS-переменными, кроме уже существующих
     /// LaunchBackground (--bg) и AccentColor (--accent).
     enum Color {
+        static let qiblaNorth = SwiftUI.Color("QiblaNorth")
         static let bg = SwiftUI.Color("LaunchBackground")
         static let bgSubtle = SwiftUI.Color("Bg2")
         static let surface = SwiftUI.Color("Surface")
