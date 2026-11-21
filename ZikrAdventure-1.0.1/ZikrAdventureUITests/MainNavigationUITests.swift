@@ -22,7 +22,7 @@ extension XCUIApplication {
 }
 
 final class MainNavigationUITests: XCTestCase {
-    func testQiblaManualCoordinatesWithoutPermissionPrompt() {
+    func testQiblaRequiresPhoneLocationAndKeepsNorthDial() {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
@@ -30,15 +30,11 @@ final class MainNavigationUITests: XCTestCase {
         app.launch()
         app.openService("qibla")
         XCTAssertTrue(app.descendants(matching: .any)["qibla.screen"].waitForExistence(timeout: 10))
-        // Открытие сервиса само не запрашивает доступ к координатам.
+        XCTAssertTrue(app.descendants(matching: .any)["qibla.dial"].exists)
         XCTAssertFalse(app.alerts.firstMatch.exists)
-        let city = app.buttons["qibla.city.dushanbe"]
-        for _ in 0..<8 where !city.isHittable { app.swipeUp() }
-        city.tap()
-        let azimuth = app.staticTexts["qibla.azimuth"]
-        for _ in 0..<8 where !azimuth.isHittable { app.swipeDown() }
-        XCTAssertTrue(azimuth.waitForExistence(timeout: 10))
-        XCTAssertFalse(azimuth.label.isEmpty)
+        XCTAssertFalse(app.buttons["qibla.city.dushanbe"].exists)
+        XCTAssertFalse(app.textFields["qibla.latitude"].exists)
+        XCTAssertFalse(app.buttons["qibla.forget"].exists)
     }
 
     func testHomeCounterReturnAndImplementedServicesOnly() {

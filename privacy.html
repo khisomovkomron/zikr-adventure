@@ -24,14 +24,14 @@
 <ul>
   <li><b>Что хранится на устройстве:</b> количество повторений зикра, история по дням, открытые главы и настройки приложения.</li>
   <li><b>Где хранится:</b> только на вашем устройстве. Данные могут попасть в резервную копию устройства (iCloud или компьютер), если вы её включили. Вход в аккаунт пока не включает облачное сохранение: счёт и история не отправляются на сервер.</li>
-  <li><b>Кибла (с версии 1.3.1):</b> по вашему разрешению «При использовании» приложение рассчитывает направление на Каабу по координатам телефона. Последнее место или вручную выбранный город сохраняется локально для офлайн-расчёта, может попасть в резервную копию устройства и удаляется кнопкой «Удалить сохранённое место» на экране киблы. Координаты не отправляются на наш сервер и не связываются приложением с аккаунтом. Датчики останавливаются при уходе с экрана и в фоне. Без разрешения можно указать город или координаты вручную.</li>
+  <li><b>Кибла (с версии 1.3.1):</b> с разрешения «При использовании» направление на Каабу рассчитывается по текущим координатам телефона. Координаты используются только в памяти, не сохраняются приложением и не отправляются на наш сервер. Без разрешения кибла недоступна; при наличии данных магнитометра остаётся север. Датчики останавливаются при уходе с экрана и в фоне.</li>
   <li><b>Аккаунт (необязательно):</b> начиная с версии 1.1.0 можно войти через Google или Apple. Вход выполняется через Firebase Authentication — сервис компании Google LLC. При входе Firebase получает от Google или Apple идентификатор аккаунта, ваше имя и адрес электронной почты. Если при входе через Apple вы выбрали «Скрыть e-mail», вместо вашего адреса передаётся анонимный адрес Apple (…@privaterelay.appleid.com). Эти данные используются только для входа и для показа вашего аккаунта в настройках приложения. Обработку данных в Firebase регулирует <a href="https://firebase.google.com/support/privacy">политика конфиденциальности Firebase</a>.</li>
   <li><b>Интернет:</b> приложение подключается к интернету только для входа в аккаунт, повторного подтверждения входа и удаления аккаунта (Google, Apple, Firebase). Без аккаунта приложение работает офлайн.</li>
   <li><b>Реклама и аналитика:</b> не используются. Из сторонних SDK используются только Firebase Authentication и Google Sign-In — для необязательного входа в аккаунт.</li>
   <li><b>Дети:</b> без входа в аккаунт приложение не собирает данные ни о каких пользователях, включая детей.</li>
   <li><b>Выход из аккаунта:</b> Настройки → «Выйти». Счёт и история останутся на устройстве.</li>
   <li><b>Как удалить аккаунт:</b> Настройки → «Удалить аккаунт». После повторного подтверждения входа аккаунт удаляется из Firebase; при входе через Apple приложение также отзывает выданный Apple доступ (токен). Счёт и история на устройстве при этом сохраняются.</li>
-  <li><b>Как удалить данные на устройстве:</b> Настройки приложения → «Сбросить весь прогресс»; сохранённое место киблы удаляется отдельно на экране киблы. Удаление приложения удаляет его локальные данные.</li>
+  <li><b>Как удалить данные на устройстве:</b> Настройки приложения → «Сбросить весь прогресс»; координаты киблы не сохраняются. Удаление приложения удаляет его локальные данные.</li>
 </ul>
 <p>Вопросы по конфиденциальности и удалению данных: <b>komronkhisomov@gmail.com</b></p>
 
@@ -42,14 +42,14 @@
 <ul>
   <li><b>What is stored on your device:</b> your zikr count, daily history, opened chapters and app settings.</li>
   <li><b>Where:</b> only on your device. This data may be included in your device backup (iCloud or computer) if you have backups enabled. Signing in does not include cloud backup yet: your count and history are not sent to any server.</li>
-  <li><b>Qibla (from version 1.3.1):</b> with your While Using permission, the app calculates the direction to the Kaaba from your phone location. Your latest position or manually selected city is stored locally for offline calculation, may be included in device backups, and can be removed using “Delete saved location” on the Qibla screen. Coordinates are not sent to our server or linked by the app to your account. Sensors stop when you leave the screen or the app enters the background. Without permission, you can select a city or enter coordinates manually.</li>
+  <li><b>Qibla (from version 1.3.1):</b> with While Using permission, the direction to the Kaaba is calculated from your current phone coordinates. Coordinates are used only in memory, are not saved by the app, and are not sent to our server. Without permission Qibla is unavailable; magnetic north remains available when the magnetometer provides usable data. Sensors stop when you leave the screen or the app enters the background.</li>
   <li><b>Account (optional):</b> starting with version 1.1.0 you can sign in with Google or Apple. Sign-in is handled by Firebase Authentication, a service of Google LLC. When you sign in, Firebase receives your account identifier, name and email address from Google or Apple. If you choose “Hide My Email” with Sign in with Apple, an anonymous Apple relay address (…@privaterelay.appleid.com) is shared instead of your real address. This data is used only to sign you in and to show your account in the app’s Settings. Firebase’s processing is governed by the <a href="https://firebase.google.com/support/privacy">Firebase privacy policy</a>.</li>
   <li><b>Internet:</b> the app connects to the internet only to sign in, confirm sign-in again and delete your account (Google, Apple, Firebase). Without an account the app works offline.</li>
   <li><b>Ads and analytics:</b> none. The only third-party SDKs are Firebase Authentication and Google Sign-In, used for the optional sign-in.</li>
   <li><b>Children:</b> without signing in, the app collects no data from any user, including children.</li>
   <li><b>Signing out:</b> Settings → “Sign out”. Your count and history stay on your device.</li>
   <li><b>Deleting your account:</b> Settings → “Delete account”. After you confirm sign-in again, your account is deleted from Firebase; for Sign in with Apple the app also revokes the access (token) granted by Apple. Your count and history on the device are kept.</li>
-  <li><b>Deleting data on your device:</b> Settings → “Reset all progress”; remove the saved Qibla location separately on the Qibla screen. Deleting the app removes its local data.</li>
+  <li><b>Deleting data on your device:</b> Settings → “Reset all progress”; Qibla coordinates are not saved. Deleting the app removes its local data.</li>
 </ul>
 <p>Privacy and data deletion questions: <b>komronkhisomov@gmail.com</b></p>
 </body>

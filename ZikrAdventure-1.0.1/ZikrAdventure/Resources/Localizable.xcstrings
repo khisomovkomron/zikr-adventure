@@ -5878,1100 +5878,218 @@
         }
       }
     },
-    "qibla.applyCoordinates" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apply coordinates"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Координаттарды қолдану"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Координаттарды колдонуу"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Применить координаты"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Татбиқи координатҳо"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Koordinatalarni qo‘llash"
-          }
-        }
-      }
-    },
-    "qibla.azimuth" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bearing to the Kaaba:"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Қағба азимуты:"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Каабанын азимуту:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Азимут на Каабу:"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Азимути Каъба:"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ka’ba azimuti:"
-          }
-        }
-      }
-    },
-    "qibla.cachedNote" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check the update time. Without a fresh location, the saved position is shown."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жаңарту уақытын тексеріңіз. Жаңа орын болмаса, сақталған нүкте көрсетіледі."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жаңыртуу убактысын текшериңиз. Жаңы жайгашуу жок болсо, сакталган чекит көрсөтүлөт."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверьте время обновления. Без свежего местоположения показывается сохранённая точка."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Вақти навсозиро санҷед. Агар макони нав набошад, нуқтаи захирашуда нишон дода мешавад."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Yangilangan vaqtni tekshiring. Yangi joylashuv bo‘lmasa, saqlangan nuqta ko‘rsatiladi."
-          }
-        }
-      }
-    },
-    "qibla.calibrate" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hold the phone flat, away from metal and magnets. Move it gently in a figure eight to calibrate. If accuracy is low, use another reference."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонды тегіс, металл мен магниттен алыс ұстаңыз. Калибрлеу үшін сегіздікпен баяу қозғаңыз. Дәлдік төмен болса, басқа бағдарды пайдаланыңыз."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонду түз, металл менен магниттерден алыс кармаңыз. Калибрлөө үчүн жай сегиздик кылып кыймылдатыңыз. Тактык төмөн болсо, башка булакты колдонуңуз."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Держите телефон ровно, вдали от металла и магнитов. Для калибровки плавно опишите восьмёрку. При низкой точности ориентируйтесь по другим источникам."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонро ҳамвор, дур аз металл ва магнит нигоҳ доред. Барои танзим онро ором ба шакли ҳашт ҳаракат диҳед. Агар дақиқӣ паст бошад, манбаи дигарро истифода баред."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Telefonni tekis, metall va magnitlardan uzoqda tuting. Kalibrlash uchun sekin sakkiz shaklida harakatlantiring. Aniqlik past bo‘lsa, boshqa manbadan foydalaning."
-          }
-        }
-      }
-    },
-    "qibla.chooseLocation" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a location. If the bearing is undefined, try a different position."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Орынды таңдаңыз. Бағыт анықталмаса, басқа нүктені көріңіз."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жайгашууну тандаңыз. Багыт аныкталбаса, башка чекитти көрүңүз."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите местоположение. Если направление не определено, попробуйте другую точку."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Маконро интихоб кунед. Агар самт муайян нашавад, нуқтаи дигарро санҷед."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Joylashuv tanlang. Yo‘nalish aniqlanmasa, boshqa nuqtani sinang."
-          }
-        }
-      }
-    },
-    "qibla.coordinates" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom coordinates"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Өз координаттары"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Өз координаттары"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Свои координаты"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Координатҳои худ"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "O‘z koordinatalari"
-          }
-        }
-      }
-    },
-    "qibla.darIfta" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dar al-Ifta: conditions and direction"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Дар әл-Ифта: шарттар мен бағыт"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Дар аль-Ифта: шарттар жана багыт"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дар аль-Ифта: условия и направление"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Дорул-ифто: шартҳо ва самт"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Dar al-Ifta: shartlar va yo‘nalish"
-          }
-        }
-      }
-    },
-    "qibla.deviation" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deviation:"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ауытқу:"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Четтөө:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отклонение:"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Инҳироф:"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Og‘ish:"
-          }
-        }
-      }
-    },
-    "qibla.dushanbe" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dushanbe"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Душанбе"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Душанбе"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Душанбе"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Душанбе"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Dushanbe"
-          }
-        }
-      }
-    },
-    "qibla.explain" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allow location while using the app. Direction is calculated on your phone; coordinates are not sent to our server. You can choose a city manually."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Қолданбаны пайдалану кезінде орынға рұқсат беріңіз. Бағыт телефонда есептеледі; координаттар серверімізге жіберілмейді. Қаланы қолмен таңдауға болады."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Колдонууда жайгашкан жерге уруксат бериңиз. Багыт телефондо эсептелет; координаттар серверибизге жөнөтүлбөйт. Шаарды кол менен тандасаңыз болот."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Разрешите местоположение только при использовании. Направление рассчитывается на телефоне; координаты не отправляются на наш сервер. Можно выбрать город вручную."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ҳангоми истифода дастрасӣ ба маконро иҷозат диҳед. Самт дар телефон ҳисоб мешавад; координатҳо ба сервери мо фиристода намешаванд. Шаҳрро дастӣ интихоб кардан мумкин."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ilovadan foydalanishda joylashuvga ruxsat bering. Yo‘nalish telefonda hisoblanadi; koordinatalar serverimizga yuborilmaydi. Shaharni qo‘lda tanlash mumkin."
-          }
-        }
-      }
-    },
-    "qibla.forget" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete saved location"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сақталған орынды жою"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сакталган жерди өчүрүү"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить сохранённое место"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Нест кардани макони захирашуда"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Saqlangan joyni o‘chirish"
-          }
-        }
-      }
-    },
-    "qibla.guideExplanation" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aim directly toward the Kaaba. ±15° is an interface guide, not a universal religious limit. Sources discuss different circumstances, including proximity to the Kaaba; the app does not determine whether a prayer is valid. Sensor uncertainty is shown separately."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Қағбаға дәл бағытталуға тырысыңыз. ±15° — интерфейс бағдары, жалпы діни шек емес. Дереккөздерде жағдайлар, соның ішінде Қағбаға жақындық ажыратылады; қолданба намаздың жарамдылығын анықтамайды. Датчик қатесі бөлек көрсетіледі."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Каабага так багытталууга аракет кылыңыз. ±15° — интерфейстин багыты, жалпы диний чек эмес. Булактар жагдайларды, анын ичинде Каабага жакындыкты айырмалайт; колдонмо намаздын жарактуулугун аныктабайт. Сенсордун катасы өзүнчө көрсөтүлөт."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старайтесь направиться точно на Каабу. ±15° — ориентир интерфейса, не универсальный религиозный предел. В источниках различаются условия, включая близость к Каабе; приложение не определяет действительность намаза. Погрешность датчика указана отдельно."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Кӯшиш кунед ба Каъба дақиқ рӯй оваред. ±15° роҳнамои интерфейс аст, на ҳадди умумии динӣ. Манбаъҳо шароит, аз ҷумла наздикӣ ба Каъбаро фарқ мекунанд; барнома дурустии намозро муайян намекунад. Хатои сенсор ҷудо нишон дода мешавад."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ka’baga aniq yo‘nalishga harakat qiling. ±15° — interfeys yo‘riqnomasi, umumiy diniy chegara emas. Manbalarda sharoitlar, jumladan Ka’baga yaqinlik farqlanadi; ilova namozning haqiqiyligini aniqlamaydi. Sensor xatosi alohida ko‘rsatiladi."
-          }
-        }
-      }
-    },
-    "qibla.guideTitle" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "±15° alignment guide"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "±15° бағыттау секторы"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "±15° багыттоо сектору"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сектор наведения ±15°"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сектори роҳнамои ±15°"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "±15° yo‘nalish sektori"
-          }
-        }
-      }
-    },
     "qibla.homeSummary" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Direction to the Kaaba from your location"
+            "value" : "Direction to the Kaaba from your phone location"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Орналасқан жеріңізден Қағба бағыты"
+            "value" : "Телефон орнынан Қағба бағыты"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Жайгашкан жериңизден Каабанын багыты"
+            "value" : "Телефондун жайгашуусунан Каабанын багыты"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Направление на Каабу по вашему местоположению"
+            "value" : "Направление на Каабу по местоположению телефона"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Самти Каъба аз макони шумо"
+            "value" : "Самти Каъба аз макони телефон"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Joylashuvingizdan Ka’ba yo‘nalishi"
+            "value" : "Telefon joylashuvidan Ka’ba yo‘nalishi"
           }
         }
       }
     },
-    "qibla.islamweb" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.kaaba" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Islamweb: explanation about 15°"
+            "value" : "KAABA"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Islamweb: 15° туралы"
+            "value" : "ҚАҒБА"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Islamweb: 15° жөнүндө"
+            "value" : "КААБА"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Islamweb: разъяснение про 15°"
+            "value" : "КААБА"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Islamweb: шарҳи 15°"
+            "value" : "КАЪБА"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Islamweb: 15° haqida"
+            "value" : "KA’BA"
           }
         }
       }
     },
-    "qibla.istanbul" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.live" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Istanbul"
+            "value" : "Turn your phone toward the Qibla"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Ыстанбұл"
+            "value" : "Телефонды құбылаға қарай бұрыңыз"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Стамбул"
+            "value" : "Телефонду кыбылага буруңуз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Стамбул"
+            "value" : "Поверните телефон к направлению киблы"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Истанбул"
+            "value" : "Телефонро ба самти қибла гардонед"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Istanbul"
+            "value" : "Telefonni qibla tomon buring"
           }
         }
       }
     },
-    "qibla.latitude" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.northLetter" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Latitude, −90 to 90"
+            "value" : "N"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Ендік, −90 мен 90 аралығы"
+            "value" : "С"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Кеңдик, −90дон 90го чейин"
+            "value" : "Т"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Широта, от −90 до 90"
+            "value" : "С"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Арз, аз −90 то 90"
+            "value" : "Ш"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Kenglik, −90 dan 90 gacha"
+            "value" : "Sh"
           }
         }
       }
     },
-    "qibla.left" : {
-      "comment" : "ZKR-44. Доступное направление поворота. uz/tg/kk/ky требуют вычитки.",
+    "qibla.northOnly" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turn left by"
+            "value" : "Magnetic north · Qibla unavailable"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Солға бұрыңыз:"
+            "value" : "Магниттік солтүстік · құбыла қолжетімсіз"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Солго буруңуз:"
+            "value" : "Магниттик түндүк · кыбыла жеткиликсиз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поверните влево на"
+            "value" : "Магнитный север · кибла недоступна"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Ба чап гардонед:"
+            "value" : "Шимоли магнитӣ · қибла дастрас нест"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Chapga buriling:"
-          }
-        }
-      }
-    },
-    "qibla.location" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Location"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Орналасқан жер"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жайгашкан жер"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Местоположение"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Макон"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Joylashuv"
-          }
-        }
-      }
-    },
-    "qibla.locationAccuracy" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Location accuracy"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Орын дәлдігі"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жайгашуунун тактыгы"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Точность местоположения"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Дақиқии макон"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Joylashuv aniqligi"
-          }
-        }
-      }
-    },
-    "qibla.london" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "London"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Лондон"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Лондон"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лондон"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Лондон"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "London"
-          }
-        }
-      }
-    },
-    "qibla.longitude" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Longitude, −180 to 180"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Бойлық, −180 мен 180 аралығы"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Узундук, −180ден 180ге чейин"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Долгота, от −180 до 180"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Тӯл, аз −180 то 180"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Uzunlik, −180 dan 180 gacha"
-          }
-        }
-      }
-    },
-    "qibla.manual" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a location manually"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Орынды қолмен таңдау"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Жерди кол менен тандоо"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выбрать место вручную"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Интихоби дастии макон"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Joyni qo‘lda tanlash"
-          }
-        }
-      }
-    },
-    "qibla.moscow" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moscow"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Мәскеу"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Москва"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Москва"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Маскав"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Moskva"
-          }
-        }
-      }
-    },
-    "qibla.newYork" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New York"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Нью-Йорк"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Нью-Йорк"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нью-Йорк"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ню-Йорк"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nyu-York"
-          }
-        }
-      }
-    },
-    "qibla.noHeading" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No reliable phone heading. The dial shows a bearing from true north, not the direction of your phone’s top edge."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефон бағыты сенімсіз. Шкала телефонның жоғарғы жиегін емес, шынайы солтүстіктен азимутты көрсетеді."
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефондун багыты ишенимсиз. Шкала телефондун кырынын багытын эмес, чыныгы түндүктөн азимутту көрсөтөт."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нет достоверного курса телефона. На шкале показан азимут от истинного севера, а не направление верхнего края телефона."
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Самти телефон боэътимод нест. Миқёс азимутро аз шимоли ҳақиқӣ нишон медиҳад, на самти канори телефонро."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Telefon yo‘nalishi ishonchli emas. Shkala telefon tepasini emas, haqiqiy shimoldan azimutni ko‘rsatadi."
+            "value" : "Magnit shimol · qibla mavjud emas"
           }
         }
       }
     },
     "qibla.openSettings" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7012,218 +6130,92 @@
         }
       }
     },
-    "qibla.permissionDenied" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.permissionNote" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Location is unavailable. Choose a city or check permission in iOS Settings."
+            "value" : "Allow location to find the Qibla. Coordinates are processed only on your phone."
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Орын қолжетімсіз. Қаланы таңдаңыз немесе iOS параметрлерінен рұқсатты тексеріңіз."
+            "value" : "Құбыланы табу үшін орынға рұқсат беріңіз. Координаттар тек телефонда өңделеді."
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Жайгашуу жеткиликсиз. Шаарды тандаңыз же iOS жөндөөлөрүнөн уруксатты текшериңиз."
+            "value" : "Кыбыланы табуу үчүн жайгашууга уруксат бериңиз. Координаттар телефондо гана иштетилет."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Местоположение недоступно. Выберите город или проверьте разрешение в настройках iOS."
+            "value" : "Разрешите местоположение, чтобы определить киблу. Координаты обрабатываются только на телефоне."
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Макон дастрас нест. Шаҳрро интихоб кунед ё иҷозатро дар танзимоти iOS санҷед."
+            "value" : "Барои ёфтани қибла маконро иҷозат диҳед. Координатҳо танҳо дар телефон коркард мешаванд."
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Joylashuv mavjud emas. Shahar tanlang yoki iOS sozlamalarida ruxsatni tekshiring."
+            "value" : "Qiblani aniqlash uchun joylashuvga ruxsat bering. Koordinatalar faqat telefonda ishlanadi."
           }
         }
       }
     },
-    "qibla.phone" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.retry" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Phone coordinates"
+            "value" : "Refresh location"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Телефон координаттары"
+            "value" : "Орынды жаңарту"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Телефондун координаттары"
+            "value" : "Жайгашууну жаңыртуу"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Координаты телефона"
+            "value" : "Обновить местоположение"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Координатҳои телефон"
+            "value" : "Навсозии макон"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Telefon koordinatalari"
-          }
-        }
-      }
-    },
-    "qibla.phoneTop" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top edge of your phone"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонның жоғарғы жиегі"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефондун жогорку кыры"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Верхний край телефона"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Канори болои телефон"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Telefonning yuqori cheti"
-          }
-        }
-      }
-    },
-    "qibla.right" : {
-      "comment" : "ZKR-44. Доступное направление поворота. uz/tg/kk/ky требуют вычитки.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn right by"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Оңға бұрыңыз:"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Оңго буруңуз:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поверните вправо на"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ба рост гардонед:"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "O‘ngga buriling:"
-          }
-        }
-      }
-    },
-    "qibla.sensorAccuracy" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sensor uncertainty:"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Датчик қатесі:"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сенсордун катасы:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Погрешность датчика:"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Хатои сенсор:"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sensor xatosi:"
+            "value" : "Joylashuvni yangilash"
           }
         }
       }
     },
     "qibla.title" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7264,170 +6256,128 @@
         }
       }
     },
-    "qibla.trueNorth" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.turnValue" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "True north at the top"
+            "value" : "Offset %1$@°: positive is right, negative is left"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Жоғарыда — шынайы солтүстік"
+            "value" : "Ауытқу %1$@°: оң — оңға, теріс — солға"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Жогоруда — чыныгы түндүк"
+            "value" : "Четтөө %1$@°: оң — оңго, терс — солго"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вверху — истинный север"
+            "value" : "Отклонение %1$@°: плюс — вправо, минус — влево"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Дар боло — шимоли ҳақиқӣ"
+            "value" : "Инҳироф %1$@°: мусбат — рост, манфӣ — чап"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Yuqorida — haqiqiy shimol"
-          }
-        }
-      }
-    },
-    "qibla.turn" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn your phone toward the arrow"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонды көрсеткіге қарай бұрыңыз"
-          }
-        },
-        "ky" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонду жебе тарапка буруңуз"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поверните телефон к стрелке"
-          }
-        },
-        "tg" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Телефонро ба самти тирча гардонед"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Telefonni strelka tomon buring"
+            "value" : "Og‘ish %1$@°: musbat — o‘ngga, manfiy — chapga"
           }
         }
       }
     },
     "qibla.usePhone" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Use phone location"
+            "value" : "Allow location"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Телефон орнын пайдалану"
+            "value" : "Орынға рұқсат беру"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Телефондун жайгашуусун колдонуу"
+            "value" : "Жайгашууга уруксат берүү"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Использовать местоположение телефона"
+            "value" : "Разрешить местоположение"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Истифодаи макони телефон"
+            "value" : "Иҷозати макон"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Telefon joylashuvidan foydalanish"
+            "value" : "Joylashuvga ruxsat berish"
           }
         }
       }
     },
-    "qibla.within" : {
-      "comment" : "ZKR-44. Направление киблы; новые переводы требуют вычитки, религиозная справка с источниками.",
+    "qibla.waiting" : {
+      "comment" : "ZKR-44. Часовой циферблат, только GPS, без ручного места. uz/tg/kk/ky требуют вычитки.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Within the ±15° guide"
+            "value" : "Waiting for reliable compass data"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "±15° бағдар шегінде"
+            "value" : "Компас деректері күтілуде"
           }
         },
         "ky" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "±15° багыт чегинде"
+            "value" : "Компастын ишенимдүү маалыматы күтүлүүдө"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В пределах ориентира ±15°"
+            "value" : "Ожидаем достоверные данные компаса"
           }
         },
         "tg" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Дар ҳудуди роҳнамои ±15°"
+            "value" : "Интизори маълумоти боэътимоди қутбнамо"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "±15° yo‘nalish oralig‘ida"
+            "value" : "Ishonchli kompas ma’lumotlari kutilmoqda"
           }
         }
       }
