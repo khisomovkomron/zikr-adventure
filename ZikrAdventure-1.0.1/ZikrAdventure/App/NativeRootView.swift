@@ -51,6 +51,7 @@ private struct NativeTabsView: View {
     @StateObject private var sira: SiraViewModel
     @StateObject private var map: MapViewModel
     @StateObject private var onboarding: OnboardingViewModel
+    @StateObject private var qibla = QiblaViewModel()
 #if DEBUG
     @State private var gallery = false
 #endif
@@ -156,6 +157,7 @@ private struct NativeTabsView: View {
         case .map: MapView(viewModel: map)
         case .info: InfoView(viewModel: info)
         case .settings: SettingsView(viewModel: settings, openInfo: { open(.info) })
+        case .qibla: QiblaView(model: qibla, localization: localization)
         }
     }
     private func updateSystemSettings(_ settings: AppSettings) {

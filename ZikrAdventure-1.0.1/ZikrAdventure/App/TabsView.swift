@@ -354,7 +354,7 @@ private struct TabBarButton: View {
     var body: some View {
         Button(action: selectIfTap) {
             VStack(spacing: Theme.Size.tabGap) {
-                Image(tab.iconName)
+                (tab == .qibla ? Image(systemName: tab.iconName) : Image(tab.iconName))
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)

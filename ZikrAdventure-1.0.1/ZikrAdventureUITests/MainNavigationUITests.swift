@@ -22,6 +22,25 @@ extension XCUIApplication {
 }
 
 final class MainNavigationUITests: XCTestCase {
+    func testQiblaManualCoordinatesWithoutPermissionPrompt() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
+        app.launchEnvironment["ZIKR_UITEST_ONBOARDING"] = "completed"
+        app.launch()
+        app.openService("qibla")
+        XCTAssertTrue(app.descendants(matching: .any)["qibla.screen"].waitForExistence(timeout: 10))
+        // Открытие сервиса само не запрашивает доступ к координатам.
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        let city = app.buttons["qibla.city.dushanbe"]
+        for _ in 0..<8 where !city.isHittable { app.swipeUp() }
+        city.tap()
+        let azimuth = app.staticTexts["qibla.azimuth"]
+        for _ in 0..<8 where !azimuth.isHittable { app.swipeDown() }
+        XCTAssertTrue(azimuth.waitForExistence(timeout: 10))
+        XCTAssertFalse(azimuth.label.isEmpty)
+    }
+
     func testHomeCounterReturnAndImplementedServicesOnly() {
         continueAfterFailure = false
         let app = XCUIApplication()
@@ -43,8 +62,8 @@ final class MainNavigationUITests: XCTestCase {
         }
         XCTAssertEqual(XCTWaiter().wait(for: [XCTNSPredicateExpectation(predicate: updated, object: homeTotal)], timeout: 10), .completed)
         app.buttons["tab.services"].tap()
-        for id in ["zikr", "path", "map"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
-        for id in ["qibla", "prayer", "names", "hijri", "quran", "words", "ramadan", "reminders", "activity"] {
+        for id in ["zikr", "path", "map", "qibla"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
+        for id in ["prayer", "names", "hijri", "quran", "words", "ramadan", "reminders", "activity"] {
             XCTAssertFalse(app.buttons["service.\(id)"].exists)
         }
         XCTAssertFalse(app.buttons["tab.zikr"].exists)
