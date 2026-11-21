@@ -16,8 +16,16 @@ import urllib.request
 
 
 def main():
+    # The ignored local file contains identifiers only; never source/evaluate shell code.
+    local = {}
+    local_file = Path(__file__).resolve().parents[1] / '.env.appstoreconnect'
+    if local_file.exists():
+        for line in local_file.read_text().splitlines():
+            name, sep, value = line.partition('=')
+            if sep and name.strip() == 'ASC_ISSUER_ID':
+                local[name.strip()] = value.strip()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--issuer-id', default=os.environ.get('ASC_ISSUER_ID'))
+    parser.add_argument('--issuer-id', default=os.environ.get('ASC_ISSUER_ID') or local.get('ASC_ISSUER_ID'))
     parser.add_argument('--key-path', type=Path, default=os.environ.get('ASC_KEY_PATH'))
     parser.add_argument('--apply-build', action='store_true')
     args = parser.parse_args()

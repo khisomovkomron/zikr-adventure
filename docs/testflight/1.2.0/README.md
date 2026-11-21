@@ -14,7 +14,7 @@
 
 ## После принятия соглашений
 
-1. Задать `ASC_ISSUER_ID` и при необходимости `ASC_KEY_PATH` (путь к существующему AuthKey_KEYID.p8) локально. Не добавлять значения/ключ в Git. Для утилиты нужны установленные PyJWT и cryptography.
+1. Issuer ID сохранён локально в игнорируемом `.env.appstoreconnect` (режим 600); Python preflight читает его без выполнения shell-кода. При необходимости задать `ASC_ISSUER_ID` и `ASC_KEY_PATH` (путь к существующему AuthKey_KEYID.p8) локально. Для shell-архива `ASC_ISSUER_ID` должен быть экспортирован в окружение. Не добавлять значения/ключ в Git. Для утилиты нужны установленные PyJWT и cryptography.
 2. `python3 tools/testflight_preflight.py` — read-only проверка существующего приложения и всех загруженных build.
 3. На отдельной codex-ветке выполнить `python3 tools/testflight_preflight.py --apply-build`. Она выбирает целочисленный build выше всех загруженных и текущего, меняет project.yml/pbxproj. При отказе API файлы не меняются. Нецелочисленные старые build требуют ручного выбора.
 4. Проверить diff и commit; PR из task-ветки обратно в release/1.2.0. После проверки/принятия включить его в release/1.2.0 и архивировать именно её. Main не менять. Не менять bundle identifier, Team приложения, storage keys или App Store app record.
