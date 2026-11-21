@@ -10,7 +10,7 @@
 - После принятия соглашений API доступен: последний загруженный build 4, выбран build 5. Версия 1.2.0 (5) согласована в project.yml/pbxproj.
 - Прежний блокер соглашений устранён владельцем. API подтвердил существующее приложение 6820335339 и bundle ID; Team 742Y7LBK4U совпала с зарегистрированным prefix и сохранённой Team Xcode.
 - Используется существующая Team и automatic signing. Для provisioning поддержан существующий ASC API-ключ через ASC_KEY_PATH; приватные ключи/credentials в Git не сохраняются. Не создавать новый app/bundle ID и не отзывать чужие сертификаты.
-- Для 1.2.0 (5) архив/Distribution IPA созданы, codesign/profile/исходные entitlements/Firebase config сверены; Apple validation PASS. Фактический статус upload/processing и доступность тестерам записываются в Confluence/Jira ZKR-68 по ответу Apple. Успешная валидация ещё не означает доступность TestFlight.
+- 1.2.0 (5) доступен в TestFlight: Apple VALID / IN_BETA_TESTING, внутренняя группа ZikrApp. Validation/upload PASS, build ID 95ee9fff-bb0a-4ef4-82e1-ceeb956b393a. Архив/Distribution IPA, подпись/исходные entitlements/profile/Firebase config проверены. Source приложения df2f5ea; последующие изменения tooling/docs не изменяют build 5. Ручная приёмка и App Store publication ещё не завершены.
 
 ## После принятия соглашений
 
