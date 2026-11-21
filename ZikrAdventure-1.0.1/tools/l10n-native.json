@@ -956,5 +956,962 @@
         "review": true
       }
     }
+  },
+  "calendar.title": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Календарь хиджры",
+        "review": false
+      },
+      "en": {
+        "value": "Hijri calendar",
+        "review": false
+      },
+      "uz": {
+        "value": "Hijriy taqvim",
+        "review": true
+      },
+      "tg": {
+        "value": "Тақвими ҳиҷрӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Һижра күнтізбесі",
+        "review": true
+      },
+      "ky": {
+        "value": "Хижра календары",
+        "review": true
+      }
+    }
+  },
+  "calendar.summary": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Хиджра, григорианские даты и события",
+        "review": false
+      },
+      "en": {
+        "value": "Hijri, Gregorian dates and events",
+        "review": false
+      },
+      "uz": {
+        "value": "Hijriy, milodiy sanalar va voqealar",
+        "review": true
+      },
+      "tg": {
+        "value": "Ҳиҷрӣ, санаҳои милодӣ ва рӯйдодҳо",
+        "review": true
+      },
+      "kk": {
+        "value": "Һижра, григориан күндері мен оқиғалар",
+        "review": true
+      },
+      "ky": {
+        "value": "Хижра, григориан даталары жана окуялар",
+        "review": true
+      }
+    }
+  },
+  "calendar.note": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Офлайн · 2000–2050. Расчётные даты могут отличаться от местных объявлений. День показан по гражданской дате, без смены на закате.",
+        "review": false
+      },
+      "en": {
+        "value": "Offline · 2000–2050. Calculated dates may differ from local announcements. Days follow civil dates, without a sunset change.",
+        "review": false
+      },
+      "uz": {
+        "value": "Oflayn · 2000–2050. Hisoblangan sanalar mahalliy e’lonlardan farq qilishi mumkin. Kun fuqarolik sanasi bo‘yicha, quyosh botishida o‘zgarmaydi.",
+        "review": true
+      },
+      "tg": {
+        "value": "Офлайн · 2000–2050. Санаҳои ҳисобӣ метавонанд аз эълонҳои маҳаллӣ фарқ кунанд. Рӯз аз рӯи санаи милодӣ, бе ивазшавӣ ҳангоми ғуруб нишон дода мешавад.",
+        "review": true
+      },
+      "kk": {
+        "value": "Офлайн · 2000–2050. Есептелген күндер жергілікті хабарландырудан өзгеше болуы мүмкін. Күн азаматтық күнтізбе бойынша, күн батқанда ауыспайды.",
+        "review": true
+      },
+      "ky": {
+        "value": "Офлайн · 2000–2050. Эсептелген күндөр жергиликтүү жарыялардан айырмаланышы мүмкүн. Күн жарандык дата боюнча, күн батканда өзгөрбөйт.",
+        "review": true
+      }
+    }
+  },
+  "calendar.local": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Местные даты",
+        "review": false
+      },
+      "en": {
+        "value": "Local dates",
+        "review": false
+      },
+      "uz": {
+        "value": "Mahalliy sanalar",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаҳои маҳаллӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Жергілікті күндер",
+        "review": true
+      },
+      "ky": {
+        "value": "Жергиликтүү даталар",
+        "review": true
+      }
+    }
+  },
+  "calendar.year": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Григорианский год",
+        "review": false
+      },
+      "en": {
+        "value": "Gregorian year",
+        "review": false
+      },
+      "uz": {
+        "value": "Milodiy yil",
+        "review": true
+      },
+      "tg": {
+        "value": "Соли милодӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Григориан жылы",
+        "review": true
+      },
+      "ky": {
+        "value": "Григориан жылы",
+        "review": true
+      }
+    }
+  },
+  "calendar.hijriYear": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Год хиджры",
+        "review": false
+      },
+      "en": {
+        "value": "Hijri year",
+        "review": false
+      },
+      "uz": {
+        "value": "Hijriy yil",
+        "review": true
+      },
+      "tg": {
+        "value": "Соли ҳиҷрӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Һижра жылы",
+        "review": true
+      },
+      "ky": {
+        "value": "Хижра жылы",
+        "review": true
+      }
+    }
+  },
+  "calendar.today": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Сегодня",
+        "review": false
+      },
+      "en": {
+        "value": "Today",
+        "review": false
+      },
+      "uz": {
+        "value": "Bugun",
+        "review": true
+      },
+      "tg": {
+        "value": "Имрӯз",
+        "review": true
+      },
+      "kk": {
+        "value": "Бүгін",
+        "review": true
+      },
+      "ky": {
+        "value": "Бүгүн",
+        "review": true
+      }
+    }
+  },
+  "calendar.month": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Месяц",
+        "review": false
+      },
+      "en": {
+        "value": "Month",
+        "review": false
+      },
+      "uz": {
+        "value": "Oy",
+        "review": true
+      },
+      "tg": {
+        "value": "Моҳ",
+        "review": true
+      },
+      "kk": {
+        "value": "Ай",
+        "review": true
+      },
+      "ky": {
+        "value": "Ай",
+        "review": true
+      }
+    }
+  },
+  "calendar.events": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "События года",
+        "review": false
+      },
+      "en": {
+        "value": "Year events",
+        "review": false
+      },
+      "uz": {
+        "value": "Yil voqealari",
+        "review": true
+      },
+      "tg": {
+        "value": "Рӯйдодҳои сол",
+        "review": true
+      },
+      "kk": {
+        "value": "Жыл оқиғалары",
+        "review": true
+      },
+      "ky": {
+        "value": "Жыл окуялары",
+        "review": true
+      }
+    }
+  },
+  "calendar.previous": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Предыдущий месяц",
+        "review": false
+      },
+      "en": {
+        "value": "Previous month",
+        "review": false
+      },
+      "uz": {
+        "value": "Oldingi oy",
+        "review": true
+      },
+      "tg": {
+        "value": "Моҳи гузашта",
+        "review": true
+      },
+      "kk": {
+        "value": "Алдыңғы ай",
+        "review": true
+      },
+      "ky": {
+        "value": "Мурунку ай",
+        "review": true
+      }
+    }
+  },
+  "calendar.next": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Следующий месяц",
+        "review": false
+      },
+      "en": {
+        "value": "Next month",
+        "review": false
+      },
+      "uz": {
+        "value": "Keyingi oy",
+        "review": true
+      },
+      "tg": {
+        "value": "Моҳи оянда",
+        "review": true
+      },
+      "kk": {
+        "value": "Келесі ай",
+        "review": true
+      },
+      "ky": {
+        "value": "Кийинки ай",
+        "review": true
+      }
+    }
+  },
+  "calendar.ramadan": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Начало Рамадана",
+        "review": false
+      },
+      "en": {
+        "value": "Ramadan begins",
+        "review": false
+      },
+      "uz": {
+        "value": "Ramazon boshlanishi",
+        "review": true
+      },
+      "tg": {
+        "value": "Оғози Рамазон",
+        "review": true
+      },
+      "kk": {
+        "value": "Рамазанның басталуы",
+        "review": true
+      },
+      "ky": {
+        "value": "Рамазандын башталышы",
+        "review": true
+      }
+    }
+  },
+  "calendar.fitr": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Ураза-байрам",
+        "review": false
+      },
+      "en": {
+        "value": "Eid al-Fitr",
+        "review": false
+      },
+      "uz": {
+        "value": "Ramazon hayiti",
+        "review": true
+      },
+      "tg": {
+        "value": "Иди Фитр",
+        "review": true
+      },
+      "kk": {
+        "value": "Ораза айт",
+        "review": true
+      },
+      "ky": {
+        "value": "Орозо айт",
+        "review": true
+      }
+    }
+  },
+  "calendar.arafah": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "День Арафа",
+        "review": false
+      },
+      "en": {
+        "value": "Day of Arafah",
+        "review": false
+      },
+      "uz": {
+        "value": "Arafa kuni",
+        "review": true
+      },
+      "tg": {
+        "value": "Рӯзи Арафа",
+        "review": true
+      },
+      "kk": {
+        "value": "Арафа күні",
+        "review": true
+      },
+      "ky": {
+        "value": "Арафа күнү",
+        "review": true
+      }
+    }
+  },
+  "calendar.adha": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Курбан-байрам",
+        "review": false
+      },
+      "en": {
+        "value": "Eid al-Adha",
+        "review": false
+      },
+      "uz": {
+        "value": "Qurbon hayiti",
+        "review": true
+      },
+      "tg": {
+        "value": "Иди Қурбон",
+        "review": true
+      },
+      "kk": {
+        "value": "Құрбан айт",
+        "review": true
+      },
+      "ky": {
+        "value": "Курман айт",
+        "review": true
+      }
+    }
+  },
+  "calendar.dhul": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Начало Зуль-хиджи",
+        "review": false
+      },
+      "en": {
+        "value": "Dhul-Hijjah begins",
+        "review": false
+      },
+      "uz": {
+        "value": "Zulhijja boshlanishi",
+        "review": true
+      },
+      "tg": {
+        "value": "Оғози Зулҳиҷҷа",
+        "review": true
+      },
+      "kk": {
+        "value": "Зүлхижжаның басталуы",
+        "review": true
+      },
+      "ky": {
+        "value": "Зулхижжанын башталышы",
+        "review": true
+      }
+    }
+  },
+  "calendar.calculated": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Расчётная дата · Умм аль-Кура",
+        "review": false
+      },
+      "en": {
+        "value": "Calculated date · Umm al-Qura",
+        "review": false
+      },
+      "uz": {
+        "value": "Hisoblangan sana · Umm al-Qura",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаи ҳисобӣ · Умм ал-Қуро",
+        "review": true
+      },
+      "kk": {
+        "value": "Есептелген күн · Умм әл-Қура",
+        "review": true
+      },
+      "ky": {
+        "value": "Эсептелген дата · Умм ал-Кура",
+        "review": true
+      }
+    }
+  },
+  "calendar.user": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Вы указали местную дату",
+        "review": false
+      },
+      "en": {
+        "value": "Local date you entered",
+        "review": false
+      },
+      "uz": {
+        "value": "Siz kiritgan mahalliy sana",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаи маҳаллии воридкардаи шумо",
+        "review": true
+      },
+      "kk": {
+        "value": "Сіз енгізген жергілікті күн",
+        "review": true
+      },
+      "ky": {
+        "value": "Сиз киргизген жергиликтүү дата",
+        "review": true
+      }
+    }
+  },
+  "calendar.pending": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Расчётная дата · ожидает местного подтверждения",
+        "review": false
+      },
+      "en": {
+        "value": "Calculated date · awaiting local confirmation",
+        "review": false
+      },
+      "uz": {
+        "value": "Hisoblangan sana · mahalliy tasdiq kutilmoqda",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаи ҳисобӣ · мунтазири тасдиқи маҳаллӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Есептелген күн · жергілікті растауды күтеді",
+        "review": true
+      },
+      "ky": {
+        "value": "Эсептелген дата · жергиликтүү ырастоо күтүлүүдө",
+        "review": true
+      }
+    }
+  },
+  "calendar.localNote": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Укажите дату по местному объявлению для выбранного года. Поправка до двух дней от расчёта. Приложение не проверяет объявление.",
+        "review": false
+      },
+      "en": {
+        "value": "Enter the date from a local announcement for this year. Up to two days from the calculation. The app does not verify announcements.",
+        "review": false
+      },
+      "uz": {
+        "value": "Shu yil uchun mahalliy e’londagi sanani kiriting. Hisobdan ikki kungacha farq. Ilova e’lonni tekshirmaydi.",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаро аз эълони маҳаллӣ барои ин сол ворид кунед. То ду рӯз аз ҳисоб фарқ мекунад. Барнома эълонро тафтиш намекунад.",
+        "review": true
+      },
+      "kk": {
+        "value": "Осы жыл үшін жергілікті хабарландырудағы күнді енгізіңіз. Есептен екі күнге дейін айырма. Қолданба хабарландыруды тексермейді.",
+        "review": true
+      },
+      "ky": {
+        "value": "Бул жыл үчүн жергиликтүү жарыядагы датаны киргизиңиз. Эсептен эки күнгө чейин айырма. Колдонмо жарыяны текшербейт.",
+        "review": true
+      }
+    }
+  },
+  "calendar.pendingNote": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Ураза-байрам подтвердите отдельно: Рамадан длится 29 или 30 дней. Зуль-хиджа настраивается независимо. Изменение границы может уточнить соседние месяцы; история зикра не меняется.",
+        "review": false
+      },
+      "en": {
+        "value": "Confirm Eid al-Fitr separately: Ramadan has 29 or 30 days. Dhul-Hijjah is independent. A boundary change may adjust adjacent months; zikr history stays unchanged.",
+        "review": false
+      },
+      "uz": {
+        "value": "Ramazon hayitini alohida tasdiqlang: Ramazon 29 yoki 30 kun. Zulhijja mustaqil. Chegara qo‘shni oylarga ta’sir qilishi mumkin; zikr tarixi o‘zgarmaydi.",
+        "review": true
+      },
+      "tg": {
+        "value": "Иди Фитрро алоҳида тасдиқ кунед: Рамазон 29 ё 30 рӯз аст. Зулҳиҷҷа мустақил аст. Сарҳад метавонад моҳҳои ҳамсояро ислоҳ кунад; таърихи зикр тағйир намеёбад.",
+        "review": true
+      },
+      "kk": {
+        "value": "Ораза айтты бөлек растаңыз: Рамазан 29 не 30 күн. Зүлхижжа тәуелсіз. Шекара көрші айларды түзетуі мүмкін; зікір тарихы өзгермейді.",
+        "review": true
+      },
+      "ky": {
+        "value": "Орозо айтты өзүнчө ырастаңыз: Рамазан 29 же 30 күн. Зулхижжа көз карандысыз. Чек коңшу айларды такташы мүмкүн; зикир тарыхы өзгөрбөйт.",
+        "review": true
+      }
+    }
+  },
+  "calendar.date": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Григорианская дата",
+        "review": false
+      },
+      "en": {
+        "value": "Gregorian date",
+        "review": false
+      },
+      "uz": {
+        "value": "Milodiy sana",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаи милодӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Григориан күні",
+        "review": true
+      },
+      "ky": {
+        "value": "Григориан датасы",
+        "review": true
+      }
+    }
+  },
+  "calendar.save": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Сохранить дату",
+        "review": false
+      },
+      "en": {
+        "value": "Save date",
+        "review": false
+      },
+      "uz": {
+        "value": "Sanani saqlash",
+        "review": true
+      },
+      "tg": {
+        "value": "Сабти сана",
+        "review": true
+      },
+      "kk": {
+        "value": "Күнді сақтау",
+        "review": true
+      },
+      "ky": {
+        "value": "Датаны сактоо",
+        "review": true
+      }
+    }
+  },
+  "calendar.cancel": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Отмена",
+        "review": false
+      },
+      "en": {
+        "value": "Cancel",
+        "review": false
+      },
+      "uz": {
+        "value": "Bekor qilish",
+        "review": true
+      },
+      "tg": {
+        "value": "Бекор кардан",
+        "review": true
+      },
+      "kk": {
+        "value": "Бас тарту",
+        "review": true
+      },
+      "ky": {
+        "value": "Жокко чыгаруу",
+        "review": true
+      }
+    }
+  },
+  "calendar.done": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Готово",
+        "review": false
+      },
+      "en": {
+        "value": "Done",
+        "review": false
+      },
+      "uz": {
+        "value": "Tayyor",
+        "review": true
+      },
+      "tg": {
+        "value": "Тайёр",
+        "review": true
+      },
+      "kk": {
+        "value": "Дайын",
+        "review": true
+      },
+      "ky": {
+        "value": "Даяр",
+        "review": true
+      }
+    }
+  },
+  "calendar.choose": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Указать местную дату",
+        "review": false
+      },
+      "en": {
+        "value": "Set local date",
+        "review": false
+      },
+      "uz": {
+        "value": "Mahalliy sanani tanlash",
+        "review": true
+      },
+      "tg": {
+        "value": "Интихоби санаи маҳаллӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Жергілікті күнді орнату",
+        "review": true
+      },
+      "ky": {
+        "value": "Жергиликтүү датаны тандоо",
+        "review": true
+      }
+    }
+  },
+  "calendar.useCalculated": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Вернуть расчёт для месяца",
+        "review": false
+      },
+      "en": {
+        "value": "Use calculation for month",
+        "review": false
+      },
+      "uz": {
+        "value": "Oy hisobiga qaytish",
+        "review": true
+      },
+      "tg": {
+        "value": "Бозгашт ба ҳисоби моҳ",
+        "review": true
+      },
+      "kk": {
+        "value": "Ай есебіне қайту",
+        "review": true
+      },
+      "ky": {
+        "value": "Айдын эсебине кайтуу",
+        "review": true
+      }
+    }
+  },
+  "calendar.reset": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Вернуть расчётные даты этого года",
+        "review": false
+      },
+      "en": {
+        "value": "Reset this year to calculated dates",
+        "review": false
+      },
+      "uz": {
+        "value": "Bu yilni hisoblangan sanalarga qaytarish",
+        "review": true
+      },
+      "tg": {
+        "value": "Барқарор кардани санаҳои ҳисобии ин сол",
+        "review": true
+      },
+      "kk": {
+        "value": "Осы жылдың есептелген күндерін қайтару",
+        "review": true
+      },
+      "ky": {
+        "value": "Бул жылдын эсептелген даталарын кайтаруу",
+        "review": true
+      }
+    }
+  },
+  "calendar.conflict": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Даты не согласуются",
+        "review": false
+      },
+      "en": {
+        "value": "Dates are inconsistent",
+        "review": false
+      },
+      "uz": {
+        "value": "Sanalar mos kelmaydi",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаҳо мувофиқ нестанд",
+        "review": true
+      },
+      "kk": {
+        "value": "Күндер сәйкес емес",
+        "review": true
+      },
+      "ky": {
+        "value": "Даталар шайкеш эмес",
+        "review": true
+      }
+    }
+  },
+  "calendar.conflictNote": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Между началами месяцев должно быть 29 или 30 дней. Проверьте местные даты, в том числе Ураза-байрам, или верните расчётные даты года. Изменения не сохранены.",
+        "review": false
+      },
+      "en": {
+        "value": "Months must have 29 or 30 days. Check the local dates, including Eid al-Fitr, or reset this year. Changes were not saved.",
+        "review": false
+      },
+      "uz": {
+        "value": "Oylar 29 yoki 30 kun bo‘lishi kerak. Hayit sanasini ham tekshiring yoki yilni tiklang. O‘zgarishlar saqlanmadi.",
+        "review": true
+      },
+      "tg": {
+        "value": "Моҳҳо бояд 29 ё 30 рӯз бошанд. Санаҳо, аз ҷумла Иди Фитрро санҷед ё солро барқарор кунед. Тағйирот сабт нашуд.",
+        "review": true
+      },
+      "kk": {
+        "value": "Айлар 29 не 30 күн болуы тиіс. Ораза айт күнін де тексеріңіз немесе жылды қалпына келтіріңіз. Өзгерістер сақталмады.",
+        "review": true
+      },
+      "ky": {
+        "value": "Айлар 29 же 30 күн болушу керек. Орозо айт датасын да текшериңиз же жылды калыбына келтириңиз. Өзгөрүүлөр сакталган жок.",
+        "review": true
+      }
+    }
+  },
+  "calendar.homeNote": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Расчётные даты; местные объявления могут отличаться.",
+        "review": false
+      },
+      "en": {
+        "value": "Calculated dates; local announcements may differ.",
+        "review": false
+      },
+      "uz": {
+        "value": "Hisoblangan sanalar; mahalliy e’lonlar farq qilishi mumkin.",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаҳои ҳисобӣ; эълонҳои маҳаллӣ метавонанд фарқ кунанд.",
+        "review": true
+      },
+      "kk": {
+        "value": "Есептелген күндер; жергілікті хабарландырулар өзгеше болуы мүмкін.",
+        "review": true
+      },
+      "ky": {
+        "value": "Эсептелген даталар; жергиликтүү жарыялар айырмаланышы мүмкүн.",
+        "review": true
+      }
+    }
+  },
+  "calendar.storageError": {
+    "comment": "ZKR-78: календарь; переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Не удалось прочитать местные даты. Показан расчёт; сохранённые данные не удалены.",
+        "review": false
+      },
+      "en": {
+        "value": "Could not read local dates. Showing calculation; saved data has not been deleted.",
+        "review": false
+      },
+      "uz": {
+        "value": "Mahalliy sanalar o‘qilmadi. Hisob ko‘rsatilmoqda; saqlangan ma’lumotlar o‘chirilmagan.",
+        "review": true
+      },
+      "tg": {
+        "value": "Санаҳои маҳаллӣ хонда нашуданд. Ҳисоб нишон дода мешавад; маълумоти сабтшуда нест нашудааст.",
+        "review": true
+      },
+      "kk": {
+        "value": "Жергілікті күндерді оқу мүмкін болмады. Есеп көрсетілді; сақталған деректер жойылған жоқ.",
+        "review": true
+      },
+      "ky": {
+        "value": "Жергиликтүү даталар окулган жок. Эсеп көрсөтүлдү; сакталган маалыматтар өчүрүлгөн жок.",
+        "review": true
+      }
+    }
+  },
+  "calendar.adjusted": {
+    "comment": "ZKR-78: соседняя граница пересчитана из местного якоря.",
+    "values": {
+      "ru": {
+        "value": "Расчёт с учётом местных дат",
+        "review": false
+      },
+      "en": {
+        "value": "Calculation adjusted for local dates",
+        "review": false
+      },
+      "uz": {
+        "value": "Mahalliy sanalarga moslangan hisob",
+        "review": true
+      },
+      "tg": {
+        "value": "Ҳисоб бо назардошти санаҳои маҳаллӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Жергілікті күндерге түзетілген есеп",
+        "review": true
+      },
+      "ky": {
+        "value": "Жергиликтүү даталарга ылайыкталган эсеп",
+        "review": true
+      }
+    }
   }
 }

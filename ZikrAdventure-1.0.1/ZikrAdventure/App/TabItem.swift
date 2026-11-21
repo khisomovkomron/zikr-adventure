@@ -12,6 +12,7 @@ enum TabItem: String, CaseIterable, Identifiable {
     case info
     case settings
     case qibla
+    case calendar
 
     var id: String { rawValue }
 
@@ -24,6 +25,7 @@ enum TabItem: String, CaseIterable, Identifiable {
         case .info: return "TabInfo"
         case .settings: return "TabGear"
         case .qibla: return "location.north.circle"
+        case .calendar: return "calendar"
         }
     }
 

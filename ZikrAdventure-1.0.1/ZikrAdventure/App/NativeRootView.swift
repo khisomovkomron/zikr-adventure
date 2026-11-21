@@ -51,6 +51,7 @@ private struct NativeTabsView: View {
     @StateObject private var sira: SiraViewModel
     @StateObject private var map: MapViewModel
     @StateObject private var onboarding: OnboardingViewModel
+    @StateObject private var calendar = HijriCalendarModel()
     @StateObject private var qibla = QiblaViewModel()
 #if DEBUG
     @State private var gallery = false
@@ -71,7 +72,7 @@ private struct NativeTabsView: View {
             NavigationStack(path: $path) {
                 Group {
                     switch section {
-                    case .home: HomeView(progress: zikr, open: open)
+                    case .home: HomeView(progress: zikr, calendar: calendar, open: open)
                     case .services: ServicesView(localization: localization, open: open)
                     case .settings: SettingsView(viewModel: settings, openInfo: { open(.info) })
                     }
@@ -157,6 +158,7 @@ private struct NativeTabsView: View {
         case .map: MapView(viewModel: map)
         case .info: InfoView(viewModel: info)
         case .settings: SettingsView(viewModel: settings, openInfo: { open(.info) })
+        case .calendar: HijriCalendarView(model: calendar, localization: localization)
         case .qibla: QiblaView(model: qibla, localization: localization)
         }
     }

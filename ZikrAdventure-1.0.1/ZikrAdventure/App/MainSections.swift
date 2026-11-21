@@ -63,11 +63,13 @@ struct MainSectionBar: View {
 
 /// Все значения читаются из той же модели, что и счётчик. Отдельного writer нет.
 struct HomeView: View {
+    @ObservedObject var calendar: HijriCalendarModel
     @ObservedObject var progress: ZikrViewModel
     @ObservedObject private var localization: LocalizationService
     let open: (TabItem) -> Void
 
-    init(progress: ZikrViewModel, open: @escaping (TabItem) -> Void) {
+    init(progress: ZikrViewModel, calendar: HijriCalendarModel, open: @escaping (TabItem) -> Void) {
+        self.calendar = calendar
         self.progress = progress
         self.localization = progress.localization
         self.open = open
@@ -115,6 +117,9 @@ struct HomeView: View {
                                 Text(localization.tr(.cityMedina))
                             }.themeFont(.body).foregroundColor(Theme.Color.accent)
                         }
+                    }
+                    preview(title: .calendarTitle, destination: .calendar) {
+                        HijriHomePreview(model: calendar, localization: localization)
                     }
                     preview(title: .qiblaTitle, destination: .qibla) {
                         Label(localization.tr(.qiblaHomeSummary), systemImage: "location.north.circle")
@@ -198,6 +203,7 @@ struct ServicesView: View {
                 Text(localization.tr(.servicesIntro)).themeFont(.footnote).foregroundColor(Theme.Color.textSecondary)
                 Text(localization.tr(.servicesPractice)).themeFont(.headingSM).accessibilityAddTraits(.isHeader)
                 service(.zikr, symbol: "circle.dotted", summary: .homeOpenCounter)
+                service(.calendar, symbol: "calendar", summary: .calendarSummary)
                 service(.qibla, symbol: "location.north.circle", summary: .qiblaHomeSummary)
                 Text(localization.tr(.servicesKnowledge)).themeFont(.headingSM).accessibilityAddTraits(.isHeader)
                 service(.path, symbol: "book", summary: .homeSiraSummary)

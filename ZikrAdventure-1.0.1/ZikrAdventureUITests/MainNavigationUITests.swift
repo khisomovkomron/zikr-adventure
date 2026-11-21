@@ -22,6 +22,19 @@ extension XCUIApplication {
 }
 
 final class MainNavigationUITests: XCTestCase {
+    func testCalendarRouteAndLocalDatesAreAvailableWithoutLocation() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
+        app.launchEnvironment["ZIKR_UITEST_ONBOARDING"] = "completed"
+        app.launch()
+        app.openService("calendar")
+        XCTAssertTrue(app.descendants(matching: .any)["calendar.screen"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        app.buttons["calendar.local"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["calendar.localDates"].waitForExistence(timeout: 10))
+    }
+
     func testQiblaRequiresPhoneLocationAndKeepsNorthDial() {
         continueAfterFailure = false
         let app = XCUIApplication()
@@ -58,7 +71,7 @@ final class MainNavigationUITests: XCTestCase {
         }
         XCTAssertEqual(XCTWaiter().wait(for: [XCTNSPredicateExpectation(predicate: updated, object: homeTotal)], timeout: 10), .completed)
         app.buttons["tab.services"].tap()
-        for id in ["zikr", "path", "map", "qibla"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
+        for id in ["zikr", "path", "map", "qibla", "calendar"] { XCTAssertTrue(app.buttons["service.\(id)"].exists) }
         for id in ["prayer", "names", "hijri", "quran", "words", "ramadan", "reminders", "activity"] {
             XCTAssertFalse(app.buttons["service.\(id)"].exists)
         }
