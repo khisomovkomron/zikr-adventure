@@ -7,6 +7,26 @@
 // Логика никогда не ветвится по локализованной строке — только по ключу.
 
 enum L10nKey: String, CaseIterable {
+    case navHome = "nav.home"
+    case navServices = "nav.services"
+    case homeMyDay = "home.myDay"
+    case homeZikrMoment = "home.zikrMoment"
+    case homeJourney = "home.journey"
+    case homeSiraSummary = "home.siraSummary"
+    case homePlaces = "home.places"
+    case homeMapSummary = "home.mapSummary"
+    case homeOpenCounter = "home.openCounter"
+    case homeOpenSection = "home.openSection"
+    case servicesIntro = "services.intro"
+    case servicesPractice = "services.practice"
+    case servicesKnowledge = "services.knowledge"
+    case settingsAppearance = "settings.appearance"
+    case appearanceSystem = "appearance.system"
+    case appearanceLight = "appearance.light"
+    case appearanceDark = "appearance.dark"
+    case settingsHelp = "settings.help"
+    case settingsAbout = "settings.about"
+
     case startupRestoreFailed = "startup.restoreFailed"
     case onb1t = "onb.1t"
     case onb1x = "onb.1x"

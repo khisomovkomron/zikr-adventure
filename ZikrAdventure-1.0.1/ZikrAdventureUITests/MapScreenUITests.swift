@@ -24,7 +24,7 @@ final class MapScreenUITests: XCTestCase {
         let chip = app.buttons["settings.lang.\(language)"]
         XCTAssertTrue(chip.waitForExistence(timeout: 10))
         chip.tap()
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         XCTAssertTrue(app.buttons["zikr.button"].waitForExistence(timeout: 10), "нативный экран «Зикр» не показан")
         return app
     }
@@ -46,7 +46,7 @@ final class MapScreenUITests: XCTestCase {
         let app = launch()
         count(to: 25, in: app)
 
-        app.buttons["tab.map"].tap()
+        app.openService("map")
         XCTAssertTrue(app.descendants(matching: .any)["map.screen"].waitForExistence(timeout: 10), "нативный экран «Карта» не показан")
         if app.buttons["map.city.back"].exists { app.buttons["map.city.back"].tap() }
         if app.buttons["map.panel.close"].exists { app.buttons["map.panel.close"].tap() }
@@ -111,11 +111,11 @@ final class MapScreenUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 1.5)
         app.terminate()
         let relaunched = launch()
-        relaunched.buttons["tab.map"].tap()
+        relaunched.openService("map")
         XCTAssertTrue(waitFor(relaunched.staticTexts["map.panel.title"], label: "Медина"))
         relaunched.buttons["map.panel.close"].tap()
 
-        relaunched.buttons["tab.zikr"].tap()
+        relaunched.openService("zikr")
         resetAll(relaunched)
         XCTAssertTrue(waitFor(relaunched.descendants(matching: .any)["zikr.total"], value: "0"))
     }
@@ -124,7 +124,7 @@ final class MapScreenUITests: XCTestCase {
     func testReEnteringCityRestoresCameraWithoutIntro() {
         let app = launch()
         count(to: 10, in: app)
-        app.buttons["tab.map"].tap()
+        app.openService("map")
         XCTAssertTrue(app.descendants(matching: .any)["map.screen"].waitForExistence(timeout: 10))
         if app.buttons["map.city.back"].exists { app.buttons["map.city.back"].tap() }
         // Выбор города переживает запуск: панель от прошлого теста закрываем, чтобы кнопки городов были видны.
@@ -151,7 +151,7 @@ final class MapScreenUITests: XCTestCase {
         XCTAssertEqual(value(again), "z=1.40", "наезд не проигрывается повторно")
 
         app.buttons["map.city.back"].tap()
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         resetAll(app)
         XCTAssertTrue(waitFor(app.descendants(matching: .any)["zikr.total"], value: "0"))
     }
@@ -159,19 +159,19 @@ final class MapScreenUITests: XCTestCase {
     func testSiraShowOnMapOpensNativeCity() {
         let app = launch()
         count(to: 10, in: app)
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         let map = app.buttons["sira.map.ch01"]
         XCTAssertTrue(map.waitForExistence(timeout: 5))
         scrollTo(map, in: app)
         map.tap()
-        XCTAssertTrue(waitFor(app.buttons["tab.map"], selected: true))
+        XCTAssertTrue(app.descendants(matching: .any)["map.screen"].waitForExistence(timeout: 10))
         XCTAssertTrue(waitFor(app.staticTexts["map.city.title"], label: "Мекка"), "«На карте» открывает карту Мекки")
         XCTAssertTrue(app.descendants(matching: .any)["map.city.canvas"].waitForExistence(timeout: 10))
         // Back в шапке обзора → «Зикр».
         app.buttons["map.city.back"].tap()
         if app.buttons["map.panel.close"].waitForExistence(timeout: 3) { app.buttons["map.panel.close"].tap() }
         app.buttons["map.world.back"].tap()
-        XCTAssertTrue(waitFor(app.buttons["tab.zikr"], selected: true))
+        XCTAssertTrue(app.descendants(matching: .any)["zikr.screen"].waitForExistence(timeout: 10))
         resetAll(app)
         XCTAssertTrue(waitFor(app.descendants(matching: .any)["zikr.total"], value: "0"))
     }
@@ -185,7 +185,7 @@ final class MapScreenUITests: XCTestCase {
         if let target = env["ZIKR_SHOT_COUNT"].flatMap(Int.init) {
             count(to: target, in: app)
         }
-        app.buttons["tab.map"].tap()
+        app.openService("map")
         Thread.sleep(forTimeInterval: isWeb ? 3 : 1.5)
         // Обзор без выбранного города.
         tap(app, native: "map.panel.close", web: "Закрыть", isWeb: isWeb, optional: true)

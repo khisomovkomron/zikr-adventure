@@ -57,5 +57,556 @@
         "review": true
       }
     }
+  },
+  "nav.home": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Главная",
+        "review": false
+      },
+      "en": {
+        "value": "Home",
+        "review": false
+      },
+      "uz": {
+        "value": "Bosh sahifa",
+        "review": true
+      },
+      "tg": {
+        "value": "Асосӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Басты бет",
+        "review": true
+      },
+      "ky": {
+        "value": "Башкы бет",
+        "review": true
+      }
+    }
+  },
+  "nav.services": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Сервисы",
+        "review": false
+      },
+      "en": {
+        "value": "Services",
+        "review": false
+      },
+      "uz": {
+        "value": "Xizmatlar",
+        "review": true
+      },
+      "tg": {
+        "value": "Хизматҳо",
+        "review": true
+      },
+      "kk": {
+        "value": "Қызметтер",
+        "review": true
+      },
+      "ky": {
+        "value": "Кызматтар",
+        "review": true
+      }
+    }
+  },
+  "home.myDay": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Мой день",
+        "review": false
+      },
+      "en": {
+        "value": "My day",
+        "review": false
+      },
+      "uz": {
+        "value": "Mening kunim",
+        "review": true
+      },
+      "tg": {
+        "value": "Рӯзи ман",
+        "review": true
+      },
+      "kk": {
+        "value": "Менің күнім",
+        "review": true
+      },
+      "ky": {
+        "value": "Менин күнүм",
+        "review": true
+      }
+    }
+  },
+  "home.zikrMoment": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Момент для поминания",
+        "review": false
+      },
+      "en": {
+        "value": "A moment of remembrance",
+        "review": false
+      },
+      "uz": {
+        "value": "Zikr uchun bir lahza",
+        "review": true
+      },
+      "tg": {
+        "value": "Лаҳзае барои зикр",
+        "review": true
+      },
+      "kk": {
+        "value": "Зікірге арналған сәт",
+        "review": true
+      },
+      "ky": {
+        "value": "Зикир үчүн бир көз ирмем",
+        "review": true
+      }
+    }
+  },
+  "home.journey": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Ваш путь",
+        "review": false
+      },
+      "en": {
+        "value": "Your journey",
+        "review": false
+      },
+      "uz": {
+        "value": "Sizning yo‘lingiz",
+        "review": true
+      },
+      "tg": {
+        "value": "Роҳи шумо",
+        "review": true
+      },
+      "kk": {
+        "value": "Сіздің жолыңыз",
+        "review": true
+      },
+      "ky": {
+        "value": "Сиздин жолуңуз",
+        "review": true
+      }
+    }
+  },
+  "home.siraSummary": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Главы из жизни Пророка ﷺ и ваш прогресс",
+        "review": false
+      },
+      "en": {
+        "value": "Chapters from the Prophet’s ﷺ life and your progress",
+        "review": false
+      },
+      "uz": {
+        "value": "Payg‘ambar ﷺ hayotidan boblar va natijalaringiz",
+        "review": true
+      },
+      "tg": {
+        "value": "Бобҳо аз ҳаёти Паёмбар ﷺ ва пешрафти шумо",
+        "review": true
+      },
+      "kk": {
+        "value": "Пайғамбардың ﷺ өмірінен тараулар және ілгерілеуіңіз",
+        "review": true
+      },
+      "ky": {
+        "value": "Пайгамбардын ﷺ өмүрүнөн бөлүмдөр жана ийгилигиңиз",
+        "review": true
+      }
+    }
+  },
+  "home.places": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Места вашего пути",
+        "review": false
+      },
+      "en": {
+        "value": "Places along your journey",
+        "review": false
+      },
+      "uz": {
+        "value": "Yo‘lingizdagi joylar",
+        "review": true
+      },
+      "tg": {
+        "value": "Маконҳои роҳи шумо",
+        "review": true
+      },
+      "kk": {
+        "value": "Жолыңыздағы орындар",
+        "review": true
+      },
+      "ky": {
+        "value": "Жолуңуздагы жерлер",
+        "review": true
+      }
+    }
+  },
+  "home.mapSummary": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Города, места и события Сиры",
+        "review": false
+      },
+      "en": {
+        "value": "Cities, places and events of the Sira",
+        "review": false
+      },
+      "uz": {
+        "value": "Siyrat shaharlari, joylari va voqealari",
+        "review": true
+      },
+      "tg": {
+        "value": "Шаҳрҳо, маконҳо ва рӯйдодҳои Сират",
+        "review": true
+      },
+      "kk": {
+        "value": "Сирадағы қалалар, орындар мен оқиғалар",
+        "review": true
+      },
+      "ky": {
+        "value": "Сирадагы шаарлар, жерлер жана окуялар",
+        "review": true
+      }
+    }
+  },
+  "home.openCounter": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Открыть счётчик",
+        "review": false
+      },
+      "en": {
+        "value": "Open counter",
+        "review": false
+      },
+      "uz": {
+        "value": "Hisoblagichni ochish",
+        "review": true
+      },
+      "tg": {
+        "value": "Кушодани ҳисобкунак",
+        "review": true
+      },
+      "kk": {
+        "value": "Санауышты ашу",
+        "review": true
+      },
+      "ky": {
+        "value": "Санакты ачуу",
+        "review": true
+      }
+    }
+  },
+  "home.openSection": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Открыть раздел",
+        "review": false
+      },
+      "en": {
+        "value": "Open section",
+        "review": false
+      },
+      "uz": {
+        "value": "Bo‘limni ochish",
+        "review": true
+      },
+      "tg": {
+        "value": "Кушодани бахш",
+        "review": true
+      },
+      "kk": {
+        "value": "Бөлімді ашу",
+        "review": true
+      },
+      "ky": {
+        "value": "Бөлүмдү ачуу",
+        "review": true
+      }
+    }
+  },
+  "services.intro": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Для практики и знаний",
+        "review": false
+      },
+      "en": {
+        "value": "For practice and learning",
+        "review": false
+      },
+      "uz": {
+        "value": "Amal va bilim uchun",
+        "review": true
+      },
+      "tg": {
+        "value": "Барои амал ва дониш",
+        "review": true
+      },
+      "kk": {
+        "value": "Амал мен білім үшін",
+        "review": true
+      },
+      "ky": {
+        "value": "Амал жана билим үчүн",
+        "review": true
+      }
+    }
+  },
+  "services.practice": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Практика",
+        "review": false
+      },
+      "en": {
+        "value": "Practice",
+        "review": false
+      },
+      "uz": {
+        "value": "Amal",
+        "review": true
+      },
+      "tg": {
+        "value": "Амал",
+        "review": true
+      },
+      "kk": {
+        "value": "Амал",
+        "review": true
+      },
+      "ky": {
+        "value": "Амал",
+        "review": true
+      }
+    }
+  },
+  "services.knowledge": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Знания",
+        "review": false
+      },
+      "en": {
+        "value": "Learning",
+        "review": false
+      },
+      "uz": {
+        "value": "Bilim",
+        "review": true
+      },
+      "tg": {
+        "value": "Дониш",
+        "review": true
+      },
+      "kk": {
+        "value": "Білім",
+        "review": true
+      },
+      "ky": {
+        "value": "Билим",
+        "review": true
+      }
+    }
+  },
+  "settings.appearance": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Оформление",
+        "review": false
+      },
+      "en": {
+        "value": "Appearance",
+        "review": false
+      },
+      "uz": {
+        "value": "Ko‘rinish",
+        "review": true
+      },
+      "tg": {
+        "value": "Намуди зоҳирӣ",
+        "review": true
+      },
+      "kk": {
+        "value": "Безендіру",
+        "review": true
+      },
+      "ky": {
+        "value": "Көрүнүш",
+        "review": true
+      }
+    }
+  },
+  "appearance.system": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Как в системе",
+        "review": false
+      },
+      "en": {
+        "value": "System",
+        "review": false
+      },
+      "uz": {
+        "value": "Tizimga mos",
+        "review": true
+      },
+      "tg": {
+        "value": "Мувофиқи низом",
+        "review": true
+      },
+      "kk": {
+        "value": "Жүйеге сай",
+        "review": true
+      },
+      "ky": {
+        "value": "Системага ылайык",
+        "review": true
+      }
+    }
+  },
+  "appearance.light": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Светлая",
+        "review": false
+      },
+      "en": {
+        "value": "Light",
+        "review": false
+      },
+      "uz": {
+        "value": "Yorug‘",
+        "review": true
+      },
+      "tg": {
+        "value": "Равшан",
+        "review": true
+      },
+      "kk": {
+        "value": "Ашық",
+        "review": true
+      },
+      "ky": {
+        "value": "Ачык",
+        "review": true
+      }
+    }
+  },
+  "appearance.dark": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Тёмная",
+        "review": false
+      },
+      "en": {
+        "value": "Dark",
+        "review": false
+      },
+      "uz": {
+        "value": "Qorong‘i",
+        "review": true
+      },
+      "tg": {
+        "value": "Торик",
+        "review": true
+      },
+      "kk": {
+        "value": "Қараңғы",
+        "review": true
+      },
+      "ky": {
+        "value": "Караңгы",
+        "review": true
+      }
+    }
+  },
+  "settings.help": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "Информация и помощь",
+        "review": false
+      },
+      "en": {
+        "value": "Information and help",
+        "review": false
+      },
+      "uz": {
+        "value": "Ma’lumot va yordam",
+        "review": true
+      },
+      "tg": {
+        "value": "Маълумот ва кӯмак",
+        "review": true
+      },
+      "kk": {
+        "value": "Ақпарат және көмек",
+        "review": true
+      },
+      "ky": {
+        "value": "Маалымат жана жардам",
+        "review": true
+      }
+    }
+  },
+  "settings.about": {
+    "comment": "ZKR-75. Новая навигация. ru/en проверены; остальные переводы требуют вычитки носителями.",
+    "values": {
+      "ru": {
+        "value": "О приложении",
+        "review": false
+      },
+      "en": {
+        "value": "About the app",
+        "review": false
+      },
+      "uz": {
+        "value": "Ilova haqida",
+        "review": true
+      },
+      "tg": {
+        "value": "Дар бораи барнома",
+        "review": true
+      },
+      "kk": {
+        "value": "Қолданба туралы",
+        "review": true
+      },
+      "ky": {
+        "value": "Колдонмо жөнүндө",
+        "review": true
+      }
+    }
   }
 }

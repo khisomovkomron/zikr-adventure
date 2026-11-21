@@ -24,7 +24,7 @@ final class SiraScreenUITests: XCTestCase {
         let chip = app.buttons["settings.lang.\(language)"]
         XCTAssertTrue(chip.waitForExistence(timeout: 10))
         chip.tap()
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         XCTAssertTrue(app.buttons["zikr.button"].waitForExistence(timeout: 10), "нативный экран «Зикр» не показан")
         return app
     }
@@ -38,7 +38,7 @@ final class SiraScreenUITests: XCTestCase {
         }
 
         // При 0 все главы закрыты.
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         XCTAssertTrue(app.descendants(matching: .any)["sira.screen"].waitForExistence(timeout: 10), "нативный экран «Путь Сиры» не показан")
         XCTAssertTrue(app.staticTexts["sira.title"].exists)
         let ch01 = app.descendants(matching: .any)["sira.chapter.ch01"]
@@ -47,13 +47,13 @@ final class SiraScreenUITests: XCTestCase {
         XCTAssertFalse(app.buttons["sira.read.ch01"].exists)
 
         // 10 нажатий → глава 1 открыта, «Новое».
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         let button = app.buttons["zikr.button"]
         XCTAssertTrue(button.waitForExistence(timeout: 5))
         for _ in 0..<10 { button.tap() }
         XCTAssertTrue(waitFor(total, value: "10"))
         if app.buttons["zikr.banner.close"].exists { app.buttons["zikr.banner.close"].tap() }
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         XCTAssertTrue(waitFor(ch01, value: "new"), "получено: \(value(ch01))")
         XCTAssertTrue(ch01.label.contains("Новое"))
         XCTAssertTrue(waitFor(app.descendants(matching: .any)["sira.chapter.ch02"], value: "locked"))
@@ -73,8 +73,8 @@ final class SiraScreenUITests: XCTestCase {
 
         // Повторный показ вкладки: просмотрено (viewed записал веб).
         Thread.sleep(forTimeInterval: 1)
-        app.buttons["tab.info"].tap()
-        app.buttons["tab.path"].tap()
+        app.openAppInfo()
+        app.openService("path")
         XCTAssertTrue(waitFor(ch01, value: "open"), "получено: \(value(ch01))")
         XCTAssertFalse(ch01.label.contains("Новое"))
 
@@ -82,17 +82,17 @@ final class SiraScreenUITests: XCTestCase {
         let map = app.buttons["sira.map.ch01"]
         scrollTo(map, in: app)
         map.tap()
-        XCTAssertTrue(waitFor(app.buttons["tab.map"], selected: true), "«На карте» должна открыть «Карту»")
+        XCTAssertTrue(app.descendants(matching: .any)["map.screen"].waitForExistence(timeout: 10), "«На карте» должна открыть «Карту»")
 
         // Просмотр сохраняется после перезапуска.
         Thread.sleep(forTimeInterval: 1.5)
         app.terminate()
         let relaunched = launch()
-        relaunched.buttons["tab.path"].tap()
+        relaunched.openService("path")
         XCTAssertTrue(waitFor(relaunched.descendants(matching: .any)["sira.chapter.ch01"], value: "open"))
 
         // Вернуть чистое состояние.
-        relaunched.buttons["tab.zikr"].tap()
+        relaunched.openService("zikr")
         resetAll(relaunched)
         XCTAssertTrue(waitFor(relaunched.descendants(matching: .any)["zikr.total"], value: "0"))
     }
@@ -108,7 +108,7 @@ final class SiraScreenUITests: XCTestCase {
         for _ in 0..<25 { button.tap() }
         XCTAssertTrue(waitFor(total, value: "25"))
         if app.buttons["zikr.banner.close"].exists { app.buttons["zikr.banner.close"].tap() }
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         let read = app.buttons["sira.read.ch02"]
         XCTAssertTrue(read.waitForExistence(timeout: 5))
         scrollTo(read, in: app)
@@ -119,16 +119,16 @@ final class SiraScreenUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["sira.sheet.sira"].exists)
         XCTAssertEqual(app.staticTexts["sira.sheet.distance"].label, "От Каабы: ~20 м, юго-восток")
         app.buttons["sira.sheet.close"].tap()
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         resetAll(app)
         XCTAssertTrue(waitFor(total, value: "0"))
     }
 
     func testUzbekLabels() {
         let app = launch(language: "uz")
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         XCTAssertTrue(waitFor(app.staticTexts["sira.title"], label: "Siyrat yo‘li"))
-        XCTAssertTrue(waitFor(app.buttons["tab.path"], label: "Siyrat yo‘li"))
+        XCTAssertTrue(app.buttons["tab.services"].exists)
         app.buttons["tab.settings"].tap()
         app.buttons["settings.lang.ru"].tap()
     }
@@ -139,7 +139,7 @@ final class SiraScreenUITests: XCTestCase {
         let env = ProcessInfo.processInfo.environment
         let isWeb = env["ZIKR_SHOT_WEB"] == "1"
         let app = launch(language: env["ZIKR_SHOT_LANG"] ?? "ru")
-        app.buttons["tab.path"].tap()
+        app.openService("path")
         if isWeb {
             Thread.sleep(forTimeInterval: 3)
         } else {

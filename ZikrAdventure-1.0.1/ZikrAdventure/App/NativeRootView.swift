@@ -42,7 +42,8 @@ struct NativeRootView: View {
 
 private struct NativeTabsView: View {
     let container: AppContainer
-    @State private var selected: TabItem = .zikr
+    @State private var section: MainSection = .home
+    @State private var path: [TabItem] = []
     @ObservedObject private var localization: LocalizationService
     @StateObject private var info: InfoViewModel
     @StateObject private var settings: SettingsViewModel
@@ -66,29 +67,38 @@ private struct NativeTabsView: View {
     private var covered: Bool { onboarding.isVisible != false }
     var body: some View {
         VStack(spacing: 0) {
-            Group {
-                switch selected {
-                case .zikr: ZikrView(viewModel: zikr) { selected = $0 }
-                case .path: SiraView(viewModel: sira, progress: zikr)
-                case .map: MapView(viewModel: map)
-                case .info: InfoView(viewModel: info)
-                case .settings: SettingsView(viewModel: settings)
+            NavigationStack(path: $path) {
+                Group {
+                    switch section {
+                    case .home: HomeView(progress: zikr, open: open)
+                    case .services: ServicesView(localization: localization, open: open)
+                    case .settings: SettingsView(viewModel: settings, openInfo: { open(.info) })
+                    }
+                }
+                .navigationTitle(localization.tr(section.titleKey))
+                .toolbar(.hidden, for: .navigationBar)
+                .navigationDestination(for: TabItem.self) { destination in
+                    destinationView(destination)
+                        .toolbar(.visible, for: .navigationBar)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .allowsHitTesting(!covered).accessibilityHidden(covered)
             Group {
 #if DEBUG
-                NativeTabBar(selectedTab: $selected, localization: localization,
-                             onDebugLongPress: { gallery = true }, debugGalleryPresented: gallery)
+                MainSectionBar(selected: sectionBinding, localization: localization,
+                               onDebugLongPress: { gallery = true })
 #else
-                NativeTabBar(selectedTab: $selected, localization: localization)
+                MainSectionBar(selected: sectionBinding, localization: localization)
 #endif
             }.allowsHitTesting(!covered).accessibilityHidden(covered)
         }
+        .environment(\.locale, localization.locale)
         .fullScreenCover(isPresented: Binding(get: { covered }, set: { _ in })) {
             OnboardingView(viewModel: onboarding).interactiveDismissDisabled()
         }
-        .onChange(of: selected) { tab in
+        .onChange(of: path) { route in
+            let tab = route.last
             if tab == .info { Task { await info.refreshSettings() } } else { info.closeSheet() }
             if tab != .zikr { zikr.closeHistory() }
         }
@@ -98,18 +108,18 @@ private struct NativeTabsView: View {
         .task {
             zikr.openChapterNatively = { id in
                 guard !covered else { return false }
-                if sira.openFromBanner(id) { selected = .path; return true }
-                if map.explore(id) { selected = .map; return true }
+                if sira.openFromBanner(id) { open(.path); return true }
+                if map.explore(id) { open(.map); return true }
                 return false
             }
             await sira.start()
         }
         .task {
-            map.onSelectTab = { selected = $0 }
+            map.onSelectTab = { open($0) }
             sira.openOnMapNatively = { id, sheet in
                 guard !covered else { return false }
                 let opened = sheet ? map.explore(id, marksViewed: false) : map.showChapter(id)
-                if opened { selected = .map }
+                if opened { open(.map) }
                 return opened
             }
             await map.start()
@@ -122,6 +132,31 @@ private struct NativeTabsView: View {
 #if DEBUG
         .sheet(isPresented: $gallery) { UIKitGallery() }
 #endif
+    }
+    private var sectionBinding: Binding<MainSection> {
+        Binding(get: { section }, set: {
+            section = $0
+            // Повторное нажатие активного раздела тоже возвращает его корень.
+            path = []
+        })
+    }
+    private func open(_ destination: TabItem) {
+        if destination == .settings {
+            section = .settings
+            path = []
+        } else if path.last != destination {
+            path.append(destination)
+        }
+    }
+
+    @ViewBuilder private func destinationView(_ destination: TabItem) -> some View {
+        switch destination {
+        case .zikr: ZikrView(viewModel: zikr, selectTab: open)
+        case .path: SiraView(viewModel: sira, progress: zikr)
+        case .map: MapView(viewModel: map)
+        case .info: InfoView(viewModel: info)
+        case .settings: SettingsView(viewModel: settings, openInfo: { open(.info) })
+        }
     }
     private func updateSystemSettings(_ settings: AppSettings) {
         localization.setLanguage(settings.lang)

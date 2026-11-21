@@ -23,7 +23,7 @@ final class ZikrScreenUITests: XCTestCase {
         let chip = app.buttons["settings.lang.\(language)"]
         XCTAssertTrue(chip.waitForExistence(timeout: 10))
         chip.tap()
-        app.buttons["tab.zikr"].tap()
+        app.openService("zikr")
         XCTAssertTrue(app.buttons["zikr.button"].waitForExistence(timeout: 10), "нативный экран «Зикр» не показан")
         return app
     }
@@ -103,7 +103,7 @@ final class ZikrScreenUITests: XCTestCase {
         // VoiceOver-подписи — a11y.correct / a11y.button из UI.uz.
         XCTAssertTrue(waitFor(app.buttons["zikr.undo"], label: "Oxirgi bosishni tuzatish"))
         XCTAssertTrue(waitFor(app.buttons["zikr.button"], label: "Zikr tugmasi. Hisobni bittaga oshirish"))
-        XCTAssertTrue(waitFor(app.buttons["tab.zikr"], label: "Zikr"))
+        XCTAssertTrue(app.buttons["tab.services"].exists)
         // Вернуть русский.
         app.buttons["tab.settings"].tap()
         app.buttons["settings.lang.ru"].tap()

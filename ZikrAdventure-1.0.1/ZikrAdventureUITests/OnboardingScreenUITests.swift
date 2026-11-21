@@ -81,6 +81,7 @@ final class OnboardingScreenUITests: XCTestCase {
     }
 
     private func assertCounter(_ app: XCUIApplication, value: String) {
+        app.openService("zikr")
         XCTAssertTrue(app.buttons["zikr.button"].waitForExistence(timeout: 60))
         XCTAssertEqual(app.webViews.count, 0, "Основной интерфейс не должен содержать WebView")
         let counter = app.descendants(matching: .any)["zikr.total"].firstMatch
