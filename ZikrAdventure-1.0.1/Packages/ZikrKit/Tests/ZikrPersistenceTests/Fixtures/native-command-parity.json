@@ -1,0 +1,1141 @@
+[
+  {
+    "name": "tap-unlock-undo-reset",
+    "initial": {
+      "v": 2,
+      "total": 9,
+      "daily": {
+        "2026-11-19": 9
+      },
+      "unlocked": [],
+      "viewed": [],
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "animations": true,
+        "banners": true,
+        "translit": true,
+        "translation": true,
+        "keepAwake": false,
+        "goalOn": false,
+        "goal": 100,
+        "preview": false,
+        "lang": "ru"
+      },
+      "onboarded": false,
+      "cameras": {},
+      "city": null,
+      "updatedAt": null
+    },
+    "steps": [
+      {
+        "command": {
+          "name": "tap",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 10,
+          "daily": {
+            "2026-11-19": 10
+          },
+          "unlocked": [
+            "ch01"
+          ],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600000
+        },
+        "fresh": [
+          "ch01"
+        ]
+      },
+      {
+        "command": {
+          "name": "undo",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 9,
+          "daily": {
+            "2026-11-19": 9
+          },
+          "unlocked": [
+            "ch01"
+          ],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600001
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "tap",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 10,
+          "daily": {
+            "2026-11-19": 10
+          },
+          "unlocked": [
+            "ch01"
+          ],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600002
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "reset",
+          "text": "counter",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 0,
+          "daily": {
+            "2026-11-19": 10
+          },
+          "unlocked": [
+            "ch01"
+          ],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600003
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "tap",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 1,
+          "daily": {
+            "2026-11-19": 11
+          },
+          "unlocked": [
+            "ch01"
+          ],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600004
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "reset",
+          "text": "all",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 0,
+          "daily": {
+            "2026-11-19": 11
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600005
+        },
+        "fresh": []
+      }
+    ]
+  },
+  {
+    "name": "midnight-clock-rollback",
+    "initial": {
+      "v": 2,
+      "total": 4,
+      "daily": {
+        "2026-11-18": 4
+      },
+      "unlocked": [],
+      "viewed": [],
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "animations": true,
+        "banners": true,
+        "translit": true,
+        "translation": true,
+        "keepAwake": false,
+        "goalOn": false,
+        "goal": 100,
+        "preview": false,
+        "lang": "ru"
+      },
+      "onboarded": false,
+      "cameras": {},
+      "city": null,
+      "updatedAt": null
+    },
+    "steps": [
+      {
+        "command": {
+          "name": "undo",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 3,
+          "daily": {
+            "2026-11-18": 4
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600000
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "tap",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 4,
+          "daily": {
+            "2026-11-18": 4,
+            "2026-11-19": 1
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600001
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "tap",
+          "day": "2026-11-20",
+          "now": 1795176000000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5,
+          "daily": {
+            "2026-11-18": 4,
+            "2026-11-19": 1,
+            "2026-11-20": 1
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795176000000
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "tap",
+          "now": 1795089599000
+        },
+        "expected": {
+          "v": 2,
+          "total": 6,
+          "daily": {
+            "2026-11-18": 4,
+            "2026-11-19": 2,
+            "2026-11-20": 1
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795176000001
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "clearHistory",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 6,
+          "daily": {
+            "2026-11-19": 2
+          },
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795176000002
+        },
+        "fresh": []
+      }
+    ]
+  },
+  {
+    "name": "settings-onboarding-and-full-reset",
+    "initial": {
+      "v": 2,
+      "total": 42,
+      "daily": {},
+      "unlocked": [],
+      "viewed": [],
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "animations": true,
+        "banners": true,
+        "translit": true,
+        "translation": true,
+        "keepAwake": false,
+        "goalOn": false,
+        "goal": 100,
+        "preview": false,
+        "lang": "ru"
+      },
+      "onboarded": false,
+      "cameras": {
+        "mecca": {
+          "x": 2,
+          "y": 3,
+          "z": 1
+        }
+      },
+      "city": "mecca",
+      "updatedAt": null
+    },
+    "steps": [
+      {
+        "command": {
+          "name": "setSetting",
+          "field": "goal",
+          "int": 333,
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 333,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600000
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "setSetting",
+          "field": "goal",
+          "int": 20000,
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 10000,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600001
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "setSetting",
+          "field": "sound",
+          "bool": true,
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": true,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 10000,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600002
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "setLang",
+          "text": "ky",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": true,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 10000,
+            "preview": false,
+            "lang": "ky"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600003
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "resetDefaults",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ky"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600004
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "completeOnboarding",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ky"
+          },
+          "onboarded": true,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600005
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "completeOnboarding",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 42,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ky"
+          },
+          "onboarded": true,
+          "cameras": {
+            "mecca": {
+              "x": 2,
+              "y": 3,
+              "z": 1
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600005
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "resetProgress",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 0,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ky"
+          },
+          "onboarded": true,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600000
+        },
+        "fresh": []
+      }
+    ]
+  },
+  {
+    "name": "chapters-and-map",
+    "initial": {
+      "v": 2,
+      "total": 5000,
+      "daily": {},
+      "unlocked": [
+        "ch01",
+        "ch09",
+        "ch19"
+      ],
+      "viewed": [],
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "animations": true,
+        "banners": true,
+        "translit": true,
+        "translation": true,
+        "keepAwake": false,
+        "goalOn": false,
+        "goal": 100,
+        "preview": false,
+        "lang": "ru"
+      },
+      "onboarded": false,
+      "cameras": {},
+      "city": null,
+      "updatedAt": null
+    },
+    "steps": [
+      {
+        "command": {
+          "name": "markViewed",
+          "text": "ch01",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600000
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "markViewed",
+          "text": "ch01",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": null,
+          "updatedAt": 1795089600000
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "showChapter",
+          "text": "ch09",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01",
+            "ch09"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": "medina",
+          "updatedAt": 1795089600002
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "explore",
+          "text": "ch19",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": "medina",
+          "updatedAt": 1795089600003
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "selectCity",
+          "text": "mecca",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {},
+          "city": "mecca",
+          "updatedAt": 1795089600004
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "saveCamera",
+          "text": "mecca",
+          "camera": {
+            "x": -20,
+            "y": 15,
+            "z": 1.4
+          },
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": -20,
+              "y": 15,
+              "z": 1.4
+            }
+          },
+          "city": "mecca",
+          "updatedAt": 1795089600005
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "selectCity",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 5000,
+          "daily": {},
+          "unlocked": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "viewed": [
+            "ch01",
+            "ch09",
+            "ch19"
+          ],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": -20,
+              "y": 15,
+              "z": 1.4
+            }
+          },
+          "city": null,
+          "updatedAt": 1795089600006
+        },
+        "fresh": []
+      },
+      {
+        "command": {
+          "name": "reset",
+          "text": "all",
+          "now": 1795089600000
+        },
+        "expected": {
+          "v": 2,
+          "total": 0,
+          "daily": {},
+          "unlocked": [],
+          "viewed": [],
+          "settings": {
+            "haptics": true,
+            "sound": false,
+            "animations": true,
+            "banners": true,
+            "translit": true,
+            "translation": true,
+            "keepAwake": false,
+            "goalOn": false,
+            "goal": 100,
+            "preview": false,
+            "lang": "ru"
+          },
+          "onboarded": false,
+          "cameras": {
+            "mecca": {
+              "x": -20,
+              "y": 15,
+              "z": 1.4
+            }
+          },
+          "city": null,
+          "updatedAt": 1795089600007
+        },
+        "fresh": []
+      }
+    ]
+  }
+]

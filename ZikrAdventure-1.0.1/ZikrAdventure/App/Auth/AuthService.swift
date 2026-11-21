@@ -50,6 +50,10 @@ final class UITestAuthService: AuthService {
         self.state = state
     }
 
+    static func isEnabled(in environment: [String: String]) -> Bool {
+        ["guest", "signedIn"].contains(environment["ZIKR_UITEST_AUTH"] ?? "")
+    }
+
     static func fromEnvironment(_ environment: [String: String]) -> UITestAuthService? {
         switch environment["ZIKR_UITEST_AUTH"] {
         case "signedIn":

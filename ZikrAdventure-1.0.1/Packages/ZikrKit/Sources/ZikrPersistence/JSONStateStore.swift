@@ -53,6 +53,9 @@ public actor JSONStateStore: StateStore {
         }
     }
 
+    /// ZKR-59: используется actor-изолированной транзакцией команд.
+    var commandDate: Date { clock.now }
+
     // MARK: - Bootstrap
 
     /// Первичная загрузка/миграция. Повторный вызов ничего не переписывает.
@@ -76,6 +79,32 @@ public actor JSONStateStore: StateStore {
         return .created(from: source)
     }
 
+    /// ZKR-59: единственная точка переключения с shadow на native writer.
+    /// Вызывается только после успешного чтения ВСЕХ legacy-источников (включая отсутствие).
+    public func activateNative(_ sources: LegacySources) throws {
+        loadIfNeeded()
+        if unreadable { throw AppError.storageRead(Self.unreadableReason) }
+        if let schema = readOnlySchema { throw AppError.unsupportedSchema(schema) }
+        if cached?.meta.nativeWriterActivated == true { return }
+        let legacy = LegacyMigrator.resolve(sources, preferredLanguages: preferredLanguages)
+        var progress = cached?.progress ?? .fresh(preferredLanguages: preferredLanguages)
+        if let incoming = legacy?.0 {
+            if cached == nil { progress = incoming }
+            else if progress.updatedAt != nil || incoming.updatedAt != nil {
+                if (incoming.updatedAt ?? 0) >= (progress.updatedAt ?? 0) { progress = incoming }
+            } else {
+                progress = StateMerger.merge(progress, incoming, preferredLanguages: preferredLanguages)
+            }
+        }
+        var document = cached ?? StateDocument(progress: progress, meta: .init(
+            createdAt: clock.now, createdFrom: legacy?.1 ?? LegacyMigrator.Source.fresh,
+            writtenByAppVersion: appVersion))
+        document.progress = progress
+        document.meta.nativeWriterActivated = true
+        document.meta.writtenByAppVersion = appVersion
+        guard write(document) else { throw AppError.storageWrite(Self.fileName) }
+    }
+
     public func document() -> StateDocument? {
         loadIfNeeded()
         return cached
@@ -88,7 +117,7 @@ public actor JSONStateStore: StateStore {
     @discardableResult
     public func replaceFromWeb(json: String, source: String = "webSave") -> Bool {
         loadIfNeeded()
-        guard !unreadable, readOnlySchema == nil else { return false }
+        guard !unreadable, readOnlySchema == nil, cached?.meta.nativeWriterActivated != true else { return false }
         guard let value = JSONValue.parse(json), value.objectValue != nil else {
             Log.persistence.error("replaceFromWeb: invalid JSON snapshot ignored")
             return false
@@ -160,12 +189,11 @@ public actor JSONStateStore: StateStore {
         guard !loaded else { return }
         loaded = true
         unreadable = false
-        let fm = FileManager.default
-        guard fm.fileExists(atPath: fileURL.path) else { return }
-
         let data: Data
         do {
             data = try readData(fileURL)
+        } catch let error as CocoaError where error.code == .fileReadNoSuchFile || error.code == .fileNoSuchFile {
+            return
         } catch {
             // ZKR-61: ошибка ввода-вывода — не повреждение. Файл остаётся на месте,
             // запись блокируется до явного сигнала retryUnreadableFile().

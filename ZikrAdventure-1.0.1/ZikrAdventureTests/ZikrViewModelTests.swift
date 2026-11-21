@@ -33,7 +33,7 @@ final class ZikrViewModelTests: XCTestCase {
         return state
     }
 
-    private func setUp(_ state: ProgressState?, bannerDuration: TimeInterval = 7) async {
+    private func setUp(_ state: ProgressState?, bannerDuration: TimeInterval = 7, clock: (any AppClock)? = nil) async {
         repository = FakeProgressRepository(state)
         sink = FakeZikrSink(state: state ?? ProgressState(), day: day)
         feedback = FakeZikrFeedback()
@@ -46,7 +46,7 @@ final class ZikrViewModelTests: XCTestCase {
             localization: localization,
             feedback: feedback,
             announcer: announcer,
-            clock: FixedClock(now),
+            clock: clock ?? FixedClock(now),
             bannerDuration: bannerDuration
         )
         let viewModel = self.viewModel!
@@ -59,6 +59,57 @@ final class ZikrViewModelTests: XCTestCase {
     override func tearDown() async throws {
         startTask?.cancel()
         startTask = nil
+    }
+
+    func testDayRefreshPreservesHistoryTotalAndSession() async {
+        let clock = AdvancingZikrClock(now)
+        await setUp(makeState(total: 5, today: 5), clock: clock)
+        clock.set(Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: now)!)
+        viewModel.refreshDay()
+        XCTAssertEqual(viewModel.today, 0)
+        XCTAssertEqual(viewModel.total, 5)
+        XCTAssertEqual(viewModel.session, 0)
+        XCTAssertEqual(viewModel.daily[day], 5)
+        XCTAssertTrue(sink.calls.isEmpty, "смена дня не пишет прогресс")
+        clock.set(now)
+        viewModel.refreshDay()
+        XCTAssertEqual(viewModel.today, 5, "возврат даты восстанавливает сохранённый день")
+    }
+
+    func testFirstTapAndUndoAfterMidnightUseCurrentDayImmediately() async {
+        let clock = AdvancingZikrClock(now)
+        await setUp(makeState(total: 5, today: 5), clock: clock)
+        let next = Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: now)!
+        clock.set(next)
+        sink.day = DayKey.string(for: next)
+        sink.delayNanoseconds = 100_000_000
+        viewModel.tap()
+        XCTAssertEqual(viewModel.today, 1, "первый тап не переносит вчерашние 5")
+        XCTAssertEqual(viewModel.daily[day], 5)
+        await waitUntil { !self.viewModel.hasPendingCommands }
+        XCTAssertEqual(viewModel.today, 1)
+        viewModel.undo()
+        XCTAssertEqual(viewModel.today, 0)
+        await waitUntil { !self.viewModel.hasPendingCommands }
+        XCTAssertEqual(viewModel.total, 5)
+        XCTAssertEqual(sink.state.daily[day], 5)
+        XCTAssertEqual(sink.state.daily[sink.day], 0)
+    }
+
+    func testUndoAfterMidnightWithoutNewTapKeepsYesterdayHistory() async {
+        let clock = AdvancingZikrClock(now)
+        await setUp(makeState(total: 5, today: 5), clock: clock)
+        let next = Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: now)!
+        clock.set(next)
+        sink.day = DayKey.string(for: next)
+        sink.delayNanoseconds = 100_000_000
+        viewModel.undo()
+        XCTAssertEqual(viewModel.today, 0, "не показываем вчерашние 5 минус 1")
+        XCTAssertEqual(viewModel.daily[day], 5)
+        await waitUntil { !self.viewModel.hasPendingCommands }
+        XCTAssertEqual(viewModel.total, 4)
+        XCTAssertEqual(sink.state.daily[day], 5)
+        XCTAssertEqual(sink.state.daily[sink.day] ?? 0, 0)
     }
 
     // MARK: - Загрузка
@@ -482,4 +533,13 @@ final class FakeWebEvaluator: WebQueryEvaluating, WebCommandEvaluating {
         commands.append(script)
         return commandResult
     }
+}
+
+/// Потокобезопасный управляемый clock: тест меняет сутки без изменения системных часов.
+private final class AdvancingZikrClock: AppClock, @unchecked Sendable {
+    private let lock = NSLock()
+    private var date: Date
+    init(_ date: Date) { self.date = date }
+    var now: Date { lock.lock(); defer { lock.unlock() }; return date }
+    func set(_ value: Date) { lock.lock(); defer { lock.unlock() }; date = value }
 }

@@ -15,6 +15,7 @@ final class InfoScreenUITests: XCTestCase {
 
     func testInfoListOpensAndClosesSheets() {
         let app = XCUIApplication()
+        app.launchEnvironment["ZIKR_UITEST_AUTH"] = "guest"
         app.launch()
         skipOnboardingIfShown(app)
 

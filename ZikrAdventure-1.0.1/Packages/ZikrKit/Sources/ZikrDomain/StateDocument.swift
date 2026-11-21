@@ -12,12 +12,15 @@ public struct StateDocument: Codable, Equatable, Sendable {
         public var createdFrom: String
         public var lastWebSyncAt: Date?
         public var writtenByAppVersion: String
+        /// ZKR-59: legacy импорт завершён; старые источники больше не читаются.
+        public var nativeWriterActivated: Bool?
 
-        public init(createdAt: Date, createdFrom: String, lastWebSyncAt: Date? = nil, writtenByAppVersion: String) {
+        public init(createdAt: Date, createdFrom: String, lastWebSyncAt: Date? = nil, writtenByAppVersion: String, nativeWriterActivated: Bool? = nil) {
             self.createdAt = createdAt
             self.createdFrom = createdFrom
             self.lastWebSyncAt = lastWebSyncAt
             self.writtenByAppVersion = writtenByAppVersion
+            self.nativeWriterActivated = nativeWriterActivated
         }
     }
 

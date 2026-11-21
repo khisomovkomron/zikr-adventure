@@ -12,6 +12,14 @@ final class OnboardingViewModelTests: XCTestCase {
                     localization: LocalizationService(language: .en, defaults: nil)), sink, settings)
     }
 
+    func testRestoredStatusInitializesWithoutIntermediateModal() {
+        let model = OnboardingViewModel(sink: OnboardingSinkStub(), settings: FakeSettingsSink(),
+            localization: LocalizationService(language: .en, defaults: nil),
+            initialStatus: OnboardingStatus(onboarded: true, language: "ky"))
+        XCTAssertEqual(model.isVisible, false)
+        XCTAssertEqual(model.localization.language, .ky)
+    }
+
     func testWaitsForRestoredState() async {
         let (model, sink, _) = make(nil)
         await model.refresh()

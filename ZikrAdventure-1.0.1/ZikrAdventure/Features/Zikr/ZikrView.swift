@@ -58,6 +58,11 @@ struct ZikrView: View {
         } message: {
             Text(tr(.resetMsg))
         }
+        .onAppear { viewModel.refreshDay() }
+        .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged)) { _ in viewModel.refreshDay() }
+        .onReceive(NotificationCenter.default.publisher(for: .NSSystemTimeZoneDidChange)) { _ in viewModel.refreshDay() }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in viewModel.refreshDay() }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in viewModel.refreshDay() }
         .accessibilityIdentifier("zikr.screen")
     }
 
