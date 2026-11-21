@@ -8,6 +8,12 @@ set -euo pipefail
 TASK_ROOT="${0:A:h:h}"
 [[ "$ZIKR_EXPORT_DIR" != "$TASK_ROOT" && "$ZIKR_EXPORT_DIR" != "$TASK_ROOT/"* ]] || { print -u2 'Export outside the repository'; exit 2; }
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+ZIKR_AUTH_OPTIONS=()
+if [[ -n "${ASC_KEY_PATH:-}" ]]; then
+  ZIKR_API_KEY_ID="${ASC_KEY_PATH:t:r}"
+  ZIKR_API_KEY_ID="${ZIKR_API_KEY_ID#AuthKey_}"
+  ZIKR_AUTH_OPTIONS=(-authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ZIKR_API_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+fi
 ZIKR_PREFLIGHT_RESULT="$(python3 "$TASK_ROOT/tools/testflight_preflight.py")"
 # The operator must first apply/commit the build selected by --apply-build.
 python3 - "$TASK_ROOT" "$ZIKR_PREFLIGHT_RESULT" <<'PY'
@@ -32,7 +38,7 @@ cd "$TASK_ROOT/ZikrAdventure-1.0.1"
 xcodebuild archive -project ZikrAdventure.xcodeproj -scheme ZikrAdventure -configuration Release \
   -destination 'generic/platform=iOS' -archivePath "$ZIKR_EXPORT_DIR/ZikrAdventure.xcarchive" \
   -derivedDataPath /private/tmp/zikr62-ios -jobs 2 -skipPackageUpdates \
-  -disableAutomaticPackageResolution -allowProvisioningUpdates DEVELOPMENT_TEAM="$ZIKR_TEAM_ID" CODE_SIGN_STYLE=Automatic
+  -disableAutomaticPackageResolution -allowProvisioningUpdates "${ZIKR_AUTH_OPTIONS[@]}" DEVELOPMENT_TEAM="$ZIKR_TEAM_ID" CODE_SIGN_STYLE=Automatic
 xcodebuild -exportArchive -archivePath "$ZIKR_EXPORT_DIR/ZikrAdventure.xcarchive" \
   -exportPath "$ZIKR_EXPORT_DIR/ipa" -exportOptionsPlist "$ZIKR_EXPORT_DIR/ExportOptions.plist" \
-  -allowProvisioningUpdates
+  -allowProvisioningUpdates "${ZIKR_AUTH_OPTIONS[@]}"
