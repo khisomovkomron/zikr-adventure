@@ -137,6 +137,7 @@ extension TabItem {
         case .info: return .tabInfo
         case .settings: return .tabSettings
         case .qibla: return .qiblaTitle
+        case .calendar: return .calendarTitle
         }
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78A000000000000000000006 /* HijriLocalDatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A000000000000000000005; };
+		78A000000000000000000004 /* HijriCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A000000000000000000003; };
+		78A000000000000000000002 /* HijriCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A000000000000000000001; };
 		44A000000000000000000004 /* QiblaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A000000000000000000003 /* QiblaView.swift */; };
 		44A000000000000000000002 /* QiblaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A000000000000000000001 /* QiblaViewModel.swift */; };
 		75A000000000000000000003 /* MainNavigationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A000000000000000000004 /* MainNavigationUITests.swift */; };
@@ -126,6 +129,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		78A000000000000000000005 /* HijriLocalDatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HijriLocalDatesView.swift; path = "../Features/Calendar/HijriLocalDatesView.swift"; sourceTree = "<group>"; };
+		78A000000000000000000003 /* HijriCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HijriCalendarView.swift; path = "../Features/Calendar/HijriCalendarView.swift"; sourceTree = "<group>"; };
+		78A000000000000000000001 /* HijriCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HijriCalendarModel.swift; path = "../Features/Calendar/HijriCalendarModel.swift"; sourceTree = "<group>"; };
 		44A000000000000000000003 /* QiblaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaView.swift; sourceTree = "<group>"; };
 		44A000000000000000000001 /* QiblaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiblaViewModel.swift; sourceTree = "<group>"; };
 		75A000000000000000000004 /* MainNavigationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationUITests.swift; sourceTree = "<group>"; };
@@ -495,6 +501,9 @@
 				7E3A8529B75DCE457D6EAFC1 /* NativeCommandSink.swift */,
 				B719DC745BB99529D691745E /* NativeRootView.swift */,
 				75A000000000000000000002 /* MainSections.swift */,
+				78A000000000000000000001 /* HijriCalendarModel.swift */,
+				78A000000000000000000003 /* HijriCalendarView.swift */,
+				78A000000000000000000005 /* HijriLocalDatesView.swift */,
 				44A000000000000000000003 /* QiblaView.swift */,
 				44A000000000000000000001 /* QiblaViewModel.swift */,
 				89307DA988A5692A81F80F39 /* ProgressFileStore.swift */,
@@ -739,6 +748,9 @@
 				AD48E0C251536FB52683449A /* NativeCommandSink.swift in Sources */,
 				C3D13F33158EACD724AFB366 /* NativeRootView.swift in Sources */,
 				75A000000000000000000001 /* MainSections.swift in Sources */,
+				78A000000000000000000002 /* HijriCalendarModel.swift in Sources */,
+				78A000000000000000000004 /* HijriCalendarView.swift in Sources */,
+				78A000000000000000000006 /* HijriLocalDatesView.swift in Sources */,
 				44A000000000000000000004 /* QiblaView.swift in Sources */,
 				44A000000000000000000002 /* QiblaViewModel.swift in Sources */,
 				17277F714140184FAA0FE3B6 /* OnboardingView.swift in Sources */,

@@ -1358,6 +1358,1392 @@
         }
       }
     },
+    "calendar.adha" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eid al-Adha"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Құрбан айт"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Курман айт"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Курбан-байрам"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Иди Қурбон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Qurbon hayiti"
+          }
+        }
+      }
+    },
+    "calendar.adjusted" : {
+      "comment" : "ZKR-78: соседняя граница пересчитана из местного якоря.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation adjusted for local dates"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергілікті күндерге түзетілген есеп"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергиликтүү даталарга ылайыкталган эсеп"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчёт с учётом местных дат"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ҳисоб бо назардошти санаҳои маҳаллӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mahalliy sanalarga moslangan hisob"
+          }
+        }
+      }
+    },
+    "calendar.arafah" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day of Arafah"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Арафа күні"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Арафа күнү"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "День Арафа"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Рӯзи Арафа"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Arafa kuni"
+          }
+        }
+      }
+    },
+    "calendar.calculated" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated date · Umm al-Qura"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Есептелген күн · Умм әл-Қура"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Эсептелген дата · Умм ал-Кура"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчётная дата · Умм аль-Кура"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаи ҳисобӣ · Умм ал-Қуро"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hisoblangan sana · Umm al-Qura"
+          }
+        }
+      }
+    },
+    "calendar.cancel" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бас тарту"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жокко чыгаруу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бекор кардан"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bekor qilish"
+          }
+        }
+      }
+    },
+    "calendar.choose" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set local date"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергілікті күнді орнату"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергиликтүү датаны тандоо"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Указать местную дату"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Интихоби санаи маҳаллӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mahalliy sanani tanlash"
+          }
+        }
+      }
+    },
+    "calendar.conflict" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates are inconsistent"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Күндер сәйкес емес"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Даталар шайкеш эмес"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Даты не согласуются"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаҳо мувофиқ нестанд"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sanalar mos kelmaydi"
+          }
+        }
+      }
+    },
+    "calendar.conflictNote" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Months must have 29 or 30 days. Check the local dates, including Eid al-Fitr, or reset this year. Changes were not saved."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Айлар 29 не 30 күн болуы тиіс. Ораза айт күнін де тексеріңіз немесе жылды қалпына келтіріңіз. Өзгерістер сақталмады."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Айлар 29 же 30 күн болушу керек. Орозо айт датасын да текшериңиз же жылды калыбына келтириңиз. Өзгөрүүлөр сакталган жок."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Между началами месяцев должно быть 29 или 30 дней. Проверьте местные даты, в том числе Ураза-байрам, или верните расчётные даты года. Изменения не сохранены."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Моҳҳо бояд 29 ё 30 рӯз бошанд. Санаҳо, аз ҷумла Иди Фитрро санҷед ё солро барқарор кунед. Тағйирот сабт нашуд."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Oylar 29 yoki 30 kun bo‘lishi kerak. Hayit sanasini ham tekshiring yoki yilni tiklang. O‘zgarishlar saqlanmadi."
+          }
+        }
+      }
+    },
+    "calendar.date" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gregorian date"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Григориан күні"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Григориан датасы"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Григорианская дата"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаи милодӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Milodiy sana"
+          }
+        }
+      }
+    },
+    "calendar.dhul" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dhul-Hijjah begins"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Зүлхижжаның басталуы"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Зулхижжанын башталышы"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начало Зуль-хиджи"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Оғози Зулҳиҷҷа"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Zulhijja boshlanishi"
+          }
+        }
+      }
+    },
+    "calendar.done" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Дайын"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Даяр"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Тайёр"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tayyor"
+          }
+        }
+      }
+    },
+    "calendar.events" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Year events"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жыл оқиғалары"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жыл окуялары"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "События года"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Рӯйдодҳои сол"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Yil voqealari"
+          }
+        }
+      }
+    },
+    "calendar.fitr" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eid al-Fitr"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ораза айт"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Орозо айт"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ураза-байрам"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Иди Фитр"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ramazon hayiti"
+          }
+        }
+      }
+    },
+    "calendar.hijriYear" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri year"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Һижра жылы"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Хижра жылы"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Год хиджры"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Соли ҳиҷрӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hijriy yil"
+          }
+        }
+      }
+    },
+    "calendar.homeNote" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated dates; local announcements may differ."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Есептелген күндер; жергілікті хабарландырулар өзгеше болуы мүмкін."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Эсептелген даталар; жергиликтүү жарыялар айырмаланышы мүмкүн."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчётные даты; местные объявления могут отличаться."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаҳои ҳисобӣ; эълонҳои маҳаллӣ метавонанд фарқ кунанд."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hisoblangan sanalar; mahalliy e’lonlar farq qilishi mumkin."
+          }
+        }
+      }
+    },
+    "calendar.local" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local dates"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергілікті күндер"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергиликтүү даталар"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Местные даты"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаҳои маҳаллӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mahalliy sanalar"
+          }
+        }
+      }
+    },
+    "calendar.localNote" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the date from a local announcement for this year. Up to two days from the calculation. The app does not verify announcements."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Осы жыл үшін жергілікті хабарландырудағы күнді енгізіңіз. Есептен екі күнге дейін айырма. Қолданба хабарландыруды тексермейді."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бул жыл үчүн жергиликтүү жарыядагы датаны киргизиңиз. Эсептен эки күнгө чейин айырма. Колдонмо жарыяны текшербейт."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите дату по местному объявлению для выбранного года. Поправка до двух дней от расчёта. Приложение не проверяет объявление."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаро аз эълони маҳаллӣ барои ин сол ворид кунед. То ду рӯз аз ҳисоб фарқ мекунад. Барнома эълонро тафтиш намекунад."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Shu yil uchun mahalliy e’londagi sanani kiriting. Hisobdan ikki kungacha farq. Ilova e’lonni tekshirmaydi."
+          }
+        }
+      }
+    },
+    "calendar.month" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ай"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ай"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Месяц"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Моҳ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Oy"
+          }
+        }
+      }
+    },
+    "calendar.next" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next month"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Келесі ай"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Кийинки ай"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следующий месяц"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Моҳи оянда"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Keyingi oy"
+          }
+        }
+      }
+    },
+    "calendar.note" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline · 2000–2050. Calculated dates may differ from local announcements. Days follow civil dates, without a sunset change."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Офлайн · 2000–2050. Есептелген күндер жергілікті хабарландырудан өзгеше болуы мүмкін. Күн азаматтық күнтізбе бойынша, күн батқанда ауыспайды."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Офлайн · 2000–2050. Эсептелген күндөр жергиликтүү жарыялардан айырмаланышы мүмкүн. Күн жарандык дата боюнча, күн батканда өзгөрбөйт."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Офлайн · 2000–2050. Расчётные даты могут отличаться от местных объявлений. День показан по гражданской дате, без смены на закате."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Офлайн · 2000–2050. Санаҳои ҳисобӣ метавонанд аз эълонҳои маҳаллӣ фарқ кунанд. Рӯз аз рӯи санаи милодӣ, бе ивазшавӣ ҳангоми ғуруб нишон дода мешавад."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Oflayn · 2000–2050. Hisoblangan sanalar mahalliy e’lonlardan farq qilishi mumkin. Kun fuqarolik sanasi bo‘yicha, quyosh botishida o‘zgarmaydi."
+          }
+        }
+      }
+    },
+    "calendar.pending" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated date · awaiting local confirmation"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Есептелген күн · жергілікті растауды күтеді"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Эсептелген дата · жергиликтүү ырастоо күтүлүүдө"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчётная дата · ожидает местного подтверждения"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаи ҳисобӣ · мунтазири тасдиқи маҳаллӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hisoblangan sana · mahalliy tasdiq kutilmoqda"
+          }
+        }
+      }
+    },
+    "calendar.pendingNote" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Eid al-Fitr separately: Ramadan has 29 or 30 days. Dhul-Hijjah is independent. A boundary change may adjust adjacent months; zikr history stays unchanged."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ораза айтты бөлек растаңыз: Рамазан 29 не 30 күн. Зүлхижжа тәуелсіз. Шекара көрші айларды түзетуі мүмкін; зікір тарихы өзгермейді."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Орозо айтты өзүнчө ырастаңыз: Рамазан 29 же 30 күн. Зулхижжа көз карандысыз. Чек коңшу айларды такташы мүмкүн; зикир тарыхы өзгөрбөйт."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ураза-байрам подтвердите отдельно: Рамадан длится 29 или 30 дней. Зуль-хиджа настраивается независимо. Изменение границы может уточнить соседние месяцы; история зикра не меняется."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Иди Фитрро алоҳида тасдиқ кунед: Рамазон 29 ё 30 рӯз аст. Зулҳиҷҷа мустақил аст. Сарҳад метавонад моҳҳои ҳамсояро ислоҳ кунад; таърихи зикр тағйир намеёбад."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ramazon hayitini alohida tasdiqlang: Ramazon 29 yoki 30 kun. Zulhijja mustaqil. Chegara qo‘shni oylarga ta’sir qilishi mumkin; zikr tarixi o‘zgarmaydi."
+          }
+        }
+      }
+    },
+    "calendar.previous" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous month"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Алдыңғы ай"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Мурунку ай"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предыдущий месяц"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Моҳи гузашта"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Oldingi oy"
+          }
+        }
+      }
+    },
+    "calendar.ramadan" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ramadan begins"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Рамазанның басталуы"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Рамазандын башталышы"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начало Рамадана"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Оғози Рамазон"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ramazon boshlanishi"
+          }
+        }
+      }
+    },
+    "calendar.reset" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset this year to calculated dates"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Осы жылдың есептелген күндерін қайтару"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бул жылдын эсептелген даталарын кайтаруу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуть расчётные даты этого года"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Барқарор кардани санаҳои ҳисобии ин сол"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bu yilni hisoblangan sanalarga qaytarish"
+          }
+        }
+      }
+    },
+    "calendar.save" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save date"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Күнді сақтау"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Датаны сактоо"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить дату"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Сабти сана"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sanani saqlash"
+          }
+        }
+      }
+    },
+    "calendar.storageError" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not read local dates. Showing calculation; saved data has not been deleted."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергілікті күндерді оқу мүмкін болмады. Есеп көрсетілді; сақталған деректер жойылған жоқ."
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Жергиликтүү даталар окулган жок. Эсеп көрсөтүлдү; сакталган маалыматтар өчүрүлгөн жок."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось прочитать местные даты. Показан расчёт; сохранённые данные не удалены."
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаҳои маҳаллӣ хонда нашуданд. Ҳисоб нишон дода мешавад; маълумоти сабтшуда нест нашудааст."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mahalliy sanalar o‘qilmadi. Hisob ko‘rsatilmoqda; saqlangan ma’lumotlar o‘chirilmagan."
+          }
+        }
+      }
+    },
+    "calendar.summary" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri, Gregorian dates and events"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Һижра, григориан күндері мен оқиғалар"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Хижра, григориан даталары жана окуялар"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хиджра, григорианские даты и события"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ҳиҷрӣ, санаҳои милодӣ ва рӯйдодҳо"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hijriy, milodiy sanalar va voqealar"
+          }
+        }
+      }
+    },
+    "calendar.title" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri calendar"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Һижра күнтізбесі"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Хижра календары"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Календарь хиджры"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Тақвими ҳиҷрӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hijriy taqvim"
+          }
+        }
+      }
+    },
+    "calendar.today" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бүгін"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бүгүн"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сегодня"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Имрӯз"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bugun"
+          }
+        }
+      }
+    },
+    "calendar.useCalculated" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use calculation for month"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ай есебіне қайту"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Айдын эсебине кайтуу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуть расчёт для месяца"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Бозгашт ба ҳисоби моҳ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Oy hisobiga qaytish"
+          }
+        }
+      }
+    },
+    "calendar.user" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local date you entered"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Сіз енгізген жергілікті күн"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Сиз киргизген жергиликтүү дата"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы указали местную дату"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Санаи маҳаллии воридкардаи шумо"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Siz kiritgan mahalliy sana"
+          }
+        }
+      }
+    },
+    "calendar.year" : {
+      "comment" : "ZKR-78: календарь; переводы требуют вычитки носителями.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gregorian year"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Григориан жылы"
+          }
+        },
+        "ky" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Григориан жылы"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Григорианский год"
+          }
+        },
+        "tg" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Соли милодӣ"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Milodiy yil"
+          }
+        }
+      }
+    },
     "card.center" : {
       "extractionState" : "manual",
       "localizations" : {
