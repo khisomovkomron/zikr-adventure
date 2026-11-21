@@ -1,0 +1,423 @@
+// TabsView.swift
+// Корневой экран: один shared WKWebView сверху и нативный tab bar снизу.
+// TabView не используется — его непрозрачный фон перекрывал web view и перехватывал нажатия.
+// ZKR-48: вкладка «Инфо» — нативный экран поверх web view (веб под ним остаётся на вкладке info).
+// ZKR-50: так же устроена вкладка «Настройки»; язык интерфейса — LocalizationService из AppContainer.
+// ZKR-52: и главная вкладка «Зикр» (счётчик); шестерёнка и «Карта» выбирают нативную вкладку.
+// ZKR-53: и вкладка «Путь Сиры»; «Изучить» в баннере для главы без города открывает её нативный лист.
+// ZKR-57: и вкладка «Карта»; «На карте» в «Пути Сиры» и «Изучить» для главы с городом открывают нативную карту.
+// ZKR-65: нативный онбординг перекрывает всё приложение до завершения; состояние берётся после восстановления веба.
+
+import SwiftUI
+import ZikrContent
+import ZikrDomain
+
+struct TabsView: View {
+    @State private var selectedTab: TabItem = .zikr
+    @ObservedObject private var localization: LocalizationService
+    @StateObject private var infoViewModel: InfoViewModel
+    @StateObject private var settingsViewModel: SettingsViewModel
+    @StateObject private var zikrViewModel: ZikrViewModel
+    @StateObject private var siraViewModel: SiraViewModel
+    @StateObject private var mapViewModel: MapViewModel
+    @StateObject private var onboarding: OnboardingViewModel
+    @State private var webOnboarding = WebOnboardingTracker()
+    private let auth: any AuthService
+#if DEBUG
+    @State private var showsUIKitGallery = false
+#endif
+
+    /// Интервал опроса веб-онбординга, пока его состояние не «завершён».
+    private static let onboardingPollInterval: UInt64 = 500_000_000
+
+    init(container: AppContainer) {
+        _onboarding = StateObject(wrappedValue: container.makeOnboardingViewModel())
+        localization = container.localization
+        auth = container.auth
+        _infoViewModel = StateObject(wrappedValue: container.makeInfoViewModel(
+            language: container.localization.language.rawValue
+        ))
+        _settingsViewModel = StateObject(wrappedValue: container.makeSettingsViewModel())
+        _zikrViewModel = StateObject(wrappedValue: container.makeZikrViewModel())
+        _siraViewModel = StateObject(wrappedValue: container.makeSiraViewModel())
+        _mapViewModel = StateObject(wrappedValue: container.makeMapViewModel())
+    }
+
+    private var blocksUnderlyingUI: Bool {
+        AppContainer.isNativeOnboardingEnabled && onboarding.isVisible != false
+    }
+
+    private var onboardingVisibility: Bool? {
+        AppContainer.isNativeOnboardingEnabled ? onboarding.isVisible : webOnboarding.isVisible
+    }
+
+    private var isNativeInfoAvailable: Bool {
+        AppContainer.isNativeInfoEnabled && infoViewModel.isAvailable
+    }
+
+    /// ZKR-50: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeSettingsAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeSettingsEnabled && settingsViewModel.isAvailable
+    }
+
+    /// ZKR-52: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeZikrAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeZikrEnabled && zikrViewModel.isAvailable
+    }
+
+    /// ZKR-53: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    /// Карточка прогресса — модель «Зикра», поэтому нужен и её контент.
+    private var isNativeSiraAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeSiraEnabled
+            && siraViewModel.isAvailable && zikrViewModel.content != nil
+    }
+
+    /// ZKR-57: экран читает zikr-state.json, поэтому без зеркала остаётся веб-версия.
+    private var isNativeMapAvailable: Bool {
+        AppContainer.isWebMirrorEnabled && AppContainer.isNativeMapEnabled && mapViewModel.isAvailable
+    }
+
+    private var showsNativeMap: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeMapAvailable,
+            isTabSelected: selectedTab == .map,
+            isWebOnboardingVisible: onboardingVisibility
+        )
+    }
+
+    private var showsNativeSira: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeSiraAvailable,
+            isTabSelected: selectedTab == .path,
+            isWebOnboardingVisible: onboardingVisibility
+        )
+    }
+
+    private var showsNativeZikr: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeZikrAvailable,
+            isTabSelected: selectedTab == .zikr,
+            isWebOnboardingVisible: onboardingVisibility
+        )
+    }
+
+    private var showsNativeInfo: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeInfoAvailable,
+            isTabSelected: selectedTab == .info,
+            isWebOnboardingVisible: onboardingVisibility
+        )
+    }
+
+    private var showsNativeSettings: Bool {
+        NativeScreenGate.shouldShowNativeScreen(
+            isEnabled: isNativeSettingsAvailable,
+            isTabSelected: selectedTab == .settings,
+            isWebOnboardingVisible: onboardingVisibility
+        )
+    }
+
+    /// Опрос нужен, пока онбординг не завершён: при старте (состояние неизвестно)
+    /// и пока выбрана нативная вкладка с открытым онбордингом.
+    private var needsOnboardingPoll: Bool {
+        guard !AppContainer.isNativeOnboardingEnabled else { return false }
+        guard isNativeInfoAvailable || isNativeSettingsAvailable || isNativeZikrAvailable || isNativeSiraAvailable
+                || isNativeMapAvailable,
+              onboardingVisibility != false else { return false }
+        return onboardingVisibility == nil
+            || (selectedTab == .info && isNativeInfoAvailable)
+            || (selectedTab == .settings && isNativeSettingsAvailable)
+            || (selectedTab == .zikr && isNativeZikrAvailable)
+            || (selectedTab == .path && isNativeSiraAvailable)
+            || (selectedTab == .map && isNativeMapAvailable)
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ZStack {
+                WebHostView(selectedTab: $selectedTab, auth: auth, localization: localization,
+                            isCoveredByNativeScreen: blocksUnderlyingUI || showsNativeInfo || showsNativeSettings
+                                || showsNativeZikr || showsNativeSira || showsNativeMap)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea(edges: .top)
+                    .accessibilityHidden(blocksUnderlyingUI || showsNativeInfo || showsNativeSettings || showsNativeZikr || showsNativeSira || showsNativeMap)
+
+                if showsNativeZikr {
+                    ZikrView(viewModel: zikrViewModel) { tab in
+                        selectedTab = tab
+                    }
+                }
+                if showsNativeSira {
+                    SiraView(viewModel: siraViewModel, progress: zikrViewModel)
+                }
+                if showsNativeMap {
+                    MapView(viewModel: mapViewModel)
+                }
+                if showsNativeInfo {
+                    InfoView(viewModel: infoViewModel)
+                }
+                if showsNativeSettings {
+                    SettingsView(viewModel: settingsViewModel)
+                }
+            }
+
+            Group {
+#if DEBUG
+            NativeTabBar(
+                selectedTab: $selectedTab,
+                localization: localization,
+                onDebugLongPress: { showsUIKitGallery = true },
+                debugGalleryPresented: showsUIKitGallery
+            )
+#else
+            NativeTabBar(selectedTab: $selectedTab, localization: localization)
+#endif
+            }
+            .allowsHitTesting(!blocksUnderlyingUI)
+            .accessibilityHidden(blocksUnderlyingUI)
+        }
+        .fullScreenCover(isPresented: Binding(get: { blocksUnderlyingUI }, set: { _ in })) {
+            OnboardingView(viewModel: onboarding)
+                .interactiveDismissDisabled()
+        }
+        .onChange(of: selectedTab) { newTab in
+            WebViewManager.shared.selectTab(newTab.webID)
+            if newTab == .info {
+                Task { await infoViewModel.refreshSettings() }
+            } else {
+                infoViewModel.closeSheet()
+            }
+            if newTab != .zikr {
+                // Лист «История» закрывается при уходе с вкладки (как лист «Инфо»).
+                zikrViewModel.closeHistory()
+            }
+        }
+        .onChange(of: localization.language) { language in
+            infoViewModel.setLanguage(language.rawValue)
+        }
+        .task {
+            // ZKR-50: настройки и аккаунт читаются всё время жизни экрана (не только на вкладке).
+            await settingsViewModel.start()
+        }
+        .task {
+            // ZKR-52: счётчик и настройки экрана «Зикр» читаются всё время жизни экрана.
+            await zikrViewModel.start()
+        }
+        .task {
+            // ZKR-53: главы и просмотры экрана «Путь Сиры» — тоже всё время жизни экрана.
+            // ZKR-57: глава с городом — explore() на нативной карте.
+            zikrViewModel.openChapterNatively = { id in
+                guard onboardingVisibility == false else { return false }
+                if isNativeSiraAvailable, siraViewModel.openFromBanner(id) {
+                    selectedTab = .path
+                    return true
+                }
+                if isNativeMapAvailable, mapViewModel.explore(id) {
+                    selectedTab = .map
+                    return true
+                }
+                return false
+            }
+            await siraViewModel.start()
+        }
+        .task {
+            // ZKR-57: карта (выбранный город, камеры, главы) — тоже всё время жизни экрана.
+            mapViewModel.onSelectTab = { tab in
+                selectedTab = tab
+            }
+            siraViewModel.openOnMapNatively = { id, withSheet in
+                guard isNativeMapAvailable, onboardingVisibility == false else { return false }
+                // Лист «Читать» уже отметил главу просмотренной: карта второй раз её не отмечает.
+                let opened = withSheet ? mapViewModel.explore(id, marksViewed: false) : mapViewModel.showChapter(id)
+                if opened { selectedTab = .map }
+                return opened
+            }
+            await mapViewModel.start()
+        }
+        .task(id: needsOnboardingPoll) {
+            guard needsOnboardingPoll else { return }
+            while !Task.isCancelled {
+                webOnboarding.record(await WebViewManager.shared.isOnboardingVisible())
+                if onboardingVisibility == false { break }
+                try? await Task.sleep(nanoseconds: Self.onboardingPollInterval)
+            }
+        }
+#if DEBUG
+        .sheet(isPresented: $showsUIKitGallery) {
+            UIKitGallery()
+        }
+#endif
+    }
+}
+
+/// Хост единственного WebAppViewController. Контроллер уже создан в WebViewManager.init.
+struct WebHostView: UIViewControllerRepresentable {
+    @Binding var selectedTab: TabItem
+    let auth: any AuthService
+    let localization: LocalizationService
+    var isCoveredByNativeScreen = false
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(selectedTab: $selectedTab)
+    }
+
+    func makeUIViewController(context: Context) -> WebAppViewController {
+        let manager = WebViewManager.shared
+        let controller = manager.viewController
+        controller.localization = localization
+        if controller.authService == nil {
+            controller.authService = auth
+        }
+        // FirebaseApp.configure() уже выполнен в AppDelegate.
+        auth.activate()
+        controller.webViewManager = manager
+        let coordinator = context.coordinator
+        manager.setTabSelectionHandler { tabID in
+            coordinator.handleTabChange(tabID)
+        }
+        manager.selectTab(selectedTab.webID)
+        return controller
+    }
+
+    func updateUIViewController(_ controller: WebAppViewController, context: Context) {
+        context.coordinator.selectedTab = $selectedTab
+        controller.localization = localization
+        // UIViewControllerRepresentable: SwiftUI's accessibilityHidden alone does not reliably
+        // hide WebKit's separate accessibility tree. Hide only the covered UIKit subtree.
+        controller.view.accessibilityElementsHidden = isCoveredByNativeScreen
+        controller.view.isUserInteractionEnabled = !isCoveredByNativeScreen
+    }
+
+    final class Coordinator {
+        var selectedTab: Binding<TabItem>
+
+        init(selectedTab: Binding<TabItem>) {
+            self.selectedTab = selectedTab
+        }
+
+        func handleTabChange(_ tabID: String) {
+            guard let tab = TabItem.allCases.first(where: { $0.webID == tabID }) else { return }
+            if selectedTab.wrappedValue != tab {
+                selectedTab.wrappedValue = tab
+            }
+        }
+    }
+}
+
+/// Нижняя панель вкладок. Сестра web view в VStack, не overlay.
+/// Цвета — CSS-переменные веб-таббара: --surface, --divider, --accent, --text2.
+struct NativeTabBar: View {
+    @Binding var selectedTab: TabItem
+    @ObservedObject var localization: LocalizationService
+    var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(TabItem.allCases) { tab in
+                TabBarButton(
+                    tab: tab,
+                    title: localization.tr(tab.titleKey),
+                    isSelected: selectedTab == tab,
+                    onDebugLongPress: onDebugLongPress,
+                    debugGalleryPresented: debugGalleryPresented
+                ) {
+                    selectedTab = tab
+                }
+            }
+        }
+        .frame(height: Theme.Size.tabBar)
+        .padding(.top, Theme.Size.tabBarTopPadding)
+        .background(
+            Theme.Color.surface
+                .ignoresSafeArea(edges: .bottom)
+        )
+        .overlay(alignment: .top) {
+            Theme.Color.divider.frame(height: Theme.Size.hairline)
+        }
+        .dynamicTypeSize(...DynamicTypeSize.large)
+        .accessibilityElement(children: .contain)
+    }
+}
+
+private struct TabBarButton: View {
+    let tab: TabItem
+    let title: String
+    let isSelected: Bool
+    var onDebugLongPress: (() -> Void)? = nil
+    var debugGalleryPresented: Bool = false
+    let action: () -> Void
+#if DEBUG
+    @State private var ignoreNextSelect = false
+#endif
+
+    var body: some View {
+        Button(action: selectIfTap) {
+            VStack(spacing: Theme.Size.tabGap) {
+                Image(tab.iconName)
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: Theme.Size.iconTab, height: Theme.Size.iconTab)
+                    .accessibilityHidden(true)
+                Text(title)
+                    .themeFont(isSelected ? .tabSelected : .tab)
+                    .lineLimit(1)
+                    .minimumScaleFactor(Theme.Scale.tabTitle)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+            .foregroundColor(isSelected ? Theme.Color.accent : Theme.Color.textSecondary)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityIdentifier("tab.\(tab.rawValue)")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
+#if DEBUG
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 1.2).onEnded { _ in
+                guard let onDebugLongPress else { return }
+                ignoreNextSelect = true
+                onDebugLongPress()
+            }
+        )
+        .onChange(of: debugGalleryPresented) { presented in
+            if !presented {
+                ignoreNextSelect = false
+            }
+        }
+#endif
+    }
+
+    private func selectIfTap() {
+#if DEBUG
+        if ignoreNextSelect {
+            ignoreNextSelect = false
+            return
+        }
+#endif
+        action()
+    }
+}
+
+struct NativeTabBar_Previews: PreviewProvider {
+    static var previews: some View {
+        ThemePreview.pair(name: "NativeTabBar") {
+            NativeTabBarPreviewHost()
+        }
+    }
+
+    private struct NativeTabBarPreviewHost: View {
+        @State private var selected: TabItem = .zikr
+        @StateObject private var localization = LocalizationService(defaults: nil)
+
+        var body: some View {
+            VStack {
+                Spacer()
+                NativeTabBar(selectedTab: $selected, localization: localization)
+            }
+            .background(Theme.Color.bg)
+        }
+    }
+}

@@ -2,7 +2,12 @@
 // Координатор авторизации для Google и Apple Sign-In через Firebase Authentication.
 // Состояния: guest → signingIn → signedIn/error. Поддерживает выход и удаление аккаунта.
 // Восстановление сессии через Firebase listener; только одна операция входа/удаления одновременно.
+// ZKR-50: один экземпляр в AppContainer (раньше — в WebAppViewController); состояние — @Published,
+// его слушают и нативный экран «Настройки», и мост в веб (zikr:auth). Слушатель Firebase
+// подключается в activate(), а не в init — контейнер создаётся до FirebaseApp.configure().
+// ZKR-56: удаление аккаунта — AccountDeletionFlow (всегда повторный вход; ошибка отзыва Apple → не удалять).
 
+import Combine
 import Foundation
 import FirebaseCore
 import FirebaseAuth
@@ -10,9 +15,10 @@ import GoogleSignIn
 import AuthenticationServices
 import CryptoKit
 import os
+import ZikrCore
 
 /// Логгер авторизации: пишет только domain/code ошибок (без токенов и nonce). ZKR-23.
-let authLogger = Logger(subsystem: "com.komronkhisomov.zikradventure", category: "auth")
+let authLogger = Log.auth
 
 /// Состояния авторизации
 enum AuthState: Equatable {
@@ -33,9 +39,9 @@ struct AuthUser: Equatable {
 
 /// Координатор авторизации
 @MainActor
-final class AuthCoordinator: NSObject {
-    private(set) var state: AuthState = .guest
-    var onStateChange: ((AuthState) -> Void)?
+final class AuthCoordinator: NSObject, ObservableObject, AuthService {
+    @Published private(set) var state: AuthState = .guest
+    var statePublisher: AnyPublisher<AuthState, Never> { $state.eraseToAnyPublisher() }
     
     private var currentNonce: String?
     private var authStateListener: AuthStateDidChangeListenerHandle?
@@ -44,6 +50,11 @@ final class AuthCoordinator: NSObject {
     
     override init() {
         super.init()
+    }
+
+    /// Подключает слушатель Firebase (восстановление сессии). Повторный вызов ничего не делает.
+    func activate() {
+        guard authStateListener == nil else { return }
         setupAuthListener()
     }
     
@@ -95,12 +106,11 @@ final class AuthCoordinator: NSObject {
     
     private func updateState(_ newState: AuthState) {
         state = newState
-        onStateChange?(newState)
     }
     
     // MARK: - Sign In with Google
     
-    func signInWithGoogle(presentingViewController: UIViewController) {
+    func signInWithGoogle(presenter presentingViewController: UIViewController) {
         // Issue 1: Allow retry from error state
         switch state {
         case .guest, .error: break // retry allowed from error state
@@ -239,119 +249,32 @@ final class AuthCoordinator: NSObject {
     
     // MARK: - Delete Account
     
-    func deleteAccount(presentingViewController: UIViewController) async throws {
-        guard case .signedIn(let user) = state else { return }
-        
-        guard let currentUser = Auth.auth().currentUser else {
-            updateState(.error(message: "error", retryable: true))
-            throw NSError(domain: "AuthCoordinator", code: -1, userInfo: [NSLocalizedDescriptionKey: "No current user"])
-        }
-        
-        // Apple: ALWAYS reauthenticate first to get fresh auth code for token revocation (App Store 5.1.1(v))
-        // Google: Try delete first, reauthenticate only if Firebase requires it
-        if user.provider == "apple" {
-            do {
-                // Show reauth hint to web UI before the native sheet appears
-                updateState(.error(message: "reauth", retryable: false))
-                
-                // Re-authenticate to get fresh Apple authorization code (short-lived, single-use)
-                try await reauthenticate(user: user, presentingViewController: presentingViewController)
-                updateState(.deleting)
-                
-                // Revoke Apple token with fresh auth code (required by App Store guideline 5.1.1(v))
-                if let authCode = savedAppleAuthCode {
-                    do {
-                        try await Auth.auth().revokeToken(withAuthorizationCode: authCode)
-                        savedAppleAuthCode = nil // Clear after use
-                    } catch let revokeError as NSError {
-                        authLogger.error("Apple token revocation failed (domain: \(revokeError.domain, privacy: .public), code: \(revokeError.code, privacy: .public))")
-                        savedAppleAuthCode = nil
-                        // Continue with deletion even if revocation failed
-                    }
-                } else {
-                    authLogger.warning("Apple account deletion: no authorization code available for token revocation")
-                }
-                
-                // Delete Firebase account
-                try await currentUser.delete()
-                updateState(.guest)
-            } catch let error as NSError {
-                // Handle user cancel (ASAuthorizationError.canceled = 1001)
-                if error.domain == "com.apple.AuthenticationServices.AuthorizationError" && error.code == 1001 {
-                    // User cancelled - silently return to signed in
-                    updateState(.signedIn(user: user))
-                    return
-                }
-                
-                // Other errors: restore signedIn state and handle network errors
-                let isNetworkError = error.domain == NSURLErrorDomain || 
-                                     error.code == AuthErrorCode.networkError.rawValue
-                updateState(.signedIn(user: user))
-                if isNetworkError {
-                    throw NSError(domain: "AuthCoordinator", code: error.code, userInfo: [NSLocalizedDescriptionKey: "offline"])
-                }
-                throw error
-            }
-            
-        } else {
-            // Google: try deletion first
-            updateState(.deleting)
-            
-            do {
-                try await currentUser.delete()
-                updateState(.guest)
-            } catch let error as NSError {
-                // If Firebase requires recent login, show hint and reauthenticate
-                if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
-                    do {
-                        // Show reauth hint to web UI before the native sheet appears
-                        updateState(.error(message: "reauth", retryable: false))
-                        
-                        // Re-authenticate
-                        try await reauthenticate(user: user, presentingViewController: presentingViewController)
-                        updateState(.deleting)
-                        
-                        // Retry deletion
-                        try await currentUser.delete()
-                        updateState(.guest)
-                    } catch let reauthError as NSError {
-                        // Handle user cancel from Google sign-in (GIDSignInErrorCodeCanceled = -5)
-                        if reauthError.domain == "com.google.GIDSignIn" && reauthError.code == -5 {
-                            // User cancelled - silently return to signed in
-                            updateState(.signedIn(user: user))
-                            return
-                        }
-                        
-                        // Reauth or retry delete failed: restore signedIn state and handle network errors
-                        let isNetworkError = reauthError.domain == NSURLErrorDomain || 
-                                             reauthError.code == AuthErrorCode.networkError.rawValue
-                        updateState(.signedIn(user: user))
-                        if isNetworkError {
-                            throw NSError(domain: "AuthCoordinator", code: reauthError.code, userInfo: [NSLocalizedDescriptionKey: "offline"])
-                        }
-                        throw reauthError
-                    }
-                } else {
-                    // Other errors
-                    let isNetworkError = error.domain == NSURLErrorDomain || 
-                                         error.code == AuthErrorCode.networkError.rawValue
-                    updateState(.signedIn(user: user))
-                    if isNetworkError {
-                        throw NSError(domain: "AuthCoordinator", code: error.code, userInfo: [NSLocalizedDescriptionKey: "offline"])
-                    }
-                    throw error
-                }
-            }
+    /// ZKR-56: сценарий AccountDeletionFlow. Состояние меняется внутри сценария; итог — для UI.
+    func deleteAccount(presenter: UIViewController) async -> AccountDeletionOutcome {
+        guard case .signedIn(let user) = state else { return .notSignedIn }
+        let flow = AccountDeletionFlow(
+            backend: FirebaseAccountDeletionBackend(coordinator: self, presenter: presenter),
+            log: { authLogger.error("\($0, privacy: .public)") }
+        )
+        return await flow.run(user: user) { [weak self] newState in
+            self?.updateState(newState)
         }
     }
-    
-    // Issue 5: Removed heuristic check - Firebase will tell us if reauth is needed via requiresRecentLogin
-    
-    private func reauthenticate(user: AuthUser, presentingViewController: UIViewController) async throws {
-        if user.provider == "google" {
+
+    /// Повторный вход у провайдера. Apple — возвращает свежий authorization code (одноразовый).
+    fileprivate func reauthenticate(provider: String, presentingViewController: UIViewController) async throws -> String? {
+        switch provider {
+        case "google":
             try await reauthenticateWithGoogle(presentingViewController: presentingViewController)
-        } else if user.provider == "apple" {
+            return nil
+        case "apple":
+            savedAppleAuthCode = nil
             try await reauthenticateWithApple()
+            let code = savedAppleAuthCode
+            savedAppleAuthCode = nil
+            return code
+        default:
+            throw AccountDeletionError.unsupportedProvider
         }
     }
     
@@ -383,7 +306,10 @@ final class AuthCoordinator: NSObject {
                 
                 Task {
                     do {
-                        try await Auth.auth().currentUser?.reauthenticate(with: credential)
+                        guard let currentUser = Auth.auth().currentUser else {
+                            throw AccountDeletionError.noCurrentUser
+                        }
+                        try await currentUser.reauthenticate(with: credential)
                         continuation.resume()
                     } catch {
                         continuation.resume(throwing: error)
@@ -464,7 +390,10 @@ extension AuthCoordinator: ASAuthorizationControllerDelegate {
         do {
             if appleReauthContinuation != nil {
                 // Повторная авторизация
-                try await Auth.auth().currentUser?.reauthenticate(with: credential)
+                guard let currentUser = Auth.auth().currentUser else {
+                    throw AccountDeletionError.noCurrentUser
+                }
+                try await currentUser.reauthenticate(with: credential)
                 appleReauthContinuation?.resume()
                 appleReauthContinuation = nil
             } else {
@@ -538,5 +467,32 @@ extension AuthCoordinator: ASAuthorizationControllerPresentationContextProviding
             fatalError("No window available")
         }
         return window
+    }
+}
+
+// MARK: - ZKR-56: live backend для AccountDeletionFlow
+
+@MainActor
+private final class FirebaseAccountDeletionBackend: AccountDeletionBackend {
+    private weak var coordinator: AuthCoordinator?
+    private let presenter: UIViewController
+
+    init(coordinator: AuthCoordinator, presenter: UIViewController) {
+        self.coordinator = coordinator
+        self.presenter = presenter
+    }
+
+    func reauthenticate(provider: String) async throws -> String? {
+        guard let coordinator else { throw AccountDeletionError.noCurrentUser }
+        return try await coordinator.reauthenticate(provider: provider, presentingViewController: presenter)
+    }
+
+    func revokeAppleToken(authorizationCode: String) async throws {
+        try await Auth.auth().revokeToken(withAuthorizationCode: authorizationCode)
+    }
+
+    func deleteUser() async throws {
+        guard let user = Auth.auth().currentUser else { throw AccountDeletionError.noCurrentUser }
+        try await user.delete()
     }
 }

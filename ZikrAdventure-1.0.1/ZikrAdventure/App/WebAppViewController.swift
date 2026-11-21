@@ -5,13 +5,18 @@
 //  • "keepAwake" — не гасить экран во время зикра;
 //  • "save"      — копия прогресса в файле на устройстве (дополнительно к хранилищу страницы);
 //  • "auth.*"    — авторизация через Google и Apple (v1.1.0).
+// ZKR-50: AuthCoordinator и LocalizationService приходят из AppContainer (через WebHostView)
+// до загрузки view; нативные экраны вызывают window.zikrNative.* через evaluateCommand.
 // Переходы на внешние сайты запрещены: приложение работает только со своими файлами.
 // Команды auth принимаются только из основного доверенного документа zikr://localhost.
 
 import UIKit
 import WebKit
 import SafariServices
+import Combine
 import os
+import ZikrCore
+import ZikrPersistence
 
 final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
     private var webView: WKWebView?
@@ -19,28 +24,73 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
     private let mediumImpact = UIImpactFeedbackGenerator(style: .medium)
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private let progressStore = ProgressFileStore()
-    private let authCoordinator = AuthCoordinator()
+    private var authStateSubscription: AnyCancellable?
+    private var dataAvailabilitySubscriptions: Set<AnyCancellable> = []
+    /// ZKR-50: один экземпляр на приложение (AppContainer). Задаётся до viewDidLoad.
+    var authService: (any AuthService)? {
+        didSet {
+            guard authService !== oldValue else { return }
+            subscribeToAuthState()
+        }
+    }
+    var isWebViewLoaded = false
+    /// ZKR-50: язык нативных экранов; обновляется из моста lang.change.
+    weak var localization: LocalizationService?
+    weak var webViewManager: WebViewManager?
+    /// ZKR-61: если зеркало подключено уже после загрузки страницы, текущий снимок
+    /// снимается сразу (replay), а не ждёт следующего "save".
+    /// ZKR-62: штатный старт использует раннее подключение, но этот путь нужен при
+    /// повторном включении/замене зеркала уже живой страницы (attachStateMirror).
+    var stateMirror: WebStateMirror? {
+        didSet {
+            guard stateMirror !== oldValue, isWebViewLoaded, let webView else { return }
+            LegacyWebStateImporter.capture(from: webView, into: stateMirror)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // ZKR-59: старый UI не запускается после перехода на native writer.
+        guard AppContainer.isWebMirrorEnabled else { return }
         let background = UIColor(named: "LaunchBackground") ?? .systemBackground
         view.backgroundColor = background
 
         let contentController = WKUserContentController()
         contentController.add(WeakScriptMessageHandler(target: self), name: "zikr")
         
-        // Подписываемся на изменения состояния авторизации
-        authCoordinator.onStateChange = { [weak self] state in
-            self?.sendAuthStateToWeb(state)
-        }
-
         // Сохранённый прогресс передаётся странице ещё до запуска её скриптов.
+        var restoreJSON = progressStore.loadJSONLiteral()
+        var fixturePrelude = ""
+#if DEBUG
+        // Только управляемые UI-тесты, на отдельном симуляторе. В Release этого кода нет.
+        let environment = ProcessInfo.processInfo.environment
+        if environment["ZIKR_UITEST_AUTH"] == "guest",
+           let fixture = environment["ZIKR_UITEST_ONBOARDING"], ["fresh", "completed"].contains(fixture) {
+            restoreJSON = "{\"v\":2,\"total\":123,\"daily\":{},\"onboarded\":\(fixture == "completed"),\"settings\":{\"lang\":\"en\"}}"
+            fixturePrelude = "localStorage.removeItem('zikr-adventure.v1'); localStorage.removeItem('zikr-adventure.v2');"
+        }
+#endif
         let restoreScript = WKUserScript(
-            source: "window.__ZIKR_NATIVE_STATE = \(progressStore.loadJSONLiteral());",
+            source: "\(fixturePrelude) window.__ZIKR_NATIVE_STATE = \(restoreJSON);",
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         )
         contentController.addUserScript(restoreScript)
+        
+        // Скрываем веб-табbar, так как используем нативный
+        let hideTabbarScript = WKUserScript(
+            source: """
+            window.__ZIKR_NATIVE_TABS = true;
+            window.__ZIKR_NATIVE_ONBOARDING = \(AppContainer.isNativeOnboardingEnabled);
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabbar = document.getElementById('tabbar');
+                if (tabbar) tabbar.style.display = 'none';
+            });
+            """,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        contentController.addUserScript(hideTabbarScript)
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = contentController
@@ -63,6 +113,22 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             webView.load(URLRequest(url: url))
         }
         lightImpact.prepare()
+        // ZKR-62: save не должен заново читать защищённый файл при каждом нажатии.
+        // Повтор разрешён после системного сигнала, затем берём актуальный веб-снимок.
+        for name in [UIApplication.protectedDataDidBecomeAvailableNotification,
+                     UIApplication.didBecomeActiveNotification] {
+            NotificationCenter.default.publisher(for: name)
+                .sink { [weak self] _ in
+                    Task { @MainActor [weak self] in
+                        guard let self, let mirror = self.stateMirror else { return }
+                        await mirror.retryUnreadableFile()
+                        guard self.stateMirror === mirror, self.isWebViewLoaded,
+                              let webView = self.webView else { return }
+                        LegacyWebStateImporter.capture(from: webView, into: mirror)
+                    }
+                }
+                .store(in: &dataAvailabilitySubscriptions)
+        }
     }
 
     // MARK: - Сообщения со страницы
@@ -93,19 +159,30 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
         case "keepAwake":
             UIApplication.shared.isIdleTimerDisabled = (body["on"] as? Bool) ?? false
         case "save":
+            guard AppContainer.isWebMirrorEnabled else { return }
             if let json = body["data"] as? String {
                 progressStore.save(json: json)
+                stateMirror?.enqueue(json)
             }
         case "auth.signInGoogle":
-            handleAuthMessage { await self.authCoordinator.signInWithGoogle(presentingViewController: self) }
+            handleAuthMessage { self.authService?.signInWithGoogle(presenter: self) }
         case "auth.signInApple":
-            handleAuthMessage { await self.authCoordinator.signInWithApple() }
+            handleAuthMessage { self.authService?.signInWithApple() }
         case "auth.signOut":
-            handleAuthMessage { try await self.authCoordinator.signOut() }
+            handleAuthMessage { try await self.authService?.signOut() }
         case "auth.deleteAccount":
-            handleAuthMessage { try await self.authCoordinator.deleteAccount(presentingViewController: self) }
+            handleAuthMessage {
+                guard let service = self.authService else { return }
+                // ZKR-56: AccountDeletionFlow; ошибка → веб показывает offline/error, как в 1.1.1.
+                let outcome = await service.deleteAccount(presenter: self)
+                if let message = outcome.webMessage {
+                    self.sendAuthStateToWeb(.error(message: message, retryable: true))
+                }
+            }
         case "auth.getState":
-            sendAuthStateToWeb(authCoordinator.state)
+            if let state = authService?.state {
+                sendAuthStateToWeb(state)
+            }
         case "openURL":
             if let urlString = body["url"] as? String,
                let url = URL(string: urlString),
@@ -116,11 +193,29 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
                     self.present(safari, animated: true)
                 }
             }
+        case "lang.change":
+            // Названия вкладок (body["tabs"]) теперь из Localizable.xcstrings.
+            if let lang = body["lang"] as? String {
+                localization?.setLanguage(code: lang)
+            }
+        case "tab.change":
+            if let tabID = body["tab"] as? String {
+                webViewManager?.notifyTabChange(tabID)
+            }
         default:
             break
         }
     }
     
+    private func subscribeToAuthState() {
+        // @Published отдаёт текущее значение сразу — веб получает актуальное состояние.
+        authStateSubscription = authService?.statePublisher
+            .dropFirst()
+            .sink { [weak self] state in
+                self?.sendAuthStateToWeb(state)
+            }
+    }
+
     private func handleAuthMessage(_ action: @escaping () async throws -> Void) {
         Task {
             do {
@@ -203,7 +298,68 @@ final class WebAppViewController: UIViewController, WKScriptMessageHandler, WKNa
             injectionTime: .atDocumentStart,
             forMainFrameOnly: true
         ))
+        webView.configuration.userContentController.addUserScript(WKUserScript(
+            source: """
+            window.__ZIKR_NATIVE_TABS = true;
+            window.__ZIKR_NATIVE_ONBOARDING = \(AppContainer.isNativeOnboardingEnabled);
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabbar = document.getElementById('tabbar');
+                if (tabbar) tabbar.style.display = 'none';
+            });
+            """,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        ))
+        // ZKR-50: команды zikrNative ждут didFinish перезагруженной страницы.
+        isWebViewLoaded = false
         webView.reload()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        isWebViewLoaded = true
+        webViewManager?.webViewDidLoad()
+        LegacyWebStateImporter.capture(from: webView, into: stateMirror)
+    }
+    
+    // MARK: - Переключение вкладок
+    
+    /// ZKR-48: показан ли онбординг (#onb перекрывает все вкладки, включая «Инфо»).
+    /// nil — страница ещё не загружена или скрипт не выполнился.
+    func isOnboardingVisible() async -> Bool? {
+        guard isWebViewLoaded, let webView else { return nil }
+        do {
+            return try await webView.evaluateJavaScript("document.getElementById('onb') !== null") as? Bool
+        } catch {
+            return nil
+        }
+    }
+
+    /// ZKR-50: выполняет команду window.zikrNative.* (скрипт всегда возвращает Bool).
+    func evaluateCommand(_ script: String) async -> Bool {
+        (await evaluateScript(script) as? Bool) ?? false
+    }
+
+    /// ZKR-52: команда, которая возвращает JSON-строку (снимок счётчика); nil — ошибка или null.
+    func evaluateQuery(_ script: String) async -> String? {
+        await evaluateScript(script) as? String
+    }
+
+    private func evaluateScript(_ script: String) async -> Any? {
+        guard isWebViewLoaded, let webView else { return nil }
+        do {
+            return try await webView.evaluateJavaScript(script)
+        } catch {
+            let nsError = error as NSError
+            Log.settings.error("zikrNative command failed (domain: \(nsError.domain, privacy: .public), code: \(nsError.code, privacy: .public))")
+            return nil
+        }
+    }
+
+    /// Переключает веб-приложение на указанную вкладку через selectTab()
+    func selectTab(_ tabID: String) {
+        guard isWebViewLoaded else { return }
+        let script = "if (typeof selectTab === 'function') selectTab('\(tabID)');"
+        webView?.evaluateJavaScript(script)
     }
 }
 

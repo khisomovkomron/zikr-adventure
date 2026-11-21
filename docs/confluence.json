@@ -9,7 +9,12 @@
     "auth-1.1.0-spec": "458754",
     "auth-1.1.0-setup": "524289",
     "auth-1.1.0-ux": "491522",
-    "release-1.1.0": "589825"
+    "release-1.1.0": "589825",
+    "ui-kit": "2850835",
+    "onboarding-1.2.0-plan": "9338882",
+    "release-1.2.0": "9273348",
+    "state-mirror-1.2.0-plan": "9371669",
+    "native-commands-1.2.0-plan": "9666564"
   },
   "private": true
 }

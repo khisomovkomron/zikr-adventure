@@ -1,0 +1,784 @@
+// Theme.swift
+// Дизайн-токены SwiftUI. Источник истины — CSS :root / тёмная тема в index.html
+// и таблица токенов Confluence «UI kit — правила». Размеры не хардкодятся в экранах.
+
+import SwiftUI
+import UIKit
+
+enum Theme {
+
+    // MARK: - Color
+
+    /// Имена ассетов совпадают с CSS-переменными, кроме уже существующих
+    /// LaunchBackground (--bg) и AccentColor (--accent).
+    enum Color {
+        static let bg = SwiftUI.Color("LaunchBackground")
+        static let bgSubtle = SwiftUI.Color("Bg2")
+        static let surface = SwiftUI.Color("Surface")
+        static let surfaceRaised = SwiftUI.Color("Surface2")
+        static let text = SwiftUI.Color("Text")
+        static let textSecondary = SwiftUI.Color("Text2")
+        static let textDisabled = SwiftUI.Color("Disabled")
+        static let textOnPrimary = SwiftUI.Color("TextOnPrimary")
+        static let primary = SwiftUI.Color("Navy")
+        static let accent = SwiftUI.Color("AccentColor")
+        static let accentSoft = SwiftUI.Color("AccentSoft")
+        static let gold = SwiftUI.Color("Gold")
+        static let goldLight = SwiftUI.Color("GoldLight")
+        static let border = SwiftUI.Color("Border")
+        static let divider = SwiftUI.Color("Divider")
+        static let danger = SwiftUI.Color("Danger")
+        static let success = SwiftUI.Color("Positive")
+        static let warning = SwiftUI.Color("Warning")
+        static let locked = SwiftUI.Color("Locked")
+        static let scrim = SwiftUI.Color("Scrim")
+        /// `.scrim` листов index.html: rgba(10,14,22,.45) в светлой и тёмной теме
+        static let sheetScrim = SwiftUI.Color("SheetScrim")
+        static let mapSea = SwiftUI.Color("Sea")
+        static let mapLand = SwiftUI.Color("Land")
+        static let mapCountry = SwiftUI.Color("Country")
+        static let mapBorder = SwiftUI.Color("Border")
+        static let mapMount = SwiftUI.Color("Mount")
+        /// ZKR-57: маркеры и хиджра обзорной карты (цвета SVG в index.html, одинаковые в обеих темах).
+        static let mapMarker = SwiftUI.Color(red: 0x1B / 255, green: 0x2A / 255, blue: 0x44 / 255)
+        static let mapMarkerStroke = SwiftUI.Color(red: 0xC2 / 255, green: 0xA0 / 255, blue: 0x5A / 255)
+        static let mapHijra = SwiftUI.Color(red: 0xD9 / 255, green: 0xB4 / 255, blue: 0x5A / 255)
+        static let shadow = SwiftUI.Color("Shadow")
+        static let overlayShadow = SwiftUI.Color("OverlayShadow")
+        static let floatingShadow = SwiftUI.Color("FloatingShadow")
+        static let zikrButtonShadow = SwiftUI.Color("ZikrButtonShadow")
+        /// ZKR-52: `.zikr-btn` radial-gradient(circle at 35% 30%, #2E4470, #18263F 70%) — одинаково в обеих темах.
+        static let zikrButtonTop = SwiftUI.Color("ZikrButtonTop")
+        static let zikrButtonBottom = SwiftUI.Color("ZikrButtonBottom")
+        static let knobShadow = SwiftUI.Color("KnobShadow")
+        /// ZKR-53: `.tl.on .dot` / `.lvl-head.done .lvl-badge` — #C9A24D и #1B2A44 в обеих темах.
+        static let siraGold = SwiftUI.Color("SiraGold")
+        static let siraInk = SwiftUI.Color("SiraInk")
+    }
+
+    // MARK: - Opacity (CSS hex alpha, не «на глаз»)
+
+    enum Opacity {
+        /// `.btn.primary` border-color: #C2A05A88
+        static let primaryBorder: CGFloat = 0x88 / 255.0
+        /// `.banner` / `.tl.on` accent mix ~45–50%
+        static let accentBorder: CGFloat = 0.45
+        /// `.badge` / `.sira` accent fill ~10–12%
+        static let accentFill: CGFloat = 0.10
+        /// `.badge.warn` warning fill 10%
+        static let warningFill: CGFloat = 0.10
+        /// Pressed button (нет отдельного токена в CSS; лёгкое затемнение)
+        static let pressed: CGFloat = 0.88
+    }
+
+    // MARK: - Space  (space.1 … space.8)
+
+    enum Space {
+        static let s1: CGFloat = 4
+        static let s2: CGFloat = 8
+        static let s3: CGFloat = 12
+        static let s4: CGFloat = 16
+        static let s5: CGFloat = 20
+        static let s6: CGFloat = 24
+        static let s8: CGFloat = 32
+        /// CSS padding 10 / 14 — не входят в 4-pt шкалу, но заданы в index.html.
+        static let buttonY: CGFloat = 10
+        static let controlX: CGFloat = 14
+        static let groupHeaderTop: CGFloat = 22
+        static let sectionTitleBottom: CGFloat = 6
+        /// `.topbar` padding 10 16 6, min-height 52
+        static let topbarTop: CGFloat = 10
+        static let topbarBottom: CGFloat = 6
+        static let topbarMinHeight: CGFloat = 52
+        /// `.pad` padding 4 18 28
+        static let screenX: CGFloat = 18
+        static let screenBottom: CGFloat = 28
+        /// `.sheet` padding 10 20 24
+        static let sheetTop: CGFloat = 10
+        static let sheetX: CGFloat = 20
+        /// `.demo` padding 10 12
+        static let noteY: CGFloat = 10
+        /// `.btn.full` margin-top 14 в листах
+        static let sheetButtonTop: CGFloat = 14
+    }
+
+    // MARK: - Radius
+
+    enum Radius {
+        static let sm: CGFloat = 8
+        static let md: CGFloat = 12
+        static let button: CGFloat = 14
+        static let list: CGFloat = 16
+        static let card: CGFloat = 18
+        static let sheet: CGFloat = 22
+        static let chipButton: CGFloat = 10
+        static let toggle: CGFloat = 31
+        /// `.grab` border-radius 3px
+        static let grab: CGFloat = 3
+        static let pill: CGFloat = 999
+    }
+
+    // MARK: - Size
+
+    enum Size {
+        static let iconSm: CGFloat = 16
+        static let iconMd: CGFloat = 20
+        static let iconButton: CGFloat = 19
+        static let iconList: CGFloat = 22
+        static let iconTab: CGFloat = 23
+        static let iconLg: CGFloat = 24
+        static let iconXl: CGFloat = 28
+        static let iconColumn: CGFloat = 26
+        /// Высота строки `.li .ic` в вебе: inline-SVG 22pt на базовой линии + `padding-top: 1px`
+        /// (замер по рендеру 1.1.1: строка 54.3pt = 1 + 12 + 29.3 + 12).
+        static let iconListLineBox: CGFloat = 29.33
+        static let touch: CGFloat = 44
+        static let button: CGFloat = 48
+        static let chip: CGFloat = 40
+        static let row: CGFloat = 48
+        static let toggleRow: CGFloat = 52
+        static let toggleWidth: CGFloat = 51
+        static let toggleHeight: CGFloat = 31
+        static let toggleKnob: CGFloat = 27
+        static let toggleKnobInset: CGFloat = 2
+        static let toggleTravel: CGFloat = 20
+        static let progress: CGFloat = 8
+        static let hairline: CGFloat = 1
+        static let tabBar: CGFloat = 49
+        static let tabBarTopPadding: CGFloat = 4
+        static let tabGap: CGFloat = 2
+        static let grabWidth: CGFloat = 40
+        static let grabHeight: CGFloat = 5
+        static let focusRing: CGFloat = 3
+        static let focusRingOffset: CGFloat = 2
+        /// `.counter .num` clamp(54px, 17vw, 72px)
+        static let counterMin: CGFloat = 54
+        static let counterMax: CGFloat = 72
+        static let counterViewport: CGFloat = 0.17
+
+        static func clampedCounter(width: CGFloat) -> CGFloat {
+            min(counterMax, max(counterMin, width * counterViewport))
+        }
+
+        /// CSS `17vw` — ширина экрана/окна, не контейнера.
+        static var viewportWidth: CGFloat {
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+            if let width = scene?.screen.bounds.width, width > 0 {
+                return width
+            }
+            return UIScreen.main.bounds.width
+        }
+    }
+
+    // MARK: - Typography
+
+    /// Шкала из CSS / Figma. Dynamic Type через UIFontMetrics.
+    enum Typo {
+        case displayCounter
+        case headingXL
+        /// `.hp-title` — заголовок листа: serif 25/600, line-height 1.2
+        case headingSheet
+        case headingLG
+        case headingMD
+        case headingSM
+        case headingXS
+        case translit
+        case body
+        case bodyStrong
+        case chip
+        case callout
+        case calloutMedium
+        /// ZKR-50: `.auth-provider-badge` — 15 pt regular.
+        case calloutRegular
+        case footnote
+        case caption
+        case tab
+        case tabSelected
+        case arabic
+        case sectionTitle
+        case kicker
+        /// ZKR-52: `.kicker` в progressCard / `.banner .ttl` — 14 pt medium.
+        case kickerMedium
+        /// ZKR-52: `.xs` — 13.5 pt regular (подписи и шкалы карточек «Зикр»).
+        case xs
+        /// ZKR-52: `.big` — serif 30 / 600, цифры «Сегодня».
+        case statLarge
+        /// ZKR-52: `.big` с font-size 22 — «за сеанс».
+        case statMedium
+        /// ZKR-52: `.lvl-badge` — serif 18 / 700.
+        case levelBadge
+        /// ZKR-52: `.row3 .btn` — 14.5 / 700.
+        case actionLabel
+        /// ZKR-52: `.next-ch span:nth-child(2)` — serif 17 / 600.
+        case headingBody
+        /// ZKR-52: `.banner .hd` — serif 18 / 600.
+        case bannerTitle
+        /// ZKR-52: `.chip-btn` — 15 / 700.
+        case chipButton
+        /// ZKR-53: `.lvl-head .kicker` — serif 16 / 600.
+        case levelHead
+        /// ZKR-53: `.lvl-head .lvl-badge` — serif 16 / 700.
+        case levelHeadBadge
+        /// ZKR-53: `.tl-title` — serif 18 / 600, line-height 1.25.
+        case timelineTitle
+        /// ZKR-53: `.tl .dot` — 13 / 700.
+        case timelineDot
+        /// ZKR-53: `.newb` — 12.5 / 700.
+        case newBadge
+        /// ZKR-53: `.ar-name` — Geeza Pro 22.
+        case arabicName
+
+        var pointSize: CGFloat {
+            switch self {
+            case .displayCounter: return 72
+            case .headingXL: return 26
+            case .headingSheet: return 25
+            case .headingLG: return 22
+            case .headingMD: return 20
+            case .headingSM: return 19
+            case .headingXS: return 15
+            // .group-h / .ch-title in CSS are 19; Confluence heading.sm listed 18.
+            case .translit: return 21
+            case .body, .bodyStrong, .chip: return 17
+            case .callout, .calloutMedium, .calloutRegular: return 15
+            case .footnote: return 14
+            case .caption: return 13
+            case .tab, .tabSelected: return 12
+            case .arabic: return 44
+            case .sectionTitle: return 15
+            case .kicker: return 13.5
+            case .kickerMedium: return 14
+            case .xs: return 13.5
+            case .statLarge: return 30
+            case .statMedium: return 22
+            case .levelBadge: return 18
+            case .actionLabel: return 14.5
+            case .headingBody: return 17
+            case .bannerTitle: return 18
+            case .chipButton: return 15
+            case .levelHead, .levelHeadBadge: return 16
+            case .timelineTitle: return 18
+            case .timelineDot: return 13
+            case .newBadge: return 12.5
+            case .arabicName: return 22
+            }
+        }
+
+        var weight: UIFont.Weight {
+            switch self {
+            case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
+                 .headingSM, .headingXS, .sectionTitle, .statLarge, .statMedium, .headingBody, .bannerTitle,
+                 .levelHead, .timelineTitle:
+                return .semibold
+            case .bodyStrong, .tabSelected, .calloutMedium, .levelBadge, .actionLabel, .chipButton,
+                 .levelHeadBadge, .timelineDot, .newBadge:
+                return .bold
+            case .callout, .kicker, .kickerMedium, .chip:
+                return .medium
+            case .translit, .body, .footnote, .caption, .arabic, .tab, .calloutRegular, .xs, .arabicName:
+                return .regular
+            }
+        }
+
+        var design: UIFontDescriptor.SystemDesign {
+            switch self {
+            case .displayCounter, .headingXL, .headingSheet, .headingLG, .headingMD,
+                 .headingSM, .headingXS, .translit, .sectionTitle, .arabic,
+                 .statLarge, .statMedium, .levelBadge, .headingBody, .bannerTitle,
+                 .levelHead, .levelHeadBadge, .timelineTitle, .arabicName:
+                return .serif
+            default:
+                return .default
+            }
+        }
+
+        var textStyle: UIFont.TextStyle {
+            switch self {
+            case .displayCounter, .arabic: return .largeTitle
+            case .headingXL, .headingSheet: return .title1
+            case .headingLG: return .title2
+            case .headingMD: return .title3
+            case .headingSM: return .headline
+            case .headingXS, .sectionTitle: return .subheadline
+            case .translit: return .title3
+            case .body, .bodyStrong, .chip: return .body
+            case .callout, .calloutMedium, .calloutRegular: return .callout
+            case .footnote, .kicker, .kickerMedium: return .footnote
+            case .xs: return .footnote
+            case .statLarge: return .title1
+            case .statMedium: return .title2
+            case .levelBadge, .bannerTitle, .levelHead, .levelHeadBadge, .timelineTitle: return .headline
+            case .timelineDot, .newBadge: return .caption1
+            case .arabicName: return .title2
+            case .actionLabel, .chipButton: return .subheadline
+            case .headingBody: return .body
+            case .caption: return .caption1
+            case .tab, .tabSelected: return .caption2
+            }
+        }
+
+        var italic: Bool {
+            self == .translit
+        }
+
+        var usesArabicFamily: Bool {
+            self == .arabic || self == .arabicName
+        }
+    }
+
+    enum Font {
+        /// line-height: 1.45 у body в CSS
+        static let bodyLineHeightMultiple: CGFloat = 1.45
+        /// line-height: 1.2 у `.hp-title`
+        static let sheetTitleLineHeightMultiple: CGFloat = 1.2
+
+        /// Межстрочный интервал SwiftUI для CSS line-height (multiple × size − естественная высота строки).
+        static func lineSpacing(
+            _ typo: Typo,
+            multiple: CGFloat,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> CGFloat {
+            let font = scaledUIFont(typo, sizeCategory: sizeCategory, scales: scales)
+            return max(0, font.pointSize * multiple - font.lineHeight)
+        }
+
+        static func ui(
+            _ typo: Typo,
+            pointSize: CGFloat? = nil,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> SwiftUI.Font {
+            SwiftUI.Font(
+                scaledUIFont(typo, pointSize: pointSize, sizeCategory: sizeCategory, scales: scales)
+            )
+        }
+
+        static func scaledUIFont(
+            _ typo: Typo,
+            pointSize: CGFloat? = nil,
+            sizeCategory: ContentSizeCategory,
+            scales: Bool = true
+        ) -> UIFont {
+            let size = pointSize ?? typo.pointSize
+            let font: UIFont
+            if typo.usesArabicFamily, let geeza = UIFont(name: "GeezaPro", size: size) {
+                font = geeza
+            } else {
+                let base = UIFont.systemFont(ofSize: size, weight: typo.weight)
+                var descriptor = base.fontDescriptor
+                if let designed = descriptor.withDesign(typo.design) {
+                    descriptor = designed
+                }
+                if typo.italic,
+                   let italic = descriptor.withSymbolicTraits(descriptor.symbolicTraits.union(.traitItalic)) {
+                    descriptor = italic
+                }
+                font = UIFont(descriptor: descriptor, size: size)
+            }
+            guard scales else { return font }
+            let traits = UITraitCollection(preferredContentSizeCategory: sizeCategory.uiContentSizeCategory)
+            return UIFontMetrics(forTextStyle: typo.textStyle).scaledFont(for: font, compatibleWith: traits)
+        }
+    }
+
+    // MARK: - Shadow
+
+    enum Shadow {
+        enum Kind {
+            case card
+            case overlay
+            case floating
+            case zikrButton
+            case knob
+        }
+
+        static func color(_ kind: Kind) -> SwiftUI.Color {
+            switch kind {
+            case .card: return Theme.Color.shadow
+            case .overlay: return Theme.Color.overlayShadow
+            case .floating: return Theme.Color.floatingShadow
+            case .zikrButton: return Theme.Color.zikrButtonShadow
+            case .knob: return Theme.Color.knobShadow
+            }
+        }
+
+        static func radius(_ kind: Kind) -> CGFloat {
+            switch kind {
+            case .card: return 20
+            case .overlay: return 30
+            case .floating: return 10
+            case .zikrButton: return 30
+            case .knob: return 3
+            }
+        }
+
+        static func yOffset(_ kind: Kind) -> CGFloat {
+            switch kind {
+            case .card: return 6
+            case .overlay: return 12
+            case .floating: return 3
+            case .zikrButton: return 14
+            case .knob: return 1
+            }
+        }
+    }
+
+    // MARK: - Экран «Зикр» (ZKR-52): значения из CSS renderZikr() / .zikr-btn / .banner
+
+    enum Zikr {
+        /// `.topbar h1` letter-spacing .01em × 20 pt
+        static let titleTracking: CGFloat = 0.2
+        /// `.zikr-text` padding 22 16 18
+        static let textCardTop: CGFloat = 22
+        static let textCardBottom: CGFloat = 18
+        /// `.translit` margin-top 2, `.translation` margin-top 6
+        static let translitTop: CGFloat = 2
+        static let translationTop: CGFloat = 6
+        /// `.arabic` font-size clamp(38px, 11vw, 50px), line-height 1.5
+        static let arabicMin: CGFloat = 38
+        static let arabicMax: CGFloat = 50
+        static let arabicViewport: CGFloat = 0.11
+        static let arabicLineHeight: CGFloat = 1.5
+        /// `.counter` margin-top 18; `.zikr-btn-wrap` margin 22 0 18; `.note` margin-top 18
+        static let counterTop: CGFloat = 18
+        static let buttonTop: CGFloat = 22
+        static let buttonBottom: CGFloat = 18
+        static let noteTop: CGFloat = 18
+        /// `.zikr-btn` width min(58vw, 210px)
+        static let buttonViewport: CGFloat = 0.58
+        static let buttonMax: CGFloat = 210
+        /// `.zikr-btn::before` inset 7, border 2
+        static let ringInset: CGFloat = 7
+        static let ringWidth: CGFloat = 2
+        /// radial-gradient(circle at 35% 30%, …, 70%)
+        static let gradientCenterX: CGFloat = 0.35
+        static let gradientCenterY: CGFloat = 0.30
+        static let gradientStop: CGFloat = 0.70
+        /// `.zikr-btn .inner` gap 6, padding 20; иконка 30
+        static let innerGap: CGFloat = 6
+        static let innerPadding: CGFloat = 20
+        static let handIcon: CGFloat = 30
+        /// Горизонтальный padding `<button>` в WebKit по умолчанию (подпись «Нажмите для зикра» переносится так же).
+        static let buttonUAPadding: CGFloat = 6
+        /// `.zikr-btn:active` scale(.965) brightness(1.08), transition .12s
+        static let pressScale: CGFloat = 0.965
+        static let pressBrightness: Double = 0.08
+        static let pressDuration: Double = 0.12
+        /// `.ripple` border 2, opacity .6 → scale(1.18) opacity 0 за .55s ease-out
+        static let rippleOpacity: Double = 0.6
+        static let rippleScale: CGFloat = 1.18
+        static let rippleDuration: Double = 0.55
+        /// `.row3` gap 10; `.row3 .btn` padding 8 6, gap 3, min-height 60
+        static let actionGap: CGFloat = 10
+        static let actionPaddingY: CGFloat = 8
+        static let actionPaddingX: CGFloat = 6
+        static let actionIconGap: CGFloat = 3
+        static let actionMinHeight: CGFloat = 60
+        /// `.bar` margin 10 0 6
+        static let barTop: CGFloat = 10
+        static let barBottom: CGFloat = 6
+        /// `.lvl-row` gap 12; `.lvl-badge` 38 × 38, border 2
+        static let levelRowGap: CGFloat = 12
+        static let levelBadge: CGFloat = 38
+        static let levelBadgeBorder: CGFloat = 2
+        /// `.ch-title` margin-top 2
+        static let chapterTitleTop: CGFloat = 2
+        /// `.lvl-scale` margin -2 0 4
+        static let scaleTop: CGFloat = -2
+        static let scaleBottom: CGFloat = 4
+        /// `.next-ch` margin-top 10, padding-top 10, gap 1
+        static let nextChapterTop: CGFloat = 10
+        static let nextChapterGap: CGFloat = 1
+        /// «Открыто глав» style="margin-top:6px"
+        static let openedTop: CGFloat = 6
+        /// `.banner` left/right 12, top safe-area + 8, padding 12 8 12 14, gap 12
+        static let bannerInset: CGFloat = 12
+        static let bannerTop: CGFloat = 8
+        static let bannerPaddingTop: CGFloat = 12
+        static let bannerPaddingTrailing: CGFloat = 8
+        static let bannerPaddingBottom: CGFloat = 12
+        static let bannerPaddingLeading: CGFloat = 14
+        static let bannerGap: CGFloat = 12
+        /// `.banner .ico` 34 × 34
+        static let bannerIcon: CGFloat = 34
+        /// `.chip-btn` margin-top 8, padding 8 14
+        static let chipTop: CGFloat = 8
+        static let chipPaddingY: CGFloat = 8
+        static let chipPaddingX: CGFloat = 14
+        /// `@keyframes drop` translateY(-14px) за .3s; авто-скрытие через 7 с
+        static let bannerDropOffset: CGFloat = 14
+        static let bannerDrop: Double = 0.3
+        static let bannerAutoHide: Double = 7
+        /// `.bar > i` transition width .3s
+        static let barDuration: Double = 0.3
+
+        static func arabicSize(width: CGFloat) -> CGFloat {
+            min(arabicMax, max(arabicMin, width * arabicViewport))
+        }
+
+        static func buttonSize(width: CGFloat) -> CGFloat {
+            min(buttonMax, width * buttonViewport)
+        }
+    }
+
+    // MARK: - Экран «Путь Сиры» (ZKR-53): значения из CSS renderPath() / chapterCard() / placeCard()
+
+    enum Sira {
+        /// `.foot` margin 8 4 0
+        static let footTop: CGFloat = 8
+        static let footX: CGFloat = 4
+        /// `.lvl-head` margin-top 24, padding 10 12, gap 12, radius 14; бейдж 34, обводка 2
+        static let levelTop: CGFloat = 24
+        static let levelPaddingY: CGFloat = 10
+        static let levelPaddingX: CGFloat = 12
+        static let levelGap: CGFloat = 12
+        static let levelRadius: CGFloat = 14
+        static let levelBadge: CGFloat = 34
+        static let levelBadgeBorder: CGFloat = 2
+        /// `.timeline` margin 6 0 10 (6 — схлопывается с margin-bottom 2 заголовка), padding-left 4;
+        /// линия `::before` left 19, ширина 2, top/bottom 8
+        static let timelineTop: CGFloat = 6
+        static let timelineBottom: CGFloat = 10
+        static let timelineLeading: CGFloat = 4
+        static let lineX: CGFloat = 19
+        static let lineWidth: CGFloat = 2
+        static let lineInset: CGFloat = 8
+        /// `.tl` padding 8 0, gap 14; `.dot` 32, обводка 2, звезда 14
+        static let rowPaddingY: CGFloat = 8
+        static let rowGap: CGFloat = 14
+        static let dot: CGFloat = 32
+        static let dotBorder: CGFloat = 2
+        static let dotStar: CGFloat = 14
+        /// `.tl-body` padding 10 12, radius 14, обводка 1 (у открытой — accent 50 %)
+        static let bodyPaddingY: CGFloat = 10
+        static let bodyPaddingX: CGFloat = 12
+        static let bodyRadius: CGFloat = 14
+        static let bodyBorderOpen: CGFloat = 0.5
+        /// `.tl-title` line-height 1.25
+        static let titleLineHeight: CGFloat = 1.25
+        /// Кнопки строки: margin-top 8, gap 8
+        static let chipsTop: CGFloat = 8
+        static let chipsGap: CGFloat = 8
+        /// `.newb` padding 1 8, margin-left 6, vertical-align 2px
+        static let newPaddingY: CGFloat = 1
+        static let newPaddingX: CGFloat = 8
+        static let newLeading: CGFloat = 6
+        static let newRaise: CGFloat = 2
+        /// `.hp-head` gap 14; `.glyph` 56, radius 14, иконка 28
+        static let headGap: CGFloat = 14
+        static let glyph: CGFloat = 56
+        static let glyphRadius: CGFloat = 14
+        static let glyphIcon: CGFloat = 28
+        /// `.hp-title` margin 2 0 4; `.ar-name` margin-bottom 6
+        static let titleTop: CGFloat = 2
+        static let titleBottom: CGFloat = 4
+        static let arabicBottom: CGFloat = 6
+        /// `.badge` padding 4 10, gap 6, иконка 15
+        static let badgePaddingY: CGFloat = 4
+        static let badgePaddingX: CGFloat = 10
+        static let badgeGap: CGFloat = 6
+        static let badgeIcon: CGFloat = 15
+        /// `.stack` margin-top 14, между блоками 16; `<p style="margin:2px 0 0">`; `.card.lookNote` margin-top 4
+        static let stackTop: CGFloat = 14
+        static let stackGap: CGFloat = 16
+        static let paragraphTop: CGFloat = 2
+        static let noteTop: CGFloat = 4
+        /// `.sira` padding 12 14, radius 14; p margin-top 4; звезда 15; замок 18, gap 10
+        static let siraPaddingY: CGFloat = 12
+        static let siraPaddingX: CGFloat = 14
+        static let siraRadius: CGFloat = 14
+        static let siraTextTop: CGFloat = 4
+        static let siraStar: CGFloat = 15
+        static let siraLock: CGFloat = 18
+        static let siraLockGap: CGFloat = 10
+        /// `.sira` accent 12 % поверх surface, обводка accent 45 %
+        static let siraFill: CGFloat = 0.12
+        /// Кнопка карты в chapterCard: margin-bottom 10
+        static let mapButtonBottom: CGFloat = 10
+        /// `.xs` / `.kicker` 13.5px WebKit рисует уже, чем UIFont 13.5 (замер по скриншотам: −3 %,
+        /// «Реконструкция…» в вебе помещается в строку) — на «Пути Сиры» мелкий текст 13.1 pt.
+        static let smallTextWeb: CGFloat = 13.1
+    }
+
+    /// ZKR-57: экран «Карта» (`.map-wrap`, `.overlay`, `.mchip`, `.disclaimer`, `.ctrls`, `.panel`, `.citybtns`,
+    /// `.preview-badge`, маркеры обзорной карты в единицах SVG).
+    enum Map {
+        /// `.overlay` padding 10
+        static let overlayPadding: CGFloat = 10
+        /// `.mchip`: gap 6, padding 7 12, 14 / 500, иконка 16, surface 88 % + blur 8
+        static let chipGap: CGFloat = 6
+        static let chipPaddingY: CGFloat = 7
+        static let chipPaddingX: CGFloat = 12
+        static let chipIcon: CGFloat = 16
+        static let glassOpacity: CGFloat = 0.88
+        /// `.disclaimer`: 12.5 / 1.3, padding 6 10, radius 10, max-width 62 %
+        static let disclaimerSize: CGFloat = 12.5
+        static let disclaimerLineHeight: CGFloat = 1.3
+        static let disclaimerPaddingY: CGFloat = 6
+        static let disclaimerPaddingX: CGFloat = 10
+        static let disclaimerRadius: CGFloat = 10
+        static let disclaimerMaxWidth: CGFloat = 0.62
+        /// Строка списка мест: подпись `.xs` (13.5) — inline-span в строке 17 / 1.45, высота строки 24.65.
+        static let listSubLineMultiple: CGFloat = 17 * 1.45 / 13.5
+        /// `.ctrls`: gap 10; кнопки 46, surface 90 % + blur 8, тень 0 3 10 rgba(0,0,0,.15)
+        static let controlGap: CGFloat = 10
+        static let control: CGFloat = 46
+        static let controlOpacity: CGFloat = 0.9
+        static let controlShadowRadius: CGFloat = 5
+        static let controlShadowY: CGFloat = 3
+        static let controlShadowOpacity: CGFloat = 0.15
+        /// `.bottomrow` gap 10; колонка чипов gap 6
+        static let rowGap: CGFloat = 10
+        static let stackGap: CGFloat = 6
+        /// `.citybtns` gap 10, margin-bottom 8
+        static let cityButtonsGap: CGFloat = 10
+        static let cityButtonsBottom: CGFloat = 8
+        /// `.panel` padding 14 16 16, radius 18, h2 serif 24, `.ar` 22, появление rise .28 s (16 pt)
+        static let panelTop: CGFloat = 14
+        static let panelX: CGFloat = 16
+        static let panelBottom: CGFloat = 16
+        static let panelTitle: CGFloat = 24
+        static let panelSummaryY: CGFloat = 6
+        static let panelCountBottom: CGFloat = 12
+        static let panelRise: CGFloat = 16
+        static let panelRiseDuration: Double = 0.28
+        /// `.preview-badge`: 13 / 700, padding 4 10
+        static let badgeSize: CGFloat = 13
+        static let badgePaddingY: CGFloat = 4
+        static let badgePaddingX: CGFloat = 10
+        /// Обзорная карта (SVG): маркер r 9 / 11, кольцо r 17, обводка 2.5, подпись 15 / 17 на (x + 17, y + 5), зона нажатия r 30
+        static let worldDot: CGFloat = 9
+        static let worldDotSelected: CGFloat = 11
+        static let worldRing: CGFloat = 17
+        static let worldStroke: CGFloat = 2.5
+        static let worldLabel: CGFloat = 15
+        static let worldLabelSelected: CGFloat = 17
+        static let worldHit: CGFloat = 30
+        static let worldViewBoxDuration: Double = 0.45
+        /// Хиджра: #D9B45A, 3.5, штрих 9 7
+        static let hijraWidth: CGFloat = 3.5
+        /// Листы: `.group-h` margin-top 6 у первой группы, `.btn` margin-top 14, `.demo` margin 10 0 4 / padding 10 12
+        static let firstGroupTop: CGFloat = 6
+        static let groupTitle: CGFloat = 19
+        static let groupTop: CGFloat = 22
+        static let groupBottom: CGFloat = 8
+        static let groupX: CGFloat = 4
+        static let closeTop: CGFloat = 14
+        static let demoTop: CGFloat = 10
+        static let demoBottom: CGFloat = 4
+        static let demoPaddingY: CGFloat = 10
+        static let demoPaddingX: CGFloat = 12
+        static let legendListTop: CGFloat = 12
+        static let objectStackTop: CGFloat = 12
+    }
+
+    enum Motion {
+        /// `.toggle span` transition .2s
+        static let toggle: Double = 0.2
+        /// `.scrim` animation: fade .2s
+        static let scrimFade: Double = 0.2
+        /// `.sheet` animation: up .26s (translateY 40px)
+        static let sheetUp: Double = 0.26
+        static let sheetUpOffset: CGFloat = 40
+    }
+
+    enum Scale {
+        static let tabTitle: CGFloat = 0.7
+        /// `.sheet` max-height: 86%
+        static let sheetMaxHeight: CGFloat = 0.86
+        static let buttonTitle: CGFloat = 0.8
+        static let counter: CGFloat = 0.5
+    }
+}
+
+// MARK: - View helpers
+
+private struct ThemeFontModifier: ViewModifier {
+    @Environment(\.sizeCategory) private var sizeCategory
+    let typo: Theme.Typo
+    var pointSize: CGFloat? = nil
+    var scales: Bool = true
+
+    func body(content: Content) -> some View {
+        content.font(
+            Theme.Font.ui(typo, pointSize: pointSize, sizeCategory: sizeCategory, scales: scales)
+        )
+    }
+}
+
+private struct ThemeLineHeightModifier: ViewModifier {
+    @Environment(\.sizeCategory) private var sizeCategory
+    let typo: Theme.Typo
+    let multiple: CGFloat
+
+    func body(content: Content) -> some View {
+        let spacing = Theme.Font.lineSpacing(typo, multiple: multiple, sizeCategory: sizeCategory)
+        // CSS делит лишний интервал поровну сверху и снизу строки (half-leading).
+        content
+            .lineSpacing(spacing)
+            .padding(.vertical, spacing / 2)
+    }
+}
+
+private struct ThemeShadowModifier: ViewModifier {
+    let kind: Theme.Shadow.Kind
+
+    func body(content: Content) -> some View {
+        content.shadow(
+            color: Theme.Shadow.color(kind),
+            radius: Theme.Shadow.radius(kind),
+            x: 0,
+            y: Theme.Shadow.yOffset(kind)
+        )
+    }
+}
+
+extension View {
+    func themeFont(_ typo: Theme.Typo, pointSize: CGFloat? = nil, scales: Bool = true) -> some View {
+        modifier(ThemeFontModifier(typo: typo, pointSize: pointSize, scales: scales))
+    }
+
+    /// CSS line-height как множитель размера шрифта (body 1.45, `.hp-title` 1.2).
+    func themeLineHeight(_ typo: Theme.Typo, multiple: CGFloat) -> some View {
+        modifier(ThemeLineHeightModifier(typo: typo, multiple: multiple))
+    }
+
+    func themeShadow(_ kind: Theme.Shadow.Kind) -> some View {
+        modifier(ThemeShadowModifier(kind: kind))
+    }
+}
+
+/// Light + Dark PreviewProvider helper (iOS 16, без Preview-макроса).
+enum ThemePreview {
+    @ViewBuilder
+    static func pair<Content: View>(name: String, @ViewBuilder content: () -> Content) -> some View {
+        content()
+            .preferredColorScheme(.light)
+            .previewDisplayName("\(name) · Light")
+        content()
+            .preferredColorScheme(.dark)
+            .previewDisplayName("\(name) · Dark")
+    }
+}
+
+private extension ContentSizeCategory {
+    var uiContentSizeCategory: UIContentSizeCategory {
+        switch self {
+        case .extraSmall: return .extraSmall
+        case .small: return .small
+        case .medium: return .medium
+        case .large: return .large
+        case .extraLarge: return .extraLarge
+        case .extraExtraLarge: return .extraExtraLarge
+        case .extraExtraExtraLarge: return .extraExtraExtraLarge
+        case .accessibilityMedium: return .accessibilityMedium
+        case .accessibilityLarge: return .accessibilityLarge
+        case .accessibilityExtraLarge: return .accessibilityExtraLarge
+        case .accessibilityExtraExtraLarge: return .accessibilityExtraExtraLarge
+        case .accessibilityExtraExtraExtraLarge: return .accessibilityExtraExtraExtraLarge
+        @unknown default: return .large
+        }
+    }
+}

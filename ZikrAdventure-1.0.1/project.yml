@@ -14,13 +14,15 @@ packages:
   GoogleSignIn:
     url: https://github.com/google/GoogleSignIn-iOS
     from: 8.0.0
+  ZikrKit:
+    path: Packages/ZikrKit
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "1.1.1"
-    CURRENT_PROJECT_VERSION: "3"
+    MARKETING_VERSION: "1.2.0"
+    CURRENT_PROJECT_VERSION: "5"
     TARGETED_DEVICE_FAMILY: "1"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "742Y7LBK4U"
 schemes:
   ZikrAdventure:
     build:
@@ -28,6 +30,14 @@ schemes:
         ZikrAdventure: all
     run:
       config: Debug
+    test:
+      targets:
+        - package: ZikrKit/ZikrCoreTests
+        - package: ZikrKit/ZikrDomainTests
+        - package: ZikrKit/ZikrPersistenceTests
+        - package: ZikrKit/ZikrContentTests
+        - ZikrAdventureTests
+        - ZikrAdventureUITests
     archive:
       config: Release
 targets:
@@ -36,6 +46,8 @@ targets:
     platform: iOS
     sources:
       - ZikrAdventure/App
+      - ZikrAdventure/Features
+      - ZikrAdventure/UI
       - ZikrAdventure/Resources
       - path: ZikrAdventure/Web
         type: folder
@@ -57,6 +69,7 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SUPPORTS_MACCATALYST: NO
         SWIFT_EMIT_LOC_STRINGS: YES
+        TARGETED_DEVICE_FAMILY: "1"
     dependencies:
       - package: Firebase
         product: FirebaseAuth
@@ -64,3 +77,48 @@ targets:
         product: FirebaseCore
       - package: GoogleSignIn
         product: GoogleSignIn
+      - package: ZikrKit
+        product: ZikrCore
+      - package: ZikrKit
+        product: ZikrDomain
+      - package: ZikrKit
+        product: ZikrPersistence
+      - package: ZikrKit
+        product: ZikrContent
+  # ZKR-50: unit-тесты слоя приложения (SettingsViewModel, удаление аккаунта, локализация).
+  # ZKR-52: + ZikrViewModel, очередь команд, WebZikrCommandSink, правила вибрации/звука.
+  ZikrAdventureTests:
+    type: bundle.unit-test
+    platform: iOS
+    # XCTest в текущем Xcode собран под iOS 17; приложение остаётся iOS 16.
+    deploymentTarget: "17.0"
+    sources:
+      - ZikrAdventureTests
+    dependencies:
+      - target: ZikrAdventure
+      - package: ZikrKit
+        product: ZikrDomain
+      # ZKR-52: ZikrViewModel — контент уровней/глав и AppClock.
+      - package: ZikrKit
+        product: ZikrContent
+      - package: ZikrKit
+        product: ZikrCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"
+  ZikrAdventureUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    # XCTest/XCUIAutomation в текущем Xcode собраны под iOS 17; приложение остаётся iOS 16.
+    deploymentTarget: "17.0"
+    sources:
+      - ZikrAdventureUITests
+    dependencies:
+      - target: ZikrAdventure
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.komronkhisomov.zikradventure.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1"

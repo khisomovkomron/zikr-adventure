@@ -1,0 +1,117 @@
+# SwiftUI Foundation — архитектура (ZKR-47)
+
+Каркас нативного SwiftUI-приложения вокруг существующего WKWebView. Пока все пять экранов остаются веб-экранами; следующие задачи эпика (ZKR-50, 48, 52, 53, 57) могут заменять их по одному.
+
+Рабочий проект: `ZikrAdventure-1.0.1/` (1.1.1, build 3). `ZikrAdventure-AppStore/` не меняется.
+
+## Слои
+
+```
+ZikrAdventureApp  (AppContainer.live(): auth, localization, settings, зеркало)
+  └─ TabsView
+       ├─ ZStack
+       │    ├─ WebHostView  →  WebViewManager.shared.viewController  (один WKWebView)
+       │    ├─ ZikrView      (ZKR-52, поверх веба на вкладке «Зикр»)
+       │    ├─ MapView       (ZKR-57, поверх веба на вкладке «Карта»)
+       │    ├─ SiraView      (ZKR-53, поверх веба на вкладке «Путь Сиры»)
+       │    ├─ InfoView      (ZKR-48, поверх веба на вкладке «Инфо»)
+       │    └─ SettingsView  (ZKR-50, поверх веба на вкладке «Настройки»)
+       └─ NativeTabBar (кастомная нижняя панель, не SwiftUI TabView)
+```
+
+Нативный экран показывается по `NativeScreenGate.shouldShowNativeScreen`: флаг включён, данные есть, вкладка выбрана и веб-онбординг точно завершён. Иначе виден веб-экран, как в 1.1.1.
+
+`TabView` здесь не используется: системный фон вкладки непрозрачный и перехватывает нажатия. Web view и tab bar — соседние дети `VStack`, не overlay. Один `UIView` не переносится между иерархиями.
+
+## Единственный контроллер
+
+`WebViewManager` создаёт `WebAppViewController` в `init`. Fallback `WebAppViewController()` в `makeUIViewController` отсутствует.
+
+Порядок инициализации:
+
+1. Первый доступ к `WebViewManager.shared` создаёт менеджер и контроллер, сразу выставляет `controller.webViewManager = self`.
+2. `WebHostView.makeUIViewController` забирает тот же контроллер, выставляет `localization` и `authService` (из `AppContainer`), вызывает `auth.activate()` (Firebase уже настроен в `AppDelegate`), регистрирует `tab.change` handler, кладёт стартовый tab в очередь.
+3. SwiftUI добавляет контроллер в иерархию → `viewDidLoad` → загрузка `index.html`.
+4. `didFinish` → `webViewDidLoad()` сбрасывает очередь `selectTab`.
+5. Сообщения `lang.change` / `tab.change` приходят уже на тот же контроллер, у которого есть `localization` и `webViewManager`.
+
+Один `AuthCoordinator` (владелец — `AppContainer.auth`, протокол `AuthService`): его используют и мост `auth.*` веба, и нативный экран «Настройки». Одно JS-состояние.
+
+## Связь native ↔ web
+
+- Native → web: `selectTab(id)` в JS (после загрузки; до загрузки — `pendingSelectTab`).
+- Web → native вкладка: `postMessage({ type: "tab.change", tab: id })`.
+- Web → native язык: `postMessage({ type: "lang.change", lang, tabs })` → `LocalizationService.setLanguage(code:)` (код в `UserDefaults` "app.language"). Названия вкладок и тексты нативных экранов — из `Localizable.xcstrings`, а не из `tabs`.
+- Native → web настройки (ZKR-50): `window.zikrNative.setSetting / setLang / resetDefaults / clearHistory / resetProgress` через `WebSettingsCommandSink` → `WebViewManager.evaluateCommand` (до загрузки страницы команды ждут в очереди). Веб — единственный писатель настроек: применяет команду, сохраняет, шлёт `save`; зеркало пишет `zikr-state.json`, экран получает значение из `SettingsRepository.changes()`.
+- Native → web счётчик (ZKR-52): `window.zikrNative.tap / undo / reset("counter"|"all") / clearHistory / explore(id) / snapshot()` через `WebZikrCommandSink`. `tap / undo / reset` выполняют тот же код, что веб-экран (`zikrTap / zikrUndo / zikrReset` в `index.html`: `persist()`, `evaluate()` открывает главы), и возвращают снимок `{ total, today, day, unlocked, fresh, updatedAt }` через `WebViewManager.evaluateQuery`. `ZikrViewModel` показывает нажатие сразу (оптимистично, вибрация и звук 660 Гц — тоже сразу), команды идут по одной (`SerialCommandQueue`: без потерь и перестановок при быстрых нажатиях), ответ веба и `ProgressRepository.changes()` сверяют экран; снимок файла старше подтверждённого `updatedAt` не откатывает счёт. Веб остаётся единственным писателем `total / daily / unlocked`. «Изучить» в баннере вызывает `explore(id)`: веб открывает главу на карте (глава без города — лист на «Пути Сиры»), `tab.change` переключает нативную вкладку. «Сеанс» живёт только в памяти, как `let session` в вебе.
+- Native → web «Путь Сиры» (ZKR-53): `window.zikrNative.markViewed(id)` («Читать»: лист главы рисует native, веб пишет `viewed`, как `chapterCard / placeCard`), `showChapter(id)` («На карте» в строке: как `data-go` — `markViewed` + `openCity(city, chapterFocus(ch))`) и `explore(id)` («На карте» в листе) через `WebSiraCommandSink`. Команды принимаются только для открытых глав (`isOpen`, с предпросмотром). Веб остаётся единственным писателем `viewed / city`. Метки «Новое» — по снимку `viewed` при показе вкладки и при смене языка (как `renderPath()` в `selectTab / renderAll`), поэтому после «Читать» метка исчезает при следующем показе вкладки. «Изучить» в баннере «Зикра» для главы без города (ch19) открывает нативный лист на вкладке «Путь Сиры» (веб-лист был бы под нативным экраном); главы с городом — как раньше, карта.
+- Смена языка в вебе ставит `suppressTabChange`, чтобы `selectTab` при перерисовке не дёргал native-вкладку.
+- Веб-`#tabbar` скрывается флагом `window.__ZIKR_NATIVE_TABS` (элемент в `index.html` остаётся).
+
+- Native → web «Карта» (ZKR-57): `window.zikrNative.selectCity(id|null)` (выбор города на обзорной карте: веб пишет `state.city`, останавливает свой цикл города и остаётся в режиме обзора), `saveCamera(id, x, y, z)` (камера города после жеста, только конечные числа, `clampCam` как в вебе) и `markViewed(id)` (лист места с главой) через `WebMapCommandSink`. Веб остаётся единственным писателем `city / cameras / viewed`; экран читает их из `ProgressRepository.changes()`. Город рисует native: `CityCanvasView` (UIKit, дерево CALayer — земля, тени, спрайты с покачиванием/свечением/появлением, параллакс дальних планов, пульс выделения, маркеры в экранных координатах; панорама с инерцией, pinch, тап по `CityGeometry.hitTest`). Спрайты не перерисованы руками: `tools/zikr-map-from-web.mjs` переносит код рисования из `index.html` без изменений в `map-draw.js`, JavaScriptCore выполняет его поверх записывающего Canvas 2D (`map-canvas-shim.js`), `CanvasReplay` воспроизводит операции в Core Graphics — пиксели как в вебе (спрайты DPR 2, земля 1.5, как в вебе). «На карте» на «Пути Сиры» и «Изучить» в баннере «Зикра» открывают нативный город (`SiraViewModel.openOnMapNatively`), веб-команды `showChapter / explore` тогда не отправляются.
+
+## Файлы каркаса
+
+| Файл | Роль |
+|------|------|
+| `App/ZikrAdventureApp.swift` | `@main`, Firebase, `TabsView` |
+| `App/TabsView.swift` | VStack: web view + NativeTabBar, iOS 16 `onChange(of:)` |
+| `App/TabItem.swift` | zikr, map, path, info, settings + SF Symbols |
+| `App/WebViewManager.swift` | singleton, eager controller |
+| `App/AppContainer.swift` | DI: репозитории, зеркало, `auth`, `localization`, `settingsSink`, фабрики view model, флаги `isNativeInfoEnabled` / `isNativeSettingsEnabled` / `isNativeZikrEnabled` / `isNativeSiraEnabled` / `isNativeMapEnabled` |
+| `App/Localization/` | `LocalizationService` (язык, `tr`, числа в локали языка), `L10nKey` |
+| `App/Auth/` | `AuthService`, `AuthCoordinator`, `AccountDeletionFlow` (ZKR-56) |
+| `App/Settings/` | `WebSettingsCommandSink`, системные сервисы (Reduce Motion, Safari) |
+| `App/Zikr/` | `WebZikrCommandSink`, `SerialCommandQueue`, `ZikrFeedbackService` (вибрация как `vibrate()`, звук `tapSound()` на AVAudioEngine), `VoiceOverAnnouncer` |
+| `App/Sira/` | `WebSiraCommandSink` (ZKR-53) |
+| `App/Map/` | `WebMapCommandSink` (ZKR-57) |
+| `Features/Map/` | `MapView` (обзор, город, панель, кнопки), `WorldMapCanvas` (SVG обзорной карты в `Canvas`), `CityCanvasView` (сцена города на CALayer), `CitySceneAssets` (сборка спрайтов и земли в фоне, кэш), `MapSheets` (карточка объекта, список мест, легенда), `MapViewModel` |
+| `ZikrKit/ZikrContent` (ZKR-57) | `map-content.json` (города, объекты, точки, обзорная карта `GEO`), `map-draw.js` (код рисования из `index.html`) — `node tools/zikr-map-from-web.mjs`; `MapContent`, `CityGeometry` (изометрия, камера, hit-test), `MapSpriteFactory` + `map-canvas-shim.js` |
+| `Features/Sira/` | `SiraView` (уровни, лента глав, метка «Новое»), `SiraChapterSheet` (chapterCard / placeCard), `SiraViewModel` |
+| `Features/Zikr/` | `ZikrView`, `ZikrTapButton`, `ZikrProgressCard`, `ZikrUnlockBannerView`, `ZikrHistorySheet`, `ZikrViewModel` |
+| `ZikrKit/ZikrContent` | `zikr-content.json` (названия уровней, заголовки и годы глав на 6 языках; ZKR-53: город, место, фокус и текст глав, карточки мест глав `PLACES`, расстояния `DIST`, `SAFA_MARWA`) — генерируется `node tools/zikr-content-from-web.mjs` из `index.html` |
+| `Features/Settings/` | `SettingsView`, `SettingsAccountSection`, `SettingsViewModel`, `SettingsConfirmation` |
+| `Resources/Localizable.xcstrings` | генерируется `node tools/l10n-from-web.mjs` из UI в `index.html` + `tools/l10n-native.json`; руками не править |
+| `App/WebAppViewController.swift` | WKWebView, мосты, `selectTab` |
+| `Web/index.html` | `__ZIKR_NATIVE_TABS`, `tab.change`, `lang.change`, `suppressTabChange`, `window.zikrNative` (ZKR-50, ZKR-52: `tap / undo / reset / snapshot / explore`, ZKR-53: `markViewed / showChapter`, ZKR-57: `selectCity / saveCamera`) |
+
+Данные уровней в `index.html` не менялись.
+
+## Как позже заменить одну вкладку на native
+
+Оставить `WebViewManager` и контроллер живыми (JS-состояние, auth). Для выбранной вкладки показывать native-view поверх `WebHostView` (в `ZStack`, гейт `NativeScreenGate`), web view не уничтожать. Tab bar остаётся общим. Флаг-выключатель в `AppContainer` возвращает веб-экран без релиза кода.
+
+Тексты: новые ключи добавляются в `UI` в `index.html` (или в `tools/l10n-native.json`, если строка только нативная), затем `node tools/l10n-from-web.mjs` и новый `case` в `L10nKey`. `node tests/l10n-native.cjs` проверяет, что всё синхронно.
+
+## Тесты
+
+- `ZikrKit` — пакетные тесты (домен, хранилище, гейт).
+- `ZikrAdventureTests` — unit-тесты приложения: `SettingsViewModel`, `AccountDeletionFlow`, `LocalizationService`, `ZikrViewModel` (ZKR-52: оптимизм, 200 быстрых нажатий, сверка, сброс, баннер, цель, вибрация/звук), `SerialCommandQueue`, `WebZikrCommandSink`, `SiraViewModel` и `WebSiraCommandSink` (ZKR-53: группы, «Новое», предпросмотр, distText, команды), `MapViewModel` (ZKR-57: выбор города, город, камера, листы, список, переходы из «Пути Сиры»). Пакет: `MapContentTests`, `MapSpriteFactoryTests` (рамки всех спрайтов против `CityGeometry`, пиксели Каабы, земля, дальние планы).
+- `ZikrAdventureUITests` — «Инфо», «Настройки», «Зикр», «Путь Сиры» и «Карта». `ZIKR_UITEST_AUTH=signedIn|guest` (только DEBUG) подменяет Firebase.
+- `tests/*.cjs` — веб (`node tests/<file>.cjs`).
+
+## Ограничения среды, в которой писался код
+
+ZKR-52, ZKR-53 и ZKR-57 собраны и проверены на Mac (Xcode 27.2, симулятор iPhone 17, iOS 27.0): `xcodebuild test`, UI-тесты и скриншоты light/dark сравнены с веб-экраном (`AppContainer.isNativeZikrEnabled = false` / `isNativeSiraEnabled = false` / `isNativeMapEnabled = false`). Ниже — заметка из ZKR-47.
+
+Xcode в этой среде нет. Сборка, симулятор и жесты на устройстве не запускались. Проверены исходники, pbxproj, `project.yml` и `git diff` против `ba79a3f` для `ZikrAdventure-AppStore/`.
+
+## ZKR-65: нативный онбординг (1.2.0)
+
+Три прежних шага и шесть языков перенесены в `Features/Onboarding`. До восстановления веб-состояния показана загрузка. `onboardingStatus()` возвращает сохранённый флаг, `completeOnboarding()` идемпотентно завершает прежний сценарий; веб остаётся единственным писателем. Флаг `isNativeOnboardingEnabled` возвращает исходный веб-путь. Подробнее: `docs/ONBOARDING-1.2.0.md` и Confluence 9338882. Удаление WebView и перенос writer в Swift остаются ZKR-59.
+
+
+## ZKR-59/A: нативные команды (19.11.2026)
+
+Добавлены `NativeProgressCommand`, чистый `NativeProgressReducer` и атомарный `JSONStateStore.execute`. Это подготовка единственного native writer, а не переключение приложения: `AppContainer` продолжает использовать веб-команды. Формат schema 3 и старые хранилища не изменены. Нельзя одновременно подключать новый writer и `WebStateMirror`.
+
+План следующих этапов и проверки: https://zikr-app.atlassian.net/wiki/spaces/SD/pages/9666564, локальный протокол `docs/NATIVE-COMMANDS-1.2.0.md`. Удаление WebView остаётся после переключения, миграции и ZKR-58; задача ZKR-59 не закрыта.
+
+
+## ZKR-59/B: native writer подключён
+
+Текущий корень — `NativeRootView`, все sink по умолчанию — `NativeCommandSink`. Bootstrap завершает однократный импорт до показа основных экранов и атомарно ставит `meta.nativeWriterActivated` (optional, schema 3). После активации legacy не перечитывается и веб-записи запрещены. `WebViewManager` не создаётся; старый UI-каркас остаётся до QA/этапа D. Только read-only headless-reader использует WebKit для старого localStorage. Подробности и реальные результаты: `docs/NATIVE-COMMANDS-1.2.0.md`. Предыдущие разделы про shadow/default web writer описывают прошлые этапы и не являются текущей live-схемой.
+
+## ZKR-58: функциональная регрессия (19.11.2026)
+
+Общий прогон после ZKR-66: 109 app unit/integration + 16 функциональных XCUITest PASS одной командой. После ZKR-67 (смена дня) — финальная arm64-сборка PASS, 112 app unit/integration и повтор 3 UI счётчика PASS. Пакет ZikrKit: ранее подтверждены 124 теста, в этом этапе пакет не менялся. DEBUG-профили guest/signedIn изолированы от обычного прогресса. Матрицы снимков не прогонялись; физический iPhone, реальные провайдеры, доступность и обновление App Store ещё открыты. Протокол: docs/REGRESSION-1.2.0.md. ZKR-58 и релиз не объявлены готовыми.
